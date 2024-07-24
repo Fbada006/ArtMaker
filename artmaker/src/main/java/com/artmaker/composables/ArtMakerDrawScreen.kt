@@ -12,12 +12,12 @@ import androidx.compose.foundation.background
  */
 @Composable
 internal fun ArtMakerDrawScreen(
-  modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
 ) {
-  Canvas(
-    modifier = modifier
-      .background(Color.Blue)
-  ){
+    Canvas(
+        modifier = modifier
+            .background(Color.Blue)
+    ) {
 
-  }
+    }
 }

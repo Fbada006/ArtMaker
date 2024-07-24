@@ -25,70 +25,70 @@ import com.artmaker.artmaker.R
  */
 @Composable
 internal fun ArtMakerControlMenu(
-  onExportArt:()->Unit,
-  onUnDoActionClicked: ()->Unit,
-  onRedoActionClicked:()->Unit,
-  onClearActionClicked:()->Unit,
-  onUpdateBackgroundActionClicked:()->Unit,
-  onColorSelected:()->Unit
-  ) {
-  Row(
-    modifier = Modifier.padding(12.dp),
-    horizontalArrangement = Arrangement.SpaceAround
-  ){
-    MenuItems(
-      imageVector = ImageVector.vectorResource(id = R.drawable.ic_download),
-      onItemClicked = onExportArt,
-      colorTint = MaterialTheme.colorScheme.primary
-    )
-    MenuItems(
-      imageVector = ImageVector.vectorResource(id = R.drawable.ic_brush),
-      onItemClicked = onColorSelected,
-      colorTint = MaterialTheme.colorScheme.primary
-    )
-    MenuItems(
-      imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
-      onItemClicked = onUnDoActionClicked,
-      colorTint = MaterialTheme.colorScheme.primary
-    )
-    MenuItems(
-      imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
-      onItemClicked = onRedoActionClicked,
-      colorTint = MaterialTheme.colorScheme.primary
-    )
-    MenuItems(
-      imageVector = ImageVector.vectorResource(id = R.drawable.ic_restore),
-      onItemClicked = onClearActionClicked,
-      colorTint = MaterialTheme.colorScheme.primary
-    )
-    MenuItems(
-      imageVector = ImageVector.vectorResource(id = R.drawable.ic_add_image),
-      onItemClicked = onUpdateBackgroundActionClicked,
-      colorTint = MaterialTheme.colorScheme.primary
-    )
-  }
+    onExportArt: () -> Unit,
+    onUnDoActionClicked: () -> Unit,
+    onRedoActionClicked: () -> Unit,
+    onClearActionClicked: () -> Unit,
+    onUpdateBackgroundActionClicked: () -> Unit,
+    onColorSelected: () -> Unit
+) {
+    Row(
+        modifier = Modifier.padding(12.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        MenuItems(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_download),
+            onItemClicked = onExportArt,
+            colorTint = MaterialTheme.colorScheme.primary
+        )
+        MenuItems(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_brush),
+            onItemClicked = onColorSelected,
+            colorTint = MaterialTheme.colorScheme.primary
+        )
+        MenuItems(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
+            onItemClicked = onUnDoActionClicked,
+            colorTint = MaterialTheme.colorScheme.primary
+        )
+        MenuItems(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
+            onItemClicked = onRedoActionClicked,
+            colorTint = MaterialTheme.colorScheme.primary
+        )
+        MenuItems(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_restore),
+            onItemClicked = onClearActionClicked,
+            colorTint = MaterialTheme.colorScheme.primary
+        )
+        MenuItems(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_add_image),
+            onItemClicked = onUpdateBackgroundActionClicked,
+            colorTint = MaterialTheme.colorScheme.primary
+        )
+    }
 }
 
 @Composable
 private fun RowScope.MenuItems(
-  imageVector: ImageVector,
-  onItemClicked:()->Unit,
-  colorTint:Color,
-  border: Boolean = false,
+    imageVector: ImageVector,
+    onItemClicked: () -> Unit,
+    colorTint: Color,
+    border: Boolean = false,
 ) {
-  val modifier = Modifier.size(24.dp)
-  IconButton(
-    onClick = onItemClicked, modifier = Modifier.weight(1f, true)
-  ) {
-    Icon(
-      imageVector = imageVector,
-      contentDescription = null,
-      tint = colorTint,
-      modifier = if (border) modifier.border(
-        0.5.dp,
-        Color.White,
-        shape = CircleShape
-      ) else modifier
-    )
-  }
+    val modifier = Modifier.size(24.dp)
+    IconButton(
+        onClick = onItemClicked, modifier = Modifier.weight(1f, true)
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = null,
+            tint = colorTint,
+            modifier = if (border) modifier.border(
+                0.5.dp,
+                Color.White,
+                shape = CircleShape
+            ) else modifier
+        )
+    }
 }

@@ -16,21 +16,21 @@ import com.artmaker.composables.ArtMakerDrawScreen
  */
 @Composable
 fun ArtMaker() {
-  Column {
-    ArtMakerDrawScreen(
-      modifier = Modifier
-        .fillMaxSize()
-        .weight(1f, fill = false),
-    )
-    Spacer(modifier = Modifier.height(10.dp))
-    ArtMakerControlMenu(
-      onExportArt = {},
-      onUnDoActionClicked = {},
-      onRedoActionClicked = {},
-      onClearActionClicked = {},
-      onUpdateBackgroundActionClicked = {},
-      onColorSelected = {}
-    )
-    Spacer(modifier = Modifier.height(40.dp))
-  }
+    Column {
+        ArtMakerDrawScreen(
+            modifier = Modifier
+              .fillMaxSize()
+              .weight(1f, fill = false),
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        ArtMakerControlMenu(
+            onExportArt = {},
+            onUnDoActionClicked = {},
+            onRedoActionClicked = {},
+            onClearActionClicked = {},
+            onUpdateBackgroundActionClicked = {},
+            onColorSelected = {}
+        )
+        Spacer(modifier = Modifier.height(40.dp))
+    }
 }
