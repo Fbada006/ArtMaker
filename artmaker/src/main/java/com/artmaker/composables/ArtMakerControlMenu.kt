@@ -1,12 +1,17 @@
 package com.artmaker.composables
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.Brush
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Upload
+import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -14,13 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.artmaker.artmaker.R
 
 /**
- * We can add pass the controller inside this composable and remove the function types.
- * We can also pass the logic somewhere else and leave the ArtMakerControlMenu
+ * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
+ * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
  * without any functionality.
  */
 @Composable
@@ -36,33 +39,33 @@ internal fun ArtMakerControlMenu(
         modifier = Modifier.padding(12.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        MenuItems(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_download),
+        MenuItem(
+            imageVector =Icons.Filled.Upload,
             onItemClicked = onExportArt,
             colorTint = MaterialTheme.colorScheme.primary
         )
-        MenuItems(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_brush),
+        MenuItem(
+            imageVector = Icons.Filled.Brush,
             onItemClicked = onColorSelected,
             colorTint = MaterialTheme.colorScheme.primary
         )
-        MenuItems(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
+        MenuItem(
+            imageVector = Icons.AutoMirrored.Filled.Undo,
             onItemClicked = onUnDoActionClicked,
             colorTint = MaterialTheme.colorScheme.primary
         )
-        MenuItems(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
+        MenuItem(
+            imageVector = Icons.AutoMirrored.Filled.Redo,
             onItemClicked = onRedoActionClicked,
             colorTint = MaterialTheme.colorScheme.primary
         )
-        MenuItems(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_restore),
+        MenuItem(
+            imageVector = Icons.Filled.Refresh,
             onItemClicked = onClearActionClicked,
             colorTint = MaterialTheme.colorScheme.primary
         )
-        MenuItems(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_add_image),
+        MenuItem(
+            imageVector = Icons.Filled.UploadFile,
             onItemClicked = onUpdateBackgroundActionClicked,
             colorTint = MaterialTheme.colorScheme.primary
         )
@@ -70,13 +73,12 @@ internal fun ArtMakerControlMenu(
 }
 
 @Composable
-private fun RowScope.MenuItems(
+private fun RowScope.MenuItem(
     imageVector: ImageVector,
     onItemClicked: () -> Unit,
     colorTint: Color,
-    border: Boolean = false,
 ) {
-    val modifier = Modifier.size(24.dp)
+    val modifier = Modifier.size(28.dp)
     IconButton(
         onClick = onItemClicked, modifier = Modifier.weight(1f, true)
     ) {
@@ -84,11 +86,7 @@ private fun RowScope.MenuItems(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = if (border) modifier.border(
-                0.5.dp,
-                Color.White,
-                shape = CircleShape
-            ) else modifier
+            modifier = modifier
         )
     }
 }
