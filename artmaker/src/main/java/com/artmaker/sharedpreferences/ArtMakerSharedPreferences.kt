@@ -16,8 +16,6 @@ internal class ArtMakerSharedPreferences<T>(
         Context.MODE_PRIVATE
     )
 
-    //private val editor = artMakerSharedPreferences.edit()
-
     inline fun <reified T> SharedPreferences.set(key: String, value: T): T {
         val editor = this.edit()
         when (T::class) {
