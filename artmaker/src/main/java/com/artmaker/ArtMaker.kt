@@ -24,13 +24,13 @@ fun ArtMaker() {
         )
         Spacer(modifier = Modifier.height(10.dp))
         ArtMakerControlMenu(
-            onExportArt = {},
+            onStrokeWidthActionClicked = {},
             onUnDoActionClicked = {},
             onRedoActionClicked = {},
             onClearActionClicked = {},
+            onColorSelected = {},
             onUpdateBackgroundActionClicked = {},
-            onColorSelected = {}
+            onExportFileActionClicked = {}
         )
-        Spacer(modifier = Modifier.height(40.dp))
     }
 }
