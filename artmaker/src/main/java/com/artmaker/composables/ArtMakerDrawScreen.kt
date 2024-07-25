@@ -17,17 +17,17 @@ internal class TestController {
     private val _pathList = mutableStateListOf<PointsData>()
     val pathList: SnapshotStateList<PointsData> = _pathList
 
-    fun addPoint(offset: Offset) {
+    fun addNewShape(offset: Offset) {
         val data = PointsData(mutableStateListOf(offset))
         _pathList.add(data)
     }
 
-    fun updatePoint(offset: Offset) {
+    fun updateCurrentShape(offset: Offset) {
         val idx = _pathList.lastIndex
         _pathList[idx].points.add(offset)
     }
 
-    fun undoLastPoint() {
+    fun undoLastShapePoint() {
         val idx = _pathList.lastIndex
         _pathList[idx].points.removeLast()
     }
@@ -48,21 +48,21 @@ internal fun ArtMakerDrawScreen(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { offset ->
-                        controller.addPoint(offset)
+                        controller.addNewShape(offset)
                     }
                 )
             }
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset ->
-                        controller.addPoint(offset)
+                        controller.addNewShape(offset)
                     },
                     onDragCancel = {
-                        controller.undoLastPoint()
+                        controller.undoLastShapePoint()
                     }
                 ) { change, _ ->
                     val offset = change.position
-                    controller.updatePoint(offset)
+                    controller.updateCurrentShape(offset)
                 }
             },
         onDraw = {
