@@ -33,10 +33,11 @@ internal fun ArtMakerControlMenu(
     onRedoActionClicked: () -> Unit,
     onClearActionClicked: () -> Unit,
     onUpdateBackgroundActionClicked: () -> Unit,
-    onColorSelected: () -> Unit
+    onColorSelected: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.padding(12.dp),
+        modifier = modifier.padding(12.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         MenuItem(
