@@ -11,6 +11,7 @@ import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.MoreVert
@@ -48,9 +49,7 @@ internal fun ArtMakerControlMenu(
     onColorSelected: () -> Unit
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = false,
-    )
+    val sheetState = rememberModalBottomSheetState()
     Row(
         modifier = Modifier
             .navigationBarsPadding()
@@ -104,7 +103,7 @@ internal fun ArtMakerControlMenu(
 
                 ) {
                 MenuItem(
-                    imageVector = Icons.Filled.ImportExport,
+                    imageVector = Icons.Filled.FileUpload,
                     onItemClicked = onExportFileActionClicked,
                     colorTint = MaterialTheme.colorScheme.primary
                 )
