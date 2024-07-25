@@ -69,7 +69,7 @@ internal fun ArtMakerDrawScreen(
             controller.pathList.forEach { data ->
                 drawPoints(
                     points = data.points,
-                    pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon,
+                    pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
                     color = data.strokeColor,
                     strokeWidth = data.strokeWidth,
                     alpha = data.alpha,
