@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.lifecycle.viewmodel)
     implementation ("androidx.compose.material:material-icons-extended:$1.5.14")
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))

@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.artmaker.actions.ArtMakerActions
 
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
@@ -40,13 +41,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArtMakerControlMenu(
-    onStrokeWidthActionClicked: () -> Unit,
-    onUnDoActionClicked: () -> Unit,
-    onRedoActionClicked: () -> Unit,
-    onClearActionClicked: () -> Unit,
-    onUpdateBackgroundActionClicked: () -> Unit,
-    onExportFileActionClicked: () -> Unit,
-    onColorSelected: () -> Unit
+    onAction: (ArtMakerActions) -> Unit
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
@@ -61,27 +56,37 @@ internal fun ArtMakerControlMenu(
         ) {
             MenuItem(
                 imageVector = Icons.Filled.Circle,
-                onItemClicked = onStrokeWidthActionClicked,
+                onItemClicked = {
+                    onAction(ArtMakerActions.SelectStrokeWidth)
+                },
                 colorTint = MaterialTheme.colorScheme.primary
             )
             MenuItem(
                 imageVector = Icons.Filled.Brush,
-                onItemClicked = onColorSelected,
+                onItemClicked = {
+                    onAction(ArtMakerActions.SelectColour)
+                },
                 colorTint = MaterialTheme.colorScheme.primary
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
-                onItemClicked = onUnDoActionClicked,
+                onItemClicked = {
+                    onAction(ArtMakerActions.Undo)
+                },
                 colorTint = MaterialTheme.colorScheme.primary
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Redo,
-                onItemClicked = onRedoActionClicked,
+                onItemClicked = {
+                    onAction(ArtMakerActions.Redo)
+                },
                 colorTint = MaterialTheme.colorScheme.primary
             )
             MenuItem(
                 imageVector = Icons.Filled.Refresh,
-                onItemClicked = onClearActionClicked,
+                onItemClicked = {
+                    onAction(ArtMakerActions.Clear)
+                },
                 colorTint = MaterialTheme.colorScheme.primary
             )
             MenuItem(
@@ -107,12 +112,16 @@ internal fun ArtMakerControlMenu(
                     ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
-                        onItemClicked = onExportFileActionClicked,
+                        onItemClicked = {
+                            onAction(ArtMakerActions.ExportArt)
+                        },
                         colorTint = MaterialTheme.colorScheme.primary
                     )
                     MenuItem(
                         imageVector = Icons.Filled.Image,
-                        onItemClicked = onUpdateBackgroundActionClicked,
+                        onItemClicked = {
+                            onAction(ArtMakerActions.UpdateBackground)
+                        },
                         colorTint = MaterialTheme.colorScheme.primary
                     )
                 }
