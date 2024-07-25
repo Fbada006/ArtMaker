@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,68 +50,72 @@ internal fun ArtMakerControlMenu(
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
-    Row(
-        modifier = Modifier
-            .navigationBarsPadding()
-            .padding(10.dp),
-        horizontalArrangement = Arrangement.SpaceAround
+    Surface(
+        shadowElevation = 30.dp,
     ) {
-        MenuItem(
-            imageVector = Icons.Filled.Circle,
-            onItemClicked = onStrokeWidthActionClicked,
-            colorTint = MaterialTheme.colorScheme.primary
-        )
-        MenuItem(
-            imageVector = Icons.Filled.Brush,
-            onItemClicked = onColorSelected,
-            colorTint = MaterialTheme.colorScheme.primary
-        )
-        MenuItem(
-            imageVector = Icons.AutoMirrored.Filled.Undo,
-            onItemClicked = onUnDoActionClicked,
-            colorTint = MaterialTheme.colorScheme.primary
-        )
-        MenuItem(
-            imageVector = Icons.AutoMirrored.Filled.Redo,
-            onItemClicked = onRedoActionClicked,
-            colorTint = MaterialTheme.colorScheme.primary
-        )
-        MenuItem(
-            imageVector = Icons.Filled.Refresh,
-            onItemClicked = onClearActionClicked,
-            colorTint = MaterialTheme.colorScheme.primary
-        )
-        MenuItem(
-            imageVector = Icons.Filled.MoreVert,
-            onItemClicked = {
-                showBottomSheet = true
-            },
-            colorTint = MaterialTheme.colorScheme.primary
-        )
-    }
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            sheetState = sheetState,
-            onDismissRequest = {
-                showBottomSheet = false
-            }
+        Row(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .padding(10.dp),
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Row(
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(10.dp),
+            MenuItem(
+                imageVector = Icons.Filled.Circle,
+                onItemClicked = onStrokeWidthActionClicked,
+                colorTint = MaterialTheme.colorScheme.primary
+            )
+            MenuItem(
+                imageVector = Icons.Filled.Brush,
+                onItemClicked = onColorSelected,
+                colorTint = MaterialTheme.colorScheme.primary
+            )
+            MenuItem(
+                imageVector = Icons.AutoMirrored.Filled.Undo,
+                onItemClicked = onUnDoActionClicked,
+                colorTint = MaterialTheme.colorScheme.primary
+            )
+            MenuItem(
+                imageVector = Icons.AutoMirrored.Filled.Redo,
+                onItemClicked = onRedoActionClicked,
+                colorTint = MaterialTheme.colorScheme.primary
+            )
+            MenuItem(
+                imageVector = Icons.Filled.Refresh,
+                onItemClicked = onClearActionClicked,
+                colorTint = MaterialTheme.colorScheme.primary
+            )
+            MenuItem(
+                imageVector = Icons.Filled.MoreVert,
+                onItemClicked = {
+                    showBottomSheet = true
+                },
+                colorTint = MaterialTheme.colorScheme.primary
+            )
+        }
+        if (showBottomSheet) {
+            ModalBottomSheet(
+                sheetState = sheetState,
+                onDismissRequest = {
+                    showBottomSheet = false
+                }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(10.dp),
 
-                ) {
-                MenuItem(
-                    imageVector = Icons.Filled.FileUpload,
-                    onItemClicked = onExportFileActionClicked,
-                    colorTint = MaterialTheme.colorScheme.primary
-                )
-                MenuItem(
-                    imageVector = Icons.Filled.Image,
-                    onItemClicked = onUpdateBackgroundActionClicked,
-                    colorTint = MaterialTheme.colorScheme.primary
-                )
+                    ) {
+                    MenuItem(
+                        imageVector = Icons.Filled.FileUpload,
+                        onItemClicked = onExportFileActionClicked,
+                        colorTint = MaterialTheme.colorScheme.primary
+                    )
+                    MenuItem(
+                        imageVector = Icons.Filled.Image,
+                        onItemClicked = onUpdateBackgroundActionClicked,
+                        colorTint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }

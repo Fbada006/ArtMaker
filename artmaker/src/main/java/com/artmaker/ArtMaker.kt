@@ -22,7 +22,6 @@ fun ArtMaker() {
               .fillMaxSize()
               .weight(1f, fill = false),
         )
-        Spacer(modifier = Modifier.height(10.dp))
         ArtMakerControlMenu(
             onStrokeWidthActionClicked = {},
             onUnDoActionClicked = {},
