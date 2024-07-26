@@ -22,15 +22,14 @@ fun ArtMaker() {
               .fillMaxSize()
               .weight(1f, fill = false),
         )
-        Spacer(modifier = Modifier.height(10.dp))
         ArtMakerControlMenu(
-            onExportArt = {},
+            onStrokeWidthActionClicked = {},
             onUnDoActionClicked = {},
             onRedoActionClicked = {},
             onClearActionClicked = {},
+            onColorSelected = {},
             onUpdateBackgroundActionClicked = {},
-            onColorSelected = {}
+            onExportFileActionClicked = {}
         )
-        Spacer(modifier = Modifier.height(40.dp))
     }
 }
