@@ -20,12 +20,13 @@ fun ArtMaker(modifier: Modifier = Modifier) {
               .weight(1f),
         )
         ArtMakerControlMenu(
-            onExportArt = {},
+            onStrokeWidthActionClicked = {},
             onUnDoActionClicked = {},
             onRedoActionClicked = {},
             onClearActionClicked = {},
+            onColorSelected = {},
             onUpdateBackgroundActionClicked = {},
-            onColorSelected = {}
+            onExportFileActionClicked = {}
         )
     }
 }
