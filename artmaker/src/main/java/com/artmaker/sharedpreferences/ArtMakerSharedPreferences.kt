@@ -24,19 +24,30 @@ class ArtMakerSharedPreferences(
             Float::class -> editor.putFloat(key, value as Float)
             Long::class -> editor.putLong(key, value as Long)
             else -> {
-                // Serialise the object in a way that it can be deserialised...
-                // The question is: How can we achieve that functionality without using a library?
+                throw Exception("Could not save the data as its type is not currently supported by SharedPreferences...")
             }
         }
         editor.apply()
     }
 
     inline fun <reified T> get(key: String, defaultValue: T): T {
-        when(T::class) {
-            Boolean::class -> return artMakerSharedPreferences.getBoolean(key, defaultValue as Boolean) as T
+        when (T::class) {
+            Boolean::class -> return artMakerSharedPreferences.getBoolean(
+                key,
+                defaultValue as Boolean
+            ) as T
+
             Int::class -> return artMakerSharedPreferences.getInt(key, defaultValue as Int) as T
-            String::class -> return artMakerSharedPreferences.getString(key, defaultValue as String) as T
-            Float::class -> return artMakerSharedPreferences.getFloat(key, defaultValue as Float) as T
+            String::class -> return artMakerSharedPreferences.getString(
+                key,
+                defaultValue as String
+            ) as T
+
+            Float::class -> return artMakerSharedPreferences.getFloat(
+                key,
+                defaultValue as Float
+            ) as T
+
             Long::class -> return artMakerSharedPreferences.getLong(key, defaultValue as Long) as T
         }
         return defaultValue
