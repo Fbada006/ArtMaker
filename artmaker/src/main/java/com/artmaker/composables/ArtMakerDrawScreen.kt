@@ -10,7 +10,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
@@ -45,14 +45,16 @@ internal class TestController {
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
     val density = LocalDensity.current
     val controller = TestController()
-    val displayMetrics = context.resources.displayMetrics
+    val configuration = LocalConfiguration.current
 
+    val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
-    val yOffset = with(density) { 100.dp.toPx() }
-    val clippedScreenHeight = displayMetrics.heightPixels - yOffset
+    // The value 62 dp is obtained from height of control menu 60dp plus an extra 2dp for line visibility
+    val yOffset = with(density) { 62.dp.toPx() }
+    val screenHeightPx = with(density) { screenHeight.toPx() }
+    val clippedScreenHeight = screenHeightPx - yOffset
 
     Canvas(
         modifier = modifier

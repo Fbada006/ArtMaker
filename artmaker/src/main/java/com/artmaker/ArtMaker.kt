@@ -2,8 +2,10 @@ package com.artmaker
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 
@@ -16,8 +18,8 @@ fun ArtMaker(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         ArtMakerDrawScreen(
             modifier = Modifier
-              .fillMaxSize()
-              .weight(1f),
+                .fillMaxSize()
+                .weight(1f),
         )
         ArtMakerControlMenu(
             onStrokeWidthActionClicked = {},
@@ -26,7 +28,8 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             onClearActionClicked = {},
             onColorSelected = {},
             onUpdateBackgroundActionClicked = {},
-            onExportFileActionClicked = {}
+            onExportFileActionClicked = {},
+            modifier = Modifier.height(60.dp)
         )
     }
 }

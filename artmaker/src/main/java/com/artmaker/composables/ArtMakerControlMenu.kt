@@ -53,9 +53,10 @@ internal fun ArtMakerControlMenu(
     val sheetState = rememberModalBottomSheetState()
     Surface(
         shadowElevation = 30.dp,
+        modifier = modifier
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .navigationBarsPadding()
                 .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceAround
