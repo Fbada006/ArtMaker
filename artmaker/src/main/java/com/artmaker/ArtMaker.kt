@@ -1,7 +1,6 @@
 package com.artmaker
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -15,12 +14,12 @@ import com.artmaker.composables.ArtMakerDrawScreen
  * We will expose this composable and test our Library on the app layer
  */
 @Composable
-fun ArtMaker() {
-    Column {
+fun ArtMaker(modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
         ArtMakerDrawScreen(
             modifier = Modifier
-              .fillMaxSize()
-              .weight(1f, fill = false),
+                .fillMaxSize()
+                .weight(1f),
         )
         ArtMakerControlMenu(
             onStrokeWidthActionClicked = {},
@@ -29,7 +28,8 @@ fun ArtMaker() {
             onClearActionClicked = {},
             onColorSelected = {},
             onUpdateBackgroundActionClicked = {},
-            onExportFileActionClicked = {}
+            onExportFileActionClicked = {},
+            modifier = Modifier.height(60.dp)
         )
     }
 }

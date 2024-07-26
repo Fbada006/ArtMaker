@@ -46,12 +46,14 @@ internal fun ArtMakerControlMenu(
     onClearActionClicked: () -> Unit,
     onUpdateBackgroundActionClicked: () -> Unit,
     onExportFileActionClicked: () -> Unit,
-    onColorSelected: () -> Unit
+    onColorSelected: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     Surface(
         shadowElevation = 30.dp,
+        modifier = modifier
     ) {
         Row(
             modifier = Modifier
@@ -61,35 +63,29 @@ internal fun ArtMakerControlMenu(
         ) {
             MenuItem(
                 imageVector = Icons.Filled.Circle,
-                onItemClicked = onStrokeWidthActionClicked,
-                colorTint = MaterialTheme.colorScheme.primary
+                onItemClicked = onStrokeWidthActionClicked
             )
             MenuItem(
                 imageVector = Icons.Filled.Brush,
-                onItemClicked = onColorSelected,
-                colorTint = MaterialTheme.colorScheme.primary
+                onItemClicked = onColorSelected
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
-                onItemClicked = onUnDoActionClicked,
-                colorTint = MaterialTheme.colorScheme.primary
+                onItemClicked = onUnDoActionClicked
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Redo,
-                onItemClicked = onRedoActionClicked,
-                colorTint = MaterialTheme.colorScheme.primary
+                onItemClicked = onRedoActionClicked
             )
             MenuItem(
                 imageVector = Icons.Filled.Refresh,
-                onItemClicked = onClearActionClicked,
-                colorTint = MaterialTheme.colorScheme.primary
+                onItemClicked = onClearActionClicked
             )
             MenuItem(
                 imageVector = Icons.Filled.MoreVert,
                 onItemClicked = {
                     showBottomSheet = true
-                },
-                colorTint = MaterialTheme.colorScheme.primary
+                }
             )
         }
         if (showBottomSheet) {
@@ -107,13 +103,11 @@ internal fun ArtMakerControlMenu(
                     ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
-                        onItemClicked = onExportFileActionClicked,
-                        colorTint = MaterialTheme.colorScheme.primary
+                        onItemClicked = onExportFileActionClicked
                     )
                     MenuItem(
                         imageVector = Icons.Filled.Image,
-                        onItemClicked = onUpdateBackgroundActionClicked,
-                        colorTint = MaterialTheme.colorScheme.primary
+                        onItemClicked = onUpdateBackgroundActionClicked
                     )
                 }
             }
@@ -125,9 +119,8 @@ internal fun ArtMakerControlMenu(
 private fun RowScope.MenuItem(
     imageVector: ImageVector,
     onItemClicked: () -> Unit,
-    colorTint: Color,
+    colorTint: Color = MaterialTheme.colorScheme.primary,
 ) {
-    val modifier = Modifier.size(32.dp)
     IconButton(
         onClick = onItemClicked, modifier = Modifier.weight(1f, true)
     ) {
@@ -135,7 +128,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = modifier
+            modifier = Modifier.size(32.dp)
         )
     }
 }
