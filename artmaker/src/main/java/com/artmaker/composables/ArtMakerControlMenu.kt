@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,8 +42,9 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ArtMakerControlMenu() {
-
+internal fun ArtMakerControlMenu(
+    modifier: Modifier = Modifier
+) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val context = LocalContext.current
@@ -55,6 +55,7 @@ internal fun ArtMakerControlMenu() {
 
     Surface(
         shadowElevation = 30.dp,
+        modifier = modifier
     ) {
         Row(
             modifier = Modifier
@@ -97,13 +98,6 @@ internal fun ArtMakerControlMenu() {
                 },
                 colorTint = MaterialTheme.colorScheme.primary
             )
-            MenuItem(
-                imageVector = Icons.Filled.MoreVert,
-                onItemClicked = {
-                    showBottomSheet = true
-                },
-                colorTint = MaterialTheme.colorScheme.primary
-            )
         }
         if (showBottomSheet) {
             ModalBottomSheet(
@@ -142,9 +136,8 @@ internal fun ArtMakerControlMenu() {
 private fun RowScope.MenuItem(
     imageVector: ImageVector,
     onItemClicked: () -> Unit,
-    colorTint: Color,
+    colorTint: Color = MaterialTheme.colorScheme.primary,
 ) {
-    val modifier = Modifier.size(32.dp)
     IconButton(
         onClick = onItemClicked, modifier = Modifier.weight(1f, true)
     ) {
@@ -152,7 +145,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = modifier
+            modifier = Modifier.size(32.dp)
         )
     }
 }
