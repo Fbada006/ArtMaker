@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
+import junit.framework.TestCase.assertEquals
 
 /**
  * Instrumented test, which will execute on an Android device.
