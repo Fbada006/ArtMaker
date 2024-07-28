@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 ArtMaker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.artmaker.composables
 
 import androidx.compose.foundation.layout.Arrangement
@@ -40,95 +55,96 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArtMakerControlMenu(
-    onStrokeWidthActionClicked: () -> Unit,
-    onUnDoActionClicked: () -> Unit,
-    onRedoActionClicked: () -> Unit,
-    onClearActionClicked: () -> Unit,
-    onUpdateBackgroundActionClicked: () -> Unit,
-    onExportFileActionClicked: () -> Unit,
-    onColorSelected: () -> Unit,
-    modifier: Modifier = Modifier
+  onStrokeWidthActionClicked: () -> Unit,
+  onUnDoActionClicked: () -> Unit,
+  onRedoActionClicked: () -> Unit,
+  onClearActionClicked: () -> Unit,
+  onUpdateBackgroundActionClicked: () -> Unit,
+  onExportFileActionClicked: () -> Unit,
+  onColorSelected: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    var showBottomSheet by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState()
-    Surface(
-        shadowElevation = 30.dp,
-        modifier = modifier
+  var showBottomSheet by remember { mutableStateOf(false) }
+  val sheetState = rememberModalBottomSheetState()
+  Surface(
+    shadowElevation = 30.dp,
+    modifier = modifier,
+  ) {
+    Row(
+      modifier = Modifier
+        .navigationBarsPadding()
+        .padding(10.dp),
+      horizontalArrangement = Arrangement.SpaceAround,
     ) {
-        Row(
-            modifier = Modifier
-                .navigationBarsPadding()
-                .padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            MenuItem(
-                imageVector = Icons.Filled.Circle,
-                onItemClicked = onStrokeWidthActionClicked
-            )
-            MenuItem(
-                imageVector = Icons.Filled.Brush,
-                onItemClicked = onColorSelected
-            )
-            MenuItem(
-                imageVector = Icons.AutoMirrored.Filled.Undo,
-                onItemClicked = onUnDoActionClicked
-            )
-            MenuItem(
-                imageVector = Icons.AutoMirrored.Filled.Redo,
-                onItemClicked = onRedoActionClicked
-            )
-            MenuItem(
-                imageVector = Icons.Filled.Refresh,
-                onItemClicked = onClearActionClicked
-            )
-            MenuItem(
-                imageVector = Icons.Filled.MoreVert,
-                onItemClicked = {
-                    showBottomSheet = true
-                }
-            )
-        }
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                sheetState = sheetState,
-                onDismissRequest = {
-                    showBottomSheet = false
-                }
-            ) {
-                Row(
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .padding(10.dp),
-
-                    ) {
-                    MenuItem(
-                        imageVector = Icons.Filled.FileUpload,
-                        onItemClicked = onExportFileActionClicked
-                    )
-                    MenuItem(
-                        imageVector = Icons.Filled.Image,
-                        onItemClicked = onUpdateBackgroundActionClicked
-                    )
-                }
-            }
-        }
+      MenuItem(
+        imageVector = Icons.Filled.Circle,
+        onItemClicked = onStrokeWidthActionClicked,
+      )
+      MenuItem(
+        imageVector = Icons.Filled.Brush,
+        onItemClicked = onColorSelected,
+      )
+      MenuItem(
+        imageVector = Icons.AutoMirrored.Filled.Undo,
+        onItemClicked = onUnDoActionClicked,
+      )
+      MenuItem(
+        imageVector = Icons.AutoMirrored.Filled.Redo,
+        onItemClicked = onRedoActionClicked,
+      )
+      MenuItem(
+        imageVector = Icons.Filled.Refresh,
+        onItemClicked = onClearActionClicked,
+      )
+      MenuItem(
+        imageVector = Icons.Filled.MoreVert,
+        onItemClicked = {
+          showBottomSheet = true
+        },
+      )
     }
+    if (showBottomSheet) {
+      ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = {
+          showBottomSheet = false
+        },
+      ) {
+        Row(
+          modifier = Modifier
+            .navigationBarsPadding()
+            .padding(10.dp),
+
+        ) {
+          MenuItem(
+            imageVector = Icons.Filled.FileUpload,
+            onItemClicked = onExportFileActionClicked,
+          )
+          MenuItem(
+            imageVector = Icons.Filled.Image,
+            onItemClicked = onUpdateBackgroundActionClicked,
+          )
+        }
+      }
+    }
+  }
 }
 
 @Composable
 private fun RowScope.MenuItem(
-    imageVector: ImageVector,
-    onItemClicked: () -> Unit,
-    colorTint: Color = MaterialTheme.colorScheme.primary,
+  imageVector: ImageVector,
+  onItemClicked: () -> Unit,
+  colorTint: Color = MaterialTheme.colorScheme.primary,
 ) {
-    IconButton(
-        onClick = onItemClicked, modifier = Modifier.weight(1f, true)
-    ) {
-        Icon(
-            imageVector = imageVector,
-            contentDescription = null,
-            tint = colorTint,
-            modifier = Modifier.size(32.dp)
-        )
-    }
+  IconButton(
+    onClick = onItemClicked,
+    modifier = Modifier.weight(1f, true),
+  ) {
+    Icon(
+      imageVector = imageVector,
+      contentDescription = null,
+      tint = colorTint,
+      modifier = Modifier.size(32.dp),
+    )
+  }
 }
