@@ -7,6 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
+  lint:
+    name: Spotless and Linting check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: adopt
+          java-version: 17
+      - name: Spotless and Lint
+        run:  ./gradlew ktlintFormat && ./gradlew ktlintCheck && ./gradlew spotlessApply
   build:
 
     runs-on: ubuntu-latest
