@@ -1,4 +1,4 @@
-package com.artmaker.artmaker.ui.theme
+package com.artmaker.demo.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

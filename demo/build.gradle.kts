@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.artmaker.artmaker"
+    namespace = "com.artmaker.demo"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.artmaker.artmaker"
+        applicationId = "com.artmaker.demo"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
