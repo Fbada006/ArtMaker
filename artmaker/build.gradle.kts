@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -23,9 +24,6 @@ android {
             )
         }
     }
-  composeOptions {
-    kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-  }
   buildFeatures {
     compose = true
   }
@@ -39,7 +37,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.lifecycle.viewmodel)
     implementation ("androidx.compose.material:material-icons-extended:$1.5.14")
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))

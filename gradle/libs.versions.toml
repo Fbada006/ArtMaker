@@ -1,8 +1,7 @@
 [versions]
 agp = "8.5.1"
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 jvmTarget = "17"
-androidxComposeCompiler = "1.5.14"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -36,3 +35,4 @@ lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmode
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
