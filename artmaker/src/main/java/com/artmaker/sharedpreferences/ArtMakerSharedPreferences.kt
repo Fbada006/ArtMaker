@@ -24,7 +24,7 @@ class ArtMakerSharedPreferences(
             Float::class -> editor.putFloat(key, value as Float)
             Long::class -> editor.putLong(key, value as Long)
             else -> {
-                throw Exception("Could not save the data as its type is not currently supported by SharedPreferences...")
+                throw IllegalArgumentException("Could not save class type of ${T::class} to SharedPreferences...")
             }
         }
         editor.apply()

@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
@@ -15,13 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artmaker.models.PointsData
-import com.artmaker.viewmodels.ArtMakerViewModel
+import com.artmaker.state.ArtMakerUIState
 
 
 // A place holder for now that will be replaced with the actual controller
@@ -51,14 +47,9 @@ internal class TestController {
  */
 @Composable
 internal fun ArtMakerDrawScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    artMakerUIState: ArtMakerUIState
 ) {
-
-    val context = LocalContext.current
-    val artMakerViewModel: ArtMakerViewModel = viewModel(
-        factory = ArtMakerViewModel.provideFactory(context = context)
-    )
-    val artMakerUIState by artMakerViewModel.artMakerUIState.collectAsState()
 
     val density = LocalDensity.current
     val controller = TestController()

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
+import com.artmaker.sharedpreferences.SharedPreferencesKeys
 import com.artmaker.state.ArtMakerUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,13 +43,8 @@ internal class ArtMakerViewModel(
             it.copy(backgroundColour = selectedBackgroundColour.toArgb())
         }
         artMakerSharedPreferences.set(
-            key = "selectedBackgroundColour",
+            key = SharedPreferencesKeys.SELECTED_BACKGROUND_COLOUR,
             value = selectedBackgroundColour.toArgb()
-        )
-        Log.d(
-            "Currently Saved Background Colour", "${
-                selectedBackgroundColour.toArgb()
-            }"
         )
     }
 
@@ -56,20 +52,11 @@ internal class ArtMakerViewModel(
         _artMakerUIState.update {
             it.copy(
                 backgroundColour = artMakerSharedPreferences.get(
-                    key = "selectedBackgroundColour",
+                    key = SharedPreferencesKeys.SELECTED_BACKGROUND_COLOUR,
                     defaultValue = Color.Blue.toArgb()
                 )
             )
         }
-        Log.d(
-            "Currently Retrieved Background Colour",
-            "${
-                artMakerSharedPreferences.get(
-                    key = "selectedBackgroundColour",
-                    defaultValue = Color.Blue.toArgb()
-                )
-            }"
-        )
     }
 
     private fun clear() {}
@@ -81,7 +68,7 @@ internal class ArtMakerViewModel(
             it.copy(strokeColour = selectedStrokeColour.toArgb())
         }
         artMakerSharedPreferences.set(
-            key = "selectedStrokeColour",
+            key = SharedPreferencesKeys.SELECTED_STROKE_COLOUR,
             value = selectedStrokeColour.toArgb()
         )
     }
@@ -91,7 +78,7 @@ internal class ArtMakerViewModel(
             it.copy(strokeWidth = selectedStrokeWidth.toArgb())
         }
         artMakerSharedPreferences.set(
-            key = "selectedStrokeWidth",
+            key = SharedPreferencesKeys.SELECTED_STROKE_WIDTH,
             value = selectedStrokeWidth.toArgb()
         )
     }
