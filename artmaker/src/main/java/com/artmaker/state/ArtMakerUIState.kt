@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
 /**
- * Data Class that represents the UI State...
- * Dummy values have been used for testing purposes but they are of course subject to change...
+ * This is a Data Class that represents the UI State.
+ * Dummy values have been used for testing purposes but they are of course subject to change.
  */
 data class ArtMakerUIState(
     val backgroundColour: Int = Color.Blue.toArgb(),
