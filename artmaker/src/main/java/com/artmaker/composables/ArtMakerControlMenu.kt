@@ -89,28 +89,29 @@ internal fun ArtMakerControlMenu(
             )
         }
         if (showBottomSheet) {
-            ModalBottomSheet(
-                sheetState = sheetState,
-                onDismissRequest = {
-                    showBottomSheet = false
-                }
-            ) {
-                Row(
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .padding(10.dp),
-
-                    ) {
-                    MenuItem(
-                        imageVector = Icons.Filled.FileUpload,
-                        onItemClicked = onExportFileActionClicked
-                    )
-                    MenuItem(
-                        imageVector = Icons.Filled.Image,
-                        onItemClicked = onUpdateBackgroundActionClicked
-                    )
-                }
-            }
+            ColorPicker(onDismissRequest = { showBottomSheet = false })
+//            ModalBottomSheet(
+//                sheetState = sheetState,
+//                onDismissRequest = {
+//                    showBottomSheet = false
+//                }
+//            ) {
+//                Row(
+//                    modifier = Modifier
+//                        .navigationBarsPadding()
+//                        .padding(10.dp),
+//
+//                    ) {
+//                    MenuItem(
+//                        imageVector = Icons.Filled.FileUpload,
+//                        onItemClicked = onExportFileActionClicked
+//                    )
+//                    MenuItem(
+//                        imageVector = Icons.Filled.Image,
+//                        onItemClicked = onUpdateBackgroundActionClicked
+//                    )
+//                }
+//            }
         }
     }
 }
