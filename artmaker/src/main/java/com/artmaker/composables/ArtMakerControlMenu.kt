@@ -78,13 +78,14 @@ internal fun ArtMakerControlMenu(
             MenuItem(
                 imageVector = Icons.Filled.Circle,
                 onItemClicked = { showColorPicker = true },
-                colorTint = Color(state.strokeColour)
+                colorTint = Color(state.strokeColour),
             )
             MenuItem(
                 imageVector = Icons.Filled.Brush,
                 onItemClicked = {
                     onAction(ArtMakerAction.SelectStrokeWidth)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
                 onItemClicked = {
@@ -115,14 +116,14 @@ internal fun ArtMakerControlMenu(
                 sheetState = sheetState,
                 onDismissRequest = {
                     showMoreOptions = false
-                }
+                },
             ) {
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()
                         .padding(10.dp),
 
-                    ) {
+                ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {
@@ -145,7 +146,7 @@ internal fun ArtMakerControlMenu(
                 onClick = { colorArgb ->
                     onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
                     showColorPicker = false
-                }
+                },
             )
         }
     }

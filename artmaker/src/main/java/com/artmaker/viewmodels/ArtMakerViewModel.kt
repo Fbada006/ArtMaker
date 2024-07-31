@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 internal class ArtMakerViewModel(
-    private val preferences: ArtMakerSharedPreferences
+    private val preferences: ArtMakerSharedPreferences,
 ) : ViewModel() {
 
     private var _artMakerUIState =
@@ -61,7 +61,7 @@ internal class ArtMakerViewModel(
     private fun updateStrokeColor(colour: Color) {
         preferences.set(
             key = PreferenceKeys.SELECTED_STROKE_COLOUR,
-            value = colour.toArgb()
+            value = colour.toArgb(),
         )
         _artMakerUIState.update {
             it.copy(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0))
@@ -79,8 +79,8 @@ internal class ArtMakerViewModel(
                     @Suppress("UNCHECKED_CAST")
                     return ArtMakerViewModel(
                         preferences = ArtMakerSharedPreferences(
-                            context = context
-                        )
+                            context = context,
+                        ),
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")

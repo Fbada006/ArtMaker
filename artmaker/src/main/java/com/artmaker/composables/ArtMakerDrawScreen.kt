@@ -70,7 +70,7 @@ internal class TestController {
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
-    state: ArtMakerUIState
+    state: ArtMakerUIState,
 ) {
     val density = LocalDensity.current
     val controller = remember { TestController() }

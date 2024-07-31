@@ -27,5 +27,5 @@ internal data class PointsData(
     var points: SnapshotStateList<Offset>,
     val strokeWidth: Float = 15f,
     val strokeColor: Color,
-    val alpha: Float = 1f
+    val alpha: Float = 1f,
 )

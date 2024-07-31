@@ -24,5 +24,5 @@ import androidx.compose.ui.graphics.toArgb
 data class ArtMakerUIState(
     val backgroundColour: Int = Color.White.toArgb(),
     val strokeWidth: Int = 3,
-    val strokeColour: Int
+    val strokeColour: Int,
 )

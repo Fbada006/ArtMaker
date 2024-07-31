@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 ArtMaker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.artmaker.composables
 
 import androidx.compose.foundation.background
@@ -37,7 +52,6 @@ typealias ColorArgb = Int
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (ColorArgb) -> Unit, modifier: Modifier = Modifier) {
-
     val sheetState = rememberModalBottomSheetState()
     var customColor by rememberSaveable { mutableIntStateOf(defaultColor) }
 
@@ -45,14 +59,14 @@ fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (Color
         sheetState = sheetState,
         onDismissRequest = onDismissRequest,
         containerColor = Color.LightGray,
-        modifier = modifier
+        modifier = modifier,
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
                 .padding(bottom = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 FlowRow(
@@ -60,12 +74,12 @@ fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (Color
                         .padding(vertical = 4.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
-                    maxItemsInEachRow = NUM_COLUMNS
+                    maxItemsInEachRow = NUM_COLUMNS,
                 ) {
                     repeat(ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size) { colorIndex ->
                         val color = ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
                         Box(
-                            modifier = Modifier
+                            modifier = Modifier,
                         ) {
                             Box(
                                 modifier = Modifier
@@ -75,7 +89,7 @@ fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (Color
                                     .clickable {
                                         customColor = color
                                         onClick(color)
-                                    }
+                                    },
                             )
 
                             if (color == customColor) {
@@ -84,7 +98,7 @@ fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (Color
                                     contentDescription = null,
                                     tint = Color.White,
                                     modifier = Modifier
-                                        .align(Alignment.Center)
+                                        .align(Alignment.Center),
                                 )
                             }
                         }
