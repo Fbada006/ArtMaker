@@ -106,15 +106,15 @@ internal fun ArtMakerControlMenu(
             MenuItem(
                 imageVector = Icons.Filled.MoreVert,
                 onItemClicked = {
-                    showBottomSheet = true
+                    showMoreOptions = true
                 },
             )
         }
-        if (showBottomSheet) {
+        if (showMoreOptions) {
             ModalBottomSheet(
                 sheetState = sheetState,
                 onDismissRequest = {
-                    showBottomSheet = false
+                    showMoreOptions = false
                 }
             ) {
                 Row(
@@ -122,7 +122,7 @@ internal fun ArtMakerControlMenu(
                         .navigationBarsPadding()
                         .padding(10.dp),
 
-                ) {
+                    ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {
@@ -144,6 +144,7 @@ internal fun ArtMakerControlMenu(
                 defaultColor = state.strokeColour,
                 onClick = { colorArgb ->
                     onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
+                    showColorPicker = false
                 }
             )
         }
