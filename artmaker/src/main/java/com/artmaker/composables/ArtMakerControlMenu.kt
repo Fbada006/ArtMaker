@@ -56,7 +56,7 @@ import com.artmaker.actions.ArtMakerAction
 @Composable
 internal fun ArtMakerControlMenu(
     modifier: Modifier = Modifier,
-    onAction: (ArtMakerAction) -> Unit
+    onAction: (ArtMakerAction) -> Unit,
 ) {
     var showBottomSheet by remember { mutableStateOf(value = false) }
     val sheetState = rememberModalBottomSheetState()
@@ -75,27 +75,32 @@ internal fun ArtMakerControlMenu(
                 imageVector = Icons.Filled.Circle,
                 onItemClicked = {
                     onAction(ArtMakerAction.SelectStrokeWidth)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.Filled.Brush,
                 onItemClicked = {
                     onAction(ArtMakerAction.SelectStrokeColour)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
                 onItemClicked = {
                     onAction(ArtMakerAction.Undo)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Redo,
                 onItemClicked = {
                     onAction(ArtMakerAction.Redo)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.Filled.Refresh,
                 onItemClicked = {
                     onAction(ArtMakerAction.Clear)
-                })
+                },
+            )
         }
         if (showBottomSheet) {
             ModalBottomSheet(
@@ -114,12 +119,14 @@ internal fun ArtMakerControlMenu(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {
                             onAction(ArtMakerAction.ExportArt)
-                        })
+                        },
+                    )
                     MenuItem(
                         imageVector = Icons.Filled.Image,
                         onItemClicked = {
                             onAction(ArtMakerAction.UpdateBackground)
-                        })
+                        },
+                    )
                 }
             }
         }

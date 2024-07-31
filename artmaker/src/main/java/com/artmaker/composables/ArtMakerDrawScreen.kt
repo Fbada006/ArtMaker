@@ -34,7 +34,6 @@ import androidx.core.math.MathUtils.clamp
 import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
 
-
 // A place holder for now that will be replaced with the actual controller
 internal class TestController {
     private val _pathList = mutableStateListOf<PointsData>()
@@ -63,9 +62,8 @@ internal class TestController {
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
-    artMakerUIState: ArtMakerUIState
+    artMakerUIState: ArtMakerUIState,
 ) {
-
     val density = LocalDensity.current
     val controller = TestController()
     val configuration = LocalConfiguration.current

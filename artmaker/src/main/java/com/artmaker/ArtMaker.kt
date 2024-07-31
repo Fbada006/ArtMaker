@@ -35,10 +35,9 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  */
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier) {
-
     val context = LocalContext.current
     val artMakerViewModel: ArtMakerViewModel = viewModel(
-        factory = ArtMakerViewModel.provideFactory(context = context)
+        factory = ArtMakerViewModel.provideFactory(context = context),
     )
     val artMakerUIState by artMakerViewModel.artMakerUIState.collectAsStateWithLifecycle()
 
@@ -47,11 +46,11 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-            artMakerUIState = artMakerUIState
+            artMakerUIState = artMakerUIState,
         )
         ArtMakerControlMenu(
             modifier = Modifier.height(60.dp),
-            onAction = artMakerViewModel::onAction
+            onAction = artMakerViewModel::onAction,
         )
     }
 }

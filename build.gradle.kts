@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.org.jlleitschuh.gradle.ktlint)
+    alias(libs.plugins.spotless) apply false
 }
 subprojects {
     apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
