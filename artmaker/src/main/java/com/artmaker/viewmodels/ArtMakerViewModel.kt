@@ -10,7 +10,6 @@ import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
 import com.artmaker.state.ArtMakerUIState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -18,9 +17,9 @@ internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences
 ) : ViewModel() {
 
-    private var _artMakerUIState: MutableStateFlow<ArtMakerUIState> =
+    private var _artMakerUIState =
         MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
-    val artMakerUIState: StateFlow<ArtMakerUIState> = _artMakerUIState.asStateFlow()
+    val artMakerUIState = _artMakerUIState.asStateFlow()
 
     fun onAction(action: ArtMakerAction) {
         when (action) {

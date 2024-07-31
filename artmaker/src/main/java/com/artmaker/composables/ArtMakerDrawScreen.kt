@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,14 +21,15 @@ import androidx.core.math.MathUtils.clamp
 import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
 
-
 // A place holder for now that will be replaced with the actual controller
 internal class TestController {
     private val _pathList = mutableStateListOf<PointsData>()
     val pathList: SnapshotStateList<PointsData> = _pathList
 
+    private lateinit var state: ArtMakerUIState
+
     fun addNewShape(offset: Offset) {
-        val data = PointsData(mutableStateListOf(offset))
+        val data = PointsData(points = mutableStateListOf(offset), strokeColor = Color(state.strokeColour))
         _pathList.add(data)
     }
 
@@ -39,6 +42,10 @@ internal class TestController {
         val idx = _pathList.lastIndex
         _pathList[idx].points.removeLast()
     }
+
+    fun updateState(state: ArtMakerUIState) {
+        this.state = state
+    }
 }
 
 /**
@@ -48,11 +55,11 @@ internal class TestController {
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
-    artMakerUIState: ArtMakerUIState
+    state: ArtMakerUIState
 ) {
 
     val density = LocalDensity.current
-    val controller = TestController()
+    val controller = remember { TestController() }
     val configuration = LocalConfiguration.current
 
     val screenHeight = configuration.screenHeightDp.dp
@@ -62,9 +69,13 @@ internal fun ArtMakerDrawScreen(
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
 
+    LaunchedEffect(key1 = state) {
+        controller.updateState(state)
+    }
+
     Canvas(
         modifier = modifier
-            .background(color = Color(color = artMakerUIState.backgroundColour))
+            .background(color = Color(color = state.backgroundColour))
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { offset ->
