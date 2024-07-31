@@ -1,7 +1,9 @@
 package com.artmaker.actions
 
+import androidx.compose.ui.graphics.Color
+
 /**
- * This is a Sealed Interface that defines all of the user's actions (Intents) to be implemented by ArtMakerViewModel...
+ * Define all of the user's actions
  */
 sealed interface ArtMakerAction {
 
@@ -15,7 +17,7 @@ sealed interface ArtMakerAction {
 
     data object UpdateBackground : ArtMakerAction
 
-    data object SelectStrokeColour : ArtMakerAction
+    data class SelectStrokeColour(val color: Color) : ArtMakerAction
 
     data object SelectStrokeWidth : ArtMakerAction
 

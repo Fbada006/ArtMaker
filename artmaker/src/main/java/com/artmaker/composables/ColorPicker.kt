@@ -36,10 +36,10 @@ typealias ColorArgb = Int
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun ColorPicker(onDismissRequest: () -> Unit, onClick: (ColorArgb) -> Unit, modifier: Modifier = Modifier) {
+fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (ColorArgb) -> Unit, modifier: Modifier = Modifier) {
 
     val sheetState = rememberModalBottomSheetState()
-    var customColor by rememberSaveable { mutableIntStateOf(ColorUtils.COLOR_PICKER_DEFAULT_COLORS.first().toArgb()) }
+    var customColor by rememberSaveable { mutableIntStateOf(defaultColor) }
 
     ModalBottomSheet(
         sheetState = sheetState,

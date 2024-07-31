@@ -13,7 +13,7 @@ import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.artmaker.actions.ArtMakerAction
+import com.artmaker.state.ArtMakerUIState
 
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
@@ -40,8 +41,9 @@ import com.artmaker.actions.ArtMakerAction
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArtMakerControlMenu(
+    state: ArtMakerUIState,
+    onAction: (ArtMakerAction) -> Unit,
     modifier: Modifier = Modifier,
-    onAction: (ArtMakerAction) -> Unit
 ) {
     var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
@@ -59,13 +61,13 @@ internal fun ArtMakerControlMenu(
         ) {
             MenuItem(
                 imageVector = Icons.Filled.Circle,
-                onItemClicked = {
-                    onAction(ArtMakerAction.SelectStrokeWidth)
-                })
+                onItemClicked = { showColorPicker = true },
+                colorTint = Color(state.strokeColour)
+            )
             MenuItem(
                 imageVector = Icons.Filled.Brush,
                 onItemClicked = {
-                    onAction(ArtMakerAction.SelectStrokeColour)
+                    onAction(ArtMakerAction.SelectStrokeWidth)
                 })
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
@@ -78,10 +80,8 @@ internal fun ArtMakerControlMenu(
                     onAction(ArtMakerAction.Redo)
                 })
             MenuItem(
-                imageVector = Icons.Filled.Refresh,
-                onItemClicked = {
-                    onAction(ArtMakerAction.Clear)
-                })
+                imageVector = Icons.Filled.MoreVert,
+                onItemClicked = { showMoreOptions = true })
         }
         if (showMoreOptions) {
             ModalBottomSheet(
@@ -112,7 +112,10 @@ internal fun ArtMakerControlMenu(
         if (showColorPicker) {
             ColorPicker(
                 onDismissRequest = { showColorPicker = false },
-                onClick = { colorArgb -> onColorSelected(Color(colorArgb)) }
+                defaultColor = state.strokeColour,
+                onClick = { colorArgb ->
+                    onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
+                }
             )
         }
     }

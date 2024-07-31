@@ -7,87 +7,54 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
-import com.artmaker.sharedpreferences.SharedPreferencesKeys
+import com.artmaker.sharedpreferences.PreferenceKeys
 import com.artmaker.state.ArtMakerUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.random.Random
 
 internal class ArtMakerViewModel(
-    private val artMakerSharedPreferences: ArtMakerSharedPreferences
+    private val preferences: ArtMakerSharedPreferences
 ) : ViewModel() {
 
     private var _artMakerUIState: MutableStateFlow<ArtMakerUIState> =
-        MutableStateFlow(value = ArtMakerUIState())
+        MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
     val artMakerUIState: StateFlow<ArtMakerUIState> = _artMakerUIState.asStateFlow()
 
-    fun onAction(artMakerAction: ArtMakerAction) {
-        when (artMakerAction) {
+    fun onAction(action: ArtMakerAction) {
+        when (action) {
             ArtMakerAction.ExportArt -> exportArt()
-            ArtMakerAction.Redo -> redo(selectedBackgroundColour = generateRandomColor())
+            ArtMakerAction.Redo -> redo()
             ArtMakerAction.Undo -> undo()
             ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
-            ArtMakerAction.SelectStrokeColour -> selectStrokeColour(selectedStrokeColour = generateRandomColor())
-            ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(selectedStrokeWidth = generateRandomColor())
+            is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
+            ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth()
         }
     }
 
     private fun exportArt() {}
 
-    private fun redo(selectedBackgroundColour: Color) {
-        _artMakerUIState.update {
-            it.copy(backgroundColour = selectedBackgroundColour.toArgb())
-        }
-        artMakerSharedPreferences.set(
-            key = SharedPreferencesKeys.SELECTED_BACKGROUND_COLOUR,
-            value = selectedBackgroundColour.toArgb()
-        )
-    }
+    private fun redo() {}
 
-    private fun undo() {
-        _artMakerUIState.update {
-            it.copy(
-                backgroundColour = artMakerSharedPreferences.get(
-                    key = SharedPreferencesKeys.SELECTED_BACKGROUND_COLOUR,
-                    defaultValue = Color.Blue.toArgb()
-                )
-            )
-        }
-    }
+    private fun undo() {}
 
     private fun clear() {}
 
     private fun updateBackgroundColour() {}
 
-    private fun selectStrokeColour(selectedStrokeColour: Color) {
-        _artMakerUIState.update {
-            it.copy(strokeColour = selectedStrokeColour.toArgb())
-        }
-        artMakerSharedPreferences.set(
-            key = SharedPreferencesKeys.SELECTED_STROKE_COLOUR,
-            value = selectedStrokeColour.toArgb()
+    private fun updateStrokeColor(colour: Color) {
+        preferences.set(
+            key = PreferenceKeys.SELECTED_STROKE_COLOUR,
+            value = colour.toArgb()
         )
+        _artMakerUIState.update {
+            it.copy(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0))
+        }
     }
 
-    private fun selectStrokeWidth(selectedStrokeWidth: Color) {
-        _artMakerUIState.update {
-            it.copy(strokeWidth = selectedStrokeWidth.toArgb())
-        }
-        artMakerSharedPreferences.set(
-            key = SharedPreferencesKeys.SELECTED_STROKE_WIDTH,
-            value = selectedStrokeWidth.toArgb()
-        )
-    }
-
-    private fun generateRandomColor(): Color {
-        val red = Random.nextInt(until = 256)
-        val green = Random.nextInt(until = 256)
-        val blue = Random.nextInt(until = 256)
-        return Color(red = red, green = green, blue = blue)
-    }
+    private fun selectStrokeWidth() {}
 
     companion object {
         fun provideFactory(
@@ -97,7 +64,7 @@ internal class ArtMakerViewModel(
                 if (modelClass.isAssignableFrom(ArtMakerViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
                     return ArtMakerViewModel(
-                        artMakerSharedPreferences = ArtMakerSharedPreferences(
+                        preferences = ArtMakerSharedPreferences(
                             context = context
                         )
                     ) as T

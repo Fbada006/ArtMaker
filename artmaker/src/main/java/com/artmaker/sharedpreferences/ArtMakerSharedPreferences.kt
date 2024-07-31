@@ -6,11 +6,11 @@ import android.content.SharedPreferences
 /**
  * This is a SharedPreferences implementation that uses a Generic class to store the user's data...
  */
-class ArtMakerSharedPreferences(
+internal class ArtMakerSharedPreferences(
     context: Context
 ) {
 
-    val artMakerSharedPreferences: SharedPreferences = context.getSharedPreferences(
+   private val artMakerSharedPreferences: SharedPreferences = context.getSharedPreferences(
         "artMakerSharedPreferences",
         Context.MODE_PRIVATE
     )
@@ -24,7 +24,7 @@ class ArtMakerSharedPreferences(
             Float::class -> editor.putFloat(key, value as Float)
             Long::class -> editor.putLong(key, value as Long)
             else -> {
-                throw IllegalArgumentException("Could not save class type of ${T::class} to SharedPreferences...")
+                throw IllegalArgumentException("Could not save class type of ${T::class} to preferences.")
             }
         }
         editor.apply()

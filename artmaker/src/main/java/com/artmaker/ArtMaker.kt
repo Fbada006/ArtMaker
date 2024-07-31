@@ -16,7 +16,6 @@ import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
  * [ArtMaker] composable which has our draw screen and controllers
- * We will expose this composable and test our Library on the app layer
  */
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier) {
@@ -35,8 +34,9 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             artMakerUIState = artMakerUIState
         )
         ArtMakerControlMenu(
+            onAction = artMakerViewModel::onAction,
+            state = artMakerUIState,
             modifier = Modifier.height(60.dp),
-            onAction = artMakerViewModel::onAction
         )
     }
 }
