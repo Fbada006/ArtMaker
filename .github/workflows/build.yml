@@ -2,7 +2,7 @@ name: Build ArtMaker
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "task/spotless-config" ]
   pull_request:
     branches: [ "main" ]
 
