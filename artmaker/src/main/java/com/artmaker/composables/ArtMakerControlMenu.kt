@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 ArtMaker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.artmaker.composables
 
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +28,7 @@ import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,70 +57,83 @@ import com.artmaker.actions.ArtMakerAction
 @Composable
 internal fun ArtMakerControlMenu(
     modifier: Modifier = Modifier,
-    onAction: (ArtMakerAction) -> Unit
+    onAction: (ArtMakerAction) -> Unit,
 ) {
     var showBottomSheet by remember { mutableStateOf(value = false) }
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
         shadowElevation = 30.dp,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Row(
             modifier = Modifier
                 .navigationBarsPadding()
                 .padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceAround,
         ) {
             MenuItem(
                 imageVector = Icons.Filled.Circle,
                 onItemClicked = {
                     onAction(ArtMakerAction.SelectStrokeWidth)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.Filled.Brush,
                 onItemClicked = {
                     onAction(ArtMakerAction.SelectStrokeColour)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
                 onItemClicked = {
                     onAction(ArtMakerAction.Undo)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Redo,
                 onItemClicked = {
                     onAction(ArtMakerAction.Redo)
-                })
+                },
+            )
             MenuItem(
                 imageVector = Icons.Filled.Refresh,
                 onItemClicked = {
                     onAction(ArtMakerAction.Clear)
-                })
+                },
+            )
+            MenuItem(
+                imageVector = Icons.Filled.MoreVert,
+                onItemClicked = {
+                    showBottomSheet = true
+                },
+            )
         }
         if (showBottomSheet) {
             ModalBottomSheet(
                 sheetState = sheetState,
                 onDismissRequest = {
                     showBottomSheet = false
-                }
+                },
             ) {
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()
                         .padding(10.dp),
 
-                    ) {
+                ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {
                             onAction(ArtMakerAction.ExportArt)
-                        })
+                        },
+                    )
                     MenuItem(
                         imageVector = Icons.Filled.Image,
                         onItemClicked = {
                             onAction(ArtMakerAction.UpdateBackground)
-                        })
+                        },
+                    )
                 }
             }
         }
@@ -118,13 +147,14 @@ private fun RowScope.MenuItem(
     colorTint: Color = MaterialTheme.colorScheme.primary,
 ) {
     IconButton(
-        onClick = onItemClicked, modifier = Modifier.weight(1f, true)
+        onClick = onItemClicked,
+        modifier = Modifier.weight(1f, true),
     ) {
         Icon(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(32.dp),
         )
     }
 }
