@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -99,6 +100,12 @@ internal fun ArtMakerControlMenu(
                 imageVector = Icons.Filled.Refresh,
                 onItemClicked = {
                     onAction(ArtMakerAction.Clear)
+                },
+            )
+            MenuItem(
+                imageVector = Icons.Filled.MoreVert,
+                onItemClicked = {
+                    showBottomSheet = true
                 },
             )
         }
