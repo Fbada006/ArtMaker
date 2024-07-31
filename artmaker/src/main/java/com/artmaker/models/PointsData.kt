@@ -24,8 +24,8 @@ import androidx.compose.ui.graphics.Color
  * on screen. The values defined here for the characteristic of the shape drawn on screen are configurable
  */
 internal data class PointsData(
-  var points: SnapshotStateList<Offset>,
-  val strokeWidth: Float = 15f,
-  val strokeColor: Color = Color.Red,
-  val alpha: Float = 1f,
+    var points: SnapshotStateList<Offset>,
+    val strokeWidth: Float = 15f,
+    val strokeColor: Color = Color.Red,
+    val alpha: Float = 1f,
 )

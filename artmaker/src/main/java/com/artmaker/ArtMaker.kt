@@ -30,21 +30,21 @@ import com.artmaker.composables.ArtMakerDrawScreen
  */
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier) {
-  Column(modifier = modifier) {
-    ArtMakerDrawScreen(
-      modifier = Modifier
-        .fillMaxSize()
-        .weight(1f),
-    )
-    ArtMakerControlMenu(
-      onStrokeWidthActionClicked = {},
-      onUnDoActionClicked = {},
-      onRedoActionClicked = {},
-      onClearActionClicked = {},
-      onColorSelected = {},
-      onUpdateBackgroundActionClicked = {},
-      onExportFileActionClicked = {},
-      modifier = Modifier.height(60.dp),
-    )
-  }
+    Column(modifier = modifier) {
+        ArtMakerDrawScreen(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+        )
+        ArtMakerControlMenu(
+            onStrokeWidthActionClicked = {},
+            onUnDoActionClicked = {},
+            onRedoActionClicked = {},
+            onClearActionClicked = {},
+            onColorSelected = {},
+            onUpdateBackgroundActionClicked = {},
+            onExportFileActionClicked = {},
+            modifier = Modifier.height(60.dp),
+        )
+    }
 }

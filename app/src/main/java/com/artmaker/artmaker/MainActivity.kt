@@ -24,12 +24,12 @@ import com.artmaker.ArtMaker
 import com.artmaker.artmaker.ui.theme.ArtMakerTheme
 
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      ArtMakerTheme {
-        ArtMaker(modifier = Modifier.fillMaxSize())
-      }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ArtMakerTheme {
+                ArtMaker(modifier = Modifier.fillMaxSize())
+            }
+        }
     }
-  }
 }
