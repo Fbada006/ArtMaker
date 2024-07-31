@@ -2,11 +2,13 @@ package com.artmaker.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,44 +32,54 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.artmaker.utils.ColorUtils
 
+private const val NUM_COLUMNS = 5
+typealias ColorArgb = Int
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun ColorPicker(onDismissRequest: () -> Unit, modifier: Modifier = Modifier) {
+fun ColorPicker(onDismissRequest: () -> Unit, onClick: (ColorArgb) -> Unit, modifier: Modifier = Modifier) {
 
     val sheetState = rememberModalBottomSheetState()
-    var customColor by rememberSaveable { mutableIntStateOf(ColorUtils.COLOR_PICKER_DEFAULT_COLORS[2].toArgb()) }
+    var customColor by rememberSaveable { mutableIntStateOf(ColorUtils.COLOR_PICKER_DEFAULT_COLORS.first().toArgb()) }
 
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = onDismissRequest,
+        containerColor = Color.LightGray,
         modifier = modifier
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .padding(bottom = 10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             item {
                 FlowRow(
                     modifier = Modifier
                         .padding(vertical = 4.dp),
-//                    horizontalArrangement = Arrangement.spacedBy(pickerValues.colorGridSpacing),
-//                    verticalArrangement = Arrangement.spacedBy(pickerValues.colorGridSpacing),
-//                    maxItemsInEachRow = NUM_COLUMNS
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    maxItemsInEachRow = NUM_COLUMNS
                 ) {
                     repeat(ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size) { colorIndex ->
-                        val color = ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex]
-                        val colorArgb = color.toArgb()
+                        val color = ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
                         Box(
                             modifier = Modifier
                         ) {
-                            Spacer(
+                            Box(
                                 modifier = Modifier
-                                    .size(12.dp)
+                                    .size(48.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(color)
+                                    .background(Color(color))
                                     .clickable {
-                                        customColor = colorArgb
+                                        customColor = color
+                                        onClick(color)
                                     }
                             )
 
-                            if (colorArgb == customColor) {
+                            if (color == customColor) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = null,
@@ -80,7 +92,6 @@ fun ColorPicker(onDismissRequest: () -> Unit, modifier: Modifier = Modifier) {
                     }
                 }
             }
-
         }
     }
 }

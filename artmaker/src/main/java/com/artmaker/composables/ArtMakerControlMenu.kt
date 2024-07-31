@@ -46,11 +46,13 @@ internal fun ArtMakerControlMenu(
     onClearActionClicked: () -> Unit,
     onUpdateBackgroundActionClicked: () -> Unit,
     onExportFileActionClicked: () -> Unit,
-    onColorSelected: () -> Unit,
+    onColorSelected: (Color) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var showBottomSheet by remember { mutableStateOf(false) }
+    var showMoreOptions by remember { mutableStateOf(false) }
+    var showColorPicker by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
+
     Surface(
         shadowElevation = 30.dp,
         modifier = modifier
@@ -63,11 +65,13 @@ internal fun ArtMakerControlMenu(
         ) {
             MenuItem(
                 imageVector = Icons.Filled.Circle,
-                onItemClicked = onStrokeWidthActionClicked
+                onItemClicked = {
+                    showColorPicker = true
+                }
             )
             MenuItem(
                 imageVector = Icons.Filled.Brush,
-                onItemClicked = onColorSelected
+                onItemClicked = onStrokeWidthActionClicked
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
@@ -84,34 +88,39 @@ internal fun ArtMakerControlMenu(
             MenuItem(
                 imageVector = Icons.Filled.MoreVert,
                 onItemClicked = {
-                    showBottomSheet = true
+                    showMoreOptions = true
                 }
             )
         }
-        if (showBottomSheet) {
-            ColorPicker(onDismissRequest = { showBottomSheet = false })
-//            ModalBottomSheet(
-//                sheetState = sheetState,
-//                onDismissRequest = {
-//                    showBottomSheet = false
-//                }
-//            ) {
-//                Row(
-//                    modifier = Modifier
-//                        .navigationBarsPadding()
-//                        .padding(10.dp),
-//
-//                    ) {
-//                    MenuItem(
-//                        imageVector = Icons.Filled.FileUpload,
-//                        onItemClicked = onExportFileActionClicked
-//                    )
-//                    MenuItem(
-//                        imageVector = Icons.Filled.Image,
-//                        onItemClicked = onUpdateBackgroundActionClicked
-//                    )
-//                }
-//            }
+        if (showMoreOptions) {
+            ModalBottomSheet(
+                sheetState = sheetState,
+                onDismissRequest = {
+                    showMoreOptions = false
+                }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(10.dp),
+
+                    ) {
+                    MenuItem(
+                        imageVector = Icons.Filled.FileUpload,
+                        onItemClicked = onExportFileActionClicked
+                    )
+                    MenuItem(
+                        imageVector = Icons.Filled.Image,
+                        onItemClicked = onUpdateBackgroundActionClicked
+                    )
+                }
+            }
+        }
+        if (showColorPicker) {
+            ColorPicker(
+                onDismissRequest = { showColorPicker = false },
+                onClick = { colorArgb -> onColorSelected(Color(colorArgb)) }
+            )
         }
     }
 }

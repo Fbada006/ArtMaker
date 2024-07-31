@@ -12,6 +12,7 @@ object ColorUtils {
         Color.Cyan,
         Color.Gray,
         Color.Green,
-        Color.Magenta
+        Color.Magenta,
+        Color.DarkGray
     )
 }
