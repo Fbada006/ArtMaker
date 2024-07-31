@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ArtMaker"
-include(":app")
+include(":demo")
 include(":artmaker")
