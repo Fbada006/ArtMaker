@@ -1,13 +1,15 @@
 package com.artmaker.composables
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -15,6 +17,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.artmaker.models.PointsData
+import com.artmaker.state.ArtMakerUIState
+
 
 // A place holder for now that will be replaced with the actual controller
 internal class TestController {
@@ -44,7 +48,9 @@ internal class TestController {
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
+    artMakerUIState: ArtMakerUIState
 ) {
+
     val density = LocalDensity.current
     val controller = TestController()
     val configuration = LocalConfiguration.current
@@ -58,6 +64,7 @@ internal fun ArtMakerDrawScreen(
 
     Canvas(
         modifier = modifier
+            .background(color = Color(color = artMakerUIState.backgroundColour))
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { offset ->
@@ -75,7 +82,8 @@ internal fun ArtMakerDrawScreen(
                     }
                 ) { change, _ ->
                     val offset = change.position
-                    val clampedOffset = Offset(x = offset.x, y = clamp(offset.y, 0f, clippedScreenHeight))
+                    val clampedOffset =
+                        Offset(x = offset.x, y = clamp(offset.y, 0f, clippedScreenHeight))
                     controller.updateCurrentShape(clampedOffset)
                 }
             },
