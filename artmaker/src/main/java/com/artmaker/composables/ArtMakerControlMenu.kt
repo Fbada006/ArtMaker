@@ -24,8 +24,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
-import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.MoreVert
@@ -79,7 +79,7 @@ internal fun ArtMakerControlMenu(
                 },
             )
             MenuItem(
-                imageVector = Icons.Filled.Brush,
+                imageVector = Icons.Filled.Edit,
                 onItemClicked = {
                     onAction(ArtMakerAction.SelectStrokeColour)
                 },
