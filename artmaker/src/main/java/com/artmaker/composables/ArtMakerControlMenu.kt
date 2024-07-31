@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.artmaker.actions.ArtMakerAction
 
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
@@ -40,17 +40,12 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArtMakerControlMenu(
-    onStrokeWidthActionClicked: () -> Unit,
-    onUnDoActionClicked: () -> Unit,
-    onRedoActionClicked: () -> Unit,
-    onClearActionClicked: () -> Unit,
-    onUpdateBackgroundActionClicked: () -> Unit,
-    onExportFileActionClicked: () -> Unit,
-    onColorSelected: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAction: (ArtMakerAction) -> Unit
 ) {
-    var showBottomSheet by remember { mutableStateOf(false) }
+    var showBottomSheet by remember { mutableStateOf(value = false) }
     val sheetState = rememberModalBottomSheetState()
+
     Surface(
         shadowElevation = 30.dp,
         modifier = modifier
@@ -63,30 +58,29 @@ internal fun ArtMakerControlMenu(
         ) {
             MenuItem(
                 imageVector = Icons.Filled.Circle,
-                onItemClicked = onStrokeWidthActionClicked
-            )
+                onItemClicked = {
+                    onAction(ArtMakerAction.SelectStrokeWidth)
+                })
             MenuItem(
                 imageVector = Icons.Filled.Brush,
-                onItemClicked = onColorSelected
-            )
+                onItemClicked = {
+                    onAction(ArtMakerAction.SelectStrokeColour)
+                })
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
-                onItemClicked = onUnDoActionClicked
-            )
+                onItemClicked = {
+                    onAction(ArtMakerAction.Undo)
+                })
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Redo,
-                onItemClicked = onRedoActionClicked
-            )
+                onItemClicked = {
+                    onAction(ArtMakerAction.Redo)
+                })
             MenuItem(
                 imageVector = Icons.Filled.Refresh,
-                onItemClicked = onClearActionClicked
-            )
-            MenuItem(
-                imageVector = Icons.Filled.MoreVert,
                 onItemClicked = {
-                    showBottomSheet = true
-                }
-            )
+                    onAction(ArtMakerAction.Clear)
+                })
         }
         if (showBottomSheet) {
             ModalBottomSheet(
@@ -103,12 +97,14 @@ internal fun ArtMakerControlMenu(
                     ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
-                        onItemClicked = onExportFileActionClicked
-                    )
+                        onItemClicked = {
+                            onAction(ArtMakerAction.ExportArt)
+                        })
                     MenuItem(
                         imageVector = Icons.Filled.Image,
-                        onItemClicked = onUpdateBackgroundActionClicked
-                    )
+                        onItemClicked = {
+                            onAction(ArtMakerAction.UpdateBackground)
+                        })
                 }
             }
         }
