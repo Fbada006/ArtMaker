@@ -26,6 +26,6 @@ import androidx.compose.ui.graphics.Color
 internal data class PointsData(
     var points: SnapshotStateList<Offset>,
     val strokeWidth: Float = 15f,
-    val strokeColor: Color = Color.Red,
+    val strokeColor: Color,
     val alpha: Float = 1f,
 )
