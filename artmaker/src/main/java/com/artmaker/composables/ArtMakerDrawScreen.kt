@@ -46,7 +46,6 @@ internal fun ArtMakerDrawScreen(
     pathList: SnapshotStateList<PointsData>,
 ) {
     val density = LocalDensity.current
-    // val controller = remember { TestController() }
     val configuration = LocalConfiguration.current
 
     val screenHeight = configuration.screenHeightDp.dp
@@ -55,10 +54,6 @@ internal fun ArtMakerDrawScreen(
     val yOffset = with(density) { 62.dp.toPx() }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
-
-//    LaunchedEffect(key1 = state) {
-//        controller.updateState(state)
-//    }
 
     Canvas(
         modifier = modifier
