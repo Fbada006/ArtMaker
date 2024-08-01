@@ -20,9 +20,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -33,35 +31,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
+import com.artmaker.actions.DrawEvent
 import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
-
-// A place holder for now that will be replaced with the actual controller
-internal class TestController {
-    private val _pathList = mutableStateListOf<PointsData>()
-    val pathList: SnapshotStateList<PointsData> = _pathList
-
-    private lateinit var state: ArtMakerUIState
-
-    fun addNewShape(offset: Offset) {
-        val data = PointsData(points = mutableStateListOf(offset), strokeColor = Color(state.strokeColour))
-        _pathList.add(data)
-    }
-
-    fun updateCurrentShape(offset: Offset) {
-        val idx = _pathList.lastIndex
-        _pathList[idx].points.add(offset)
-    }
-
-    fun undoLastShapePoint() {
-        val idx = _pathList.lastIndex
-        _pathList[idx].points.removeLast()
-    }
-
-    fun updateState(state: ArtMakerUIState) {
-        this.state = state
-    }
-}
 
 /**
  * [ArtMakerDrawScreen] Composable where we will implement the draw logic.
@@ -71,9 +43,11 @@ internal class TestController {
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
     state: ArtMakerUIState,
+    onDrawEvent: (DrawEvent) -> Unit,
+    pathList: SnapshotStateList<PointsData>
 ) {
     val density = LocalDensity.current
-    val controller = remember { TestController() }
+    //val controller = remember { TestController() }
     val configuration = LocalConfiguration.current
 
     val screenHeight = configuration.screenHeightDp.dp
@@ -83,9 +57,9 @@ internal fun ArtMakerDrawScreen(
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
 
-    LaunchedEffect(key1 = state) {
-        controller.updateState(state)
-    }
+//    LaunchedEffect(key1 = state) {
+//        controller.updateState(state)
+//    }
 
     Canvas(
         modifier = modifier
@@ -93,27 +67,27 @@ internal fun ArtMakerDrawScreen(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { offset ->
-                        controller.addNewShape(offset)
+                        onDrawEvent(DrawEvent.AddNewShape(offset))
                     },
                 )
             }
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset ->
-                        controller.addNewShape(offset)
+                        onDrawEvent(DrawEvent.AddNewShape(offset))
                     },
                     onDragCancel = {
-                        controller.undoLastShapePoint()
+                        onDrawEvent(DrawEvent.UndoLastShapePoint)
                     },
                 ) { change, _ ->
                     val offset = change.position
                     val clampedOffset =
                         Offset(x = offset.x, y = clamp(offset.y, 0f, clippedScreenHeight))
-                    controller.updateCurrentShape(clampedOffset)
+                    onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
                 }
             },
         onDraw = {
-            controller.pathList.forEach { data ->
+            pathList.forEach { data ->
                 drawPoints(
                     points = data.points,
                     pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
