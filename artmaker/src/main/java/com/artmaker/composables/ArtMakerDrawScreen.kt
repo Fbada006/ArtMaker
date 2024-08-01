@@ -20,7 +20,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -44,10 +43,10 @@ internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
     state: ArtMakerUIState,
     onDrawEvent: (DrawEvent) -> Unit,
-    pathList: SnapshotStateList<PointsData>
+    pathList: SnapshotStateList<PointsData>,
 ) {
     val density = LocalDensity.current
-    //val controller = remember { TestController() }
+    // val controller = remember { TestController() }
     val configuration = LocalConfiguration.current
 
     val screenHeight = configuration.screenHeightDp.dp

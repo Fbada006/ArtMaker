@@ -16,7 +16,6 @@
 package com.artmaker.viewmodels
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
