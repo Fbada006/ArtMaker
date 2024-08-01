@@ -13,26 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.actions
+package com.artmaker.sharedpreferences
 
-import androidx.compose.ui.graphics.Color
-
-/**
- * Define all of the user's actions
- */
-sealed interface ArtMakerAction {
-
-    data object ExportArt : ArtMakerAction
-
-    data object Undo : ArtMakerAction
-
-    data object Redo : ArtMakerAction
-
-    data object Clear : ArtMakerAction
-
-    data object UpdateBackground : ArtMakerAction
-
-    data class SelectStrokeColour(val color: Color) : ArtMakerAction
-
-    data object SelectStrokeWidth : ArtMakerAction
+object PreferenceKeys {
+    const val SELECTED_BACKGROUND_COLOUR = "com.artmaker.sharedpreferences.selectedBackgroundColour"
+    const val SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
+    const val SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"
 }

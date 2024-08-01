@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.artmaker.actions.ArtMakerAction
+import com.artmaker.state.ArtMakerUIState
 
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
@@ -56,10 +57,12 @@ import com.artmaker.actions.ArtMakerAction
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArtMakerControlMenu(
-    modifier: Modifier = Modifier,
+    state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    var showBottomSheet by remember { mutableStateOf(value = false) }
+    var showMoreOptions by remember { mutableStateOf(false) }
+    var showColorPicker by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
@@ -74,14 +77,13 @@ internal fun ArtMakerControlMenu(
         ) {
             MenuItem(
                 imageVector = Icons.Filled.Circle,
-                onItemClicked = {
-                    onAction(ArtMakerAction.SelectStrokeWidth)
-                },
+                onItemClicked = { showColorPicker = true },
+                colorTint = Color(state.strokeColour),
             )
             MenuItem(
                 imageVector = Icons.Filled.Edit,
                 onItemClicked = {
-                    onAction(ArtMakerAction.SelectStrokeColour)
+                    onAction(ArtMakerAction.SelectStrokeWidth)
                 },
             )
             MenuItem(
@@ -105,15 +107,15 @@ internal fun ArtMakerControlMenu(
             MenuItem(
                 imageVector = Icons.Filled.MoreVert,
                 onItemClicked = {
-                    showBottomSheet = true
+                    showMoreOptions = true
                 },
             )
         }
-        if (showBottomSheet) {
+        if (showMoreOptions) {
             ModalBottomSheet(
                 sheetState = sheetState,
                 onDismissRequest = {
-                    showBottomSheet = false
+                    showMoreOptions = false
                 },
             ) {
                 Row(
@@ -136,6 +138,16 @@ internal fun ArtMakerControlMenu(
                     )
                 }
             }
+        }
+        if (showColorPicker) {
+            ColorPicker(
+                onDismissRequest = { showColorPicker = false },
+                defaultColor = state.strokeColour,
+                onClick = { colorArgb ->
+                    onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
+                    showColorPicker = false
+                },
+            )
         }
     }
 }

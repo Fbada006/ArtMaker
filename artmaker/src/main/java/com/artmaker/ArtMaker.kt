@@ -46,11 +46,12 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-            artMakerUIState = artMakerUIState,
+            state = artMakerUIState,
         )
         ArtMakerControlMenu(
-            modifier = Modifier.height(60.dp),
             onAction = artMakerViewModel::onAction,
+            state = artMakerUIState,
+            modifier = Modifier.height(60.dp),
         )
     }
 }
