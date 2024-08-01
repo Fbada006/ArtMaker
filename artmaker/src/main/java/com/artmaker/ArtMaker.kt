@@ -47,7 +47,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .weight(1f),
             state = artMakerUIState,
-            onDrawEvent = { artMakerViewModel.onDrawEvent(it) },
+            onDrawEvent = artMakerViewModel::onDrawEvent,
             pathList = artMakerViewModel.pathList,
         )
         ArtMakerControlMenu(
