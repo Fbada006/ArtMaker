@@ -49,6 +49,8 @@ import androidx.compose.ui.unit.dp
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.state.ArtMakerUIState
 
+val CONTROL_MENU_HEIGHT = 60.dp
+
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]

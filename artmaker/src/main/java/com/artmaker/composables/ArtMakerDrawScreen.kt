@@ -50,8 +50,8 @@ internal fun ArtMakerDrawScreen(
 
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
-    // The value 62 dp is obtained from height of control menu 60dp plus an extra 2dp for line visibility
-    val yOffset = with(density) { 62.dp.toPx() }
+    // Add an extra 2dp for line visibility
+    val yOffset = with(density) { (CONTROL_MENU_HEIGHT + 2.dp).toPx() }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
 
