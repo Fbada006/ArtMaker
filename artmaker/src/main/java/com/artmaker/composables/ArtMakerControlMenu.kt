@@ -24,8 +24,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
-import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.MoreVert
@@ -48,6 +48,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.state.ArtMakerUIState
+
+val CONTROL_MENU_HEIGHT = 60.dp
 
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
@@ -81,7 +83,7 @@ internal fun ArtMakerControlMenu(
                 colorTint = Color(state.strokeColour),
             )
             MenuItem(
-                imageVector = Icons.Filled.Brush,
+                imageVector = Icons.Filled.Edit,
                 onItemClicked = {
                     onAction(ArtMakerAction.SelectStrokeWidth)
                 },

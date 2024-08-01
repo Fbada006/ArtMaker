@@ -22,11 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
+import com.artmaker.composables.CONTROL_MENU_HEIGHT
 import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
@@ -47,11 +47,13 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .weight(1f),
             state = artMakerUIState,
+            onDrawEvent = artMakerViewModel::onDrawEvent,
+            pathList = artMakerViewModel.pathList,
         )
         ArtMakerControlMenu(
             onAction = artMakerViewModel::onAction,
             state = artMakerUIState,
-            modifier = Modifier.height(60.dp),
+            modifier = Modifier.height(CONTROL_MENU_HEIGHT),
         )
     }
 }

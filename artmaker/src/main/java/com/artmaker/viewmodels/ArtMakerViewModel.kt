@@ -16,11 +16,16 @@
 package com.artmaker.viewmodels
 
 import android.content.Context
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.artmaker.actions.ArtMakerAction
+import com.artmaker.actions.DrawEvent
+import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
 import com.artmaker.state.ArtMakerUIState
@@ -36,6 +41,9 @@ internal class ArtMakerViewModel(
         MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
+    private val _pathList = mutableStateListOf<PointsData>()
+    val pathList: SnapshotStateList<PointsData> = _pathList
+
     fun onAction(action: ArtMakerAction) {
         when (action) {
             ArtMakerAction.ExportArt -> exportArt()
@@ -46,6 +54,29 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
             ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth()
         }
+    }
+
+    fun onDrawEvent(event: DrawEvent) {
+        when (event) {
+            is DrawEvent.AddNewShape -> addNewShape(event.offset)
+            DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
+            is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset)
+        }
+    }
+
+    private fun addNewShape(offset: Offset) {
+        val data = PointsData(points = mutableStateListOf(offset), strokeColor = Color(artMakerUIState.value.strokeColour))
+        _pathList.add(data)
+    }
+
+    private fun updateCurrentShape(offset: Offset) {
+        val idx = _pathList.lastIndex
+        _pathList[idx].points.add(offset)
+    }
+
+    private fun undoLastShapePoint() {
+        val idx = _pathList.lastIndex
+        _pathList[idx].points.removeLast()
     }
 
     private fun exportArt() {}
