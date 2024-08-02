@@ -99,7 +99,9 @@ internal class ArtMakerViewModel(
         }
     }
 
-    private fun selectStrokeWidth() {}
+    private fun selectStrokeWidth() {
+
+    }
 
     companion object {
         fun provideFactory(
