@@ -124,6 +124,18 @@ internal class ArtMakerViewModel(
         }
     }
 
+    fun increaseStrokeWidth() {
+        _artMakerUIState.update {
+            it.copy(strokeWidth = it.strokeWidth.inc())
+        }
+    }
+
+    fun decreaseStrokeWidth() {
+        _artMakerUIState.update {
+            it.copy(strokeWidth = it.strokeWidth.dec())
+        }
+    }
+
     companion object {
         fun provideFactory(
             context: Context,

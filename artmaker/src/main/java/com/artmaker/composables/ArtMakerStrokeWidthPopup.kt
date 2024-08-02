@@ -12,13 +12,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.artmaker.state.ArtMakerUIState
+import com.artmaker.viewmodels.ArtMakerViewModel
 
 @Composable
-internal fun ArtMakerStrokeWidthPopup(onDismissRequest: () -> Unit) {
-    Dialog(onDismissRequest = onDismissRequest, properties = DialogProperties(
-        dismissOnClickOutside = true,
-        dismissOnBackPress = true
-    )) {
+internal fun ArtMakerStrokeWidthPopup(
+    onDismissRequest: () -> Unit,
+    artMakerUIState: ArtMakerUIState,
+    artMakerViewModel: ArtMakerViewModel,
+) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true,
+        ),
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -26,10 +35,13 @@ internal fun ArtMakerStrokeWidthPopup(onDismissRequest: () -> Unit) {
                 .padding(14.dp),
             shape = RoundedCornerShape(21.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color.White
+                containerColor = Color.White,
             ),
         ) {
-            ArtMakerStrokeWidthSlider()
+            ArtMakerStrokeWidthSlider(
+                artMakerUIState = artMakerUIState,
+                artMakerViewModel = artMakerViewModel,
+            )
         }
     }
 }
