@@ -34,5 +34,5 @@ sealed interface ArtMakerAction {
 
     data class SelectStrokeColour(val color: Color) : ArtMakerAction
 
-    data object SelectStrokeWidth : ArtMakerAction
+    data class SelectStrokeWidth(val strokeWidthColour: Int) : ArtMakerAction
 }

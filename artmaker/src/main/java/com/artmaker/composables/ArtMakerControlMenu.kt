@@ -152,7 +152,11 @@ internal fun ArtMakerControlMenu(
         }
         if (showStrokeWidthPopup) {
             // onAction(ArtMakerAction.SelectStrokeWidth)
-            ArtMakerStrokeWidthPopup()
+            ArtMakerStrokeWidthPopup(
+                onDismissRequest = {
+                    showStrokeWidthPopup = false
+                }
+            )
         }
     }
 }

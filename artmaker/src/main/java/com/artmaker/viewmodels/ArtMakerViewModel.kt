@@ -38,7 +38,14 @@ internal class ArtMakerViewModel(
 ) : ViewModel() {
 
     private var _artMakerUIState =
-        MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
+        MutableStateFlow(
+            value = ArtMakerUIState(
+                strokeColour = preferences.get(
+                    PreferenceKeys.SELECTED_STROKE_COLOUR,
+                    0,
+                ),
+            ),
+        )
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
     private val _pathList = mutableStateListOf<PointsData>()
@@ -52,7 +59,7 @@ internal class ArtMakerViewModel(
             ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
-            ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth()
+            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidthColour)
         }
     }
 
@@ -65,7 +72,10 @@ internal class ArtMakerViewModel(
     }
 
     private fun addNewShape(offset: Offset) {
-        val data = PointsData(points = mutableStateListOf(offset), strokeColor = Color(artMakerUIState.value.strokeColour))
+        val data = PointsData(
+            points = mutableStateListOf(offset),
+            strokeColor = Color(artMakerUIState.value.strokeColour),
+        )
         _pathList.add(data)
     }
 
@@ -99,8 +109,19 @@ internal class ArtMakerViewModel(
         }
     }
 
-    private fun selectStrokeWidth() {
-
+    private fun selectStrokeWidth(strokeWidth: Int) {
+        preferences.set(
+            key = PreferenceKeys.SELECTED_STROKE_WIDTH,
+            value = strokeWidth,
+        )
+        _artMakerUIState.update {
+            it.copy(
+                strokeWidth = preferences.get(
+                    PreferenceKeys.SELECTED_STROKE_WIDTH,
+                    defaultValue = 5,
+                ),
+            )
+        }
     }
 
     companion object {

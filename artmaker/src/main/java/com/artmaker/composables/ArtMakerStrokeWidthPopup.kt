@@ -14,8 +14,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 @Composable
-internal fun ArtMakerStrokeWidthPopup() {
-    Dialog(onDismissRequest = { /*TODO*/ }, properties = DialogProperties(
+internal fun ArtMakerStrokeWidthPopup(onDismissRequest: () -> Unit) {
+    Dialog(onDismissRequest = onDismissRequest, properties = DialogProperties(
         dismissOnClickOutside = true,
         dismissOnBackPress = true
     )) {
