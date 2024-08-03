@@ -13,13 +13,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.artmaker.state.ArtMakerUIState
-import com.artmaker.viewmodels.ArtMakerViewModel
 
 @Composable
 internal fun ArtMakerStrokeWidthPopup(
     onDismissRequest: () -> Unit,
     artMakerUIState: ArtMakerUIState,
-    artMakerViewModel: ArtMakerViewModel,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -40,7 +38,6 @@ internal fun ArtMakerStrokeWidthPopup(
         ) {
             ArtMakerStrokeWidthSlider(
                 artMakerUIState = artMakerUIState,
-                artMakerViewModel = artMakerViewModel,
             )
         }
     }

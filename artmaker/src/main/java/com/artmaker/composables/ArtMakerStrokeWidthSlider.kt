@@ -1,65 +1,56 @@
 package com.artmaker.composables
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Remove
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.artmaker.state.ArtMakerUIState
-import com.artmaker.viewmodels.ArtMakerViewModel
 
 @Composable
 internal fun ArtMakerStrokeWidthSlider(
     modifier: Modifier = Modifier,
     artMakerUIState: ArtMakerUIState,
-    artMakerViewModel: ArtMakerViewModel,
 ) {
-    Row(
+    var sliderPosition by remember { mutableIntStateOf(value = artMakerUIState.strokeWidth) }
+    Column(
         modifier = modifier
-            .fillMaxWidth()
             .fillMaxSize()
             .padding(all = 7.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
-        Icon(
-            modifier = modifier.clickable {
-                artMakerViewModel.decreaseStrokeWidth()
-            },
-            imageVector = Icons.Rounded.Remove, contentDescription = null, tint = Color.Black,
+        Text(
+            text = sliderPosition.toString(),
+            fontSize = 21.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
         )
-        OutlinedTextField(
-            modifier = modifier.width(width = 70.dp),
-            value = artMakerUIState.strokeWidth.toString(),
+        Slider(
+            value = sliderPosition.toFloat(),
             onValueChange = {
-                // When changed...
+                sliderPosition =
+                    it.toInt()
             },
-            shape = RoundedCornerShape(size = 21.dp),
-            singleLine = true,
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black
+            colors = SliderDefaults.colors(
+                thumbColor = Color.Black,
+                activeTrackColor = Color.DarkGray,
+                inactiveTickColor = Color.LightGray,
             ),
-        )
-        Icon(
-            modifier = modifier.clickable {
-                artMakerViewModel.increaseStrokeWidth()
-            },
-            imageVector = Icons.Rounded.Add, contentDescription = null, tint = Color.Black,
+            valueRange = 5f..30f,
         )
     }
 }

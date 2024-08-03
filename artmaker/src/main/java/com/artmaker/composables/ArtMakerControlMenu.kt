@@ -158,8 +158,7 @@ internal fun ArtMakerControlMenu(
                     onAction(ArtMakerAction.SelectStrokeWidth(strokeWidthColour = state.strokeWidth))
                     showStrokeWidthPopup = false
                 },
-                artMakerUIState = state,
-                artMakerViewModel = artMakerViewModel
+                artMakerUIState = state
             )
         }
     }
