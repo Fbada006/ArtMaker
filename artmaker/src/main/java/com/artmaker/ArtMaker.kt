@@ -51,10 +51,9 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             pathList = artMakerViewModel.pathList,
         )
         ArtMakerControlMenu(
-            onAction = artMakerViewModel::onAction,
             state = artMakerUIState,
-            modifier = Modifier.height(CONTROL_MENU_HEIGHT),
-            artMakerViewModel = artMakerViewModel
+            onAction = artMakerViewModel::onAction,
+            modifier = Modifier.height(CONTROL_MENU_HEIGHT)
         )
     }
 }

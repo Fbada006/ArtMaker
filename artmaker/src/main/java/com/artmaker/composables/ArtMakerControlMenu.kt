@@ -48,7 +48,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.state.ArtMakerUIState
-import com.artmaker.viewmodels.ArtMakerViewModel
 
 val CONTROL_MENU_HEIGHT = 60.dp
 
@@ -62,8 +61,7 @@ val CONTROL_MENU_HEIGHT = 60.dp
 internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
-    modifier: Modifier = Modifier,
-    artMakerViewModel: ArtMakerViewModel
+    modifier: Modifier = Modifier
 ) {
     var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
@@ -154,8 +152,8 @@ internal fun ArtMakerControlMenu(
         }
         if (showStrokeWidthPopup) {
             ArtMakerStrokeWidthPopup(
-                onDismissRequest = {
-                    onAction(ArtMakerAction.SelectStrokeWidth(strokeWidthColour = state.strokeWidth))
+                onDismissRequest = { strokeWidth ->
+                    onAction(ArtMakerAction.SelectStrokeWidth(strokeWidth = strokeWidth))
                     showStrokeWidthPopup = false
                 },
                 artMakerUIState = state

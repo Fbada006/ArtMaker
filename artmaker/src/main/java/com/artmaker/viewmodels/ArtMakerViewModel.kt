@@ -59,7 +59,7 @@ internal class ArtMakerViewModel(
             ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
-            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidthColour)
+            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
         }
     }
 
