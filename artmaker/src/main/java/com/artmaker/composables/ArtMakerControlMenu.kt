@@ -65,7 +65,7 @@ internal fun ArtMakerControlMenu(
 ) {
     var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
-    var showStrokeWidthPopup by remember { mutableStateOf(false) }
+    var showStrokeWidthPopup by remember { mutableStateOf(value = false) }
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
@@ -152,11 +152,11 @@ internal fun ArtMakerControlMenu(
         }
         if (showStrokeWidthPopup) {
             ArtMakerStrokeWidthPopup(
-                onDismissRequest = { strokeWidth ->
-                    onAction(ArtMakerAction.SelectStrokeWidth(strokeWidth = strokeWidth))
+                onDismissRequest = {
                     showStrokeWidthPopup = false
                 },
-                artMakerUIState = state
+                artMakerUIState = state,
+                onAction = onAction
             )
         }
     }
