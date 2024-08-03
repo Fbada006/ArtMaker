@@ -61,7 +61,7 @@ val CONTROL_MENU_HEIGHT = 60.dp
 internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
@@ -156,7 +156,7 @@ internal fun ArtMakerControlMenu(
                     showStrokeWidthPopup = false
                 },
                 artMakerUIState = state,
-                onAction = onAction
+                onAction = onAction,
             )
         }
     }

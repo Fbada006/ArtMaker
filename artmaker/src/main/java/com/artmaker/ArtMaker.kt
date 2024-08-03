@@ -53,7 +53,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
         ArtMakerControlMenu(
             state = artMakerUIState,
             onAction = artMakerViewModel::onAction,
-            modifier = Modifier.height(CONTROL_MENU_HEIGHT)
+            modifier = Modifier.height(CONTROL_MENU_HEIGHT),
         )
     }
 }
