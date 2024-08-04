@@ -16,8 +16,10 @@
 package com.artmaker.viewmodels
 
 import android.content.Context
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -32,6 +34,7 @@ import com.artmaker.state.ArtMakerUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.Stack
 
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
@@ -41,15 +44,60 @@ internal class ArtMakerViewModel(
         MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
-    private val _pathList = mutableStateListOf<PointsData>()
-    val pathList: SnapshotStateList<PointsData> = _pathList
+    /**
+     * Stack to keep track of drawing paths.
+     * Each path consists of a series of [PointsData].
+     */
+    internal val drawPath = Stack<PointsData>()
+
+    /**
+     * Similar to drawPath, but used to store paths that have been undone,
+     * allowing them to be redone later
+     */
+    private val redoPath = Stack<PointsData>()
+
+    /**
+     * Mutable object indicating whether undo action is possible.
+     * Exposed as read-only State properties
+     */
+    private val _canUndo: MutableState<Boolean> = mutableStateOf(false)
+    val canUndo: State<Boolean> = _canUndo
+
+    /**
+     * Mutable object indicating whether undo action is possible.
+     * Exposed as read-only State properties
+     */
+    private val _canRedo: MutableState<Boolean> = mutableStateOf(false)
+    val canRedo: State<Boolean> = _canRedo
+
+    /**
+     * MutableStateFlow used internally to trigger UI updates
+     * whenever the drawing state changes significantly.
+     */
+    internal var reviseTick = MutableStateFlow(0)
+
+    /**
+     * Updates _canUndo and _canRedo states based on whether there are paths available to undo or redo.
+     */
+    private fun updateRevised() {
+        _canUndo.value = drawPath.isNotEmpty()
+        _canRedo.value = redoPath.isNotEmpty()
+    }
+
+    /**
+     * Clears the redoPath stack.
+     * Typically called before modifying the current drawing path to prevent unwanted redos.
+     */
+    private fun clearRedoPath() {
+        redoPath.clear()
+    }
 
     fun onAction(action: ArtMakerAction) {
         when (action) {
             ArtMakerAction.ExportArt -> exportArt()
-            ArtMakerAction.Redo -> redo()
-            ArtMakerAction.Undo -> undo()
-            ArtMakerAction.Clear -> clear()
+            ArtMakerAction.Redo -> redoArt()
+            ArtMakerAction.Undo -> undoArt()
+            ArtMakerAction.Clear -> clearArt()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
             ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth()
@@ -66,26 +114,56 @@ internal class ArtMakerViewModel(
 
     private fun addNewShape(offset: Offset) {
         val data = PointsData(points = mutableStateListOf(offset), strokeColor = Color(artMakerUIState.value.strokeColour))
-        _pathList.add(data)
+        drawPath.add(data)
     }
 
+    /**
+     * Updates the current shape by adding a new point at the given offset.
+     * Also clears the redoPath to maintain state consistency.
+     */
     private fun updateCurrentShape(offset: Offset) {
-        val idx = _pathList.lastIndex
-        _pathList[idx].points.add(offset)
+        clearRedoPath()
+        val idy = drawPath.lastIndex
+        drawPath[idy].points.add(offset)
+        updateRevised()
     }
 
+    /**
+     * Removes the last point from the current shape, effectively undoing the last action.
+     * Also clears the redoPath to maintain state consistency.
+     */
     private fun undoLastShapePoint() {
-        val idx = _pathList.lastIndex
-        _pathList[idx].points.removeLast()
+        clearRedoPath()
+        val idx = drawPath.lastIndex
+        drawPath[idx].points.removeLast()
+        updateRevised()
     }
 
     private fun exportArt() {}
 
-    private fun redo() {}
+    /** Executes redo the drawn points if possible. */
+    private fun redoArt() {
+        if (canRedo.value) {
+            drawPath.push(redoPath.pop())
+            reviseTick.value++
+            updateRevised()
+        }
+    }
 
-    private fun undo() {}
+    private fun undoArt() {
+        if (canUndo.value) {
+            redoPath.push(drawPath.pop())
+            reviseTick.value++
+            updateRevised()
+        }
+    }
 
-    private fun clear() {}
+    private fun clearArt() {
+        drawPath.clear()
+        redoPath.clear()
+        updateRevised()
+        reviseTick.value++
+    }
 
     private fun updateBackgroundColour() {}
 
