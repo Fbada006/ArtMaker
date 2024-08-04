@@ -16,11 +16,27 @@
 package com.artmaker.viewmodels
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.graphics.Matrix
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.artmaker.actions.ArtMakerAction
@@ -29,6 +45,7 @@ import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
 import com.artmaker.state.ArtMakerUIState
+import com.google.modernstorage.photopicker.PhotoPicker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -43,6 +60,20 @@ internal class ArtMakerViewModel(
 
     private val _pathList = mutableStateListOf<PointsData>()
     val pathList: SnapshotStateList<PointsData> = _pathList
+
+
+    /** An [ImageBitmap] to draw a bitmap on the canvas as a background. */
+//    internal var imageBitmap: ImageBitmap? = null
+    private val _imageBit:MutableState<ImageBitmap?> = mutableStateOf(null)
+    val imageBit = _imageBit
+
+    /** An [ImageBitmap] to draw paths on the canvas. */
+    internal var pathBitmap: ImageBitmap? = null
+
+    internal val bitmapSize: MutableState<IntSize> = mutableStateOf(IntSize(0, 0))
+
+    internal val imageBitmapMatrix: MutableState<Matrix> = mutableStateOf(Matrix())
+
 
     fun onAction(action: ArtMakerAction) {
         when (action) {
@@ -98,7 +129,34 @@ internal class ArtMakerViewModel(
             it.copy(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0))
         }
     }
+    /** Sets an [ImageBitmap] to draw on the canvas as a background. */
+    fun setImage(bitmap: ImageBitmap?) {
+        _imageBit.value = bitmap
+    }
 
+    /** Clear the image bitmap. */
+    fun clearImageBitmap() {
+        setImage(null)
+        imageBitmapMatrix.value = Matrix()
+    }
+
+    internal fun releaseBitmap() {
+        pathBitmap?.asAndroidBitmap()?.recycle()
+        pathBitmap = null
+    }
+
+//    fun getImageBitmap(): ImageBitmap {
+//        val size = bitmapSize.value
+//        val combinedBitmap = ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888)
+//        val canvas = Canvas(combinedBitmap)
+//        _imageBit.value?.let {
+//            val immutableBitmap = it.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
+//            canvas.nativeCanvas.drawBitmap(immutableBitmap, imageBitmapMatrix.value, null)
+//            immutableBitmap.recycle()
+//        }
+//        pathBitmap?.let { canvas.drawImage(it, Offset.Zero, Paint()) }
+//        return combinedBitmap
+//    }
     private fun selectStrokeWidth() {}
 
     companion object {
