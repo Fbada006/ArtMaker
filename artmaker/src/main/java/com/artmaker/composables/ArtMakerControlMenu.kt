@@ -123,8 +123,7 @@ internal fun ArtMakerControlMenu(
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()
-                        .padding(10.dp),
-
+                        .padding(bottom = 10.dp),
                 ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,

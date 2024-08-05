@@ -15,12 +15,17 @@
  */
 package com.artmaker.composables
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -38,11 +43,15 @@ import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
 import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import kotlinx.coroutines.launch
 
 /**
  * [ArtMakerDrawScreen] Composable where we will implement the draw logic.
  * For now, this is just an empty blue screen.
  */
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
@@ -63,11 +72,36 @@ internal fun ArtMakerDrawScreen(
     val clippedScreenHeight = screenHeightPx - yOffset
 
     val graphicsLayer = rememberGraphicsLayer()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val writeStorageAccessState = rememberMultiplePermissionsState(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // No permissions are needed on Android 10+ to add files in the shared storage
+            emptyList()
+        } else {
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    )
 
     LaunchedEffect(key1 = shouldTriggerArtExport) {
         if (shouldTriggerArtExport) {
-            val bitmap = graphicsLayer.toImageBitmap()
-            onAction(ArtMakerAction.ExportArt(bitmap))
+            if (writeStorageAccessState.allPermissionsGranted) {
+                val bitmap = graphicsLayer.toImageBitmap()
+                onAction(ArtMakerAction.ExportArt(bitmap))
+            } else if (writeStorageAccessState.shouldShowRationale) {
+                launch {
+                    val result = snackbarHostState.showSnackbar(
+                        message = "The storage permission is needed to save the image.",
+                        actionLabel = "Grant Access"
+                    )
+
+                    if (result == SnackbarResult.ActionPerformed) {
+                        writeStorageAccessState.launchMultiplePermissionRequest()
+                    }
+                }
+            } else {
+                writeStorageAccessState.launchMultiplePermissionRequest()
+            }
         }
     }
 
