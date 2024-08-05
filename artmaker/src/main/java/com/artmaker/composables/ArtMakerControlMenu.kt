@@ -152,11 +152,7 @@ internal fun ArtMakerControlMenu(
         }
         if (showStrokeWidthPopup) {
             ArtMakerStrokeWidthPopup(
-                onDismissRequest = {
-                    showStrokeWidthPopup = false
-                },
-                artMakerUIState = state,
-                onAction = onAction,
+                artMakerUIState = state
             )
         }
     }
