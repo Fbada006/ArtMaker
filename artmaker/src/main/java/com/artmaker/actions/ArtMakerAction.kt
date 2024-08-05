@@ -15,7 +15,6 @@
  */
 package com.artmaker.actions
 
-import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 
 /**

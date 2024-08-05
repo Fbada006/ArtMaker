@@ -56,9 +56,15 @@ fun ArtMaker(modifier: Modifier = Modifier) {
         val size = artMakerViewModel.bitmapSize.value
         val combinedBitmap = ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888)
         val canvas = Canvas(combinedBitmap)
-        artMakerViewModel.imageBit.value?.let {
+        /**
+         * Checks if there is an image bitmap available in the ViewModel.
+         * If so, it converts the Jetpack Compose ImageBitmap to an Android Bitmap,
+         * makes an immutable copy, draws it onto the native canvas at position (0,0),
+         * and then recycles the bitmap to free up memory resources.
+         */
+        artMakerViewModel.imageBitmap.value?.let {
             val immutableBitmap = it.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
-            canvas.nativeCanvas.drawBitmap(immutableBitmap, artMakerViewModel.imageBitmapMatrix.value, null)
+            canvas.nativeCanvas.drawBitmap(immutableBitmap, 0f, 0f, null)
             immutableBitmap.recycle()
         }
         artMakerViewModel.pathBitmap?.let { canvas.drawImage(it, Offset.Zero, Paint()) }
@@ -70,7 +76,8 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .weight(1f),
             state = artMakerUIState,
             onDrawEvent = artMakerViewModel::onDrawEvent,
-            viewModel = artMakerViewModel
+            viewModel = artMakerViewModel,
+
         )
         ArtMakerControlMenu(
             onAction = artMakerViewModel::onAction,

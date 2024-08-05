@@ -15,18 +15,14 @@
  */
 package com.artmaker.composables
 
-import android.graphics.Matrix
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -45,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.DrawEvent
-import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
 import com.artmaker.viewmodels.ArtMakerViewModel
 
@@ -61,7 +56,7 @@ internal fun ArtMakerDrawScreen(
     viewModel: ArtMakerViewModel,
     imageBitmap: ImageBitmap? = null,
 
-    ) {
+) {
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
 
@@ -71,7 +66,6 @@ internal fun ArtMakerDrawScreen(
     val yOffset = with(density) { (CONTROL_MENU_HEIGHT + 2.dp).toPx() }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
-    var canvas: Canvas? = null
 
     DisposableEffect(key1 = viewModel) {
         viewModel.setImage(imageBitmap)
@@ -91,7 +85,7 @@ internal fun ArtMakerDrawScreen(
                 viewModel.pathBitmap =
                     ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888)
                         .also { imageBitmap ->
-                            canvas = Canvas(imageBitmap)
+                            Canvas(imageBitmap)
                             viewModel.bitmapSize.value = size
                         }
             }
@@ -115,26 +109,22 @@ internal fun ArtMakerDrawScreen(
                     val clampedOffset =
                         Offset(x = offset.x, y = clamp(offset.y, 0f, clippedScreenHeight))
                     onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
-
                 }
             },
         onDraw = {
-            drawIntoCanvas { canvas->
-                viewModel.imageBit?.let {
-                    val shader = it.value?.let { it1 -> ImageShader(it1, TileMode.Clamp) }
-                    val brush = shader?.let { it1 -> ShaderBrush(it1) }
-                    val shaderMatrix = Matrix()
-                    // cache the paint in the internal stack.
-                    if (brush != null) {
-                        drawRect(brush = brush, size = viewModel.bitmapSize.value.toSize())
-                    }
-//                    canvas.restore()
-                    viewModel.imageBitmapMatrix.value = shaderMatrix
+            drawIntoCanvas { canvas ->
+                viewModel.imageBitmap.value?.let { imageBitmap ->
+                    val shader = ImageShader(imageBitmap, TileMode.Clamp)
+                    val brush = ShaderBrush(shader)
+                    drawRect(
+                        brush = brush,
+                        size = viewModel.bitmapSize.value.toSize(),
+                    )
                     viewModel.pathBitmap?.let { bitmap ->
                         canvas.drawImage(bitmap, Offset.Zero, Paint())
                     }
                 }
-                viewModel.pathList.forEach { data->
+                viewModel.pathList.forEach { data ->
                     drawPoints(
                         points = data.points,
                         pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape

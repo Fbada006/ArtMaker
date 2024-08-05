@@ -16,7 +16,6 @@
 package com.artmaker.composables
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
@@ -74,7 +73,7 @@ internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ArtMakerViewModel
+    viewModel: ArtMakerViewModel,
 ) {
     val context = LocalContext.current
     val photoPicker =
