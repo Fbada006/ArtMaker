@@ -136,7 +136,7 @@ internal class ArtMakerViewModel(
                         preferences = ArtMakerSharedPreferences(
                             context = application,
                         ),
-                        application = application
+                        application = application,
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")
