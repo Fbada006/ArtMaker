@@ -16,9 +16,9 @@
 package com.artmaker.composables
 
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
-import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -80,9 +80,11 @@ internal fun ArtMakerControlMenu(
         rememberLauncherForActivityResult(PhotoPicker()) { uris ->
             val uri = uris.firstOrNull() ?: return@rememberLauncherForActivityResult
             val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                // For Android 9.0 (API level 28) and above
                 ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
             } else {
-                MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                // For Android versions below 9.0
+                BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
             }
             viewModel.setImage(bitmap.asImageBitmap())
         }
