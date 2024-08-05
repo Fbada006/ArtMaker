@@ -24,9 +24,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.artmaker.actions.ArtMakerAction
@@ -54,21 +52,7 @@ internal class ArtMakerViewModel(
      * Private mutable state holding the current image bitmap..
      */
     private val _imageBitmap: MutableState<ImageBitmap?> = mutableStateOf(null)
-
-    /**
-     * Public state that observes changes on the imageBitmap as read-only
-     */
     val imageBitmap: State<ImageBitmap?> = _imageBitmap
-
-    /**
-     * Holds an optional ImageBitmap representing a path or overlay that can be drawn on top of the main image bitmap.
-     */
-    internal var pathBitmap: ImageBitmap? = null
-
-    /**
-     * Mutable state holding the size of the bitmap.
-     */
-    internal val bitmapSize: MutableState<IntSize> = mutableStateOf(IntSize(0, 0))
 
     fun onAction(action: ArtMakerAction) {
         when (action) {
@@ -128,22 +112,6 @@ internal class ArtMakerViewModel(
     /** Sets an [ImageBitmap] to draw on the canvas as a background. */
     fun setImage(bitmap: ImageBitmap?) {
         _imageBitmap.value = bitmap
-    }
-
-    /**
-     * Clears the current image bitmap by setting it to null.
-     * This function is intended to reset the image bitmap state, effectively removing the current image.
-     */
-    fun clearImageBitmap() {
-        setImage(null)
-    }
-
-    /**
-     * Releases the resources held by the pathBitmap if it exists.
-     */
-    internal fun releaseBitmap() {
-        pathBitmap?.asAndroidBitmap()?.recycle()
-        pathBitmap = null
     }
 
     private fun selectStrokeWidth() {}

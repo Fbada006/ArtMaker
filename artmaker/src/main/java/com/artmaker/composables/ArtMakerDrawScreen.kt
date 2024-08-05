@@ -20,15 +20,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.ImageBitmapConfig
 import androidx.compose.ui.graphics.ImageShader
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
@@ -37,12 +38,13 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.DrawEvent
+import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
-import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
  * [ArtMakerDrawScreen] Composable where we will implement the draw logic.
@@ -53,8 +55,8 @@ internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
     state: ArtMakerUIState,
     onDrawEvent: (DrawEvent) -> Unit,
-    viewModel: ArtMakerViewModel,
-    imageBitmap: ImageBitmap? = null,
+    pathList: SnapshotStateList<PointsData>,
+    imageBitmap: ImageBitmap?,
 
 ) {
     val density = LocalDensity.current
@@ -67,27 +69,16 @@ internal fun ArtMakerDrawScreen(
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
 
-    DisposableEffect(key1 = viewModel) {
-        viewModel.setImage(imageBitmap)
-
-        onDispose {
-            viewModel.releaseBitmap()
-            viewModel.clearImageBitmap()
-        }
+    var bitmapSize by remember {
+        mutableStateOf(IntSize(0, 0))
     }
+
     Canvas(
         modifier = modifier
             .background(color = Color(color = state.backgroundColour))
             .onSizeChanged { updatedSize ->
-                val size =
+                bitmapSize =
                     updatedSize.takeIf { it.height != 0 && it.width != 0 } ?: return@onSizeChanged
-                viewModel.releaseBitmap()
-                viewModel.pathBitmap =
-                    ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888)
-                        .also { imageBitmap ->
-                            Canvas(imageBitmap)
-                            viewModel.bitmapSize.value = size
-                        }
             }
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -113,18 +104,15 @@ internal fun ArtMakerDrawScreen(
             },
         onDraw = {
             drawIntoCanvas { canvas ->
-                viewModel.imageBitmap.value?.let { imageBitmap ->
+                imageBitmap?.let { imageBitmap ->
                     val shader = ImageShader(imageBitmap, TileMode.Clamp)
                     val brush = ShaderBrush(shader)
                     drawRect(
                         brush = brush,
-                        size = viewModel.bitmapSize.value.toSize(),
+                        size = bitmapSize.toSize(),
                     )
-                    viewModel.pathBitmap?.let { bitmap ->
-                        canvas.drawImage(bitmap, Offset.Zero, Paint())
-                    }
                 }
-                viewModel.pathList.forEach { data ->
+                pathList.forEach { data ->
                     drawPoints(
                         points = data.points,
                         pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape

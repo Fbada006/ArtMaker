@@ -15,21 +15,12 @@
  */
 package com.artmaker
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Canvas
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.ImageBitmapConfig
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,23 +43,6 @@ fun ArtMaker(modifier: Modifier = Modifier) {
     )
     val artMakerUIState by artMakerViewModel.artMakerUIState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = Unit) {
-        val size = artMakerViewModel.bitmapSize.value
-        val combinedBitmap = ImageBitmap(size.width, size.height, ImageBitmapConfig.Argb8888)
-        val canvas = Canvas(combinedBitmap)
-        /**
-         * Checks if there is an image bitmap available in the ViewModel.
-         * If so, it converts the Jetpack Compose ImageBitmap to an Android Bitmap,
-         * makes an immutable copy, draws it onto the native canvas at position (0,0),
-         * and then recycles the bitmap to free up memory resources.
-         */
-        artMakerViewModel.imageBitmap.value?.let {
-            val immutableBitmap = it.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
-            canvas.nativeCanvas.drawBitmap(immutableBitmap, 0f, 0f, null)
-            immutableBitmap.recycle()
-        }
-        artMakerViewModel.pathBitmap?.let { canvas.drawImage(it, Offset.Zero, Paint()) }
-    }
     Column(modifier = modifier) {
         ArtMakerDrawScreen(
             modifier = Modifier
@@ -76,8 +50,8 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .weight(1f),
             state = artMakerUIState,
             onDrawEvent = artMakerViewModel::onDrawEvent,
-            viewModel = artMakerViewModel,
-
+            pathList = artMakerViewModel.pathList,
+            imageBitmap = artMakerViewModel.imageBitmap.value,
         )
         ArtMakerControlMenu(
             onAction = artMakerViewModel::onAction,
