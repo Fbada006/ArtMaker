@@ -15,6 +15,7 @@
  */
 package com.artmaker.composables
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -39,27 +40,27 @@ internal fun ArtMakerStrokeWidthSlider(
     sliderPosition: Float,
     onValueChange: (Float) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .padding(all = 7.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            text = sliderPosition.toInt().toString(),
-            fontSize = 21.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-        )
-        Slider(
-            value = sliderPosition,
-            onValueChange = onValueChange,
-            colors = SliderDefaults.colors(
-                thumbColor = Color.Black,
-                activeTrackColor = Color.DarkGray,
-                inactiveTickColor = Color.LightGray,
-            ),
-            valueRange = 5f..30f,
-        )
-    }
+        Column(
+            modifier = modifier
+                .padding(all = 7.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = sliderPosition.toInt().toString(),
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+            )
+            Slider(
+                value = sliderPosition,
+                onValueChange = onValueChange,
+                colors = SliderDefaults.colors(
+                    thumbColor = Color.Black,
+                    activeTrackColor = Color.DarkGray,
+                    inactiveTickColor = Color.LightGray,
+                ),
+                valueRange = 5f..30f,
+            )
+        }
 }

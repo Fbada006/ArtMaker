@@ -15,6 +15,7 @@
  */
 package com.artmaker.composables
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,25 +42,28 @@ import com.artmaker.state.ArtMakerUIState
 internal fun ArtMakerStrokeWidthPopup(
     artMakerUIState: ArtMakerUIState,
     //onAction: (ArtMakerAction) -> Unit,
+    isVisible: Boolean
 ) {
     var sliderPosition by remember { mutableIntStateOf(value = artMakerUIState.strokeWidth) }
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly,
-    ) {
-        Text(
-            text = "Drag to select Stroke Width",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-        )
-        ArtMakerStrokeWidthSlider(
-            sliderPosition = sliderPosition.toFloat(),
-            onValueChange = {
-                sliderPosition = it.toInt()
-            },
-        )
+    AnimatedVisibility(visible = isVisible) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
+        ) {
+            Text(
+                text = "Drag to select Stroke Width",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+            )
+            ArtMakerStrokeWidthSlider(
+                sliderPosition = sliderPosition.toFloat(),
+                onValueChange = {
+                    sliderPosition = it.toInt()
+                }
+            )
+        }
     }
 }

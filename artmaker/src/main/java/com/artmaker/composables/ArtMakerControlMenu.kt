@@ -85,7 +85,7 @@ internal fun ArtMakerControlMenu(
             )
             MenuItem(
                 imageVector = Icons.Filled.Edit,
-                onItemClicked = { showStrokeWidthPopup = true },
+                onItemClicked = { showStrokeWidthPopup = !showStrokeWidthPopup },
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
@@ -124,7 +124,7 @@ internal fun ArtMakerControlMenu(
                         .navigationBarsPadding()
                         .padding(10.dp),
 
-                ) {
+                    ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {
@@ -150,11 +150,10 @@ internal fun ArtMakerControlMenu(
                 },
             )
         }
-        if (showStrokeWidthPopup) {
-            ArtMakerStrokeWidthPopup(
-                artMakerUIState = state
-            )
-        }
+        ArtMakerStrokeWidthPopup(
+            artMakerUIState = state,
+            isVisible = showStrokeWidthPopup,
+        )
     }
 }
 
