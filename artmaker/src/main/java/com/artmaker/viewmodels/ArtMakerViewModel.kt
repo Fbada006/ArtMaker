@@ -15,27 +15,36 @@
  */
 package com.artmaker.viewmodels
 
-import android.content.Context
+import android.app.Application
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
 import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
 import com.artmaker.state.ArtMakerUIState
+import com.artmaker.utils.saveToDisk
+import com.artmaker.utils.shareBitmap
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
-) : ViewModel() {
+    private val application: Application,
+) : AndroidViewModel(application) {
 
     private var _artMakerUIState =
         MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
@@ -44,9 +53,13 @@ internal class ArtMakerViewModel(
     private val _pathList = mutableStateListOf<PointsData>()
     val pathList: SnapshotStateList<PointsData> = _pathList
 
+    private val _shouldTriggerArtExport = MutableStateFlow(false)
+    val shouldTriggerArtExport: StateFlow<Boolean> = _shouldTriggerArtExport
+
     fun onAction(action: ArtMakerAction) {
         when (action) {
-            ArtMakerAction.ExportArt -> exportArt()
+            ArtMakerAction.TriggerArtExport -> triggerArtExport()
+            is ArtMakerAction.ExportArt -> exportArt(action.bitmap)
             ArtMakerAction.Redo -> redo()
             ArtMakerAction.Undo -> undo()
             ArtMakerAction.Clear -> clear()
@@ -79,7 +92,18 @@ internal class ArtMakerViewModel(
         _pathList[idx].points.removeLast()
     }
 
-    private fun exportArt() {}
+    private fun triggerArtExport() {
+        _shouldTriggerArtExport.value = true
+    }
+
+    private fun exportArt(bitmap: ImageBitmap) {
+        _shouldTriggerArtExport.value = true
+        viewModelScope.launch {
+            val uri = bitmap.asAndroidBitmap().saveToDisk(application)
+            _shouldTriggerArtExport.value = false
+            shareBitmap(application, uri)
+        }
+    }
 
     private fun redo() {}
 
@@ -103,15 +127,16 @@ internal class ArtMakerViewModel(
 
     companion object {
         fun provideFactory(
-            context: Context,
+            application: Application,
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(ArtMakerViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
                     return ArtMakerViewModel(
                         preferences = ArtMakerSharedPreferences(
-                            context = context,
+                            context = application,
                         ),
+                        application = application
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")

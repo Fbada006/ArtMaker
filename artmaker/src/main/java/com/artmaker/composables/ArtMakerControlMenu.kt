@@ -129,7 +129,7 @@ internal fun ArtMakerControlMenu(
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {
-                            onAction(ArtMakerAction.ExportArt)
+                            onAction(ArtMakerAction.TriggerArtExport)
                         },
                     )
                     MenuItem(
