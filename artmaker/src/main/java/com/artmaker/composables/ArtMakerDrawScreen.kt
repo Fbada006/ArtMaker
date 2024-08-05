@@ -80,7 +80,7 @@ internal fun ArtMakerDrawScreen(
             emptyList()
         } else {
             listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
+        },
     )
 
     LaunchedEffect(key1 = shouldTriggerArtExport) {
@@ -92,7 +92,7 @@ internal fun ArtMakerDrawScreen(
                 launch {
                     val result = snackbarHostState.showSnackbar(
                         message = "The storage permission is needed to save the image.",
-                        actionLabel = "Grant Access"
+                        actionLabel = "Grant Access",
                     )
 
                     if (result == SnackbarResult.ActionPerformed) {
