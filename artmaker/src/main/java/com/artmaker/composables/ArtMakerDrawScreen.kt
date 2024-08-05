@@ -27,9 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -55,10 +53,7 @@ internal fun ArtMakerDrawScreen(
     onDrawEvent: (DrawEvent) -> Unit,
     drawPath: Stack<PointsData>,
     artMakerViewModel: ArtMakerViewModel,
-    onRevisedListener: ((canUndo: Boolean, canRedo: Boolean) -> Unit)? = null,
-
 ) {
-    val canvas: Canvas? = null
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
     // Initializes a mutable state to track invalidations, triggering redraws.
@@ -78,16 +73,6 @@ internal fun ArtMakerDrawScreen(
     SideEffect {
         coroutineScope.launch(Dispatchers.Main) {
             artMakerViewModel.reviseTick.collect {
-                val drawPaths = artMakerViewModel.drawPath
-                if (drawPaths.isNotEmpty()) {
-                    drawPaths.forEach { data ->
-                        canvas?.drawPoints(
-                            points = data.points,
-                            pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon,
-                            paint = Paint(),
-                        )
-                    }
-                }
                 invalidatorTick.value++
             }
         }
@@ -120,18 +105,16 @@ internal fun ArtMakerDrawScreen(
                 }
             },
         onDraw = {
-            drawPath.forEach { data ->
-                drawPoints(
-                    points = data.points,
-                    pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
-                    color = data.strokeColor,
-                    strokeWidth = data.strokeWidth,
-                    alpha = data.alpha,
-                )
-            }
-            // Calls the listener with current undo/redo states if the screen has been invalidated.
             if (invalidatorTick.value != 0) {
-                onRevisedListener?.invoke(artMakerViewModel.canUndo.value, artMakerViewModel.canRedo.value)
+                drawPath.forEach { data ->
+                    drawPoints(
+                        points = data.points,
+                        pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
+                        color = data.strokeColor,
+                        strokeWidth = data.strokeWidth,
+                        alpha = data.alpha,
+                    )
+                }
             }
         },
     )
