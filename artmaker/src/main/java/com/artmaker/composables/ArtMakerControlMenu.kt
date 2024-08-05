@@ -62,10 +62,10 @@ internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
     modifier: Modifier = Modifier,
+    onShowStrokeWidthPopup: () -> Unit
 ) {
     var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
-    var showStrokeWidthPopup by remember { mutableStateOf(value = false) }
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
@@ -85,7 +85,7 @@ internal fun ArtMakerControlMenu(
             )
             MenuItem(
                 imageVector = Icons.Filled.Edit,
-                onItemClicked = { showStrokeWidthPopup = !showStrokeWidthPopup },
+                onItemClicked = onShowStrokeWidthPopup,
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
@@ -150,11 +150,6 @@ internal fun ArtMakerControlMenu(
                 },
             )
         }
-        ArtMakerStrokeWidthPopup(
-            artMakerUIState = state,
-            isVisible = showStrokeWidthPopup,
-            onAction = onAction
-        )
     }
 }
 

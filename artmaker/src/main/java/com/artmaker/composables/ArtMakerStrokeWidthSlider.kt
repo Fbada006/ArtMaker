@@ -15,10 +15,10 @@
  */
 package com.artmaker.composables
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -50,15 +50,15 @@ internal fun ArtMakerStrokeWidthSlider(
                 text = sliderPosition.toInt().toString(),
                 fontSize = 21.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.primary,
             )
             Slider(
                 value = sliderPosition,
                 onValueChange = onValueChange,
                 colors = SliderDefaults.colors(
-                    thumbColor = Color.Black,
-                    activeTrackColor = Color.DarkGray,
-                    inactiveTickColor = Color.LightGray,
+                    thumbColor = MaterialTheme.colorScheme.primary,
+                    activeTrackColor = MaterialTheme.colorScheme.inversePrimary,
+                    inactiveTickColor = MaterialTheme.colorScheme.onBackground,
                 ),
                 valueRange = 5f..30f,
             )

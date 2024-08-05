@@ -16,10 +16,14 @@
 package com.artmaker.composables
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,13 +48,16 @@ import com.artmaker.state.ArtMakerUIState
 internal fun ArtMakerStrokeWidthPopup(
     artMakerUIState: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
-    isVisible: Boolean
+    isVisible: Boolean,
 ) {
     var sliderPosition by remember { mutableIntStateOf(value = artMakerUIState.strokeWidth) }
     AnimatedVisibility(visible = isVisible) {
         Column(
             modifier = Modifier
-                .fillMaxSize().padding(),
+                .height(height = 100.dp)
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(top = 14.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
@@ -58,14 +65,14 @@ internal fun ArtMakerStrokeWidthPopup(
                 text = "Drag to select Stroke Width",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.primary,
             )
             ArtMakerStrokeWidthSlider(
                 sliderPosition = sliderPosition.toFloat(),
                 onValueChange = {
                     sliderPosition = it.toInt()
                     onAction(ArtMakerAction.SelectStrokeWidth(strokeWidth = sliderPosition))
-                }
+                },
             )
         }
     }
