@@ -153,6 +153,7 @@ internal fun ArtMakerControlMenu(
         ArtMakerStrokeWidthPopup(
             artMakerUIState = state,
             isVisible = showStrokeWidthPopup,
+            onAction = onAction
         )
     }
 }
