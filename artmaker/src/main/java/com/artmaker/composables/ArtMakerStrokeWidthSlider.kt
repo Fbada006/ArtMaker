@@ -25,13 +25,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
- * This is a [Slider] that allows the user to select their desired Stroke Width withing the specified range.
+ * This is a [Slider] that allows the user to select their desired Stroke Width within the specified range.
  */
 
 @Composable
@@ -40,27 +39,27 @@ internal fun ArtMakerStrokeWidthSlider(
     sliderPosition: Float,
     onValueChange: (Float) -> Unit,
 ) {
-        Column(
-            modifier = modifier
-                .padding(all = 7.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text = sliderPosition.toInt().toString(),
-                fontSize = 21.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            Slider(
-                value = sliderPosition,
-                onValueChange = onValueChange,
-                colors = SliderDefaults.colors(
-                    thumbColor = MaterialTheme.colorScheme.primary,
-                    activeTrackColor = MaterialTheme.colorScheme.inversePrimary,
-                    inactiveTickColor = MaterialTheme.colorScheme.onBackground,
-                ),
-                valueRange = 5f..30f,
-            )
-        }
+    Column(
+        modifier = modifier
+            .padding(all = 7.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = sliderPosition.toInt().toString(),
+            fontSize = 21.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+        )
+        Slider(
+            value = sliderPosition,
+            onValueChange = onValueChange,
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colorScheme.primary,
+                activeTrackColor = MaterialTheme.colorScheme.inversePrimary,
+                inactiveTickColor = MaterialTheme.colorScheme.onBackground,
+            ),
+            valueRange = 5f..30f,
+        )
+    }
 }

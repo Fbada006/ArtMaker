@@ -62,7 +62,7 @@ internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
     modifier: Modifier = Modifier,
-    onShowStrokeWidthPopup: () -> Unit
+    onShowStrokeWidthPopup: () -> Unit,
 ) {
     var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }

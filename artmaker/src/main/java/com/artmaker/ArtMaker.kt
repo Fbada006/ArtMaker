@@ -54,14 +54,18 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             onDrawEvent = artMakerViewModel::onDrawEvent,
             pathList = artMakerViewModel.pathList,
         )
-        ArtMakerStrokeWidthPopup(artMakerUIState = artMakerUIState, onAction = artMakerViewModel::onAction, isVisible = showStrokeWidthPopup)
+        ArtMakerStrokeWidthPopup(
+            artMakerUIState = artMakerUIState,
+            onAction = artMakerViewModel::onAction,
+            isVisible = showStrokeWidthPopup,
+        )
         ArtMakerControlMenu(
             state = artMakerUIState,
             onAction = artMakerViewModel::onAction,
             modifier = Modifier.height(CONTROL_MENU_HEIGHT),
             onShowStrokeWidthPopup = {
                 showStrokeWidthPopup = !showStrokeWidthPopup
-            }
+            },
         )
     }
 }
