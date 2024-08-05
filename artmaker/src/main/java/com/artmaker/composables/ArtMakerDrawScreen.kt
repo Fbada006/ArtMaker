@@ -20,11 +20,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -37,10 +33,6 @@ import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.DrawEvent
 import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
-import com.artmaker.viewmodels.ArtMakerViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.Stack
 
 /**
  * [ArtMakerDrawScreen] Composable where we will implement the draw logic.
@@ -51,13 +43,10 @@ internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
     state: ArtMakerUIState,
     onDrawEvent: (DrawEvent) -> Unit,
-    drawPath: Stack<PointsData>,
-    artMakerViewModel: ArtMakerViewModel,
+    pathList: SnapshotStateList<PointsData>,
 ) {
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
-    // Initializes a mutable state to track invalidations, triggering redraws.
-    val invalidatorTick: MutableState<Int> = remember { mutableIntStateOf(0) }
 
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
@@ -66,17 +55,6 @@ internal fun ArtMakerDrawScreen(
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
 
-    val coroutineScope = rememberCoroutineScope()
-    /**
-     * SideEffect block to collect changes from artMakerViewModel.reviseTick and trigger redraws.
-     */
-    SideEffect {
-        coroutineScope.launch(Dispatchers.Main) {
-            artMakerViewModel.reviseTick.collect {
-                invalidatorTick.value++
-            }
-        }
-    }
     Canvas(
         modifier = modifier
             .background(color = Color(color = state.backgroundColour))
@@ -100,21 +78,17 @@ internal fun ArtMakerDrawScreen(
                     val clampedOffset =
                         Offset(x = offset.x, y = clamp(offset.y, 0f, clippedScreenHeight))
                     onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
-                    // Triggers a redraw after each drag gesture.
-                    invalidatorTick.value++
                 }
             },
         onDraw = {
-            if (invalidatorTick.value != 0) {
-                drawPath.forEach { data ->
-                    drawPoints(
-                        points = data.points,
-                        pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
-                        color = data.strokeColor,
-                        strokeWidth = data.strokeWidth,
-                        alpha = data.alpha,
-                    )
-                }
+            pathList.forEach { data ->
+                drawPoints(
+                    points = data.points,
+                    pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
+                    color = data.strokeColor,
+                    strokeWidth = data.strokeWidth,
+                    alpha = data.alpha,
+                )
             }
         },
     )

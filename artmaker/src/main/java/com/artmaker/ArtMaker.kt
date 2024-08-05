@@ -48,8 +48,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .weight(1f),
             state = artMakerUIState,
             onDrawEvent = artMakerViewModel::onDrawEvent,
-            drawPath = artMakerViewModel.drawPath,
-            artMakerViewModel = artMakerViewModel,
+            pathList = artMakerViewModel.pathList,
         )
         ArtMakerControlMenu(
             onAction = artMakerViewModel::onAction,

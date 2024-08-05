@@ -17,6 +17,7 @@ package com.artmaker.viewmodels
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -41,38 +42,17 @@ internal class ArtMakerViewModel(
         MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
-    /**
-     * Stack to keep track of drawing paths.
-     * Each path consists of a series of [PointsData].
-     */
-    internal val drawPath = Stack<PointsData>()
+    private val undoStack = Stack<PointsData>()
 
-    /**
-     * Similar to drawPath, but used to store paths that have been undone,
-     * allowing them to be redone later
-     */
-    private val redoPath = Stack<PointsData>()
-
-    /**
-     * MutableStateFlow used internally to trigger UI updates
-     * whenever the drawing state changes significantly.
-     */
-    internal var reviseTick = MutableStateFlow(0)
-
-    /**
-     * Clears the redoPath stack.
-     * Typically called before modifying the current drawing path to prevent unwanted redos.
-     */
-    private fun clearRedoPath() {
-        redoPath.clear()
-    }
+    private val _pathList = mutableStateListOf<PointsData>()
+    val pathList: SnapshotStateList<PointsData> = _pathList
 
     fun onAction(action: ArtMakerAction) {
         when (action) {
             ArtMakerAction.ExportArt -> exportArt()
-            ArtMakerAction.Redo -> redoArt()
-            ArtMakerAction.Undo -> undoArt()
-            ArtMakerAction.Clear -> clearArt()
+            ArtMakerAction.Redo -> redo()
+            ArtMakerAction.Undo -> undo()
+            ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
             ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth()
@@ -89,50 +69,36 @@ internal class ArtMakerViewModel(
 
     private fun addNewShape(offset: Offset) {
         val data = PointsData(points = mutableStateListOf(offset), strokeColor = Color(artMakerUIState.value.strokeColour))
-        drawPath.add(data)
+        _pathList.add(data)
     }
 
-    /**
-     * Updates the current shape by adding a new point at the given offset.
-     * Also clears the redoPath to maintain state consistency.
-     */
     private fun updateCurrentShape(offset: Offset) {
-        clearRedoPath()
-        val idy = drawPath.lastIndex
-        drawPath[idy].points.add(offset)
+        val idx = _pathList.lastIndex
+        _pathList[idx].points.add(offset)
     }
 
-    /**
-     * Removes the last point from the current shape, effectively undoing the last action.
-     * Also clears the redoPath to maintain state consistency.
-     */
     private fun undoLastShapePoint() {
-        clearRedoPath()
-        val idx = drawPath.lastIndex
-        drawPath[idx].points.removeLast()
+        val idx = _pathList.lastIndex
+        _pathList[idx].points.removeLast()
     }
 
     private fun exportArt() {}
 
-    /** Executes redo the drawn points if possible. */
-    private fun redoArt() {
-        if (redoPath.isNotEmpty()) {
-            drawPath.push(redoPath.pop())
-            reviseTick.value++
+    private fun redo() {
+        if (undoStack.isNotEmpty()) {
+            pathList.add(undoStack.pop())
         }
     }
 
-    private fun undoArt() {
-        if (drawPath.isNotEmpty()) {
-            redoPath.push(drawPath.pop())
-            reviseTick.value++
+    private fun undo() {
+        if (_pathList.isNotEmpty()) {
+            undoStack.push(_pathList.removeLast())
         }
     }
 
-    private fun clearArt() {
-        drawPath.clear()
-        redoPath.clear()
-        reviseTick.value++
+    private fun clear() {
+        _pathList.clear()
+        undoStack.clear()
     }
 
     private fun updateBackgroundColour() {}
