@@ -124,7 +124,7 @@ internal fun ArtMakerControlMenu(
                         .navigationBarsPadding()
                         .padding(10.dp),
 
-                    ) {
+                ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {

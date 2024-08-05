@@ -75,7 +75,7 @@ internal class ArtMakerViewModel(
         val data = PointsData(
             points = mutableStateListOf(offset),
             strokeColor = Color(artMakerUIState.value.strokeColour),
-            strokeWidth = artMakerUIState.value.strokeWidth.toFloat()
+            strokeWidth = artMakerUIState.value.strokeWidth.toFloat(),
         )
         _pathList.add(data)
     }
