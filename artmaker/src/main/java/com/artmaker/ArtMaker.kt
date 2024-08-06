@@ -15,6 +15,7 @@
  */
 package com.artmaker
 
+import android.app.Application
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -36,10 +37,11 @@ import com.artmaker.viewmodels.ArtMakerViewModel
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val artMakerViewModel: ArtMakerViewModel = viewModel(
-        factory = ArtMakerViewModel.provideFactory(context = context),
+    val viewModel: ArtMakerViewModel = viewModel(
+        factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
-    val artMakerUIState by artMakerViewModel.artMakerUIState.collectAsStateWithLifecycle()
+    val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
+    val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
 
     Column(modifier = modifier) {
         ArtMakerDrawScreen(
@@ -47,11 +49,13 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .weight(1f),
             state = artMakerUIState,
-            onDrawEvent = artMakerViewModel::onDrawEvent,
-            pathList = artMakerViewModel.pathList,
+            onDrawEvent = viewModel::onDrawEvent,
+            onAction = viewModel::onAction,
+            pathList = viewModel.pathList,
+            shouldTriggerArtExport = shouldTriggerArtExport,
         )
         ArtMakerControlMenu(
-            onAction = artMakerViewModel::onAction,
+            onAction = viewModel::onAction,
             state = artMakerUIState,
             modifier = Modifier.height(CONTROL_MENU_HEIGHT),
         )
