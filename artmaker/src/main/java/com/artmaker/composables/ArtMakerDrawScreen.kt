@@ -21,12 +21,13 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
@@ -38,9 +39,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
 import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.DrawEvent
 import com.artmaker.models.PointsData
@@ -68,17 +67,21 @@ internal fun ArtMakerDrawScreen(
     val yOffset = with(density) { (CONTROL_MENU_HEIGHT + 2.dp).toPx() }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
-
-    var bitmapSize by remember {
-        mutableStateOf(IntSize(0, 0))
+    var bitmapHeight by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    var bitmapWidth by rememberSaveable {
+        mutableIntStateOf(0)
     }
 
     Canvas(
         modifier = modifier
             .background(color = Color(color = state.backgroundColour))
             .onSizeChanged { updatedSize ->
-                bitmapSize =
+                val bitmapSize =
                     updatedSize.takeIf { it.height != 0 && it.width != 0 } ?: return@onSizeChanged
+                bitmapHeight = bitmapSize.height
+                bitmapWidth = bitmapSize.width
             }
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -109,7 +112,7 @@ internal fun ArtMakerDrawScreen(
                     val brush = ShaderBrush(shader)
                     drawRect(
                         brush = brush,
-                        size = bitmapSize.toSize(),
+                        size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
                     )
                 }
                 pathList.forEach { data ->
