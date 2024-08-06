@@ -48,9 +48,6 @@ internal class ArtMakerViewModel(
     private val _pathList = mutableStateListOf<PointsData>()
     val pathList: SnapshotStateList<PointsData> = _pathList
 
-    /**
-     * Private mutable state holding the current image bitmap..
-     */
     private val _imageBitmap: MutableState<ImageBitmap?> = mutableStateOf(null)
     val imageBitmap: State<ImageBitmap?> = _imageBitmap
 
@@ -109,7 +106,6 @@ internal class ArtMakerViewModel(
         }
     }
 
-    /** Sets an [ImageBitmap] to draw on the canvas as a background. */
     fun setImage(bitmap: ImageBitmap?) {
         _imageBitmap.value = bitmap
     }

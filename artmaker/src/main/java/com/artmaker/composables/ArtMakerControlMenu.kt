@@ -61,6 +61,8 @@ import com.google.modernstorage.photopicker.PhotoPicker
 
 val CONTROL_MENU_HEIGHT = 60.dp
 
+private const val IMAGE_PICKER_MAX_ITEMS = 1
+
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
@@ -161,7 +163,12 @@ internal fun ArtMakerControlMenu(
                         imageVector = Icons.Filled.Image,
                         onItemClicked = {
                             // Launch the picker with only one image selectable
-                            photoPicker.launch(PhotoPicker.Args(PhotoPicker.Type.IMAGES_ONLY, 1))
+                            photoPicker.launch(
+                                PhotoPicker.Args(
+                                    PhotoPicker.Type.IMAGES_ONLY,
+                                    IMAGE_PICKER_MAX_ITEMS,
+                                ),
+                            )
                             showMoreOptions = false
                         },
                     )
