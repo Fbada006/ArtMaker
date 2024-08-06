@@ -42,7 +42,7 @@ import com.artmaker.state.ArtMakerUIState
  */
 
 @Composable
-internal fun ArtMakerStrokeWidthPopup(
+internal fun StrokeWidthSlider(
     artMakerUIState: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
     isVisible: Boolean,
@@ -64,7 +64,7 @@ internal fun ArtMakerStrokeWidthPopup(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
             )
-            ArtMakerStrokeWidthSlider(
+            Slider(
                 sliderPosition = sliderPosition.toFloat(),
                 onValueChange = {
                     sliderPosition = it.toInt()

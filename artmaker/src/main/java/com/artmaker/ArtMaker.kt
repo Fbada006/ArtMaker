@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
-import com.artmaker.composables.ArtMakerStrokeWidthPopup
+import com.artmaker.composables.StrokeWidthSlider
 import com.artmaker.composables.CONTROL_MENU_HEIGHT
 import com.artmaker.viewmodels.ArtMakerViewModel
 
@@ -46,7 +46,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
-    var showStrokeWidthPopup by remember { mutableStateOf(value = false) }
+    var showStrokeWidth by remember { mutableStateOf(value = false) }
     val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
 
@@ -62,10 +62,10 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             shouldTriggerArtExport = shouldTriggerArtExport,
             imageBitmap = viewModel.imageBitmap.value,
         )
-        ArtMakerStrokeWidthPopup(
+        StrokeWidthSlider(
             artMakerUIState = artMakerUIState,
             onAction = viewModel::onAction,
-            isVisible = showStrokeWidthPopup,
+            isVisible = showStrokeWidth,
         )
         ArtMakerControlMenu(
             state = artMakerUIState,
@@ -73,7 +73,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             modifier = Modifier.height(CONTROL_MENU_HEIGHT),
             viewModel = viewModel,
             onShowStrokeWidthPopup = {
-                showStrokeWidthPopup = !showStrokeWidthPopup
+                showStrokeWidth = !showStrokeWidth
             },
         )
     }

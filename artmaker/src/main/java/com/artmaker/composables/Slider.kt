@@ -29,12 +29,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+private const val MIN_WIDTH = 1f
+private const val MAX_WIDTH = 50f
+
 /**
  * This is a [Slider] that allows the user to select their desired Stroke Width within the specified range.
  */
-
 @Composable
-internal fun ArtMakerStrokeWidthSlider(
+internal fun Slider(
     modifier: Modifier = Modifier,
     sliderPosition: Float,
     onValueChange: (Float) -> Unit,
@@ -59,7 +61,7 @@ internal fun ArtMakerStrokeWidthSlider(
                 activeTrackColor = MaterialTheme.colorScheme.inversePrimary,
                 inactiveTickColor = MaterialTheme.colorScheme.onBackground,
             ),
-            valueRange = 5f..30f,
+            valueRange = MIN_WIDTH..MAX_WIDTH,
         )
     }
 }
