@@ -63,7 +63,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             imageBitmap = viewModel.imageBitmap.value,
         )
         StrokeWidthSlider(
-            artMakerUIState = artMakerUIState,
+            state = artMakerUIState,
             onAction = viewModel::onAction,
             isVisible = showStrokeWidth,
         )
