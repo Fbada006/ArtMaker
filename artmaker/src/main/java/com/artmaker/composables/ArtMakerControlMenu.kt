@@ -128,6 +128,7 @@ internal fun ArtMakerControlMenu(
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
                         onItemClicked = {
+                            showMoreOptions = false
                             onAction(ArtMakerAction.TriggerArtExport)
                         },
                     )
