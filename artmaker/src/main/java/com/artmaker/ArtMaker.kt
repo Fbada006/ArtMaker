@@ -56,7 +56,10 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .weight(1f),
             state = artMakerUIState,
-            onDrawEvent = viewModel::onDrawEvent,
+            onDrawEvent = {
+                showStrokeWidth = false
+                viewModel.onDrawEvent(it)
+            },
             onAction = viewModel::onAction,
             pathList = viewModel.pathList,
             shouldTriggerArtExport = shouldTriggerArtExport,
