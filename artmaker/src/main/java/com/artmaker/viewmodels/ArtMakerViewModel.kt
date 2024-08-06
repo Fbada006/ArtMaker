@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Stack
 
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
@@ -52,6 +53,8 @@ internal class ArtMakerViewModel(
     private var _artMakerUIState =
         MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
     val artMakerUIState = _artMakerUIState.asStateFlow()
+
+    private val undoStack = Stack<PointsData>()
 
     private val _pathList = mutableStateListOf<PointsData>()
     val pathList: SnapshotStateList<PointsData> = _pathList
@@ -110,11 +113,22 @@ internal class ArtMakerViewModel(
         }
     }
 
-    private fun redo() {}
+    private fun redo() {
+        if (undoStack.isNotEmpty()) {
+            pathList.add(undoStack.pop())
+        }
+    }
 
-    private fun undo() {}
+    private fun undo() {
+        if (_pathList.isNotEmpty()) {
+            undoStack.push(_pathList.removeLast())
+        }
+    }
 
-    private fun clear() {}
+    private fun clear() {
+        _pathList.clear()
+        undoStack.clear()
+    }
 
     private fun updateBackgroundColour() {}
 
