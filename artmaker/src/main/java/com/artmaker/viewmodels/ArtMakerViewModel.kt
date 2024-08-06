@@ -51,17 +51,17 @@ internal class ArtMakerViewModel(
 ) : ViewModel() {
 
     private var _artMakerUIState = MutableStateFlow(
-            value = ArtMakerUIState(
-                strokeColour = preferences.get(
-                    PreferenceKeys.SELECTED_STROKE_COLOUR,
-                    0,
-                ),
-                strokeWidth = preferences.get(
-                    PreferenceKeys.SELECTED_STROKE_WIDTH,
-                    defaultValue = 5,
-                ),
+        value = ArtMakerUIState(
+            strokeColour = preferences.get(
+                PreferenceKeys.SELECTED_STROKE_COLOUR,
+                0,
             ),
-        )
+            strokeWidth = preferences.get(
+                PreferenceKeys.SELECTED_STROKE_WIDTH,
+                defaultValue = 5,
+            ),
+        ),
+    )
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
     private val undoStack = Stack<PointsData>()

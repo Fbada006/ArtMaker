@@ -39,7 +39,6 @@ import com.artmaker.state.ArtMakerUIState
 /**
  * This is a popup that displays the ArtMakerStrokeWidthSlider and accompanying title.
  */
-
 @Composable
 internal fun StrokeWidthSlider(
     state: ArtMakerUIState,
