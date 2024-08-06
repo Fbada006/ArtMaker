@@ -16,6 +16,7 @@
 package com.artmaker.viewmodels
 
 import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
@@ -23,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -43,8 +43,8 @@ import kotlinx.coroutines.launch
 
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
-    private val application: Application,
-) : AndroidViewModel(application) {
+    private val applicationContext: Context,
+) : ViewModel() {
 
     private var _artMakerUIState =
         MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
@@ -93,15 +93,14 @@ internal class ArtMakerViewModel(
     }
 
     private fun triggerArtExport() {
-        _shouldTriggerArtExport.value = true
+        _shouldTriggerArtExport.update { true }
     }
 
     private fun exportArt(bitmap: ImageBitmap) {
-        _shouldTriggerArtExport.value = true
         viewModelScope.launch {
-            val uri = bitmap.asAndroidBitmap().saveToDisk(application)
-            _shouldTriggerArtExport.value = false
-            shareBitmap(application, uri)
+            val uri = bitmap.asAndroidBitmap().saveToDisk(applicationContext)
+            _shouldTriggerArtExport.update { false }
+            shareBitmap(applicationContext, uri)
         }
     }
 
@@ -136,7 +135,7 @@ internal class ArtMakerViewModel(
                         preferences = ArtMakerSharedPreferences(
                             context = application,
                         ),
-                        application = application,
+                        applicationContext = application.applicationContext,
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")
