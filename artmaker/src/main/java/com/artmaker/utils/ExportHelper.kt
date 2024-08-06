@@ -43,7 +43,7 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
     }
 }
 
-suspend fun Bitmap.saveToDisk(context: Context): Uri {
+internal suspend fun Bitmap.saveToDisk(context: Context): Uri {
     val file = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
         "screenshot-${System.currentTimeMillis()}.png",
@@ -61,7 +61,7 @@ private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, qual
     }
 }
 
-fun shareBitmap(context: Context, uri: Uri) {
+internal fun shareBitmap(context: Context, uri: Uri) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "image/png"
         putExtra(Intent.EXTRA_STREAM, uri)
