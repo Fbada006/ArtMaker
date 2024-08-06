@@ -50,8 +50,18 @@ internal class ArtMakerViewModel(
     private val applicationContext: Context,
 ) : ViewModel() {
 
-    private var _artMakerUIState =
-        MutableStateFlow(value = ArtMakerUIState(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0)))
+    private var _artMakerUIState = MutableStateFlow(
+        value = ArtMakerUIState(
+            strokeColour = preferences.get(
+                PreferenceKeys.SELECTED_STROKE_COLOUR,
+                0,
+            ),
+            strokeWidth = preferences.get(
+                PreferenceKeys.SELECTED_STROKE_WIDTH,
+                defaultValue = 5,
+            ),
+        ),
+    )
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
     private val undoStack = Stack<PointsData>()
@@ -74,7 +84,7 @@ internal class ArtMakerViewModel(
             ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
-            ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth()
+            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
         }
     }
 
@@ -87,7 +97,11 @@ internal class ArtMakerViewModel(
     }
 
     private fun addNewShape(offset: Offset) {
-        val data = PointsData(points = mutableStateListOf(offset), strokeColor = Color(artMakerUIState.value.strokeColour))
+        val data = PointsData(
+            points = mutableStateListOf(offset),
+            strokeColor = Color(artMakerUIState.value.strokeColour),
+            strokeWidth = artMakerUIState.value.strokeWidth.toFloat(),
+        )
         _pathList.add(data)
     }
 
@@ -146,7 +160,20 @@ internal class ArtMakerViewModel(
         _imageBitmap.value = bitmap
     }
 
-    private fun selectStrokeWidth() {}
+    private fun selectStrokeWidth(strokeWidth: Int) {
+        preferences.set(
+            key = PreferenceKeys.SELECTED_STROKE_WIDTH,
+            value = strokeWidth,
+        )
+        _artMakerUIState.update {
+            it.copy(
+                strokeWidth = preferences.get(
+                    PreferenceKeys.SELECTED_STROKE_WIDTH,
+                    defaultValue = 5,
+                ),
+            )
+        }
+    }
 
     companion object {
         fun provideFactory(

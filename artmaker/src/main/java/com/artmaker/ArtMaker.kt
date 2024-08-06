@@ -21,6 +21,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.BuildCompat
@@ -29,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 import com.artmaker.composables.CONTROL_MENU_HEIGHT
+import com.artmaker.composables.StrokeWidthSlider
 import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
@@ -42,6 +46,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
+    var showStrokeWidth by remember { mutableStateOf(value = false) }
     val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
 
@@ -51,17 +56,28 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .weight(1f),
             state = artMakerUIState,
-            onDrawEvent = viewModel::onDrawEvent,
+            onDrawEvent = {
+                showStrokeWidth = false
+                viewModel.onDrawEvent(it)
+            },
             onAction = viewModel::onAction,
             pathList = viewModel.pathList,
             shouldTriggerArtExport = shouldTriggerArtExport,
             imageBitmap = viewModel.imageBitmap.value,
         )
-        ArtMakerControlMenu(
-            onAction = viewModel::onAction,
+        StrokeWidthSlider(
             state = artMakerUIState,
+            onAction = viewModel::onAction,
+            isVisible = showStrokeWidth,
+        )
+        ArtMakerControlMenu(
+            state = artMakerUIState,
+            onAction = viewModel::onAction,
             modifier = Modifier.height(CONTROL_MENU_HEIGHT),
             viewModel = viewModel,
+            onShowStrokeWidthPopup = {
+                showStrokeWidth = !showStrokeWidth
+            },
         )
     }
 }

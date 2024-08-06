@@ -75,6 +75,7 @@ internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
     modifier: Modifier = Modifier,
+    onShowStrokeWidthPopup: () -> Unit,
     viewModel: ArtMakerViewModel,
 ) {
     val context = LocalContext.current
@@ -111,9 +112,7 @@ internal fun ArtMakerControlMenu(
             )
             MenuItem(
                 imageVector = Icons.Filled.Edit,
-                onItemClicked = {
-                    onAction(ArtMakerAction.SelectStrokeWidth)
-                },
+                onItemClicked = onShowStrokeWidthPopup,
             )
             MenuItem(
                 imageVector = Icons.AutoMirrored.Filled.Undo,
