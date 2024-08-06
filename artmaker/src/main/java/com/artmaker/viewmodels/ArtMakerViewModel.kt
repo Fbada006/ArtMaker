@@ -50,12 +50,15 @@ internal class ArtMakerViewModel(
     private val applicationContext: Context,
 ) : ViewModel() {
 
-    private var _artMakerUIState =
-        MutableStateFlow(
+    private var _artMakerUIState = MutableStateFlow(
             value = ArtMakerUIState(
                 strokeColour = preferences.get(
                     PreferenceKeys.SELECTED_STROKE_COLOUR,
                     0,
+                ),
+                strokeWidth = preferences.get(
+                    PreferenceKeys.SELECTED_STROKE_WIDTH,
+                    defaultValue = 5,
                 ),
             ),
         )
