@@ -25,16 +25,27 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
+import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -59,6 +70,7 @@ internal fun ArtMakerDrawScreen(
     onDrawEvent: (DrawEvent) -> Unit,
     onAction: (ArtMakerAction) -> Unit,
     pathList: SnapshotStateList<PointsData>,
+    imageBitmap: ImageBitmap?,
     shouldTriggerArtExport: Boolean,
 ) {
     val density = LocalDensity.current
@@ -70,6 +82,12 @@ internal fun ArtMakerDrawScreen(
     val yOffset = with(density) { (CONTROL_MENU_HEIGHT + 2.dp).toPx() }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
+    var bitmapHeight by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    var bitmapWidth by rememberSaveable {
+        mutableIntStateOf(0)
+    }
 
     val graphicsLayer = rememberGraphicsLayer()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -108,6 +126,12 @@ internal fun ArtMakerDrawScreen(
     Canvas(
         modifier = modifier
             .background(color = Color(color = state.backgroundColour))
+            .onSizeChanged { updatedSize ->
+                val bitmapSize =
+                    updatedSize.takeIf { it.height != 0 && it.width != 0 } ?: return@onSizeChanged
+                bitmapHeight = bitmapSize.height
+                bitmapWidth = bitmapSize.width
+            }
             .drawWithCache {
                 onDrawWithContent {
                     graphicsLayer.record {
@@ -139,14 +163,24 @@ internal fun ArtMakerDrawScreen(
                 }
             },
         onDraw = {
-            pathList.forEach { data ->
-                drawPoints(
-                    points = data.points,
-                    pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
-                    color = data.strokeColor,
-                    strokeWidth = data.strokeWidth,
-                    alpha = data.alpha,
-                )
+            drawIntoCanvas { canvas ->
+                imageBitmap?.let { imageBitmap ->
+                    val shader = ImageShader(imageBitmap, TileMode.Clamp)
+                    val brush = ShaderBrush(shader)
+                    drawRect(
+                        brush = brush,
+                        size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
+                    )
+                }
+                pathList.forEach { data ->
+                    drawPoints(
+                        points = data.points,
+                        pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
+                        color = data.strokeColor,
+                        strokeWidth = data.strokeWidth,
+                        alpha = data.alpha,
+                    )
+                }
             }
         },
     )

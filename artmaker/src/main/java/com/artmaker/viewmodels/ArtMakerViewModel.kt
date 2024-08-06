@@ -17,7 +17,10 @@ package com.artmaker.viewmodels
 
 import android.app.Application
 import android.content.Context
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -55,6 +58,9 @@ internal class ArtMakerViewModel(
 
     private val _shouldTriggerArtExport = MutableStateFlow(false)
     val shouldTriggerArtExport: StateFlow<Boolean> = _shouldTriggerArtExport
+
+    private val _imageBitmap: MutableState<ImageBitmap?> = mutableStateOf(null)
+    val imageBitmap: State<ImageBitmap?> = _imageBitmap
 
     fun onAction(action: ArtMakerAction) {
         when (action) {
@@ -120,6 +126,10 @@ internal class ArtMakerViewModel(
         _artMakerUIState.update {
             it.copy(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0))
         }
+    }
+
+    fun setImage(bitmap: ImageBitmap?) {
+        _imageBitmap.value = bitmap
     }
 
     private fun selectStrokeWidth() {}

@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artmaker.composables.ArtMakerControlMenu
@@ -34,6 +35,7 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  * [ArtMaker] composable which has our draw screen and controllers
  * We will expose this composable and test our Library on the app layer
  */
+@OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -53,11 +55,13 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             onAction = viewModel::onAction,
             pathList = viewModel.pathList,
             shouldTriggerArtExport = shouldTriggerArtExport,
+            imageBitmap = viewModel.imageBitmap.value,
         )
         ArtMakerControlMenu(
             onAction = viewModel::onAction,
             state = artMakerUIState,
             modifier = Modifier.height(CONTROL_MENU_HEIGHT),
+            viewModel = viewModel,
         )
     }
 }
