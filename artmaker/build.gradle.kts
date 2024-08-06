@@ -56,9 +56,14 @@ dependencies {
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.runtime.compose)
     implementation (libs.material.icons)
+    implementation(libs.photo.picker)
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
+    //noinspection UseTomlInstead
+    implementation("androidx.compose.ui:ui:1.7.0-beta06") {
+        because("We need to use graphics layer to export composable as image.")
+    }
+    implementation (libs.accompanist.permissions)
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)

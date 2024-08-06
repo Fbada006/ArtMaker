@@ -15,6 +15,7 @@
  */
 package com.artmaker
 
+import android.app.Application
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artmaker.composables.ArtMakerControlMenu
@@ -33,13 +35,15 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  * [ArtMaker] composable which has our draw screen and controllers
  * We will expose this composable and test our Library on the app layer
  */
+@OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val artMakerViewModel: ArtMakerViewModel = viewModel(
-        factory = ArtMakerViewModel.provideFactory(context = context),
+    val viewModel: ArtMakerViewModel = viewModel(
+        factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
-    val artMakerUIState by artMakerViewModel.artMakerUIState.collectAsStateWithLifecycle()
+    val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
+    val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
 
     Column(modifier = modifier) {
         ArtMakerDrawScreen(
@@ -47,13 +51,17 @@ fun ArtMaker(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .weight(1f),
             state = artMakerUIState,
-            onDrawEvent = artMakerViewModel::onDrawEvent,
-            pathList = artMakerViewModel.pathList,
+            onDrawEvent = viewModel::onDrawEvent,
+            onAction = viewModel::onAction,
+            pathList = viewModel.pathList,
+            shouldTriggerArtExport = shouldTriggerArtExport,
+            imageBitmap = viewModel.imageBitmap.value,
         )
         ArtMakerControlMenu(
-            onAction = artMakerViewModel::onAction,
+            onAction = viewModel::onAction,
             state = artMakerUIState,
             modifier = Modifier.height(CONTROL_MENU_HEIGHT),
+            viewModel = viewModel,
         )
     }
 }
