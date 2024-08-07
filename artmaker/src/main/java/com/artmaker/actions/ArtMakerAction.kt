@@ -29,6 +29,5 @@ sealed interface ArtMakerAction {
     data object Clear : ArtMakerAction
     data object UpdateBackground : ArtMakerAction
     data class SelectStrokeColour(val color: Color) : ArtMakerAction
-
     data class SelectStrokeWidth(val strokeWidth: Int) : ArtMakerAction
 }

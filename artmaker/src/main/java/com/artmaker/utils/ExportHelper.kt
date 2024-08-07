@@ -23,6 +23,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.ContextCompat.startActivity
+import com.artmaker.artmaker.R
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
@@ -32,10 +33,17 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
         MediaScannerConnection.scanFile(
             context,
             arrayOf(filePath),
-            arrayOf("image/png"),
+            arrayOf(context.getString(R.string.image_png)),
         ) { _, scannedUri ->
             if (scannedUri == null) {
-                continuation.cancel(Exception("File $filePath could not be scanned"))
+                continuation.cancel(
+                    Exception(
+                        context.getString(
+                            R.string.file_could_not_be_scanned,
+                            filePath,
+                        ),
+                    ),
+                )
             } else {
                 continuation.resume(scannedUri)
             }
@@ -51,7 +59,7 @@ internal suspend fun Bitmap.saveToDisk(context: Context): Uri {
 
     file.writeBitmap(this, Bitmap.CompressFormat.PNG, 100)
 
-    return scanFilePath(context, file.path) ?: throw Exception("File could not be saved")
+    return scanFilePath(context, file.path) ?: throw Exception(context.getString(R.string.file_could_not_be_saved))
 }
 
 private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
@@ -63,11 +71,11 @@ private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, qual
 
 internal fun shareBitmap(context: Context, uri: Uri) {
     val intent = Intent(Intent.ACTION_SEND).apply {
-        type = "image/png"
+        type = context.getString(R.string.image_png)
         putExtra(Intent.EXTRA_STREAM, uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
-    val chooser = createChooser(intent, "Share your image").apply {
+    val chooser = createChooser(intent, context.getString(R.string.share_your_image)).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     startActivity(context, chooser, null)

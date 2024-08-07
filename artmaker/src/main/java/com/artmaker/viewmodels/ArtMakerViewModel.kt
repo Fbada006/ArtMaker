@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
+import com.artmaker.artmaker.R
 import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
@@ -189,7 +190,7 @@ internal class ArtMakerViewModel(
                         applicationContext = application.applicationContext,
                     ) as T
                 }
-                throw IllegalArgumentException("Unknown ViewModel Class")
+                throw IllegalArgumentException(application.getString(R.string.unknown_viewmodel_class))
             }
         }
     }
