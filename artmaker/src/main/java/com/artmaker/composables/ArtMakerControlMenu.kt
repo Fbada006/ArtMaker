@@ -53,7 +53,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.artmaker.R
@@ -96,13 +95,13 @@ internal fun ArtMakerControlMenu(
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
-        shadowElevation = dimensionResource(id = R.dimen.surface_shadow_elevation),
+        shadowElevation = dimensionResource(id = R.dimen.art_maker_control_menu_surface_shadow_elevation),
         modifier = modifier,
     ) {
         Row(
             modifier = Modifier
                 .navigationBarsPadding()
-                .padding(all = dimensionResource(id = R.dimen.default_padding)),
+                .padding(all = dimensionResource(id = R.dimen.art_maker_control_menu_default_padding)),
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
             MenuItem(
@@ -149,7 +148,7 @@ internal fun ArtMakerControlMenu(
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()
-                        .padding(bottom = dimensionResource(id = R.dimen.default_padding)),
+                        .padding(bottom = dimensionResource(id = R.dimen.art_maker_control_menu_default_padding)),
                 ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
@@ -201,7 +200,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = Modifier.size(size = dimensionResource(id = R.dimen.menu_icon_size)),
+            modifier = Modifier.size(size = dimensionResource(id = R.dimen.art_maker_control_menu_icon_size)),
         )
     }
 }

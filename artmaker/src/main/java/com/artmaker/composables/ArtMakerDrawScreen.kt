@@ -83,8 +83,8 @@ internal fun ArtMakerDrawScreen(
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
     val yOffset = with(density) {
-        (dimensionResource(id = R.dimen.control_menu_height) + dimensionResource(
-            id = R.dimen.extra_visibility,
+        (dimensionResource(id = R.dimen.art_maker_control_menu_height) + dimensionResource(
+            id = R.dimen.art_maker_drawer_screen_extra_visibility,
         )).toPx()
     }
     val screenHeightPx = with(density) { screenHeight.toPx() }

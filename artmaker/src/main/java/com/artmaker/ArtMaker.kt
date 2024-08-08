@@ -74,7 +74,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
         ArtMakerControlMenu(
             state = artMakerUIState,
             onAction = viewModel::onAction,
-            modifier = Modifier.height(height = dimensionResource(id = R.dimen.control_menu_height)),
+            modifier = Modifier.height(height = dimensionResource(id = R.dimen.art_maker_control_menu_height)),
             viewModel = viewModel,
             onShowStrokeWidthPopup = {
                 showStrokeWidth = !showStrokeWidth
