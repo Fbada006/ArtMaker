@@ -169,7 +169,17 @@ internal fun ArtMakerControlMenu(
                         MenuItem(
                             imageVector = Icons.Filled.Image,
                             onItemClicked = {
-                                isExpanded = true
+                                if (viewModel.imageBitmap.value != null) {
+                                    isExpanded = true
+                                } else {
+                                    photoPicker.launch(
+                                        PhotoPicker.Args(
+                                            PhotoPicker.Type.IMAGES_ONLY,
+                                            IMAGE_PICKER_MAX_ITEMS,
+                                        ),
+                                    )
+                                    showMoreOptions = false
+                                }
                             },
                         )
                     }
@@ -189,7 +199,7 @@ internal fun ArtMakerControlMenu(
                 ) {
                     DropdownMenuItem(
                         text = {
-                            Text(text = "Add Image")
+                            Text(text = "Change Image")
                         },
                         onClick = {
                             // Launch the picker with only one image selectable
