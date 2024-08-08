@@ -23,11 +23,11 @@ import com.artmaker.artmaker.R
  * This is a SharedPreferences implementation that uses a Generic class to store the user's data...
  */
 internal class ArtMakerSharedPreferences(
-    private val context: Context,
+    context: Context,
 ) {
 
     private val artMakerSharedPreferences: SharedPreferences = context.getSharedPreferences(
-        context.getString(R.string.artmakersharedpreferences),
+        "artMakerSharedPreferences",
         Context.MODE_PRIVATE,
     )
 
@@ -41,10 +41,7 @@ internal class ArtMakerSharedPreferences(
             Long::class -> editor.putLong(key, value as Long)
             else -> {
                 throw IllegalArgumentException(
-                    context.getString(
-                        R.string.could_not_save_class_type_of_to_preferences,
-                        T::class,
-                    ),
+                    "Could not save class type of ${T::class} to preferences."
                 )
             }
         }

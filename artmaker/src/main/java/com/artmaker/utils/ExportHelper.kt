@@ -33,15 +33,12 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
         MediaScannerConnection.scanFile(
             context,
             arrayOf(filePath),
-            arrayOf(context.getString(R.string.image_png)),
+            arrayOf("image/png"),
         ) { _, scannedUri ->
             if (scannedUri == null) {
                 continuation.cancel(
                     Exception(
-                        context.getString(
-                            R.string.file_could_not_be_scanned,
-                            filePath,
-                        ),
+                        "File $filePath could not be scanned"
                     ),
                 )
             } else {
@@ -59,7 +56,7 @@ internal suspend fun Bitmap.saveToDisk(context: Context): Uri {
 
     file.writeBitmap(this, Bitmap.CompressFormat.PNG, 100)
 
-    return scanFilePath(context, file.path) ?: throw Exception(context.getString(R.string.file_could_not_be_saved))
+    return scanFilePath(context, file.path) ?: throw Exception("File could not be saved")
 }
 
 private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
@@ -71,7 +68,7 @@ private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, qual
 
 internal fun shareBitmap(context: Context, uri: Uri) {
     val intent = Intent(Intent.ACTION_SEND).apply {
-        type = context.getString(R.string.image_png)
+        type = "image/png"
         putExtra(Intent.EXTRA_STREAM, uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }

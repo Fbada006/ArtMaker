@@ -190,7 +190,7 @@ internal class ArtMakerViewModel(
                         applicationContext = application.applicationContext,
                     ) as T
                 }
-                throw IllegalArgumentException(application.getString(R.string.unknown_viewmodel_class))
+                throw IllegalArgumentException("Unknown ViewModel Class")
             }
         }
     }

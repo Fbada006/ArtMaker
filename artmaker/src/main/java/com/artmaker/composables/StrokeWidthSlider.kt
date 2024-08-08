@@ -58,7 +58,7 @@ internal fun StrokeWidthSlider(
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
             Text(
-                text = stringResource(R.string.set_width),
+                text = stringResource(id = R.string.set_width),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,

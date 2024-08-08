@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="grant_access">Grant Access</string>
     <string name="the_storage_permission_is_needed_to_save_the_image">The storage permission is needed to save the image.</string>
+    <string name="grant_access">Grant Access</string>
     <string name="set_width">Set width</string>
-    <string name="could_not_save_class_type_of_to_preferences">Could not save class type of %1$s to preferences.</string>
-    <string name="artmakersharedpreferences">artMakerSharedPreferences</string>
     <string name="share_your_image">Share your image</string>
-    <string name="file_could_not_be_saved">File could not be saved</string>
-    <string name="file_could_not_be_scanned">File %1$s could not be scanned</string>
-    <string name="image_png">image/png</string>
-    <string name="unknown_viewmodel_class">Unknown ViewModel Class</string>
 </resources>
