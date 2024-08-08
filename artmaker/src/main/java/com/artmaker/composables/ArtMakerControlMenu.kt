@@ -33,20 +33,15 @@ import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,7 +69,7 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
  * without any functionality.
  */
-@OptIn(ExperimentalMaterial3Api::class, BuildCompat.PrereleaseSdkCheck::class)
+@OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(
@@ -99,9 +94,7 @@ internal fun ArtMakerControlMenu(
             }
             setBackgroundImage(bitmap.asImageBitmap())
         }
-    var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState()
 
     Surface(
         shadowElevation = 30.dp,
@@ -142,49 +135,20 @@ internal fun ArtMakerControlMenu(
                     },
                 )
                 MenuItem(
-                    imageVector = Icons.Filled.MoreVert,
+                    imageVector = Icons.Filled.Image,
                     onItemClicked = {
-                        showMoreOptions = true
+                        if (imageBitmap != null) {
+                            areImageOptionsExpanded = true
+                        } else {
+                            photoPicker.launch(
+                                PhotoPicker.Args(
+                                    PhotoPicker.Type.IMAGES_ONLY,
+                                    IMAGE_PICKER_MAX_ITEMS,
+                                ),
+                            )
+                        }
                     },
                 )
-            }
-            if (showMoreOptions) {
-                ModalBottomSheet(
-                    sheetState = sheetState,
-                    onDismissRequest = {
-                        showMoreOptions = false
-                    },
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .navigationBarsPadding()
-                            .padding(bottom = 10.dp),
-                    ) {
-                        MenuItem(
-                            imageVector = Icons.Filled.FileUpload,
-                            onItemClicked = {
-                                showMoreOptions = false
-                                onAction(ArtMakerAction.TriggerArtExport)
-                            },
-                        )
-                        MenuItem(
-                            imageVector = Icons.Filled.Image,
-                            onItemClicked = {
-                                if (imageBitmap != null) {
-                                    areImageOptionsExpanded = true
-                                } else {
-                                    photoPicker.launch(
-                                        PhotoPicker.Args(
-                                            PhotoPicker.Type.IMAGES_ONLY,
-                                            IMAGE_PICKER_MAX_ITEMS,
-                                        ),
-                                    )
-                                    showMoreOptions = false
-                                }
-                            },
-                        )
-                    }
-                }
             }
             Box(
                 Modifier
@@ -195,7 +159,6 @@ internal fun ArtMakerControlMenu(
                     expanded = areImageOptionsExpanded,
                     onDismissRequest = {
                         areImageOptionsExpanded = false
-                        showMoreOptions = false
                     },
                 ) {
                     DropdownMenuItem(
@@ -211,7 +174,6 @@ internal fun ArtMakerControlMenu(
                                 ),
                             )
                             areImageOptionsExpanded = false
-                            showMoreOptions = false
                         },
                     )
                     DropdownMenuItem(
@@ -221,7 +183,6 @@ internal fun ArtMakerControlMenu(
                         onClick = {
                             setBackgroundImage(null)
                             areImageOptionsExpanded = false
-                            showMoreOptions = false
                         },
                     )
                 }
