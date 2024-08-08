@@ -220,7 +220,6 @@ internal fun ArtMakerControlMenu(
                         },
                         onClick = {
                             setBackgroundImage(null)
-//                            viewModel.setImage(null)
                             isExpanded = false
                             showMoreOptions = false
                         },
