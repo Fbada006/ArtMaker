@@ -16,7 +16,7 @@
 package com.artmaker
 
 import android.app.Application
-import android.net.Uri
+import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +30,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +42,7 @@ import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.artmaker.actions.ArtMakerAction
+import com.artmaker.actions.ExportType
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 import com.artmaker.composables.CONTROL_MENU_HEIGHT
@@ -53,7 +55,7 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  */
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
-fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Uri?) -> Unit = {}) {
+fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = {}) {
     val context = LocalContext.current
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
@@ -61,16 +63,21 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Uri?) -> Unit = {}
     var showStrokeWidth by remember { mutableStateOf(value = false) }
     val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
+    val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = finishedImage) {
+        finishedImage?.let { onFinishDrawing(it) }
+    }
 
     Scaffold(
         floatingActionButton = {
             AnimatedVisibility(visible = viewModel.pathList.isNotEmpty()) {
                 Column(modifier = Modifier.padding(bottom = CONTROL_MENU_HEIGHT)) {
-                    FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport) }) {
+                    FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
                         Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                     }
                     Spacer(modifier = Modifier.height(4.dp))
-                    FloatingActionButton(onClick = { }) {
+                    FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
                 }
@@ -90,7 +97,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Uri?) -> Unit = {}
                 onAction = viewModel::onAction,
                 pathList = viewModel.pathList,
                 shouldTriggerArtExport = shouldTriggerArtExport,
-                imageBitmap = viewModel.imageBitmap.value,
+                imageBitmap = viewModel.backgroundImage.value,
             )
             StrokeWidthSlider(
                 state = artMakerUIState,
@@ -105,7 +112,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Uri?) -> Unit = {}
                     showStrokeWidth = !showStrokeWidth
                 },
                 setBackgroundImage = viewModel::setImage,
-                imageBitmap = viewModel.imageBitmap.value,
+                imageBitmap = viewModel.backgroundImage.value,
             )
         }
         Column(modifier = modifier) {
@@ -121,7 +128,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Uri?) -> Unit = {}
                 onAction = viewModel::onAction,
                 pathList = viewModel.pathList,
                 shouldTriggerArtExport = shouldTriggerArtExport,
-                imageBitmap = viewModel.imageBitmap.value,
+                imageBitmap = viewModel.backgroundImage.value,
             )
             StrokeWidthSlider(
                 state = artMakerUIState,
@@ -136,7 +143,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Uri?) -> Unit = {}
                     showStrokeWidth = !showStrokeWidth
                 },
                 setBackgroundImage = viewModel::setImage,
-                imageBitmap = viewModel.imageBitmap.value,
+                imageBitmap = viewModel.backgroundImage.value,
             )
         }
     }
