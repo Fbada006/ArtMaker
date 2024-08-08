@@ -102,10 +102,42 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Uri?) -> Unit = {}
                 state = artMakerUIState,
                 onAction = viewModel::onAction,
                 modifier = Modifier.height(CONTROL_MENU_HEIGHT),
-                viewModel = viewModel,
                 onShowStrokeWidthPopup = {
                     showStrokeWidth = !showStrokeWidth
                 },
+                setBackgroundImage = viewModel::setImage,
+                imageBitmap = viewModel.imageBitmap.value,
+            )
+        }
+        Column(modifier = modifier) {
+            ArtMakerDrawScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                state = artMakerUIState,
+                onDrawEvent = {
+                    showStrokeWidth = false
+                    viewModel.onDrawEvent(it)
+                },
+                onAction = viewModel::onAction,
+                pathList = viewModel.pathList,
+                shouldTriggerArtExport = shouldTriggerArtExport,
+                imageBitmap = viewModel.imageBitmap.value,
+            )
+            StrokeWidthSlider(
+                state = artMakerUIState,
+                onAction = viewModel::onAction,
+                isVisible = showStrokeWidth,
+            )
+            ArtMakerControlMenu(
+                state = artMakerUIState,
+                onAction = viewModel::onAction,
+                modifier = Modifier.height(CONTROL_MENU_HEIGHT),
+                onShowStrokeWidthPopup = {
+                    showStrokeWidth = !showStrokeWidth
+                },
+                setBackgroundImage = viewModel::setImage,
+                imageBitmap = viewModel.imageBitmap.value,
             )
         }
     }
