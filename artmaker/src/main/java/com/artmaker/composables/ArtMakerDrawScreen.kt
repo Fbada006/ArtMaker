@@ -49,6 +49,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.ArtMakerAction
@@ -81,7 +82,11 @@ internal fun ArtMakerDrawScreen(
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
-    val yOffset = with(density) { (CONTROL_MENU_HEIGHT + 2.dp).toPx() }
+    val yOffset = with(density) {
+        (dimensionResource(id = R.dimen.control_menu_height) + dimensionResource(
+            id = R.dimen.extra_visibility,
+        )).toPx()
+    }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
     var bitmapHeight by rememberSaveable {

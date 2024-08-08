@@ -52,14 +52,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat
 import com.artmaker.actions.ArtMakerAction
+import com.artmaker.artmaker.R
 import com.artmaker.state.ArtMakerUIState
 import com.artmaker.viewmodels.ArtMakerViewModel
 import com.google.modernstorage.photopicker.PhotoPicker
-
-val CONTROL_MENU_HEIGHT = 60.dp
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
 
@@ -96,13 +96,13 @@ internal fun ArtMakerControlMenu(
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
-        shadowElevation = 30.dp,
+        shadowElevation = dimensionResource(id = R.dimen.surface_shadow_elevation),
         modifier = modifier,
     ) {
         Row(
             modifier = Modifier
                 .navigationBarsPadding()
-                .padding(10.dp),
+                .padding(all = dimensionResource(id = R.dimen.default_padding)),
             horizontalArrangement = Arrangement.SpaceAround,
         ) {
             MenuItem(
@@ -149,7 +149,7 @@ internal fun ArtMakerControlMenu(
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()
-                        .padding(bottom = 10.dp),
+                        .padding(bottom = dimensionResource(id = R.dimen.default_padding)),
                 ) {
                     MenuItem(
                         imageVector = Icons.Filled.FileUpload,
@@ -201,7 +201,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(size = dimensionResource(id = R.dimen.menu_icon_size)),
         )
     }
 }

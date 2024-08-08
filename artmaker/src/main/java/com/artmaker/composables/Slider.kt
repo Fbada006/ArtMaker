@@ -25,9 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.artmaker.artmaker.R
 
 private const val MIN_WIDTH = 1f
 private const val MAX_WIDTH = 50f
@@ -43,14 +45,13 @@ internal fun Slider(
 ) {
     Column(
         modifier = modifier
-            .padding(all = 7.dp),
+            .padding(all = dimensionResource(id = R.dimen.slider_padding)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = sliderPosition.toInt().toString(),
-            fontSize = 21.sp,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.primary,
         )
         Slider(
