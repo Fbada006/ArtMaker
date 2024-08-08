@@ -15,17 +15,14 @@
      limitations under the License.
 -->
 <resources>
-    <dimen name="art_maker_control_menu_height">60dp</dimen>
-    <dimen name="art_maker_control_menu_surface_shadow_elevation">30dp</dimen>
-    <dimen name="art_maker_control_menu_icon_size">32dp</dimen>
-    <dimen name="art_maker_control_menu_drop_down_menu_size">12dp</dimen>
-    <dimen name="art_maker_drawer_screen_extra_visibility">2dp</dimen>
-    <dimen name="art_maker_control_menu_default_padding">10dp</dimen>
-    <dimen name="art_maker_color_picker_default_padding">10dp</dimen>
-    <dimen name="art_maker_color_picker_flow_row_spacing">4dp</dimen>
-    <dimen name="art_maker_color_picker_colour_box_size">48dp</dimen>
-    <dimen name="art_maker_color_picker_colour_box_shape">8dp</dimen>
-    <dimen name="slider_padding">7dp</dimen>
-    <dimen name="stroke_width_slider_padding">4dp</dimen>
-    <dimen name="stroke_width_position_text_size">21sp</dimen>
+    <dimen name="Padding2">2dp</dimen>
+    <dimen name="Padding4">4dp</dimen>
+    <dimen name="Padding7">7dp</dimen>
+    <dimen name="Padding8">8dp</dimen>
+    <dimen name="Padding10">10dp</dimen>
+    <dimen name="Padding12">12dp</dimen>
+    <dimen name="Padding30">30dp</dimen>
+    <dimen name="Padding32">32dp</dimen>
+    <dimen name="Padding48">48dp</dimen>
+    <dimen name="Padding60">60dp</dimen>
 </resources>

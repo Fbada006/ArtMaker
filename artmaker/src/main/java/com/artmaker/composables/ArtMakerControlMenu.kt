@@ -104,14 +104,14 @@ internal fun ArtMakerControlMenu(
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
-        shadowElevation = dimensionResource(id = R.dimen.art_maker_control_menu_surface_shadow_elevation),
+        shadowElevation = dimensionResource(id = R.dimen.Padding30),
         modifier = modifier,
     ) {
         Column {
             Row(
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(all = dimensionResource(id = R.dimen.art_maker_control_menu_default_padding)),
+                    .padding(all = dimensionResource(id = R.dimen.Padding10)),
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 MenuItem(
@@ -158,7 +158,7 @@ internal fun ArtMakerControlMenu(
                     Row(
                         modifier = Modifier
                             .navigationBarsPadding()
-                            .padding(bottom = dimensionResource(id = R.dimen.art_maker_control_menu_default_padding)),
+                            .padding(bottom = dimensionResource(id = R.dimen.Padding10)),
                     ) {
                         MenuItem(
                             imageVector = Icons.Filled.FileUpload,
@@ -188,7 +188,7 @@ internal fun ArtMakerControlMenu(
             }
             Box(
                 Modifier
-                    .padding(all = dimensionResource(id = R.dimen.art_maker_control_menu_drop_down_menu_size))
+                    .padding(all = dimensionResource(id = R.dimen.Padding12))
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
@@ -254,7 +254,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = Modifier.size(size = dimensionResource(id = R.dimen.art_maker_control_menu_icon_size)),
+            modifier = Modifier.size(size = dimensionResource(id = R.dimen.Padding32)),
         )
     }
 }

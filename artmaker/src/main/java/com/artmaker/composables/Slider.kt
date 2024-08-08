@@ -42,7 +42,7 @@ internal fun Slider(
 ) {
     Column(
         modifier = modifier
-            .padding(all = dimensionResource(id = R.dimen.slider_padding)),
+            .padding(all = dimensionResource(id = R.dimen.Padding7)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

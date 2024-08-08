@@ -84,8 +84,8 @@ internal fun ArtMakerDrawScreen(
     // Add an extra 2dp for line visibility
     val yOffset = with(density) {
         (
-            dimensionResource(id = R.dimen.art_maker_control_menu_height) + dimensionResource(
-                id = R.dimen.art_maker_drawer_screen_extra_visibility,
+            dimensionResource(id = R.dimen.Padding60) + dimensionResource(
+                id = R.dimen.Padding2,
             )
             ).toPx()
     }

@@ -65,15 +65,15 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(bottom = dimensionResource(id = R.dimen.art_maker_color_picker_default_padding)),
+                .padding(bottom = dimensionResource(id = R.dimen.Padding10)),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 FlowRow(
                     modifier = Modifier
-                        .padding(vertical = dimensionResource(id = R.dimen.art_maker_color_picker_flow_row_spacing)),
-                    horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.art_maker_color_picker_flow_row_spacing)),
-                    verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.art_maker_color_picker_flow_row_spacing)),
+                        .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
+                    horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                    verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
                     maxItemsInEachRow = NUM_COLUMNS,
                 ) {
                     repeat(ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size) { colorIndex ->
@@ -83,8 +83,8 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(size = dimensionResource(id = R.dimen.art_maker_color_picker_colour_box_size))
-                                    .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.art_maker_color_picker_colour_box_shape)))
+                                    .size(size = dimensionResource(id = R.dimen.Padding48))
+                                    .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
                                     .background(Color(color))
                                     .clickable {
                                         customColor = color

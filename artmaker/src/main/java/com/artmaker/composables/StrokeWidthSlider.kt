@@ -51,7 +51,7 @@ internal fun StrokeWidthSlider(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.background)
-                .padding(top = dimensionResource(id = R.dimen.stroke_width_slider_padding)),
+                .padding(top = dimensionResource(id = R.dimen.Padding4)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
