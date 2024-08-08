@@ -17,7 +17,6 @@ package com.artmaker.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.artmaker.artmaker.R
 
 /**
  * This is a SharedPreferences implementation that uses a Generic class to store the user's data...
@@ -41,7 +40,7 @@ internal class ArtMakerSharedPreferences(
             Long::class -> editor.putLong(key, value as Long)
             else -> {
                 throw IllegalArgumentException(
-                    "Could not save class type of ${T::class} to preferences."
+                    "Could not save class type of ${T::class} to preferences.",
                 )
             }
         }

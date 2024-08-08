@@ -38,7 +38,7 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
             if (scannedUri == null) {
                 continuation.cancel(
                     Exception(
-                        "File $filePath could not be scanned"
+                        "File $filePath could not be scanned",
                     ),
                 )
             } else {
