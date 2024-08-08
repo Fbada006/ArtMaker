@@ -55,6 +55,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -62,7 +63,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.state.ArtMakerUIState
-import com.artmaker.viewmodels.ArtMakerViewModel
 import com.google.modernstorage.photopicker.PhotoPicker
 
 val CONTROL_MENU_HEIGHT = 60.dp
@@ -82,7 +82,8 @@ internal fun ArtMakerControlMenu(
     onAction: (ArtMakerAction) -> Unit,
     modifier: Modifier = Modifier,
     onShowStrokeWidthPopup: () -> Unit,
-    viewModel: ArtMakerViewModel,
+    setBackgroundImage: (ImageBitmap?) -> Unit,
+    imageBitmap: ImageBitmap?,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -96,7 +97,7 @@ internal fun ArtMakerControlMenu(
                 // For Android versions below 9.0
                 BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
             }
-            viewModel.setImage(bitmap.asImageBitmap())
+            setBackgroundImage(bitmap.asImageBitmap())
         }
     var showMoreOptions by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
@@ -169,7 +170,7 @@ internal fun ArtMakerControlMenu(
                         MenuItem(
                             imageVector = Icons.Filled.Image,
                             onItemClicked = {
-                                if (viewModel.imageBitmap.value != null) {
+                                if (imageBitmap != null) {
                                     isExpanded = true
                                 } else {
                                     photoPicker.launch(
@@ -218,7 +219,8 @@ internal fun ArtMakerControlMenu(
                             Text(text = "Clear Image")
                         },
                         onClick = {
-                            viewModel.setImage(null)
+                            setBackgroundImage(null)
+//                            viewModel.setImage(null)
                             isExpanded = false
                             showMoreOptions = false
                         },

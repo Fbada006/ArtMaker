@@ -74,10 +74,11 @@ fun ArtMaker(modifier: Modifier = Modifier) {
             state = artMakerUIState,
             onAction = viewModel::onAction,
             modifier = Modifier.height(CONTROL_MENU_HEIGHT),
-            viewModel = viewModel,
             onShowStrokeWidthPopup = {
                 showStrokeWidth = !showStrokeWidth
             },
+            setBackgroundImage = viewModel::setImage,
+            imageBitmap = viewModel.imageBitmap.value,
         )
     }
 }
