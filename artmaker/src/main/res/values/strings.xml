@@ -19,4 +19,6 @@
     <string name="grant_access">Grant Access</string>
     <string name="set_width">Set width</string>
     <string name="share_your_image">Share your image</string>
+    <string name="change_image">Change Image</string>
+    <string name="clear_image">Clear Image</string>
 </resources>

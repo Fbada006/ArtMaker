@@ -18,6 +18,7 @@
     <dimen name="art_maker_control_menu_height">60dp</dimen>
     <dimen name="art_maker_control_menu_surface_shadow_elevation">30dp</dimen>
     <dimen name="art_maker_control_menu_icon_size">32dp</dimen>
+    <dimen name="art_maker_control_menu_drop_down_menu_size">12dp</dimen>
     <dimen name="art_maker_drawer_screen_extra_visibility">2dp</dimen>
     <dimen name="art_maker_control_menu_default_padding">10dp</dimen>
     <dimen name="art_maker_color_picker_default_padding">10dp</dimen>
