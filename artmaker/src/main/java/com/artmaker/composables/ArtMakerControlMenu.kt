@@ -21,6 +21,8 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -35,18 +37,22 @@ import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -78,6 +84,7 @@ internal fun ArtMakerControlMenu(
     onShowStrokeWidthPopup: () -> Unit,
     viewModel: ArtMakerViewModel,
 ) {
+    var isExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val photoPicker =
         rememberLauncherForActivityResult(PhotoPicker()) { uris ->
@@ -99,68 +106,92 @@ internal fun ArtMakerControlMenu(
         shadowElevation = 30.dp,
         modifier = modifier,
     ) {
-        Row(
-            modifier = Modifier
-                .navigationBarsPadding()
-                .padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-        ) {
-            MenuItem(
-                imageVector = Icons.Filled.Circle,
-                onItemClicked = { showColorPicker = true },
-                colorTint = Color(state.strokeColour),
-            )
-            MenuItem(
-                imageVector = Icons.Filled.Edit,
-                onItemClicked = onShowStrokeWidthPopup,
-            )
-            MenuItem(
-                imageVector = Icons.AutoMirrored.Filled.Undo,
-                onItemClicked = {
-                    onAction(ArtMakerAction.Undo)
-                },
-            )
-            MenuItem(
-                imageVector = Icons.AutoMirrored.Filled.Redo,
-                onItemClicked = {
-                    onAction(ArtMakerAction.Redo)
-                },
-            )
-            MenuItem(
-                imageVector = Icons.Filled.Refresh,
-                onItemClicked = {
-                    onAction(ArtMakerAction.Clear)
-                },
-            )
-            MenuItem(
-                imageVector = Icons.Filled.MoreVert,
-                onItemClicked = {
-                    showMoreOptions = true
-                },
-            )
-        }
-        if (showMoreOptions) {
-            ModalBottomSheet(
-                sheetState = sheetState,
-                onDismissRequest = {
-                    showMoreOptions = false
-                },
+        Column {
+            Row(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
             ) {
-                Row(
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .padding(bottom = 10.dp),
+                MenuItem(
+                    imageVector = Icons.Filled.Circle,
+                    onItemClicked = { showColorPicker = true },
+                    colorTint = Color(state.strokeColour),
+                )
+                MenuItem(
+                    imageVector = Icons.Filled.Edit,
+                    onItemClicked = onShowStrokeWidthPopup,
+                )
+                MenuItem(
+                    imageVector = Icons.AutoMirrored.Filled.Undo,
+                    onItemClicked = {
+                        onAction(ArtMakerAction.Undo)
+                    },
+                )
+                MenuItem(
+                    imageVector = Icons.AutoMirrored.Filled.Redo,
+                    onItemClicked = {
+                        onAction(ArtMakerAction.Redo)
+                    },
+                )
+                MenuItem(
+                    imageVector = Icons.Filled.Refresh,
+                    onItemClicked = {
+                        onAction(ArtMakerAction.Clear)
+                    },
+                )
+                MenuItem(
+                    imageVector = Icons.Filled.MoreVert,
+                    onItemClicked = {
+                        showMoreOptions = true
+                    },
+                )
+            }
+            if (showMoreOptions) {
+                ModalBottomSheet(
+                    sheetState = sheetState,
+                    onDismissRequest = {
+                        showMoreOptions = false
+                    },
                 ) {
-                    MenuItem(
-                        imageVector = Icons.Filled.FileUpload,
-                        onItemClicked = {
-                            showMoreOptions = false
-                            onAction(ArtMakerAction.TriggerArtExport)
+                    Row(
+                        modifier = Modifier
+                            .navigationBarsPadding()
+                            .padding(bottom = 10.dp),
+                    ) {
+                        MenuItem(
+                            imageVector = Icons.Filled.FileUpload,
+                            onItemClicked = {
+                                showMoreOptions = false
+                                onAction(ArtMakerAction.TriggerArtExport)
+                            },
+                        )
+                        MenuItem(
+                            imageVector = Icons.Filled.Image,
+                            onItemClicked = {
+                                isExpanded = true
+                            },
+                        )
+                    }
+                }
+            }
+            Box(
+                Modifier
+                    .padding(12.dp)
+                    .align(Alignment.End),
+            ) {
+                DropdownMenu(
+                    expanded = isExpanded,
+                    onDismissRequest = {
+                        isExpanded = false
+                        showMoreOptions = false
+                    },
+                ) {
+                    DropdownMenuItem(
+                        text = {
+                            Text(text = "Add Image")
                         },
-                    )
-                    MenuItem(
-                        imageVector = Icons.Filled.Image,
-                        onItemClicked = {
+                        onClick = {
                             // Launch the picker with only one image selectable
                             photoPicker.launch(
                                 PhotoPicker.Args(
@@ -168,21 +199,32 @@ internal fun ArtMakerControlMenu(
                                     IMAGE_PICKER_MAX_ITEMS,
                                 ),
                             )
+                            isExpanded = false
+                            showMoreOptions = false
+                        },
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Text(text = "Clear Image")
+                        },
+                        onClick = {
+                            viewModel.setImage(null)
+                            isExpanded = false
                             showMoreOptions = false
                         },
                     )
                 }
             }
-        }
-        if (showColorPicker) {
-            ColorPicker(
-                onDismissRequest = { showColorPicker = false },
-                defaultColor = state.strokeColour,
-                onClick = { colorArgb ->
-                    onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
-                    showColorPicker = false
-                },
-            )
+            if (showColorPicker) {
+                ColorPicker(
+                    onDismissRequest = { showColorPicker = false },
+                    defaultColor = state.strokeColour,
+                    onClick = { colorArgb ->
+                        onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
+                        showColorPicker = false
+                    },
+                )
+            }
         }
     }
 }
