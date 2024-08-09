@@ -23,6 +23,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.ContextCompat.startActivity
+import com.artmaker.artmaker.R
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
@@ -35,7 +36,11 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
             arrayOf("image/png"),
         ) { _, scannedUri ->
             if (scannedUri == null) {
-                continuation.cancel(Exception("File $filePath could not be scanned"))
+                continuation.cancel(
+                    Exception(
+                        "File $filePath could not be scanned",
+                    ),
+                )
             } else {
                 continuation.resume(scannedUri)
             }
@@ -67,7 +72,7 @@ internal fun shareBitmap(context: Context, uri: Uri) {
         putExtra(Intent.EXTRA_STREAM, uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
-    val chooser = createChooser(intent, "Share your image").apply {
+    val chooser = createChooser(intent, context.getString(R.string.share_your_image)).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     startActivity(context, chooser, null)

@@ -39,7 +39,9 @@ internal class ArtMakerSharedPreferences(
             Float::class -> editor.putFloat(key, value as Float)
             Long::class -> editor.putLong(key, value as Long)
             else -> {
-                throw IllegalArgumentException("Could not save class type of ${T::class} to preferences.")
+                throw IllegalArgumentException(
+                    "Could not save class type of ${T::class} to preferences.",
+                )
             }
         }
         editor.apply()

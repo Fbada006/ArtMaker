@@ -47,11 +47,14 @@ import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
+import com.artmaker.artmaker.R
 import com.artmaker.models.PointsData
 import com.artmaker.state.ArtMakerUIState
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -79,7 +82,13 @@ internal fun ArtMakerDrawScreen(
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
-    val yOffset = with(density) { (CONTROL_MENU_HEIGHT + 2.dp).toPx() }
+    val yOffset = with(density) {
+        (
+            dimensionResource(id = R.dimen.Padding60) + dimensionResource(
+                id = R.dimen.Padding2,
+            )
+            ).toPx()
+    }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
     var bitmapHeight by rememberSaveable {
@@ -101,6 +110,8 @@ internal fun ArtMakerDrawScreen(
         },
     )
 
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = shouldTriggerArtExport) {
         if (shouldTriggerArtExport) {
             if (writeStorageAccessState.allPermissionsGranted) {
@@ -109,8 +120,8 @@ internal fun ArtMakerDrawScreen(
             } else if (writeStorageAccessState.shouldShowRationale) {
                 launch {
                     val result = snackbarHostState.showSnackbar(
-                        message = "The storage permission is needed to save the image.",
-                        actionLabel = "Grant Access",
+                        message = context.getString(R.string.the_storage_permission_is_needed_to_save_the_image),
+                        actionLabel = context.getString(R.string.grant_access),
                     )
 
                     if (result == SnackbarResult.ActionPerformed) {

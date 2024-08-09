@@ -26,12 +26,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.artmaker.artmaker.R
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
-import com.artmaker.composables.CONTROL_MENU_HEIGHT
 import com.artmaker.composables.StrokeWidthSlider
 import com.artmaker.viewmodels.ArtMakerViewModel
 
@@ -73,7 +74,7 @@ fun ArtMaker(modifier: Modifier = Modifier) {
         ArtMakerControlMenu(
             state = artMakerUIState,
             onAction = viewModel::onAction,
-            modifier = Modifier.height(CONTROL_MENU_HEIGHT),
+            modifier = Modifier.height(height = dimensionResource(id = R.dimen.Padding60)),
             onShowStrokeWidthPopup = {
                 showStrokeWidth = !showStrokeWidth
             },

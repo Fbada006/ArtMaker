@@ -59,13 +59,13 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.core.os.BuildCompat
 import com.artmaker.actions.ArtMakerAction
+import com.artmaker.artmaker.R
 import com.artmaker.state.ArtMakerUIState
 import com.google.modernstorage.photopicker.PhotoPicker
-
-val CONTROL_MENU_HEIGHT = 60.dp
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
 
@@ -104,14 +104,14 @@ internal fun ArtMakerControlMenu(
     val sheetState = rememberModalBottomSheetState()
 
     Surface(
-        shadowElevation = 30.dp,
+        shadowElevation = dimensionResource(id = R.dimen.Padding30),
         modifier = modifier,
     ) {
         Column {
             Row(
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(10.dp),
+                    .padding(all = dimensionResource(id = R.dimen.Padding10)),
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 MenuItem(
@@ -158,7 +158,7 @@ internal fun ArtMakerControlMenu(
                     Row(
                         modifier = Modifier
                             .navigationBarsPadding()
-                            .padding(bottom = 10.dp),
+                            .padding(bottom = dimensionResource(id = R.dimen.Padding10)),
                     ) {
                         MenuItem(
                             imageVector = Icons.Filled.FileUpload,
@@ -188,7 +188,7 @@ internal fun ArtMakerControlMenu(
             }
             Box(
                 Modifier
-                    .padding(12.dp)
+                    .padding(all = dimensionResource(id = R.dimen.Padding12))
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
@@ -200,7 +200,7 @@ internal fun ArtMakerControlMenu(
                 ) {
                     DropdownMenuItem(
                         text = {
-                            Text(text = "Change Image")
+                            Text(text = stringResource(id = R.string.change_image))
                         },
                         onClick = {
                             // Launch the picker with only one image selectable
@@ -216,7 +216,7 @@ internal fun ArtMakerControlMenu(
                     )
                     DropdownMenuItem(
                         text = {
-                            Text(text = "Clear Image")
+                            Text(text = stringResource(id = R.string.clear_image))
                         },
                         onClick = {
                             setBackgroundImage(null)
@@ -254,7 +254,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(size = dimensionResource(id = R.dimen.Padding32)),
         )
     }
 }
