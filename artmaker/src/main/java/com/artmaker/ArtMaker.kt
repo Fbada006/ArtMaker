@@ -41,9 +41,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.artmaker.artmaker.R
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.ExportType
+import com.artmaker.artmaker.R
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 import com.artmaker.composables.StrokeWidthSlider
