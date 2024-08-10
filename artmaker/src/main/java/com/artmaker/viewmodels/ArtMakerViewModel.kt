@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
+import com.artmaker.models.ArtMakerDefaults
 import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
@@ -48,17 +49,18 @@ import java.util.Stack
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
     private val applicationContext: Context,
+    defaults: ArtMakerDefaults
 ) : ViewModel() {
 
     private var _artMakerUIState = MutableStateFlow(
         value = ArtMakerUIState(
             strokeColour = preferences.get(
                 PreferenceKeys.SELECTED_STROKE_COLOUR,
-                0,
+                defaults.strokeColor.toArgb(),
             ),
             strokeWidth = preferences.get(
                 PreferenceKeys.SELECTED_STROKE_WIDTH,
-                defaultValue = 5,
+                defaults.strokeWidth.toInt(),
             ),
         ),
     )
@@ -187,6 +189,7 @@ internal class ArtMakerViewModel(
                             context = application,
                         ),
                         applicationContext = application.applicationContext,
+                        defaults = ArtMakerDefaults()
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")
