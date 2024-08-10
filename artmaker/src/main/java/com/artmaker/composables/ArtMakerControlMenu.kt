@@ -121,11 +121,13 @@ internal fun ArtMakerControlMenu(
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 MenuItem(
-                    modifier = Modifier.border(
-                        width = dimensionResource(id = R.dimen.Padding2),
-                        brush = Brush.linearGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
-                        shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding32)),
-                    ),
+                    modifier = Modifier
+                        .border(
+                            width = dimensionResource(id = R.dimen.Padding2),
+                            brush = Brush.linearGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
+                            shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding32)),
+                        )
+                        .padding(all = dimensionResource(id = R.dimen.Padding4)),
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
