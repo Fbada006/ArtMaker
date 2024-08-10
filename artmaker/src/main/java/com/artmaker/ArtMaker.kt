@@ -16,6 +16,8 @@
 package com.artmaker
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -40,6 +42,7 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  * [ArtMaker] composable which has our draw screen and controllers
  * We will expose this composable and test our Library on the app layer
  */
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier) {
