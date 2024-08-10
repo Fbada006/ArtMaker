@@ -15,6 +15,8 @@
  */
 package com.artmaker.composables
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,12 +46,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
+import androidx.core.graphics.luminance
 import com.artmaker.artmaker.R
 import com.artmaker.utils.ColorUtils
 
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (ColorArgb) -> Unit) {
@@ -96,7 +100,7 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = null,
-                                    tint = Color.White,
+                                    tint = if (color.luminance > 0.5) Color.Black else Color.White,
                                     modifier = Modifier
                                         .align(Alignment.Center),
                                 )
