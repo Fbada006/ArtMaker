@@ -43,7 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.artmaker.artmaker.R
 import com.artmaker.utils.ColorUtils
 
 private const val NUM_COLUMNS = 5
@@ -64,15 +65,15 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(bottom = 10.dp),
+                .padding(bottom = dimensionResource(id = R.dimen.Padding10)),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 FlowRow(
                     modifier = Modifier
-                        .padding(vertical = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                        .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
+                    horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                    verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
                     maxItemsInEachRow = NUM_COLUMNS,
                 ) {
                     repeat(ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size) { colorIndex ->
@@ -82,8 +83,8 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(48.dp)
-                                    .clip(RoundedCornerShape(8.dp))
+                                    .size(size = dimensionResource(id = R.dimen.Padding48))
+                                    .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
                                     .background(Color(color))
                                     .clickable {
                                         customColor = color

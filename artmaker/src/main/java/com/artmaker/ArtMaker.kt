@@ -37,15 +37,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
 import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.artmaker.artmaker.R
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.ExportType
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
-import com.artmaker.composables.CONTROL_MENU_HEIGHT
 import com.artmaker.composables.StrokeWidthSlider
 import com.artmaker.viewmodels.ArtMakerViewModel
 
@@ -71,12 +71,15 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
 
     Scaffold(
         floatingActionButton = {
-            AnimatedVisibility(visible = viewModel.pathList.isNotEmpty()) {
-                Column(modifier = Modifier.padding(bottom = CONTROL_MENU_HEIGHT)) {
+            AnimatedVisibility(
+                visible = viewModel.pathList.isNotEmpty(),
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.Padding60)),
+            ) {
+                Column {
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
                         Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
@@ -107,38 +110,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
             ArtMakerControlMenu(
                 state = artMakerUIState,
                 onAction = viewModel::onAction,
-                modifier = Modifier.height(CONTROL_MENU_HEIGHT),
-                onShowStrokeWidthPopup = {
-                    showStrokeWidth = !showStrokeWidth
-                },
-                setBackgroundImage = viewModel::setImage,
-                imageBitmap = viewModel.backgroundImage.value,
-            )
-        }
-        Column(modifier = modifier) {
-            ArtMakerDrawScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f),
-                state = artMakerUIState,
-                onDrawEvent = {
-                    showStrokeWidth = false
-                    viewModel.onDrawEvent(it)
-                },
-                onAction = viewModel::onAction,
-                pathList = viewModel.pathList,
-                shouldTriggerArtExport = shouldTriggerArtExport,
-                imageBitmap = viewModel.backgroundImage.value,
-            )
-            StrokeWidthSlider(
-                state = artMakerUIState,
-                onAction = viewModel::onAction,
-                isVisible = showStrokeWidth,
-            )
-            ArtMakerControlMenu(
-                state = artMakerUIState,
-                onAction = viewModel::onAction,
-                modifier = Modifier.height(CONTROL_MENU_HEIGHT),
+                modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
                 onShowStrokeWidthPopup = {
                     showStrokeWidth = !showStrokeWidth
                 },
