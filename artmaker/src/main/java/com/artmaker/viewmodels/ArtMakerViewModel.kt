@@ -36,6 +36,7 @@ import com.artmaker.models.ArtMakerDefaults
 import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
+import com.artmaker.sharedpreferences.PreferenceKeys.SELECTED_STROKE_WIDTH
 import com.artmaker.state.ArtMakerUIState
 import com.artmaker.utils.saveToDisk
 import com.artmaker.utils.shareBitmap
@@ -49,20 +50,28 @@ import java.util.Stack
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
     private val applicationContext: Context,
-    defaults: ArtMakerDefaults
+    private val defaults: ArtMakerDefaults
 ) : ViewModel() {
 
     private var _artMakerUIState = MutableStateFlow(
-        value = ArtMakerUIState(
-            strokeColour = preferences.get(
-                PreferenceKeys.SELECTED_STROKE_COLOUR,
-                defaults.strokeColor.toArgb(),
-            ),
-            strokeWidth = preferences.get(
-                PreferenceKeys.SELECTED_STROKE_WIDTH,
-                defaults.strokeWidth.toInt(),
-            ),
-        ),
+        value = if (preferences.contains(PreferenceKeys.SELECTED_STROKE_COLOUR)){
+            ArtMakerUIState(
+                strokeColour = preferences.get(
+                    PreferenceKeys.SELECTED_STROKE_COLOUR,
+                    defaults.strokeColor.toArgb(),
+                ),
+                strokeWidth = preferences.get(
+                    SELECTED_STROKE_WIDTH,
+                    defaults.strokeWidth.toInt(),
+                ),
+            )
+        } else {
+
+            ArtMakerUIState(
+                strokeColour = defaults.strokeColor.toArgb(),
+                strokeWidth =0
+            )
+        }
     )
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
@@ -86,7 +95,7 @@ internal class ArtMakerViewModel(
             ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
-            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
+            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth, defaults = defaults)
         }
     }
 
@@ -105,6 +114,14 @@ internal class ArtMakerViewModel(
             strokeWidth = artMakerUIState.value.strokeWidth.toFloat(),
         )
         _pathList.add(data)
+    }
+
+     fun getValue():Int  =
+        if (preferences.contains(PreferenceKeys.SELECTED_STROKE_COLOUR)){
+            _artMakerUIState.value.strokeWidth
+        }else {
+            defaults.strokeWidth.toInt()
+
     }
 
     private fun updateCurrentShape(offset: Offset) {
@@ -162,18 +179,27 @@ internal class ArtMakerViewModel(
         _imageBitmap.value = bitmap
     }
 
-    private fun selectStrokeWidth(strokeWidth: Int) {
-        preferences.set(
-            key = PreferenceKeys.SELECTED_STROKE_WIDTH,
-            value = strokeWidth,
-        )
-        _artMakerUIState.update {
-            it.copy(
-                strokeWidth = preferences.get(
-                    PreferenceKeys.SELECTED_STROKE_WIDTH,
-                    defaultValue = 5,
-                ),
+    private fun selectStrokeWidth(strokeWidth: Int, defaults: ArtMakerDefaults) {
+
+        if (preferences.contains(SELECTED_STROKE_WIDTH)){
+            preferences.set(
+                key = SELECTED_STROKE_WIDTH,
+                value = strokeWidth,
             )
+            _artMakerUIState.update {
+                it.copy(
+                    strokeWidth = preferences.get(
+                        SELECTED_STROKE_WIDTH,
+                        defaultValue = 5,
+                    ),
+                )
+            }
+        } else {
+            _artMakerUIState.update {
+                it.copy(
+                    strokeWidth = defaults.strokeWidth.toInt()
+                )
+            }
         }
     }
 

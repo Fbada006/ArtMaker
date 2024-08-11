@@ -20,8 +20,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.artmaker.ArtMaker
 import com.artmaker.demo.ui.theme.ArtMakerTheme
 import com.artmaker.models.ArtMakerDefaults
@@ -34,10 +36,8 @@ class MainActivity : ComponentActivity() {
                 ArtMaker(
                     modifier = Modifier.fillMaxSize(),
                     defaults = ArtMakerDefaults(
-                        strokeWidth = 30f
-//                        sliderTextColor = MaterialTheme.colorScheme.primary,
-//                        sliderThumbColor = MaterialTheme.colorScheme.error,
-                    ),
+                        strokeWidth = 12f
+                    )
                 )
             }
         }

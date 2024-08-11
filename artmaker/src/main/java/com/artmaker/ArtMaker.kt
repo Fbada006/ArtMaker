@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 import com.artmaker.composables.StrokeWidthSlider
 import com.artmaker.models.ArtMakerDefaults
+import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
@@ -72,7 +74,8 @@ fun ArtMaker(modifier: Modifier = Modifier, defaults: ArtMakerDefaults) {
             state = artMakerUIState,
             onAction = viewModel::onAction,
             isVisible = showStrokeWidth,
-            defaults = defaults
+            defaults = defaults,
+            preferences = ArtMakerSharedPreferences(context = context)
         )
         ArtMakerControlMenu(
             state = artMakerUIState,
