@@ -108,7 +108,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 onAction = viewModel::onAction,
                 isVisible = showStrokeWidth,
                 artMakerDefaults = artMakerDefaults,
-                )
+            )
             ArtMakerControlMenu(
                 state = artMakerUIState,
                 onAction = viewModel::onAction,
