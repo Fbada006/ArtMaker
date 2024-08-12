@@ -166,7 +166,12 @@ internal class ArtMakerViewModel(
             value = colour.toArgb(),
         )
         _artMakerUIState.update {
-            it.copy(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, defaultValue = Color.Red.toArgb()))
+            it.copy(
+                strokeColour = preferences.get(
+                    PreferenceKeys.SELECTED_STROKE_COLOUR,
+                    defaultValue = 0,
+                ),
+            )
         }
     }
 
@@ -183,7 +188,7 @@ internal class ArtMakerViewModel(
             it.copy(
                 strokeWidth = preferences.get(
                     PreferenceKeys.SELECTED_STROKE_WIDTH,
-                    defaultValue = 5,
+                    defaultValue = 0,
                 ),
             )
         }
