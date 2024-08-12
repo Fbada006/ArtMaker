@@ -17,6 +17,7 @@ package com.artmaker.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -32,6 +33,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
+import com.artmaker.actions.ExportType
 import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
@@ -73,12 +75,17 @@ internal class ArtMakerViewModel(
     private val _shouldTriggerArtExport = MutableStateFlow(false)
     val shouldTriggerArtExport: StateFlow<Boolean> = _shouldTriggerArtExport
 
-    private val _imageBitmap: MutableState<ImageBitmap?> = mutableStateOf(null)
-    val imageBitmap: State<ImageBitmap?> = _imageBitmap
+    private val _backgroundImage: MutableState<ImageBitmap?> = mutableStateOf(null)
+    val backgroundImage: State<ImageBitmap?> = _backgroundImage
+
+    private val exportType = mutableStateOf<ExportType>(ExportType.FinishDrawingImage)
+
+    private val _finishedImage = MutableStateFlow<Bitmap?>(null)
+    val finishedImage = _finishedImage.asStateFlow()
 
     fun onAction(action: ArtMakerAction) {
         when (action) {
-            ArtMakerAction.TriggerArtExport -> triggerArtExport()
+            is ArtMakerAction.TriggerArtExport -> triggerArtExport(action.type)
             is ArtMakerAction.ExportArt -> exportArt(action.bitmap)
             ArtMakerAction.Redo -> redo()
             ArtMakerAction.Undo -> undo()
@@ -116,14 +123,21 @@ internal class ArtMakerViewModel(
         _pathList[idx].points.removeLast()
     }
 
-    private fun triggerArtExport() {
+    private fun triggerArtExport(type: ExportType) {
+        exportType.value = type
         _shouldTriggerArtExport.update { true }
     }
 
     private fun exportArt(bitmap: ImageBitmap) {
+        _shouldTriggerArtExport.update { false }
         viewModelScope.launch {
-            val uri = bitmap.asAndroidBitmap().saveToDisk(applicationContext)
-            _shouldTriggerArtExport.update { false }
+            val bmp = bitmap.asAndroidBitmap()
+            if (exportType.value == ExportType.FinishDrawingImage) {
+                // At this point, the drawing done and we are going to share it programmatically
+                _finishedImage.update { bmp }
+                return@launch
+            }
+            val uri = bmp.saveToDisk(applicationContext)
             shareBitmap(applicationContext, uri)
         }
     }
@@ -158,7 +172,7 @@ internal class ArtMakerViewModel(
     }
 
     fun setImage(bitmap: ImageBitmap?) {
-        _imageBitmap.value = bitmap
+        _backgroundImage.value = bitmap
     }
 
     private fun selectStrokeWidth(strokeWidth: Int) {
