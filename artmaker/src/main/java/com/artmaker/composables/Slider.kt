@@ -40,7 +40,7 @@ internal fun Slider(
     modifier: Modifier = Modifier,
     sliderPosition: Float,
     onValueChange: (Float) -> Unit,
-    defaults:ArtMakerDefaults
+    defaults: ArtMakerDefaults,
 ) {
     Column(
         modifier = modifier

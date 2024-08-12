@@ -19,9 +19,7 @@ import android.app.Application
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,7 +35,6 @@ import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 import com.artmaker.composables.StrokeWidthSlider
 import com.artmaker.models.ArtMakerDefaults
-import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
@@ -46,7 +43,7 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  */
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
-fun ArtMaker(modifier: Modifier = Modifier, defaults: ArtMakerDefaults) {
+fun ArtMaker(modifier: Modifier = Modifier, artMakerDefaults: ArtMakerDefaults = ArtMakerDefaults()) {
     val context = LocalContext.current
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
@@ -60,7 +57,7 @@ fun ArtMaker(modifier: Modifier = Modifier, defaults: ArtMakerDefaults) {
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-            state = artMakerUIState,
+            artMakerDefaults = artMakerDefaults,
             onDrawEvent = {
                 showStrokeWidth = false
                 viewModel.onDrawEvent(it)
@@ -74,8 +71,7 @@ fun ArtMaker(modifier: Modifier = Modifier, defaults: ArtMakerDefaults) {
             state = artMakerUIState,
             onAction = viewModel::onAction,
             isVisible = showStrokeWidth,
-            defaults = defaults,
-            preferences = ArtMakerSharedPreferences(context = context)
+            artMakerDefaults = artMakerDefaults,
         )
         ArtMakerControlMenu(
             state = artMakerUIState,
@@ -86,6 +82,7 @@ fun ArtMaker(modifier: Modifier = Modifier, defaults: ArtMakerDefaults) {
             },
             setBackgroundImage = viewModel::setImage,
             imageBitmap = viewModel.imageBitmap.value,
+            artMakerDefaults = artMakerDefaults,
         )
     }
 }

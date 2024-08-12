@@ -32,7 +32,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
-import com.artmaker.models.ArtMakerDefaults
 import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
@@ -50,28 +49,19 @@ import java.util.Stack
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
     private val applicationContext: Context,
-    private val defaults: ArtMakerDefaults
 ) : ViewModel() {
 
     private var _artMakerUIState = MutableStateFlow(
-        value = if (preferences.contains(PreferenceKeys.SELECTED_STROKE_COLOUR)){
-            ArtMakerUIState(
-                strokeColour = preferences.get(
-                    PreferenceKeys.SELECTED_STROKE_COLOUR,
-                    defaults.strokeColor.toArgb(),
-                ),
-                strokeWidth = preferences.get(
-                    SELECTED_STROKE_WIDTH,
-                    defaults.strokeWidth.toInt(),
-                ),
-            )
-        } else {
-
-            ArtMakerUIState(
-                strokeColour = defaults.strokeColor.toArgb(),
-                strokeWidth =0
-            )
-        }
+        value = ArtMakerUIState(
+            strokeColour = preferences.get(
+                PreferenceKeys.SELECTED_STROKE_COLOUR,
+                0,
+            ),
+            strokeWidth = preferences.get(
+                SELECTED_STROKE_WIDTH,
+                defaultValue = 5,
+            ),
+        ),
     )
     val artMakerUIState = _artMakerUIState.asStateFlow()
 
@@ -95,7 +85,7 @@ internal class ArtMakerViewModel(
             ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
-            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth, defaults = defaults)
+            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
         }
     }
 
@@ -114,14 +104,6 @@ internal class ArtMakerViewModel(
             strokeWidth = artMakerUIState.value.strokeWidth.toFloat(),
         )
         _pathList.add(data)
-    }
-
-     fun getValue():Int  =
-        if (preferences.contains(PreferenceKeys.SELECTED_STROKE_COLOUR)){
-            _artMakerUIState.value.strokeWidth
-        }else {
-            defaults.strokeWidth.toInt()
-
     }
 
     private fun updateCurrentShape(offset: Offset) {
@@ -179,27 +161,18 @@ internal class ArtMakerViewModel(
         _imageBitmap.value = bitmap
     }
 
-    private fun selectStrokeWidth(strokeWidth: Int, defaults: ArtMakerDefaults) {
-
-        if (preferences.contains(SELECTED_STROKE_WIDTH)){
-            preferences.set(
-                key = SELECTED_STROKE_WIDTH,
-                value = strokeWidth,
+    private fun selectStrokeWidth(strokeWidth: Int) {
+        preferences.set(
+            key = SELECTED_STROKE_WIDTH,
+            value = strokeWidth,
+        )
+        _artMakerUIState.update {
+            it.copy(
+                strokeWidth = preferences.get(
+                    SELECTED_STROKE_WIDTH,
+                    defaultValue = 5,
+                ),
             )
-            _artMakerUIState.update {
-                it.copy(
-                    strokeWidth = preferences.get(
-                        SELECTED_STROKE_WIDTH,
-                        defaultValue = 5,
-                    ),
-                )
-            }
-        } else {
-            _artMakerUIState.update {
-                it.copy(
-                    strokeWidth = defaults.strokeWidth.toInt()
-                )
-            }
         }
     }
 
@@ -215,7 +188,6 @@ internal class ArtMakerViewModel(
                             context = application,
                         ),
                         applicationContext = application.applicationContext,
-                        defaults = ArtMakerDefaults()
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")
