@@ -69,8 +69,4 @@ internal class ArtMakerSharedPreferences(
         }
         return defaultValue
     }
-
-    fun contains(key: String): Boolean {
-        return artMakerSharedPreferences.contains(key)
-    }
 }
