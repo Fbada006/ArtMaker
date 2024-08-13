@@ -18,7 +18,7 @@ package com.artmaker.models
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
-data class ArtMakerDefaults(
+data class ArtMakerConfiguration(
     val sliderThumbColor: Color = Color.Unspecified,
     val sliderActiveTrackColor: Color = Color.Unspecified,
     val sliderInactiveTickColor: Color = Color.Unspecified,
