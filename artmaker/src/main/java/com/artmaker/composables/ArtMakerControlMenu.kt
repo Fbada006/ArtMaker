@@ -20,7 +20,6 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -75,7 +74,6 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
  * without any functionality.
  */
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(

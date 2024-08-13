@@ -17,8 +17,6 @@ package com.artmaker
 
 import android.app.Application
 import android.graphics.Bitmap
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -55,7 +53,6 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  * [ArtMaker] composable which has our draw screen and controllers
  * We will expose this composable and test our Library on the app layer
  */
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
 fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = {}) {
