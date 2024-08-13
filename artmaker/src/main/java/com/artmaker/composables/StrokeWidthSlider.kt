@@ -68,7 +68,7 @@ internal fun StrokeWidthSlider(
                     sliderPosition = it.toInt()
                     onAction(ArtMakerAction.SelectStrokeWidth(strokeWidth = sliderPosition))
                 },
-                defaults = artMakerConfiguration,
+                artMakerConfiguration = artMakerConfiguration,
             )
         }
     }

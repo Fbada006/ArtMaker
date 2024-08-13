@@ -40,7 +40,7 @@ internal fun Slider(
     modifier: Modifier = Modifier,
     sliderPosition: Float,
     onValueChange: (Float) -> Unit,
-    defaults: ArtMakerConfiguration,
+    artMakerConfiguration: ArtMakerConfiguration,
 ) {
     Column(
         modifier = modifier
@@ -51,15 +51,15 @@ internal fun Slider(
         Text(
             text = sliderPosition.toInt().toString(),
             style = MaterialTheme.typography.titleLarge,
-            color = defaults.strokeSliderTextColor,
+            color = artMakerConfiguration.strokeSliderTextColor,
         )
         Slider(
             value = sliderPosition,
             onValueChange = onValueChange,
             colors = SliderDefaults.colors(
-                thumbColor = defaults.strokeSliderThumbColor,
-                activeTrackColor = defaults.strokeSliderActiveTrackColor,
-                inactiveTickColor = defaults.strokeSliderInactiveTickColor,
+                thumbColor = artMakerConfiguration.strokeSliderThumbColor,
+                activeTrackColor = artMakerConfiguration.strokeSliderActiveTrackColor,
+                inactiveTickColor = artMakerConfiguration.strokeSliderInactiveTickColor,
             ),
             valueRange = MIN_WIDTH..MAX_WIDTH,
         )

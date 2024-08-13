@@ -57,7 +57,7 @@ internal fun ColorPicker(
     onDismissRequest: () -> Unit,
     defaultColor: Int,
     onClick: (ColorArgb) -> Unit,
-    artMakerDefaults: ArtMakerConfiguration,
+    artMakerConfiguration: ArtMakerConfiguration,
 ) {
     val sheetState = rememberModalBottomSheetState()
     var customColor by rememberSaveable { mutableIntStateOf(defaultColor) }
@@ -83,15 +83,15 @@ internal fun ColorPicker(
                     maxItemsInEachRow = NUM_COLUMNS,
                 ) {
                     repeat(
-                        if (artMakerDefaults.pickerCustomColors.isNotEmpty()) {
-                            artMakerDefaults.pickerCustomColors.size
+                        if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
+                            artMakerConfiguration.pickerCustomColors.size
                         } else {
                             ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size
                         },
                     ) { colorIndex ->
                         val color =
-                            if (artMakerDefaults.pickerCustomColors.isNotEmpty()) {
-                                artMakerDefaults.pickerCustomColors[colorIndex].toArgb()
+                            if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
+                                artMakerConfiguration.pickerCustomColors[colorIndex].toArgb()
                             } else {
                                 ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
                             }

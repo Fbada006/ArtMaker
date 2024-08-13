@@ -198,7 +198,7 @@ internal fun ArtMakerControlMenu(
                         onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
                         showColorPicker = false
                     },
-                    artMakerDefaults = artMakerConfiguration,
+                    artMakerConfiguration = artMakerConfiguration,
                 )
             }
         }
