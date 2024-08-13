@@ -97,8 +97,13 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
                                     imageVector = Icons.Default.Check,
                                     contentDescription = null,
                                     tint = if (androidx.core.graphics.ColorUtils.calculateLuminance(
-                                        color
-                                    ) > 0.5) Color.Black else Color.White,
+                                            color,
+                                        ) > 0.5
+                                    ) {
+                                        Color.Black
+                                    } else {
+                                        Color.White
+                                    },
                                     modifier = Modifier
                                         .align(Alignment.Center),
                                 )
