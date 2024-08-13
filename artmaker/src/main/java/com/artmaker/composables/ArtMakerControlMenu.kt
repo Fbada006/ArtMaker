@@ -115,7 +115,7 @@ internal fun ArtMakerControlMenu(
                     modifier = Modifier
                         .border(
                             width = dimensionResource(id = R.dimen.Padding2),
-                            brush = Brush.linearGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
+                            brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
                             shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding32)),
                         )
                         .padding(all = dimensionResource(id = R.dimen.Padding4)),
