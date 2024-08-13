@@ -47,7 +47,7 @@ import com.artmaker.artmaker.R
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 import com.artmaker.composables.StrokeWidthSlider
-import com.artmaker.models.ArtMakerDefaults
+import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
@@ -56,7 +56,7 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  */
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
-fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = {}, artMakerDefaults: ArtMakerDefaults = ArtMakerDefaults()) {
+fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = {}, artMakerDefaults: ArtMakerConfiguration = ArtMakerConfiguration()) {
     val context = LocalContext.current
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),

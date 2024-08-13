@@ -45,7 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
 import com.artmaker.artmaker.R
-import com.artmaker.models.ArtMakerDefaults
+import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.utils.ColorUtils
 
 private const val NUM_COLUMNS = 5
@@ -57,7 +57,7 @@ internal fun ColorPicker(
     onDismissRequest: () -> Unit,
     defaultColor: Int,
     onClick: (ColorArgb) -> Unit,
-    artMakerDefaults: ArtMakerDefaults,
+    artMakerDefaults: ArtMakerConfiguration,
 ) {
     val sheetState = rememberModalBottomSheetState()
     var customColor by rememberSaveable { mutableIntStateOf(defaultColor) }
@@ -83,15 +83,15 @@ internal fun ColorPicker(
                     maxItemsInEachRow = NUM_COLUMNS,
                 ) {
                     repeat(
-                        if (artMakerDefaults.colors.isNotEmpty()) {
-                            artMakerDefaults.colors.size
+                        if (artMakerDefaults.pickerCustomColors.isNotEmpty()) {
+                            artMakerDefaults.pickerCustomColors.size
                         } else {
                             ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size
                         },
                     ) { colorIndex ->
                         val color =
-                            if (artMakerDefaults.colors.isNotEmpty()) {
-                                artMakerDefaults.colors[colorIndex].toArgb()
+                            if (artMakerDefaults.pickerCustomColors.isNotEmpty()) {
+                                artMakerDefaults.pickerCustomColors[colorIndex].toArgb()
                             } else {
                                 ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
                             }

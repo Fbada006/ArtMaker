@@ -55,7 +55,7 @@ import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
 import com.artmaker.artmaker.R
-import com.artmaker.models.ArtMakerDefaults
+import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.models.PointsData
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -69,7 +69,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
-    artMakerDefaults: ArtMakerDefaults,
+    artMakerDefaults: ArtMakerConfiguration,
     onDrawEvent: (DrawEvent) -> Unit,
     onAction: (ArtMakerAction) -> Unit,
     pathList: SnapshotStateList<PointsData>,
@@ -136,7 +136,7 @@ internal fun ArtMakerDrawScreen(
 
     Canvas(
         modifier = modifier
-            .background(color = Color(color = artMakerDefaults.backgroundColor))
+            .background(color = Color(color = artMakerDefaults.canvasBackgroundColor))
             .onSizeChanged { updatedSize ->
                 val bitmapSize =
                     updatedSize.takeIf { it.height != 0 && it.width != 0 } ?: return@onSizeChanged
