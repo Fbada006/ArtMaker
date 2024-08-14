@@ -59,6 +59,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.os.BuildCompat
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.artmaker.R
+import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.state.ArtMakerUIState
 import com.google.modernstorage.photopicker.PhotoPicker
 
@@ -79,6 +80,7 @@ internal fun ArtMakerControlMenu(
     onShowStrokeWidthPopup: () -> Unit,
     setBackgroundImage: (ImageBitmap?) -> Unit,
     imageBitmap: ImageBitmap?,
+    artMakerConfiguration: ArtMakerConfiguration,
 ) {
     var areImageOptionsExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -97,8 +99,9 @@ internal fun ArtMakerControlMenu(
     var showColorPicker by remember { mutableStateOf(false) }
 
     Surface(
-        shadowElevation = dimensionResource(id = R.dimen.Padding30),
+        shadowElevation = dimensionResource(id = R.dimen.Padding60),
         modifier = modifier,
+        color = artMakerConfiguration.controllerBackgroundColor,
     ) {
         Column {
             Row(
@@ -195,6 +198,7 @@ internal fun ArtMakerControlMenu(
                         onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
                         showColorPicker = false
                     },
+                    artMakerConfiguration = artMakerConfiguration,
                 )
             }
         }
