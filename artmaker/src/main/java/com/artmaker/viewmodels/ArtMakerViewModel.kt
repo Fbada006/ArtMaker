@@ -56,11 +56,11 @@ internal class ArtMakerViewModel(
     private var _artMakerUIState = MutableStateFlow(
         value = ArtMakerUIState(
             strokeColour = preferences.get(
-                PreferenceKeys.SELECTED_STROKE_COLOUR,
-                0,
+                key = PreferenceKeys.SELECTED_STROKE_COLOUR,
+                defaultValue = Color.Red.toArgb(),
             ),
             strokeWidth = preferences.get(
-                SELECTED_STROKE_WIDTH,
+                key = SELECTED_STROKE_WIDTH,
                 defaultValue = 5,
             ),
         ),
@@ -167,7 +167,12 @@ internal class ArtMakerViewModel(
             value = colour.toArgb(),
         )
         _artMakerUIState.update {
-            it.copy(strokeColour = preferences.get(PreferenceKeys.SELECTED_STROKE_COLOUR, 0))
+            it.copy(
+                strokeColour = preferences.get(
+                    key = PreferenceKeys.SELECTED_STROKE_COLOUR,
+                    defaultValue = 0,
+                ),
+            )
         }
     }
 
