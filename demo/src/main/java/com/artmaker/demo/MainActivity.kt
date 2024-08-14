@@ -30,7 +30,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ArtMakerTheme {
-                ArtMaker(modifier = Modifier.fillMaxSize())
+                ArtMaker(
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
     }

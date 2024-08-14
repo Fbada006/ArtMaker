@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.artmaker.artmaker.R
+import com.artmaker.models.ArtMakerConfiguration
 
 private const val MIN_WIDTH = 1f
 private const val MAX_WIDTH = 50f
@@ -39,6 +40,7 @@ internal fun Slider(
     modifier: Modifier = Modifier,
     sliderPosition: Float,
     onValueChange: (Float) -> Unit,
+    artMakerConfiguration: ArtMakerConfiguration,
 ) {
     Column(
         modifier = modifier
@@ -49,15 +51,15 @@ internal fun Slider(
         Text(
             text = sliderPosition.toInt().toString(),
             style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.primary,
+            color = artMakerConfiguration.strokeSliderTextColor,
         )
         Slider(
             value = sliderPosition,
             onValueChange = onValueChange,
             colors = SliderDefaults.colors(
-                thumbColor = MaterialTheme.colorScheme.primary,
-                activeTrackColor = MaterialTheme.colorScheme.inversePrimary,
-                inactiveTickColor = MaterialTheme.colorScheme.onBackground,
+                thumbColor = artMakerConfiguration.strokeSliderThumbColor,
+                activeTrackColor = artMakerConfiguration.strokeSliderActiveTrackColor,
+                inactiveTickColor = artMakerConfiguration.strokeSliderInactiveTickColor,
             ),
             valueRange = MIN_WIDTH..MAX_WIDTH,
         )

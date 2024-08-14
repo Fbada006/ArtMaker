@@ -34,6 +34,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.artmaker.R
+import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.state.ArtMakerUIState
 
 /**
@@ -44,13 +45,14 @@ internal fun StrokeWidthSlider(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
     isVisible: Boolean,
+    artMakerConfiguration: ArtMakerConfiguration,
 ) {
     var sliderPosition by remember { mutableIntStateOf(value = state.strokeWidth) }
     AnimatedVisibility(visible = isVisible) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.background)
+                .background(color = artMakerConfiguration.strokeSliderBackgroundColor)
                 .padding(top = dimensionResource(id = R.dimen.Padding4)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly,
@@ -66,6 +68,7 @@ internal fun StrokeWidthSlider(
                     sliderPosition = it.toInt()
                     onAction(ArtMakerAction.SelectStrokeWidth(strokeWidth = sliderPosition))
                 },
+                artMakerConfiguration = artMakerConfiguration,
             )
         }
     }

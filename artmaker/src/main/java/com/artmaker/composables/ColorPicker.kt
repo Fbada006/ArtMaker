@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
 import com.artmaker.artmaker.R
+import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.utils.ColorUtils
 
 private const val NUM_COLUMNS = 5
@@ -54,7 +55,12 @@ private const val LUMINANCE_THRESHOLD = 0.5
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (ColorArgb) -> Unit) {
+internal fun ColorPicker(
+    onDismissRequest: () -> Unit,
+    defaultColor: Int,
+    onClick: (ColorArgb) -> Unit,
+    artMakerConfiguration: ArtMakerConfiguration,
+) {
     val sheetState = rememberModalBottomSheetState()
     var customColor by rememberSaveable { mutableIntStateOf(defaultColor) }
 
@@ -78,8 +84,19 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
                     verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
                     maxItemsInEachRow = NUM_COLUMNS,
                 ) {
-                    repeat(ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size) { colorIndex ->
-                        val color = ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
+                    repeat(
+                        if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
+                            artMakerConfiguration.pickerCustomColors.size
+                        } else {
+                            ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size
+                        },
+                    ) { colorIndex ->
+                        val color =
+                            if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
+                                artMakerConfiguration.pickerCustomColors[colorIndex].toArgb()
+                            } else {
+                                ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
+                            }
                         Box(
                             modifier = Modifier,
                         ) {

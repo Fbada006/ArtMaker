@@ -47,6 +47,7 @@ import com.artmaker.artmaker.R
 import com.artmaker.composables.ArtMakerControlMenu
 import com.artmaker.composables.ArtMakerDrawScreen
 import com.artmaker.composables.StrokeWidthSlider
+import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
@@ -55,7 +56,7 @@ import com.artmaker.viewmodels.ArtMakerViewModel
  */
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
-fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = {}) {
+fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = {}, artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration()) {
     val context = LocalContext.current
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
@@ -92,7 +93,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),
-                state = artMakerUIState,
+                artMakerConfiguration = artMakerConfiguration,
                 onDrawEvent = {
                     showStrokeWidth = false
                     viewModel.onDrawEvent(it)
@@ -106,6 +107,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 state = artMakerUIState,
                 onAction = viewModel::onAction,
                 isVisible = showStrokeWidth,
+                artMakerConfiguration = artMakerConfiguration,
             )
             ArtMakerControlMenu(
                 state = artMakerUIState,
@@ -116,6 +118,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 },
                 setBackgroundImage = viewModel::setImage,
                 imageBitmap = viewModel.backgroundImage.value,
+                artMakerConfiguration = artMakerConfiguration,
             )
         }
     }

@@ -37,6 +37,7 @@ import com.artmaker.actions.ExportType
 import com.artmaker.models.PointsData
 import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
 import com.artmaker.sharedpreferences.PreferenceKeys
+import com.artmaker.sharedpreferences.PreferenceKeys.SELECTED_STROKE_WIDTH
 import com.artmaker.state.ArtMakerUIState
 import com.artmaker.utils.saveToDisk
 import com.artmaker.utils.shareBitmap
@@ -59,7 +60,7 @@ internal class ArtMakerViewModel(
                 defaultValue = Color.Red.toArgb(),
             ),
             strokeWidth = preferences.get(
-                key = PreferenceKeys.SELECTED_STROKE_WIDTH,
+                key = SELECTED_STROKE_WIDTH,
                 defaultValue = 5,
             ),
         ),
@@ -168,7 +169,7 @@ internal class ArtMakerViewModel(
         _artMakerUIState.update {
             it.copy(
                 strokeColour = preferences.get(
-                    PreferenceKeys.SELECTED_STROKE_COLOUR,
+                    key = PreferenceKeys.SELECTED_STROKE_COLOUR,
                     defaultValue = 0,
                 ),
             )
@@ -181,13 +182,13 @@ internal class ArtMakerViewModel(
 
     private fun selectStrokeWidth(strokeWidth: Int) {
         preferences.set(
-            key = PreferenceKeys.SELECTED_STROKE_WIDTH,
+            key = SELECTED_STROKE_WIDTH,
             value = strokeWidth,
         )
         _artMakerUIState.update {
             it.copy(
                 strokeWidth = preferences.get(
-                    PreferenceKeys.SELECTED_STROKE_WIDTH,
+                    SELECTED_STROKE_WIDTH,
                     defaultValue = 5,
                 ),
             )
