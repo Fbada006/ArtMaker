@@ -1,3 +1,5 @@
+[![Build ArtMaker](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml/badge.svg)](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml)
+
 ## Getting started
 
 ## Download
