@@ -23,9 +23,8 @@ ArtMaker(
 )
 ```
 
-Alternatively you can have full control of the ArtMaker and choose how you want the composable to be
-displayed by customizing the ArtMakerConfiguration object:
-An example of a customized ArtMaker is this:
+Alternatively you can have full control of the ArtMaker and choose how you want the control menu composable (the bar below the drawing area) to be
+displayed by customizing the `ArtMakerConfiguration` object as shown below:
 
 ```kotlin
 ArtMaker(
@@ -54,14 +53,16 @@ Do you see any improvements or want to implement a missing feature? Contribution
 - Are the changes big and do they make a lot of impact? Please open an
   issue [here](https://github.com/Fbada006/ArtMaker/issues?q=is%3Aissue) or reach out to [Ferdinand](https://github.com/Fbada006), [Emmanuel](https://github.com/emmanuelmuturia) or [Caleb](https://github.com/CalebKL) and
   let's discuss.
-- Ensure your change is properly formatted by running:
+- Ensure your change is properly formatted by running the following command from the terminal:
+
 ```gradle
 ./gradlew spotlessApply
 ```
-Please correct any failures before requesting a review.
+
+The CI will fail if the code is not properly formatted. Please correct any failures before requesting a review.
 
 Take into account that changes and requests can be rejected if they don't align with the **purpose
-of the library**. To not waste any time you can always open an
+of the library**. To ensure you do not waste any time, you can always open an
 issue [here](https://github.com/Fbada006/ArtMaker/issues?q=is%3Aissue) or talk to us before you
 start making any changes.
 
