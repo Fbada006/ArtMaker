@@ -50,6 +50,8 @@ import com.artmaker.utils.ColorUtils
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int
 
+private const val LUMINANCE_THRESHOLD = 0.5
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClick: (ColorArgb) -> Unit) {
@@ -98,7 +100,7 @@ internal fun ColorPicker(onDismissRequest: () -> Unit, defaultColor: Int, onClic
                                     contentDescription = null,
                                     tint = if (androidx.core.graphics.ColorUtils.calculateLuminance(
                                             color,
-                                        ) > 0.5
+                                        ) > LUMINANCE_THRESHOLD
                                     ) {
                                         Color.Black
                                     } else {

@@ -188,7 +188,7 @@ internal class ArtMakerViewModel(
             it.copy(
                 strokeWidth = preferences.get(
                     PreferenceKeys.SELECTED_STROKE_WIDTH,
-                    defaultValue = 0,
+                    defaultValue = 5,
                 ),
             )
         }

@@ -118,7 +118,7 @@ internal fun ArtMakerControlMenu(
                             brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
                             shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding32)),
                         )
-                        .padding(all = dimensionResource(id = R.dimen.Padding4)),
+                        .padding(all = dimensionResource(id = R.dimen.Padding2)),
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
