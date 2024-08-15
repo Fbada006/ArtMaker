@@ -62,8 +62,7 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import kotlinx.coroutines.launch
 
 /**
- * [ArtMakerDrawScreen] Composable where we will implement the draw logic.
- * For now, this is just an empty blue screen.
+ * [ArtMakerDrawScreen] is the composable that handles the drawing.
  */
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -83,20 +82,12 @@ internal fun ArtMakerDrawScreen(
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
     val yOffset = with(density) {
-        (
-            dimensionResource(id = R.dimen.Padding60) + dimensionResource(
-                id = R.dimen.Padding2,
-            )
-            ).toPx()
+        (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2,)).toPx()
     }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
-    var bitmapHeight by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-    var bitmapWidth by rememberSaveable {
-        mutableIntStateOf(0)
-    }
+    var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
+    var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
 
     val graphicsLayer = rememberGraphicsLayer()
     val snackbarHostState = remember { SnackbarHostState() }
