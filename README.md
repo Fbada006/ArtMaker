@@ -25,7 +25,7 @@ ArtMaker(
 )
 ```
 
-Alternatively you can have full control of the ArtMaker and choose how you want the control menu composable (the bar below the drawing area) to be
+You also have full control of the ArtMaker and choose how you want the control menu composable (the bar below the drawing area) to be
 displayed by customizing the `ArtMakerConfiguration` object as shown below:
 
 ```kotlin
@@ -43,6 +43,17 @@ ArtMaker(
         controllerBackgroundColor = Color.Cyan,
         strokeSliderBackgroundColor = Color.Magenta,
     )
+)
+```
+
+If you wish to receive the completed image as a bitmap, you can utilise the `onFinishDrawing: (Bitmap) -> Unit` callback exposed by `ArtMaker` as follows:
+
+```kotlin
+ArtMaker(
+    modifier = Modifier.fillMaxSize(),
+    onFinishDrawing = {bitmap ->
+        // Utilise the bitmap here
+    }
 )
 ```
 
