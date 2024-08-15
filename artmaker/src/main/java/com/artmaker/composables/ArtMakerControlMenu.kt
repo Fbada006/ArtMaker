@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
@@ -49,6 +51,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -61,6 +64,7 @@ import com.artmaker.actions.ArtMakerAction
 import com.artmaker.artmaker.R
 import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.state.ArtMakerUIState
+import com.artmaker.utils.ColorUtils
 import com.google.modernstorage.photopicker.PhotoPicker
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
@@ -111,6 +115,13 @@ internal fun ArtMakerControlMenu(
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 MenuItem(
+                    modifier = Modifier
+                        .border(
+                            width = dimensionResource(id = R.dimen.Padding2),
+                            brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
+                            shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding32)),
+                        )
+                        .padding(all = dimensionResource(id = R.dimen.Padding2)),
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
@@ -207,6 +218,7 @@ internal fun ArtMakerControlMenu(
 
 @Composable
 private fun RowScope.MenuItem(
+    modifier: Modifier = Modifier,
     imageVector: ImageVector,
     onItemClicked: () -> Unit,
     colorTint: Color = MaterialTheme.colorScheme.primary,
@@ -219,7 +231,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint,
-            modifier = Modifier.size(size = dimensionResource(id = R.dimen.Padding32)),
+            modifier = modifier.size(size = dimensionResource(id = R.dimen.Padding32)),
         )
     }
 }
