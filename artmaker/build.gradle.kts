@@ -27,7 +27,7 @@ mavenPublishing {
     val artifactId = "artmaker"
 
     coordinates(
-        "com.github.fbada006",
+        "io.github.fbada006",
         artifactId,
         rootProject.extra.get("libVersion").toString()
     )

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.viewmodels
+package io.artmaker.viewmodels
 
 import android.app.Application
 import android.content.Context
@@ -31,16 +31,16 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.artmaker.actions.ArtMakerAction
-import com.artmaker.actions.DrawEvent
-import com.artmaker.actions.ExportType
-import com.artmaker.models.PointsData
-import com.artmaker.sharedpreferences.ArtMakerSharedPreferences
-import com.artmaker.sharedpreferences.PreferenceKeys
-import com.artmaker.sharedpreferences.PreferenceKeys.SELECTED_STROKE_WIDTH
-import com.artmaker.state.ArtMakerUIState
-import com.artmaker.utils.saveToDisk
-import com.artmaker.utils.shareBitmap
+import io.artmaker.actions.ArtMakerAction
+import io.artmaker.actions.DrawEvent
+import io.artmaker.actions.ExportType
+import io.artmaker.models.PointsData
+import io.artmaker.sharedpreferences.ArtMakerSharedPreferences
+import io.artmaker.sharedpreferences.PreferenceKeys
+import io.artmaker.sharedpreferences.PreferenceKeys.SELECTED_STROKE_WIDTH
+import io.artmaker.state.ArtMakerUIState
+import io.artmaker.utils.saveToDisk
+import io.artmaker.utils.shareBitmap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
