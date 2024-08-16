@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.state
+package io.artmaker.actions
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.geometry.Offset
 
 /**
- * Determines the UI state
+ * Events that happen during drawing
  */
-data class ArtMakerUIState(
-    val backgroundColour: Int = Color.White.toArgb(),
-    val strokeWidth: Int,
-    val strokeColour: Int,
-)
+sealed interface DrawEvent {
+    data class AddNewShape(val offset: Offset) : DrawEvent
+    data class UpdateCurrentShape(val offset: Offset) : DrawEvent
+    data object UndoLastShapePoint : DrawEvent
+}

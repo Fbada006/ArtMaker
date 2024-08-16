@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.composables
+package io.artmaker.composables
 
 import android.Manifest
 import android.os.Build
@@ -52,11 +52,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
-import com.artmaker.actions.ArtMakerAction
-import com.artmaker.actions.DrawEvent
+import io.artmaker.actions.ArtMakerAction
+import io.artmaker.actions.DrawEvent
 import io.fbada006.artmaker.R
-import com.artmaker.models.ArtMakerConfiguration
-import com.artmaker.models.PointsData
+import io.artmaker.models.ArtMakerConfiguration
+import io.artmaker.models.PointsData
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import kotlinx.coroutines.launch

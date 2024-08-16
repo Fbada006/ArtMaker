@@ -13,10 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.sharedpreferences
+package io.artmaker.utils
 
-object PreferenceKeys {
-    const val SELECTED_BACKGROUND_COLOUR = "com.artmaker.sharedpreferences.selectedBackgroundColour"
-    const val SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
-    const val SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"
+import androidx.compose.ui.graphics.Color
+
+object ColorUtils {
+    val COLOR_PICKER_DEFAULT_COLORS = listOf(
+        Color.Red,
+        Color.Blue,
+        Color.Black,
+        Color.White,
+        Color.Yellow,
+        Color.Cyan,
+        Color.Gray,
+        Color.Green,
+        Color.Magenta,
+        Color.DarkGray,
+    )
 }
