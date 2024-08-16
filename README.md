@@ -59,6 +59,8 @@ ArtMaker(
 )
 ```
 
+> **_NOTE:_**  The default Jetpack Compose project created by Android Studio has `enableEdgeToEdge()` added in the `onCreate()`. To effectively use the library, please ensure that you remove this line.
+
 ## Contribute
 
 Do you see any improvements or want to implement a missing feature? Contributions are very welcome!
