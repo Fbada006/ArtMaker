@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 /*
  * Copyright 2024 ArtMaker
  *
@@ -24,6 +26,9 @@ plugins {
 apply(from = "${rootDir}/scripts/publish.gradle.kts")
 
 mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+
     val artifactId = "artmaker"
 
     coordinates(
