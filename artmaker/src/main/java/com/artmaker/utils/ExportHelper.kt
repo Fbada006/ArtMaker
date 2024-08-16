@@ -23,7 +23,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.ContextCompat.startActivity
-import com.artmaker.artmaker.R
+import io.fbada006.artmaker.R
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
