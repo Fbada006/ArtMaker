@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.composables
+package io.artmaker.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,8 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import io.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.R
-import com.artmaker.models.ArtMakerConfiguration
 
 private const val MIN_WIDTH = 1f
 private const val MAX_WIDTH = 50f

@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.models
+package io.artmaker.state
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 
 /**
- * This class will hold each shape drawn on screen be it a single dot or multiple shapes drawn
- * on screen. The values defined here for the characteristic of the shape drawn on screen are configurable
+ * Determines the UI state
  */
-internal data class PointsData(
-    var points: SnapshotStateList<Offset>,
-    val strokeWidth: Float = 15f,
-    val strokeColor: Color,
-    val alpha: Float = 1f,
+data class ArtMakerUIState(
+    val backgroundColour: Int = Color.White.toArgb(),
+    val strokeWidth: Int,
+    val strokeColour: Int,
 )

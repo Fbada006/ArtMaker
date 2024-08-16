@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker
+package io.artmaker
 
 import android.app.Application
 import android.graphics.Bitmap
@@ -41,13 +41,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.artmaker.actions.ArtMakerAction
-import com.artmaker.actions.ExportType
-import com.artmaker.composables.ArtMakerControlMenu
-import com.artmaker.composables.ArtMakerDrawScreen
-import com.artmaker.composables.StrokeWidthSlider
-import com.artmaker.models.ArtMakerConfiguration
-import com.artmaker.viewmodels.ArtMakerViewModel
+import io.artmaker.actions.ArtMakerAction
+import io.artmaker.actions.ExportType
+import io.artmaker.composables.ArtMakerControlMenu
+import io.artmaker.composables.ArtMakerDrawScreen
+import io.artmaker.composables.StrokeWidthSlider
+import io.artmaker.models.ArtMakerConfiguration
+import io.artmaker.viewmodels.ArtMakerViewModel
 import io.fbada006.artmaker.R
 
 /**

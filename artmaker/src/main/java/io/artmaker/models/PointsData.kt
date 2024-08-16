@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.actions
+package io.artmaker.models
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 
 /**
- * Events that happen during drawing
+ * This class will hold each shape drawn on screen be it a single dot or multiple shapes drawn
+ * on screen. The values defined here for the characteristic of the shape drawn on screen are configurable
  */
-sealed interface DrawEvent {
-    data class AddNewShape(val offset: Offset) : DrawEvent
-    data class UpdateCurrentShape(val offset: Offset) : DrawEvent
-    data object UndoLastShapePoint : DrawEvent
-}
+internal data class PointsData(
+    var points: SnapshotStateList<Offset>,
+    val strokeWidth: Float = 15f,
+    val strokeColor: Color,
+    val alpha: Float = 1f,
+)
