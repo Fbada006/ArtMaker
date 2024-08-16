@@ -14,6 +14,7 @@ ktlint = "12.1.1"
 spotless = "6.23.3"
 photoPicker = "1.0.0-alpha06"
 lifecycleRuntimeCompose = "2.8.4"
+vanniktechVersion = "0.29.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -43,3 +44,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 org-jlleitschuh-gradle-ktlint ={ id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint"}
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+vanniktech = {id = "com.vanniktech.maven.publish", version.ref = "vanniktechVersion"}

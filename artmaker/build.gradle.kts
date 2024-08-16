@@ -18,10 +18,54 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.vanniktech)
+}
+
+apply(from = "${rootDir}/scripts/publish.gradle.kts")
+
+mavenPublishing {
+    val artifactId = "artmaker"
+
+    coordinates(
+        "com.github.fbada006",
+        artifactId,
+        rootProject.extra.get("libVersion").toString()
+    )
+
+    pom {
+        name.set(artifactId)
+        description.set("ArtMaker is a flexible and customisable library that allows users to draw anything they want on screen and has been built fully with Jetpack Compose.")
+        url.set("https://github.com/fbada006/artmaker/")
+
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id.set("Fbada006")
+                name.set("Ferdinand Bada")
+                url.set("https://github.com/Fbada006/")
+            }
+            developer {
+                id.set("CalebKL")
+                name.set("Caleb Langat")
+                url.set("https://github.com/CalebKL/")
+            }
+            developer {
+                id.set("EmmanuelMuturia")
+                name.set("Emmanuel Muturia")
+                url.set("https://github.com/EmmanuelMuturia/")
+            }
+        }
+    }
 }
 
 android {
-    namespace = "com.artmaker.artmaker"
+    namespace = "io.fbada006.artmaker"
     compileSdk = 34
 
     defaultConfig {
