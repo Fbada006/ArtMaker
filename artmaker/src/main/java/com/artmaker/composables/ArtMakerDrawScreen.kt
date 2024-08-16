@@ -54,11 +54,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.artmaker.actions.ArtMakerAction
 import com.artmaker.actions.DrawEvent
-import io.fbada006.artmaker.R
 import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.models.PointsData
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import io.fbada006.artmaker.R
 import kotlinx.coroutines.launch
 
 /**

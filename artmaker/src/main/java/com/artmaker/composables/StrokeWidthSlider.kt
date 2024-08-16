@@ -33,9 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.artmaker.actions.ArtMakerAction
-import io.fbada006.artmaker.R
 import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.state.ArtMakerUIState
+import io.fbada006.artmaker.R
 
 /**
  * This is a popup that displays the ArtMakerStrokeWidthSlider and accompanying title.

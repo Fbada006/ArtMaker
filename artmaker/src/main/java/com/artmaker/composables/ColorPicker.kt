@@ -44,9 +44,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
-import io.fbada006.artmaker.R
 import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.utils.ColorUtils
+import io.fbada006.artmaker.R
 
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int
