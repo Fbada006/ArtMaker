@@ -52,13 +52,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
-import io.artmaker.actions.ArtMakerAction
-import io.artmaker.actions.DrawEvent
-import io.fbada006.artmaker.R
-import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.models.PointsData
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import io.artmaker.actions.ArtMakerAction
+import io.artmaker.actions.DrawEvent
+import io.artmaker.models.ArtMakerConfiguration
+import io.artmaker.models.PointsData
+import io.fbada006.artmaker.R
 import kotlinx.coroutines.launch
 
 /**

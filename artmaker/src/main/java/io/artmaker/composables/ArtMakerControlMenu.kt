@@ -60,12 +60,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.BuildCompat
+import com.google.modernstorage.photopicker.PhotoPicker
 import io.artmaker.actions.ArtMakerAction
-import io.fbada006.artmaker.R
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.state.ArtMakerUIState
 import io.artmaker.utils.ColorUtils
-import com.google.modernstorage.photopicker.PhotoPicker
+import io.fbada006.artmaker.R
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
 
