@@ -20,8 +20,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import io.artmaker.ArtMaker
 import com.artmaker.demo.ui.theme.ArtMakerTheme
+import io.artmaker.ArtMaker
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
