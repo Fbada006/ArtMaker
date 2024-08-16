@@ -51,8 +51,12 @@ import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.viewmodels.ArtMakerViewModel
 
 /**
- * [ArtMaker] composable which has our draw screen and controllers
- * We will expose this composable and test our Library on the app layer
+ * [ArtMaker] has the draw screen as well as control menu (the bar offering customisation options). By default, it is a white screen that allows the user
+ * to draw any shape and customise the attributes of the drawing.
+ *
+ * @param modifier is the [Modifier]
+ * @param onFinishDrawing is the callback exposed once the user clicks done (the [FloatingActionButton] with the checkmark) to trigger finish drawing
+ * @param artMakerConfiguration is the configuration to customise the appearance of the control menu and other values
  */
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
@@ -77,10 +81,12 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.Padding60)),
             ) {
                 Column {
+                    // Trigger sharing the image. It has to save the image first
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
                         Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
+                    // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
