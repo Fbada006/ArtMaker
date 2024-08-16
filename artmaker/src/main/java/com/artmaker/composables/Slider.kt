@@ -26,7 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import com.artmaker.artmaker.R
+import io.fbada006.artmaker.R
 import com.artmaker.models.ArtMakerConfiguration
 
 private const val MIN_WIDTH = 1f

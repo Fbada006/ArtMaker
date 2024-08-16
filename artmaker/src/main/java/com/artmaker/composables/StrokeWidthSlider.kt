@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.artmaker.actions.ArtMakerAction
-import com.artmaker.artmaker.R
+import io.fbada006.artmaker.R
 import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.state.ArtMakerUIState
 

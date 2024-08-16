@@ -44,7 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
-import com.artmaker.artmaker.R
+import io.fbada006.artmaker.R
 import com.artmaker.models.ArtMakerConfiguration
 import com.artmaker.utils.ColorUtils
 
