@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.composables
+package io.artmaker.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,9 +44,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
+import io.artmaker.models.ArtMakerConfiguration
+import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
-import com.artmaker.models.ArtMakerConfiguration
-import com.artmaker.utils.ColorUtils
 
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int

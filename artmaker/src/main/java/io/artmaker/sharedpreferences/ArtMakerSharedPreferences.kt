@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.sharedpreferences
+package io.artmaker.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
