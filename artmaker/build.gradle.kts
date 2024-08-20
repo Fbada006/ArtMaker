@@ -1,5 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 /*
  * Copyright 2024 ArtMaker
  *
@@ -15,6 +13,8 @@ import com.vanniktech.maven.publish.SonatypeHost
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
