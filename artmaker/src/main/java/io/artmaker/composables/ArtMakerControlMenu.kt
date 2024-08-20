@@ -134,18 +134,21 @@ internal fun ArtMakerControlMenu(
                     onItemClicked = {
                         onAction(ArtMakerAction.Undo)
                     },
+                    enabled = state.canUndo,
                 )
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
                     onItemClicked = {
                         onAction(ArtMakerAction.Redo)
                     },
+                    enabled = state.canRedo,
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Refresh,
                     onItemClicked = {
                         onAction(ArtMakerAction.Clear)
                     },
+                    enabled = state.canClear,
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Image,
@@ -221,15 +224,17 @@ private fun RowScope.MenuItem(
     imageVector: ImageVector,
     onItemClicked: () -> Unit,
     colorTint: Color = MaterialTheme.colorScheme.primary,
+    enabled: Boolean = true,
 ) {
     IconButton(
         onClick = onItemClicked,
         modifier = Modifier.weight(1f, true),
+        enabled = enabled,
     ) {
         Icon(
             imageVector = imageVector,
             contentDescription = null,
-            tint = colorTint,
+            tint = colorTint.copy(alpha = (if (enabled) 1f else 0.5f)),
             modifier = modifier.size(size = dimensionResource(id = R.dimen.Padding32)),
         )
     }

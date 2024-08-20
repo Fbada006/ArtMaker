@@ -25,4 +25,7 @@ data class ArtMakerUIState(
     val backgroundColour: Int = Color.White.toArgb(),
     val strokeWidth: Int,
     val strokeColour: Int,
+    val canRedo: Boolean = false,
+    val canUndo: Boolean = false,
+    val canClear: Boolean = false,
 )
