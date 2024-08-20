@@ -31,8 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Redo
-import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Image
@@ -59,6 +57,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.core.os.BuildCompat
 import com.google.modernstorage.photopicker.PhotoPicker
 import io.artmaker.actions.ArtMakerAction
@@ -131,13 +130,13 @@ internal fun ArtMakerControlMenu(
                     onItemClicked = onShowStrokeWidthPopup,
                 )
                 MenuItem(
-                    imageVector = Icons.AutoMirrored.Filled.Undo,
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
                     onItemClicked = {
                         onAction(ArtMakerAction.Undo)
                     },
                 )
                 MenuItem(
-                    imageVector = Icons.AutoMirrored.Filled.Redo,
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
                     onItemClicked = {
                         onAction(ArtMakerAction.Redo)
                     },
