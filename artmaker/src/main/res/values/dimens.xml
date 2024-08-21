@@ -15,6 +15,7 @@
      limitations under the License.
 -->
 <resources>
+    <dimen name="Padding0">0dp</dimen>
     <dimen name="Padding2">2dp</dimen>
     <dimen name="Padding4">4dp</dimen>
     <dimen name="Padding7">7dp</dimen>
