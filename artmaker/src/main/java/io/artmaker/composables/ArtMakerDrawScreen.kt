@@ -74,6 +74,7 @@ internal fun ArtMakerDrawScreen(
     pathList: SnapshotStateList<PointsData>,
     imageBitmap: ImageBitmap?,
     shouldTriggerArtExport: Boolean,
+    isFullScreenMode: Boolean,
 ) {
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
@@ -81,11 +82,15 @@ internal fun ArtMakerDrawScreen(
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
-    val yOffset = with(density) {
-        (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+    val yOffset = if (isFullScreenMode) {
+        0f
+    } else {
+        with(density) {
+            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+        }
     }
     val screenHeightPx = with(density) { screenHeight.toPx() }
-    val clippedScreenHeight = screenHeightPx - yOffset
+    val maxDrawingHeight = screenHeightPx - yOffset
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
 
@@ -149,7 +154,7 @@ internal fun ArtMakerDrawScreen(
                     },
                 )
             }
-            .pointerInput(Unit) {
+            .pointerInput(isFullScreenMode) {
                 detectDragGestures(
                     onDragStart = { offset ->
                         onDrawEvent(DrawEvent.AddNewShape(offset))
@@ -160,7 +165,7 @@ internal fun ArtMakerDrawScreen(
                 ) { change, _ ->
                     val offset = change.position
                     val clampedOffset =
-                        Offset(x = offset.x, y = clamp(offset.y, 0f, clippedScreenHeight))
+                        Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
                     onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
                 }
             },
