@@ -111,6 +111,7 @@ internal class ArtMakerViewModel(
             strokeWidth = artMakerUIState.value.strokeWidth.toFloat(),
         )
         _pathList.add(data)
+        _artMakerUIState.update { it.copy(canUndo = true, canClear = true) }
     }
 
     private fun updateCurrentShape(offset: Offset) {
@@ -146,17 +147,20 @@ internal class ArtMakerViewModel(
         if (undoStack.isNotEmpty()) {
             pathList.add(undoStack.pop())
         }
+        _artMakerUIState.update { it.copy(canUndo = true, canRedo = undoStack.isNotEmpty()) }
     }
 
     private fun undo() {
         if (_pathList.isNotEmpty()) {
             undoStack.push(_pathList.removeLast())
+            _artMakerUIState.update { it.copy(canRedo = true, canUndo = pathList.isNotEmpty()) }
         }
     }
 
     private fun clear() {
         _pathList.clear()
         undoStack.clear()
+        _artMakerUIState.update { it.copy(canRedo = false, canUndo = false, canClear = false) }
     }
 
     private fun updateBackgroundColour() {}
