@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -69,7 +71,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
     val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
     val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
-
+    var isFullScreenEnabled by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = finishedImage) {
         finishedImage?.let { onFinishDrawing(it) }
     }
@@ -89,6 +91,16 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
+                    }
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
+                    FloatingActionButton(onClick = {
+                        isFullScreenEnabled = !isFullScreenEnabled
+                    }) {
+                        if (isFullScreenEnabled) {
+                            Icon(imageVector = Icons.Filled.Fullscreen, contentDescription = Icons.Filled.Fullscreen.name)
+                        } else {
+                            Icon(imageVector = Icons.Filled.FullscreenExit, contentDescription = Icons.Filled.FullscreenExit.name)
+                        }
                     }
                 }
             }
@@ -115,17 +127,19 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 isVisible = showStrokeWidth,
                 artMakerConfiguration = artMakerConfiguration,
             )
-            ArtMakerControlMenu(
-                state = artMakerUIState,
-                onAction = viewModel::onAction,
-                modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
-                onShowStrokeWidthPopup = {
-                    showStrokeWidth = !showStrokeWidth
-                },
-                setBackgroundImage = viewModel::setImage,
-                imageBitmap = viewModel.backgroundImage.value,
-                artMakerConfiguration = artMakerConfiguration,
-            )
+            if (!isFullScreenEnabled) {
+                ArtMakerControlMenu(
+                    state = artMakerUIState,
+                    onAction = viewModel::onAction,
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
+                    onShowStrokeWidthPopup = {
+                        showStrokeWidth = !showStrokeWidth
+                    },
+                    setBackgroundImage = viewModel::setImage,
+                    imageBitmap = viewModel.backgroundImage.value,
+                    artMakerConfiguration = artMakerConfiguration,
+                )
+            }
         }
     }
 }
