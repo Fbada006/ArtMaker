@@ -54,6 +54,7 @@ ArtMaker(
         canvasBackgroundColor = Color.Green.toArgb(),
         controllerBackgroundColor = Color.Cyan,
         strokeSliderBackgroundColor = Color.Magenta,
+        canShareArt = true
     )
 )
 ```
