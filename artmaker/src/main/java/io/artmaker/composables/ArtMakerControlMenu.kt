@@ -60,9 +60,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.core.os.BuildCompat
 import com.google.modernstorage.photopicker.PhotoPicker
+import io.artmaker.ArtMakerUIState
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.ArtMakerUIState
 import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
 

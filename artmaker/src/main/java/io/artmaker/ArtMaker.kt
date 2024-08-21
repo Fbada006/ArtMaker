@@ -47,7 +47,7 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.ExportType
 import io.artmaker.composables.ArtMakerControlMenu
 import io.artmaker.composables.ArtMakerDrawScreen
-import io.artmaker.composables.StrokeWidthSlider
+import io.artmaker.composables.StrokeSettings
 import io.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.R
 
@@ -70,8 +70,8 @@ fun ArtMaker(
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
-    var showStrokeWidth by remember { mutableStateOf(value = false) }
-    val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
+    var showStrokeSettings by remember { mutableStateOf(value = false) }
+    val state by viewModel.artMakerUIState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
     val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
     var isFullScreenEnabled by remember { mutableStateOf(false) }
@@ -115,7 +115,7 @@ fun ArtMaker(
                     .weight(1f),
                 artMakerConfiguration = artMakerConfiguration,
                 onDrawEvent = {
-                    showStrokeWidth = false
+                    showStrokeSettings = false
                     viewModel.onDrawEvent(it)
                 },
                 onAction = viewModel::onAction,
@@ -124,19 +124,22 @@ fun ArtMaker(
                 imageBitmap = viewModel.backgroundImage.value,
                 isFullScreenMode = isFullScreenEnabled,
             )
-            StrokeWidthSlider(
-                state = artMakerUIState,
-                onAction = viewModel::onAction,
-                isVisible = showStrokeWidth,
-                artMakerConfiguration = artMakerConfiguration,
-            )
+            AnimatedVisibility(visible = showStrokeSettings) {
+                StrokeSettings(
+                    strokeWidth = state.strokeWidth,
+                    onAction = viewModel::onAction,
+                    configuration = artMakerConfiguration,
+                    modifier = Modifier
+                        .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding8), start = dimensionResource(id = R.dimen.Padding8)),
+                )
+            }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
                 ArtMakerControlMenu(
-                    state = artMakerUIState,
+                    state = state,
                     onAction = viewModel::onAction,
                     modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
                     onShowStrokeWidthPopup = {
-                        showStrokeWidth = !showStrokeWidth
+                        showStrokeSettings = !showStrokeSettings
                     },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,

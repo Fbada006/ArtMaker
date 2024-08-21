@@ -34,10 +34,10 @@ import androidx.lifecycle.viewModelScope
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.actions.ExportType
-import io.artmaker.models.PointsData
 import io.artmaker.data.ArtMakerSharedPreferences
 import io.artmaker.data.PreferenceKeys
 import io.artmaker.data.PreferenceKeys.SELECTED_STROKE_WIDTH
+import io.artmaker.models.PointsData
 import io.artmaker.utils.saveToDisk
 import io.artmaker.utils.shareBitmap
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -91,7 +91,7 @@ internal class ArtMakerViewModel(
             ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
-            is ArtMakerAction.SelectStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
+            is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
         }
     }
 
