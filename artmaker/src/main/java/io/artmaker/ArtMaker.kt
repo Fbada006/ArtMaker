@@ -94,7 +94,7 @@ fun ArtMaker(
             ) {
                 Column {
                     // Trigger sharing the image. It has to save the image first
-                   if (artMakerConfiguration.canShare) {
+                   if (artMakerConfiguration.canShareArt) {
                        FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
                            Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                        }
