@@ -49,7 +49,6 @@ import io.artmaker.composables.ArtMakerControlMenu
 import io.artmaker.composables.ArtMakerDrawScreen
 import io.artmaker.composables.StrokeWidthSlider
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.viewmodels.ArtMakerViewModel
 import io.fbada006.artmaker.R
 
 /**

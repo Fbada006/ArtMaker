@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.state
+package io.artmaker.data
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-
-/**
- * Determines the UI state
- */
-data class ArtMakerUIState(
-    val backgroundColour: Int = Color.White.toArgb(),
-    val strokeWidth: Int,
-    val strokeColour: Int,
-    val canRedo: Boolean = false,
-    val canUndo: Boolean = false,
-    val canClear: Boolean = false,
-)
+object PreferenceKeys {
+    const val SELECTED_BACKGROUND_COLOUR = "com.artmaker.sharedpreferences.selectedBackgroundColour"
+    const val SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
+    const val SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"
+}

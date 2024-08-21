@@ -62,7 +62,7 @@ import androidx.core.os.BuildCompat
 import com.google.modernstorage.photopicker.PhotoPicker
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.state.ArtMakerUIState
+import io.artmaker.ArtMakerUIState
 import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
 
