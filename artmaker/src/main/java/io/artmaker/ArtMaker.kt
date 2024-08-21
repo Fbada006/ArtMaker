@@ -84,13 +84,7 @@ fun ArtMaker(
         floatingActionButton = {
             AnimatedVisibility(
                 visible = viewModel.pathList.isNotEmpty(),
-                modifier = Modifier.padding(
-                    bottom = if (isFullScreenEnabled) {
-                        dimensionResource(id = R.dimen.Padding0)
-                    } else {
-                        dimensionResource(id = R.dimen.Padding60)
-                    },
-                ),
+                modifier = Modifier.padding(bottom = if (isFullScreenEnabled) dimensionResource(id = R.dimen.Padding0) else dimensionResource(id = R.dimen.Padding60)),
             ) {
                 Column {
                     // Trigger sharing the image. It has to save the image first
@@ -106,17 +100,10 @@ fun ArtMaker(
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
                     FloatingActionButton(onClick = { isFullScreenEnabled = !isFullScreenEnabled }) {
-                        if (isFullScreenEnabled) {
-                            Icon(
-                                imageVector = Icons.Filled.Fullscreen,
-                                contentDescription = Icons.Filled.Fullscreen.name,
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Filled.FullscreenExit,
-                                contentDescription = Icons.Filled.FullscreenExit.name,
-                            )
-                        }
+                        Icon(
+                            imageVector = if (isFullScreenEnabled) Icons.Filled.Fullscreen else Icons.Filled.FullscreenExit,
+                            contentDescription = if (isFullScreenEnabled) Icons.Filled.Fullscreen.name else Icons.Filled.FullscreenExit.name,
+                        )
                     }
                 }
             }

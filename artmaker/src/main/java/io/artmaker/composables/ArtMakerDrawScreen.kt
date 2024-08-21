@@ -26,7 +26,6 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -83,12 +82,15 @@ internal fun ArtMakerDrawScreen(
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
-    val yOffset = with(density) {
-        (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+    val yOffset = if (isFullScreenMode) {
+        0f
+    } else {
+        with(density) {
+            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+        }
     }
     val screenHeightPx = with(density) { screenHeight.toPx() }
-    val clippedScreenHeight = screenHeightPx - yOffset
-    var clampedMaxValue by remember { mutableFloatStateOf(0f) }
+    val maxDrawingHeight = screenHeightPx - yOffset
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
 
@@ -162,9 +164,8 @@ internal fun ArtMakerDrawScreen(
                     },
                 ) { change, _ ->
                     val offset = change.position
-                    clampedMaxValue = if (isFullScreenMode) screenHeightPx else clippedScreenHeight
                     val clampedOffset =
-                        Offset(x = offset.x, y = clamp(offset.y, 0f, clampedMaxValue))
+                        Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
                     onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
                 }
             },
