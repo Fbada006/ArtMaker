@@ -26,6 +26,7 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -74,6 +75,7 @@ internal fun ArtMakerDrawScreen(
     pathList: SnapshotStateList<PointsData>,
     imageBitmap: ImageBitmap?,
     shouldTriggerArtExport: Boolean,
+    isFullScreenMode: Boolean,
 ) {
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
@@ -86,6 +88,7 @@ internal fun ArtMakerDrawScreen(
     }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val clippedScreenHeight = screenHeightPx - yOffset
+    var clampedMaxValue by remember { mutableFloatStateOf(0f) }
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
 
@@ -149,7 +152,7 @@ internal fun ArtMakerDrawScreen(
                     },
                 )
             }
-            .pointerInput(Unit) {
+            .pointerInput(isFullScreenMode) {
                 detectDragGestures(
                     onDragStart = { offset ->
                         onDrawEvent(DrawEvent.AddNewShape(offset))
@@ -159,8 +162,9 @@ internal fun ArtMakerDrawScreen(
                     },
                 ) { change, _ ->
                     val offset = change.position
+                    clampedMaxValue = if (isFullScreenMode) screenHeightPx else clippedScreenHeight
                     val clampedOffset =
-                        Offset(x = offset.x, y = clamp(offset.y, 0f, clippedScreenHeight))
+                        Offset(x = offset.x, y = clamp(offset.y, 0f, clampedMaxValue))
                     onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
                 }
             },
