@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -60,7 +62,11 @@ import io.fbada006.artmaker.R
  */
 @OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
-fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = {}, artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration()) {
+fun ArtMaker(
+    modifier: Modifier = Modifier,
+    onFinishDrawing: (Bitmap) -> Unit = {},
+    artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
+) {
     val context = LocalContext.current
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
@@ -69,7 +75,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
     val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
     val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
-
+    var isFullScreenEnabled by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = finishedImage) {
         finishedImage?.let { onFinishDrawing(it) }
     }
@@ -78,17 +84,26 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
         floatingActionButton = {
             AnimatedVisibility(
                 visible = viewModel.pathList.isNotEmpty(),
-                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.Padding60)),
+                modifier = Modifier.padding(bottom = if (isFullScreenEnabled) dimensionResource(id = R.dimen.Padding0) else dimensionResource(id = R.dimen.Padding60)),
             ) {
                 Column {
                     // Trigger sharing the image. It has to save the image first
-                    FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
-                        Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
+                    if (artMakerConfiguration.canShareArt) {
+                        FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
+                            Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
+                        }
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
+                    }
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
+                    FloatingActionButton(onClick = { isFullScreenEnabled = !isFullScreenEnabled }) {
+                        Icon(
+                            imageVector = if (isFullScreenEnabled) Icons.Filled.Fullscreen else Icons.Filled.FullscreenExit,
+                            contentDescription = if (isFullScreenEnabled) Icons.Filled.Fullscreen.name else Icons.Filled.FullscreenExit.name,
+                        )
                     }
                 }
             }
@@ -108,6 +123,7 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 pathList = viewModel.pathList,
                 shouldTriggerArtExport = shouldTriggerArtExport,
                 imageBitmap = viewModel.backgroundImage.value,
+                isFullScreenMode = isFullScreenEnabled,
             )
             StrokeWidthSlider(
                 state = artMakerUIState,
@@ -115,17 +131,19 @@ fun ArtMaker(modifier: Modifier = Modifier, onFinishDrawing: (Bitmap) -> Unit = 
                 isVisible = showStrokeWidth,
                 artMakerConfiguration = artMakerConfiguration,
             )
-            ArtMakerControlMenu(
-                state = artMakerUIState,
-                onAction = viewModel::onAction,
-                modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
-                onShowStrokeWidthPopup = {
-                    showStrokeWidth = !showStrokeWidth
-                },
-                setBackgroundImage = viewModel::setImage,
-                imageBitmap = viewModel.backgroundImage.value,
-                artMakerConfiguration = artMakerConfiguration,
-            )
+            AnimatedVisibility(visible = !isFullScreenEnabled) {
+                ArtMakerControlMenu(
+                    state = artMakerUIState,
+                    onAction = viewModel::onAction,
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
+                    onShowStrokeWidthPopup = {
+                        showStrokeWidth = !showStrokeWidth
+                    },
+                    setBackgroundImage = viewModel::setImage,
+                    imageBitmap = viewModel.backgroundImage.value,
+                    artMakerConfiguration = artMakerConfiguration,
+                )
+            }
         }
     }
 }

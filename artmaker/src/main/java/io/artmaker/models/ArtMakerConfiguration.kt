@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.toArgb
  * @param canvasBackgroundColor the background color of the canvas draw area
  * @param controllerBackgroundColor the controller background color scheme
  * @param strokeSliderBackgroundColor the stoke Slider Surface background color
+ * @param canShareArt A Boolean flag indicating whether the feature to share art is enabled or not
  */
 data class ArtMakerConfiguration(
     val strokeSliderThumbColor: Color = Color.Unspecified,
@@ -37,4 +38,5 @@ data class ArtMakerConfiguration(
     val canvasBackgroundColor: Int = Color.White.toArgb(),
     val controllerBackgroundColor: Color = Color.Unspecified,
     val strokeSliderBackgroundColor: Color = Color.Unspecified,
+    val canShareArt: Boolean = false,
 )

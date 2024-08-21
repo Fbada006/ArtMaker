@@ -14,16 +14,8 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
-    <dimen name="Padding0">0dp</dimen>
-    <dimen name="Padding2">2dp</dimen>
-    <dimen name="Padding4">4dp</dimen>
-    <dimen name="Padding7">7dp</dimen>
-    <dimen name="Padding8">8dp</dimen>
-    <dimen name="Padding10">10dp</dimen>
-    <dimen name="Padding12">12dp</dimen>
-    <dimen name="Padding30">30dp</dimen>
-    <dimen name="Padding32">32dp</dimen>
-    <dimen name="Padding48">48dp</dimen>
-    <dimen name="Padding60">60dp</dimen>
-</resources>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:autoMirrored="true" android:height="24dp" android:tint="#000000" android:viewportHeight="960" android:viewportWidth="960" android:width="24dp">
+      
+    <path android:fillColor="@android:color/white" android:pathData="M280,760L280,680L564,680Q627,680 673.5,640Q720,600 720,540Q720,480 673.5,440Q627,400 564,400L312,400L416,504L360,560L160,360L360,160L416,216L312,320L564,320Q661,320 730.5,383Q800,446 800,540Q800,634 730.5,697Q661,760 564,760L280,760Z"/>
+    
+</vector>
