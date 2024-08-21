@@ -94,11 +94,11 @@ fun ArtMaker(
             ) {
                 Column {
                     // Trigger sharing the image. It has to save the image first
-                   if (artMakerConfiguration.canShareArt) {
-                       FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
-                           Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
-                       }
-                   }
+                    if (artMakerConfiguration.canShareArt) {
+                        FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
+                            Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
+                        }
+                    }
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
@@ -109,7 +109,8 @@ fun ArtMaker(
                         if (isFullScreenEnabled) {
                             Icon(
                                 imageVector = Icons.Filled.Fullscreen,
-                                contentDescription = Icons.Filled.Fullscreen.name)
+                                contentDescription = Icons.Filled.Fullscreen.name,
+                            )
                         } else {
                             Icon(
                                 imageVector = Icons.Filled.FullscreenExit,
