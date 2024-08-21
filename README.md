@@ -1,16 +1,26 @@
 [![Build ArtMaker](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml/badge.svg)](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml)
-
+<!-- LOGO -->
+<br />
+<h1>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6753e2bd-d844-4159-884e-af0dd837a05d" alt="ArtMaker Logo">
+</h1>
+<p align="center">
+    Flexible and lightweight Drawing Library
+    <br />
+</p>
 ArtMaker is a flexible and customisable library that allows users to draw anything they want on screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing the `Bitmap` for use in the calling application.
 
 ## Getting started
 
 ## Download
+[![Maven central](https://img.shields.io/maven-central/v/io.github.fbada006/artmaker.svg)](https://search.maven.org/artifact/io.github.fbada006/artmaker)
 
 ### Gradle
 Add the dependency below to your **module**'s `build.gradle` file:
 ```gradle
 dependencies {
-    implementation ""
+    implementation "io.github.fbada006:artmaker:1.0.0"
 }
 ```
 
