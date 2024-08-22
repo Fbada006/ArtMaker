@@ -35,9 +35,9 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.models.ArtMakerConfiguration
 
 @Composable
-fun StrokeSettings(strokeWidth: Int, onAction: (ArtMakerAction) -> Unit, configuration: ArtMakerConfiguration, modifier: Modifier = Modifier) {
+fun StrokeSettings(strokeWidth: Int, isStylusOnly: Boolean, onAction: (ArtMakerAction) -> Unit, configuration: ArtMakerConfiguration, modifier: Modifier = Modifier) {
     var sliderPosition by remember { mutableIntStateOf(strokeWidth) }
-    var useStylusOnly by remember { mutableStateOf(false) }
+    var stylusOnly by remember { mutableStateOf(isStylusOnly) }
 
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly) {
         Slider(
@@ -55,7 +55,13 @@ fun StrokeSettings(strokeWidth: Int, onAction: (ArtMakerAction) -> Unit, configu
                 text = "Use stylus only",
                 style = MaterialTheme.typography.bodyLarge,
             )
-            Switch(checked = useStylusOnly, onCheckedChange = { useStylusOnly = !useStylusOnly })
+            Switch(
+                checked = stylusOnly,
+                onCheckedChange = {
+                    stylusOnly = !stylusOnly
+                    onAction(ArtMakerAction.UpdateSetStylusOnly(useStylusOnly = stylusOnly))
+                },
+            )
         }
     }
 }

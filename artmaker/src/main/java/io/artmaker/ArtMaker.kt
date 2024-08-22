@@ -82,7 +82,7 @@ fun ArtMaker(
     Scaffold(
         floatingActionButton = {
             AnimatedVisibility(
-                visible = viewModel.pathList.isNotEmpty(),
+                visible = viewModel.pathList.isNotEmpty() && !showStrokeSettings,
                 modifier = Modifier.padding(bottom = if (isFullScreenEnabled) dimensionResource(id = R.dimen.Padding0) else dimensionResource(id = R.dimen.Padding60)),
             ) {
                 Column {
@@ -123,6 +123,7 @@ fun ArtMaker(
                 shouldTriggerArtExport = shouldTriggerArtExport,
                 imageBitmap = viewModel.backgroundImage.value,
                 isFullScreenMode = isFullScreenEnabled,
+                useStylusOnly = state.useStylusOnly,
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
@@ -130,7 +131,8 @@ fun ArtMaker(
                     onAction = viewModel::onAction,
                     configuration = artMakerConfiguration,
                     modifier = Modifier
-                        .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding8), start = dimensionResource(id = R.dimen.Padding8)),
+                        .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding12), start = dimensionResource(id = R.dimen.Padding12)),
+                    isStylusOnly = state.useStylusOnly,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {

@@ -30,6 +30,7 @@ sealed interface ArtMakerAction {
     data object UpdateBackground : ArtMakerAction
     data class SelectStrokeColour(val color: Color) : ArtMakerAction
     data class SetStrokeWidth(val strokeWidth: Int) : ArtMakerAction
+    data class UpdateSetStylusOnly(val useStylusOnly: Boolean) : ArtMakerAction
 }
 
 sealed interface ExportType {

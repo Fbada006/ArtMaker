@@ -28,4 +28,5 @@ data class ArtMakerUIState(
     val canRedo: Boolean = false,
     val canUndo: Boolean = false,
     val canClear: Boolean = false,
+    val useStylusOnly: Boolean = false,
 )

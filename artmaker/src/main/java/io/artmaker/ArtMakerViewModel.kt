@@ -62,6 +62,10 @@ internal class ArtMakerViewModel(
                 key = SELECTED_STROKE_WIDTH,
                 defaultValue = 5,
             ),
+            useStylusOnly = preferences.get(
+                key = PreferenceKeys.USE_STYLUS_ONLY,
+                false,
+            ),
         ),
     )
     val artMakerUIState = _artMakerUIState.asStateFlow()
@@ -92,6 +96,7 @@ internal class ArtMakerViewModel(
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
             is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
+            is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.useStylusOnly)
         }
     }
 
@@ -193,6 +198,18 @@ internal class ArtMakerViewModel(
                 strokeWidth = preferences.get(
                     SELECTED_STROKE_WIDTH,
                     defaultValue = 5,
+                ),
+            )
+        }
+    }
+
+    private fun updateStylusSetting(useStylusOnly: Boolean) {
+        preferences.set(PreferenceKeys.USE_STYLUS_ONLY, useStylusOnly)
+        _artMakerUIState.update {
+            it.copy(
+                useStylusOnly = preferences.get(
+                    key = PreferenceKeys.USE_STYLUS_ONLY,
+                    false,
                 ),
             )
         }

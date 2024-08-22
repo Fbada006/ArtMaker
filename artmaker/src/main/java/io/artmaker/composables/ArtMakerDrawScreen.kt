@@ -58,6 +58,7 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.models.PointsData
+import io.artmaker.utils.validateEvent
 import io.fbada006.artmaker.R
 import kotlinx.coroutines.launch
 
@@ -75,7 +76,9 @@ internal fun ArtMakerDrawScreen(
     imageBitmap: ImageBitmap?,
     shouldTriggerArtExport: Boolean,
     isFullScreenMode: Boolean,
+    useStylusOnly: Boolean,
 ) {
+    val context = LocalContext.current
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
 
@@ -105,8 +108,6 @@ internal fun ArtMakerDrawScreen(
             listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         },
     )
-
-    val context = LocalContext.current
 
     LaunchedEffect(key1 = shouldTriggerArtExport) {
         if (shouldTriggerArtExport) {
@@ -148,6 +149,8 @@ internal fun ArtMakerDrawScreen(
                 }
             }
             .pointerInteropFilter { event ->
+                if (!event.validateEvent(context, useStylusOnly)) return@pointerInteropFilter false
+
                 val offset = Offset(event.x, event.y)
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
