@@ -108,8 +108,9 @@ fun ArtMaker(
                 }
             }
         },
+        modifier = modifier,
     ) { values ->
-        Column(modifier = modifier.padding(values)) {
+        Column(modifier = Modifier.padding(values)) {
             ArtMakerDrawScreen(
                 modifier = Modifier
                     .fillMaxSize()
