@@ -16,16 +16,24 @@
 package io.artmaker.composables
 
 import android.Manifest
+import android.content.Context
 import android.os.Build
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -50,6 +58,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -58,6 +67,7 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.models.PointsData
+import io.artmaker.utils.isStylusInput
 import io.artmaker.utils.validateEvent
 import io.fbada006.artmaker.R
 import kotlinx.coroutines.launch
@@ -85,17 +95,15 @@ internal fun ArtMakerDrawScreen(
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
-    val yOffset = if (isFullScreenMode) {
-        0f
-    } else {
-        with(density) {
-            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
-        }
+    val yOffset = if (isFullScreenMode) 0f else with(density) {
+        (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
     }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val maxDrawingHeight = screenHeightPx - yOffset
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
+    var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
+    var stylusDialogType by rememberSaveable { mutableStateOf("") }
 
     val graphicsLayer = rememberGraphicsLayer()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -149,11 +157,16 @@ internal fun ArtMakerDrawScreen(
                 }
             }
             .pointerInteropFilter { event ->
-                if (!event.validateEvent(context, useStylusOnly)) return@pointerInteropFilter false
-
                 val offset = Offset(event.x, event.y)
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
+                        getDialogType(context, event, useStylusOnly)?.let { type ->
+                            shouldShowStylusDialog = true
+                            stylusDialogType = type
+                        }
+
+                        if (!event.validateEvent(context, useStylusOnly)) return@pointerInteropFilter false
+
                         onDrawEvent(DrawEvent.AddNewShape(offset))
                     }
 
@@ -191,4 +204,36 @@ internal fun ArtMakerDrawScreen(
             }
         },
     )
+
+    if (shouldShowStylusDialog) {
+        if (stylusDialogType.isEmpty()) return
+        val message: String = when (StylusDialogType.valueOf(stylusDialogType)) {
+            StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.styluse_input_detected_message)
+            StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(R.string.non_stylus_input_detected_message)
+        }
+        val title: String = when (StylusDialogType.valueOf(stylusDialogType)) {
+            StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.stylus_input_detected_title)
+            StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(R.string.non_stylus_input_detected_title)
+        }
+
+        AlertDialog(
+            icon = { Icon(imageVector = Icons.Filled.Edit, contentDescription = Icons.Filled.Edit.name) },
+            title = { Text(text = title) },
+            text = { Text(text = message) },
+            onDismissRequest = { shouldShowStylusDialog = false },
+            confirmButton = {
+                Button(onClick = { shouldShowStylusDialog = false }) {
+                    Text(text = stringResource(id = android.R.string.ok))
+                }
+            },
+        )
+    }
 }
+
+private fun getDialogType(context: Context, event: MotionEvent, useStylusOnly: Boolean) = when {
+    event.isStylusInput() && !useStylusOnly -> StylusDialogType.ENABLE_STYLUS_ONLY.name
+    !event.validateEvent(context, useStylusOnly) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
+    else -> null
+}
+
+internal enum class StylusDialogType { ENABLE_STYLUS_ONLY, DISABLE_STYLUS_ONLY }

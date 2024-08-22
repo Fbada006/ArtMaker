@@ -21,4 +21,8 @@
     <string name="share_your_image">Share your image</string>
     <string name="change_image">Change Image</string>
     <string name="clear_image">Clear Image</string>
+    <string name="stylus_input_detected_title">Stylus input detected</string>
+    <string name="non_stylus_input_detected_title">Non-Stylus input detected</string>
+    <string name="styluse_input_detected_message">We have detected that you are using a stylus to draw. For a better experience, please enable stylus only input using the pencil icon at the bottom of the screen.</string>
+    <string name="non_stylus_input_detected_message">We have detected that you are not using your stylus to draw but you have enabled the stylus only input setting. Please disable this using the pencil icon at the bottom of the screen if you wish to use other input types to draw.</string>
 </resources>
