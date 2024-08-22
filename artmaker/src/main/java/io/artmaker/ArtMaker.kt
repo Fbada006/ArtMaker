@@ -119,11 +119,13 @@ fun ArtMaker(
                     viewModel.onDrawEvent(it)
                 },
                 onAction = viewModel::onAction,
-                pathList = viewModel.pathList,
-                shouldTriggerArtExport = shouldTriggerArtExport,
-                imageBitmap = viewModel.backgroundImage.value,
-                isFullScreenMode = isFullScreenEnabled,
-                useStylusOnly = state.useStylusOnly,
+                state = DrawState(
+                    pathList = viewModel.pathList,
+                    shouldTriggerArtExport = shouldTriggerArtExport,
+                    backgroundImage = viewModel.backgroundImage.value,
+                    isFullScreenMode = isFullScreenEnabled,
+                    useStylusOnly = state.useStylusOnly,
+                ),
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(

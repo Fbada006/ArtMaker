@@ -37,14 +37,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
@@ -63,10 +61,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import io.artmaker.DrawState
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.models.PointsData
 import io.artmaker.utils.isStylusInput
 import io.artmaker.utils.validateEvent
 import io.fbada006.artmaker.R
@@ -82,11 +80,7 @@ internal fun ArtMakerDrawScreen(
     artMakerConfiguration: ArtMakerConfiguration,
     onDrawEvent: (DrawEvent) -> Unit,
     onAction: (ArtMakerAction) -> Unit,
-    pathList: SnapshotStateList<PointsData>,
-    imageBitmap: ImageBitmap?,
-    shouldTriggerArtExport: Boolean,
-    isFullScreenMode: Boolean,
-    useStylusOnly: Boolean,
+    state: DrawState,
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -95,8 +89,12 @@ internal fun ArtMakerDrawScreen(
     val screenHeight = configuration.screenHeightDp.dp
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility
-    val yOffset = if (isFullScreenMode) 0f else with(density) {
-        (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+    val yOffset = if (state.isFullScreenMode) {
+        0f
+    } else {
+        with(density) {
+            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+        }
     }
     val screenHeightPx = with(density) { screenHeight.toPx() }
     val maxDrawingHeight = screenHeightPx - yOffset
@@ -117,8 +115,8 @@ internal fun ArtMakerDrawScreen(
         },
     )
 
-    LaunchedEffect(key1 = shouldTriggerArtExport) {
-        if (shouldTriggerArtExport) {
+    LaunchedEffect(key1 = state.shouldTriggerArtExport) {
+        if (state.shouldTriggerArtExport) {
             if (writeStorageAccessState.allPermissionsGranted) {
                 val bitmap = graphicsLayer.toImageBitmap()
                 onAction(ArtMakerAction.ExportArt(bitmap))
@@ -160,12 +158,12 @@ internal fun ArtMakerDrawScreen(
                 val offset = Offset(event.x, event.y)
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        getDialogType(context, event, useStylusOnly)?.let { type ->
+                        getDialogType(context, event, state.useStylusOnly)?.let { type ->
                             shouldShowStylusDialog = true
                             stylusDialogType = type
                         }
 
-                        if (!event.validateEvent(context, useStylusOnly)) return@pointerInteropFilter false
+                        if (!event.validateEvent(context, state.useStylusOnly)) return@pointerInteropFilter false
 
                         onDrawEvent(DrawEvent.AddNewShape(offset))
                     }
@@ -184,15 +182,15 @@ internal fun ArtMakerDrawScreen(
             },
         onDraw = {
             drawIntoCanvas {
-                imageBitmap?.let { imageBitmap ->
-                    val shader = ImageShader(imageBitmap, TileMode.Clamp)
+                state.backgroundImage?.let { bitmap ->
+                    val shader = ImageShader(bitmap, TileMode.Clamp)
                     val brush = ShaderBrush(shader)
                     drawRect(
                         brush = brush,
                         size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
                     )
                 }
-                pathList.forEach { data ->
+                state.pathList.forEach { data ->
                     drawPoints(
                         points = data.points,
                         pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
@@ -207,11 +205,12 @@ internal fun ArtMakerDrawScreen(
 
     if (shouldShowStylusDialog) {
         if (stylusDialogType.isEmpty()) return
-        val message: String = when (StylusDialogType.valueOf(stylusDialogType)) {
+        val type = StylusDialogType.valueOf(stylusDialogType)
+        val message: String = when (type) {
             StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.styluse_input_detected_message)
             StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(R.string.non_stylus_input_detected_message)
         }
-        val title: String = when (StylusDialogType.valueOf(stylusDialogType)) {
+        val title: String = when (type) {
             StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.stylus_input_detected_title)
             StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(R.string.non_stylus_input_detected_title)
         }
