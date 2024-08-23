@@ -24,10 +24,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 sealed interface ArtMakerAction {
     data class TriggerArtExport(val type: ExportType) : ArtMakerAction
     data class ExportArt(val bitmap: ImageBitmap) : ArtMakerAction
-
-//    data object Undo : ArtMakerAction
-//    data object Redo : ArtMakerAction
-//    data object Clear : ArtMakerAction
     data object UpdateBackground : ArtMakerAction
     data class SelectStrokeColour(val color: Color) : ArtMakerAction
     data class SetStrokeWidth(val strokeWidth: Int) : ArtMakerAction
