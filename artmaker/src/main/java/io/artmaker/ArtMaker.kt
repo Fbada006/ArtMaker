@@ -124,7 +124,8 @@ fun ArtMaker(
                     shouldTriggerArtExport = shouldTriggerArtExport,
                     backgroundImage = viewModel.backgroundImage.value,
                     isFullScreenMode = isFullScreenEnabled,
-                    useStylusOnly = state.useStylusOnly,
+                    shouldUseStylusOnly = state.shouldUseStylusOnly,
+                    canShowStylusDialog = state.canShowStylusDialog,
                 ),
             )
             AnimatedVisibility(visible = showStrokeSettings) {
@@ -134,7 +135,7 @@ fun ArtMaker(
                     configuration = artMakerConfiguration,
                     modifier = Modifier
                         .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding12), start = dimensionResource(id = R.dimen.Padding12)),
-                    isStylusOnly = state.useStylusOnly,
+                    isStylusOnly = state.shouldUseStylusOnly,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
@@ -142,9 +143,7 @@ fun ArtMaker(
                     state = state,
                     onAction = viewModel::onAction,
                     modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
-                    onShowStrokeWidthPopup = {
-                        showStrokeSettings = !showStrokeSettings
-                    },
+                    onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,
                     artMakerConfiguration = artMakerConfiguration,

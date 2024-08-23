@@ -59,7 +59,7 @@ fun StrokeSettings(strokeWidth: Int, isStylusOnly: Boolean, onAction: (ArtMakerA
                 checked = stylusOnly,
                 onCheckedChange = {
                     stylusOnly = !stylusOnly
-                    onAction(ArtMakerAction.UpdateSetStylusOnly(useStylusOnly = stylusOnly))
+                    onAction(ArtMakerAction.UpdateSetStylusOnly(shouldUseStylusOnly = stylusOnly))
                 },
             )
         }

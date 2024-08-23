@@ -62,9 +62,13 @@ internal class ArtMakerViewModel(
                 key = SELECTED_STROKE_WIDTH,
                 defaultValue = 5,
             ),
-            useStylusOnly = preferences.get(
+            shouldUseStylusOnly = preferences.get(
                 key = PreferenceKeys.USE_STYLUS_ONLY,
                 false,
+            ),
+            canShowStylusDialog = preferences.get(
+                key = PreferenceKeys.SHOW_STYLUS_DIALOG,
+                true,
             ),
         ),
     )
@@ -96,7 +100,8 @@ internal class ArtMakerViewModel(
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
             is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
-            is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.useStylusOnly)
+            is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.shouldUseStylusOnly)
+            is ArtMakerAction.UpdateStylusDialogNeverShow -> updateStylusDialogShowSetting(canShowStylusDialog = action.canShowStylusDialog)
         }
     }
 
@@ -207,9 +212,21 @@ internal class ArtMakerViewModel(
         preferences.set(PreferenceKeys.USE_STYLUS_ONLY, useStylusOnly)
         _artMakerUIState.update {
             it.copy(
-                useStylusOnly = preferences.get(
+                shouldUseStylusOnly = preferences.get(
                     key = PreferenceKeys.USE_STYLUS_ONLY,
                     false,
+                ),
+            )
+        }
+    }
+
+    private fun updateStylusDialogShowSetting(canShowStylusDialog: Boolean) {
+        preferences.set(PreferenceKeys.SHOW_STYLUS_DIALOG, canShowStylusDialog)
+        _artMakerUIState.update {
+            it.copy(
+                canShowStylusDialog = preferences.get(
+                    key = PreferenceKeys.SHOW_STYLUS_DIALOG,
+                    true,
                 ),
             )
         }
