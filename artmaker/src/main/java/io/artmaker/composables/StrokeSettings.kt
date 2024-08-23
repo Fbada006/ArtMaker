@@ -32,9 +32,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.isStylusConnected
+import io.fbada006.artmaker.R
 
 @Composable
 fun StrokeSettings(strokeWidth: Int, shouldUseStylusOnly: Boolean, onAction: (ArtMakerAction) -> Unit, configuration: ArtMakerConfiguration, modifier: Modifier = Modifier) {
@@ -56,7 +58,7 @@ fun StrokeSettings(strokeWidth: Int, shouldUseStylusOnly: Boolean, onAction: (Ar
             HorizontalDivider()
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Use stylus only",
+                    text = stringResource(R.string.use_stylus_only),
                     style = MaterialTheme.typography.bodyLarge,
                 )
                 Switch(
