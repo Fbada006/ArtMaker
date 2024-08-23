@@ -71,7 +71,7 @@ fun ArtMaker(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
     var showStrokeSettings by remember { mutableStateOf(value = false) }
-    val state by viewModel.artMakerUIState.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
     val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
     var isFullScreenEnabled by remember { mutableStateOf(false) }
@@ -142,6 +142,7 @@ fun ArtMaker(
                 ArtMakerControlMenu(
                     state = state,
                     onAction = viewModel::onAction,
+                    onDrawEvent = viewModel::onDrawEvent,
                     modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
                     onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,

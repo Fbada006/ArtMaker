@@ -62,6 +62,7 @@ import androidx.core.os.BuildCompat
 import com.google.modernstorage.photopicker.PhotoPicker
 import io.artmaker.ArtMakerUIState
 import io.artmaker.actions.ArtMakerAction
+import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
@@ -79,6 +80,7 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
 internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
+    onDrawEvent: (DrawEvent) -> Unit,
     modifier: Modifier = Modifier,
     onShowStrokeWidthPopup: () -> Unit,
     setBackgroundImage: (ImageBitmap?) -> Unit,
@@ -132,21 +134,21 @@ internal fun ArtMakerControlMenu(
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
                     onItemClicked = {
-                        onAction(ArtMakerAction.Undo)
+                        onDrawEvent(DrawEvent.Undo)
                     },
                     enabled = state.canUndo,
                 )
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
                     onItemClicked = {
-                        onAction(ArtMakerAction.Redo)
+                        onDrawEvent(DrawEvent.Redo)
                     },
                     enabled = state.canRedo,
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Refresh,
                     onItemClicked = {
-                        onAction(ArtMakerAction.Clear)
+                        onDrawEvent(DrawEvent.Clear)
                     },
                     enabled = state.canClear,
                 )

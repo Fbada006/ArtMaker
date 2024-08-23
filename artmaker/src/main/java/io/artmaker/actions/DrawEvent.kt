@@ -24,4 +24,7 @@ sealed interface DrawEvent {
     data class AddNewShape(val offset: Offset) : DrawEvent
     data class UpdateCurrentShape(val offset: Offset) : DrawEvent
     data object UndoLastShapePoint : DrawEvent
+    data object Undo : DrawEvent
+    data object Redo : DrawEvent
+    data object Clear : DrawEvent
 }

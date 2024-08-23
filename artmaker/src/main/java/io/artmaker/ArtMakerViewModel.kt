@@ -20,10 +20,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -37,22 +35,24 @@ import io.artmaker.actions.ExportType
 import io.artmaker.data.ArtMakerSharedPreferences
 import io.artmaker.data.PreferenceKeys
 import io.artmaker.data.PreferenceKeys.SELECTED_STROKE_WIDTH
+import io.artmaker.export.DrawingManager
 import io.artmaker.models.PointsData
 import io.artmaker.utils.saveToDisk
 import io.artmaker.utils.shareBitmap
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Stack
 
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
+    private val drawingManager: DrawingManager,
     private val applicationContext: Context,
 ) : ViewModel() {
 
-    private var _artMakerUIState = MutableStateFlow(
+    private var _uiState = MutableStateFlow(
         value = ArtMakerUIState(
             strokeColour = preferences.get(
                 key = PreferenceKeys.SELECTED_STROKE_COLOUR,
@@ -72,12 +72,9 @@ internal class ArtMakerViewModel(
             ),
         ),
     )
-    val artMakerUIState = _artMakerUIState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
-    private val undoStack = Stack<PointsData>()
-
-    private val _pathList = mutableStateListOf<PointsData>()
-    val pathList: SnapshotStateList<PointsData> = _pathList
+    val pathList: SnapshotStateList<PointsData> = drawingManager.pathList
 
     private val _shouldTriggerArtExport = MutableStateFlow(false)
     val shouldTriggerArtExport: StateFlow<Boolean> = _shouldTriggerArtExport
@@ -90,13 +87,14 @@ internal class ArtMakerViewModel(
     private val _finishedImage = MutableStateFlow<Bitmap?>(null)
     val finishedImage = _finishedImage.asStateFlow()
 
+    init {
+        listenToUndoRedoState()
+    }
+
     fun onAction(action: ArtMakerAction) {
         when (action) {
             is ArtMakerAction.TriggerArtExport -> triggerArtExport(action.type)
             is ArtMakerAction.ExportArt -> exportArt(action.bitmap)
-            ArtMakerAction.Redo -> redo()
-            ArtMakerAction.Undo -> undo()
-            ArtMakerAction.Clear -> clear()
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
             is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
@@ -105,32 +103,14 @@ internal class ArtMakerViewModel(
         }
     }
 
-    fun onDrawEvent(event: DrawEvent) {
-        when (event) {
-            is DrawEvent.AddNewShape -> addNewShape(event.offset)
-            DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
-            is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset)
+    fun onDrawEvent(event: DrawEvent) = drawingManager.onDrawEvent(event, _uiState.value.strokeColour, _uiState.value.strokeWidth)
+
+    private fun listenToUndoRedoState() {
+        viewModelScope.launch {
+            drawingManager.undoRedoState.collectLatest { state ->
+                _uiState.update { it.copy(canRedo = state.canRedo, canUndo = state.canUndo, canClear = state.canClear) }
+            }
         }
-    }
-
-    private fun addNewShape(offset: Offset) {
-        val data = PointsData(
-            points = mutableStateListOf(offset),
-            strokeColor = Color(artMakerUIState.value.strokeColour),
-            strokeWidth = artMakerUIState.value.strokeWidth.toFloat(),
-        )
-        _pathList.add(data)
-        _artMakerUIState.update { it.copy(canUndo = true, canClear = true) }
-    }
-
-    private fun updateCurrentShape(offset: Offset) {
-        val idx = _pathList.lastIndex
-        _pathList[idx].points.add(offset)
-    }
-
-    private fun undoLastShapePoint() {
-        val idx = _pathList.lastIndex
-        _pathList[idx].points.removeLast()
     }
 
     private fun triggerArtExport(type: ExportType) {
@@ -152,26 +132,6 @@ internal class ArtMakerViewModel(
         }
     }
 
-    private fun redo() {
-        if (undoStack.isNotEmpty()) {
-            pathList.add(undoStack.pop())
-        }
-        _artMakerUIState.update { it.copy(canUndo = true, canRedo = undoStack.isNotEmpty()) }
-    }
-
-    private fun undo() {
-        if (_pathList.isNotEmpty()) {
-            undoStack.push(_pathList.removeLast())
-            _artMakerUIState.update { it.copy(canRedo = true, canUndo = pathList.isNotEmpty()) }
-        }
-    }
-
-    private fun clear() {
-        _pathList.clear()
-        undoStack.clear()
-        _artMakerUIState.update { it.copy(canRedo = false, canUndo = false, canClear = false) }
-    }
-
     private fun updateBackgroundColour() {}
 
     private fun updateStrokeColor(colour: Color) {
@@ -179,7 +139,7 @@ internal class ArtMakerViewModel(
             key = PreferenceKeys.SELECTED_STROKE_COLOUR,
             value = colour.toArgb(),
         )
-        _artMakerUIState.update {
+        _uiState.update {
             it.copy(
                 strokeColour = preferences.get(
                     key = PreferenceKeys.SELECTED_STROKE_COLOUR,
@@ -198,7 +158,7 @@ internal class ArtMakerViewModel(
             key = SELECTED_STROKE_WIDTH,
             value = strokeWidth,
         )
-        _artMakerUIState.update {
+        _uiState.update {
             it.copy(
                 strokeWidth = preferences.get(
                     SELECTED_STROKE_WIDTH,
@@ -210,7 +170,7 @@ internal class ArtMakerViewModel(
 
     private fun updateStylusSetting(useStylusOnly: Boolean) {
         preferences.set(PreferenceKeys.USE_STYLUS_ONLY, useStylusOnly)
-        _artMakerUIState.update {
+        _uiState.update {
             it.copy(
                 shouldUseStylusOnly = preferences.get(
                     key = PreferenceKeys.USE_STYLUS_ONLY,
@@ -222,7 +182,7 @@ internal class ArtMakerViewModel(
 
     private fun updateStylusDialogShowSetting(canShowStylusDialog: Boolean) {
         preferences.set(PreferenceKeys.SHOW_STYLUS_DIALOG, canShowStylusDialog)
-        _artMakerUIState.update {
+        _uiState.update {
             it.copy(
                 canShowStylusDialog = preferences.get(
                     key = PreferenceKeys.SHOW_STYLUS_DIALOG,
@@ -243,6 +203,7 @@ internal class ArtMakerViewModel(
                         preferences = ArtMakerSharedPreferences(
                             context = application,
                         ),
+                        drawingManager = DrawingManager(),
                         applicationContext = application.applicationContext,
                     ) as T
                 }
