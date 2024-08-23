@@ -56,7 +56,7 @@ internal class DrawingManager {
             strokeWidth = strokeWidth.toFloat(),
         )
         _pathList.add(data)
-        _undoRedoState.update { it.copy(canUndo = true, canClear = true) }
+        _undoRedoState.update { computeUndoRedoState() }
     }
 
     private fun updateCurrentShape(offset: Offset) {
@@ -72,19 +72,27 @@ internal class DrawingManager {
     private fun redo() {
         if (undoStack.isEmpty()) return
         _pathList.add(undoStack.pop())
-        _undoRedoState.update { it.copy(canUndo = true, canRedo = undoStack.isNotEmpty()) }
+        _undoRedoState.update { computeUndoRedoState() }
     }
 
     private fun undo() {
         if (_pathList.isEmpty()) return
         undoStack.push(_pathList.removeLast())
-        _undoRedoState.update { it.copy(canRedo = true, canUndo = _pathList.isNotEmpty()) }
+        _undoRedoState.update { computeUndoRedoState() }
     }
 
     private fun clear() {
         _pathList.clear()
         undoStack.clear()
-        _undoRedoState.update { UndoRedoState() }
+        _undoRedoState.update { computeUndoRedoState() }
+    }
+
+    private fun computeUndoRedoState(): UndoRedoState {
+        return UndoRedoState(
+            canUndo = _pathList.isNotEmpty(),
+            canRedo = undoStack.isNotEmpty(),
+            canClear = _pathList.isNotEmpty()
+        )
     }
 }
 
