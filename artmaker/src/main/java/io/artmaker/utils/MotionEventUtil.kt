@@ -38,7 +38,7 @@ internal fun MotionEvent.validateEvent(context: Context, useStylusOnly: Boolean)
     return !useStylusOnly || isStylusDrawing
 }
 
-private fun isStylusConnected(context: Context): Boolean {
+internal fun isStylusConnected(context: Context): Boolean {
     val inputManager = context.getSystemService(Context.INPUT_SERVICE) as InputManager
     val inputDeviceIds: IntArray = inputManager.inputDeviceIds
     return inputDeviceIds.any {

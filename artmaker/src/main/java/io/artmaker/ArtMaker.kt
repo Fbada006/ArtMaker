@@ -135,7 +135,7 @@ fun ArtMaker(
                     configuration = artMakerConfiguration,
                     modifier = Modifier
                         .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding12), start = dimensionResource(id = R.dimen.Padding12)),
-                    isStylusOnly = state.shouldUseStylusOnly,
+                    shouldUseStylusOnly = state.shouldUseStylusOnly,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
