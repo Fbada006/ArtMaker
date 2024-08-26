@@ -1,4 +1,6 @@
 [![Build ArtMaker](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml/badge.svg)](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml)
+[![Android Weekly](https://androidweekly.net/issues/issue-637/badge)](https://androidweekly.net/issues/issue-637)
+
 <!-- LOGO -->
 <br />
 <h1>
