@@ -28,5 +28,6 @@ internal data class DrawState(
     val shouldTriggerArtExport: Boolean,
     val isFullScreenMode: Boolean,
     val shouldUseStylusOnly: Boolean,
-    val canShowStylusDialog: Boolean,
+    val canShowEnableStylusDialog: Boolean,
+    val canShowDisableStylusDialog: Boolean,
 )

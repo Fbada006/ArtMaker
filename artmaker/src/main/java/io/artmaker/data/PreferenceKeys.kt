@@ -20,5 +20,6 @@ object PreferenceKeys {
     const val SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
     const val SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"
     const val USE_STYLUS_ONLY = "com.artmaker.sharedpreferences.useStylusOnly"
-    const val SHOW_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showStylusDialog"
+    const val SHOW_ENABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showEnableStylusDialog"
+    const val SHOW_DISABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showDisableStylusDialog"
 }

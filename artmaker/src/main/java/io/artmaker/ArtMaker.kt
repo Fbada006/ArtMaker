@@ -126,7 +126,8 @@ fun ArtMaker(
                     backgroundImage = viewModel.backgroundImage.value,
                     isFullScreenMode = isFullScreenEnabled,
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
-                    canShowStylusDialog = state.canShowStylusDialog,
+                    canShowEnableStylusDialog = state.canShowEnableStylusDialog,
+                    canShowDisableStylusDialog = state.canShowDisableStylusDialog,
                 ),
             )
             AnimatedVisibility(visible = showStrokeSettings) {

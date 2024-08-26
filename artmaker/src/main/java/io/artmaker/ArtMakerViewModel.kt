@@ -66,8 +66,12 @@ internal class ArtMakerViewModel(
                 key = PreferenceKeys.USE_STYLUS_ONLY,
                 false,
             ),
-            canShowStylusDialog = preferences.get(
-                key = PreferenceKeys.SHOW_STYLUS_DIALOG,
+            canShowEnableStylusDialog = preferences.get(
+                key = PreferenceKeys.SHOW_ENABLE_STYLUS_DIALOG,
+                true,
+            ),
+            canShowDisableStylusDialog = preferences.get(
+                key = PreferenceKeys.SHOW_DISABLE_STYLUS_DIALOG,
                 true,
             ),
         ),
@@ -99,7 +103,8 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
             is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
             is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.shouldUseStylusOnly)
-            is ArtMakerAction.UpdateStylusDialogNeverShow -> updateStylusDialogShowSetting(canShowStylusDialog = action.canShowStylusDialog)
+            is ArtMakerAction.UpdateEnableStylusDialogShow -> updateEnableStylusDialog(canShow = action.canShowEnableStylusDialog)
+            is ArtMakerAction.UpdateDisableStylusDialogShow -> updateDisableStylusDialog(canShow = action.canShowDisableStylusDialog)
         }
     }
 
@@ -180,12 +185,24 @@ internal class ArtMakerViewModel(
         }
     }
 
-    private fun updateStylusDialogShowSetting(canShowStylusDialog: Boolean) {
-        preferences.set(PreferenceKeys.SHOW_STYLUS_DIALOG, canShowStylusDialog)
+    private fun updateEnableStylusDialog(canShow: Boolean) {
+        preferences.set(PreferenceKeys.SHOW_ENABLE_STYLUS_DIALOG, canShow)
         _uiState.update {
             it.copy(
-                canShowStylusDialog = preferences.get(
-                    key = PreferenceKeys.SHOW_STYLUS_DIALOG,
+                canShowEnableStylusDialog = preferences.get(
+                    key = PreferenceKeys.SHOW_ENABLE_STYLUS_DIALOG,
+                    true,
+                ),
+            )
+        }
+    }
+
+    private fun updateDisableStylusDialog(canShow: Boolean) {
+        preferences.set(PreferenceKeys.SHOW_DISABLE_STYLUS_DIALOG, canShow)
+        _uiState.update {
+            it.copy(
+                canShowDisableStylusDialog = preferences.get(
+                    key = PreferenceKeys.SHOW_DISABLE_STYLUS_DIALOG,
                     true,
                 ),
             )

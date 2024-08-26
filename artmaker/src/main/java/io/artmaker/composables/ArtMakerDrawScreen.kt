@@ -22,15 +22,11 @@ import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -210,12 +206,13 @@ internal fun ArtMakerDrawScreen(
         },
     )
 
-    if (shouldShowStylusDialog && state.canShowStylusDialog) {
+    if (shouldShowStylusDialog && (state.canShowEnableStylusDialog || state.canShowDisableStylusDialog)) {
         if (stylusDialogType.isEmpty()) return
         val type = StylusDialogType.valueOf(stylusDialogType)
-        val dialogInfo = when (type) {
-            StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.stylus_input_detected_title) to stringResource(R.string.styluse_input_detected_message)
-            StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(R.string.non_stylus_input_detected_title) to stringResource(R.string.non_stylus_input_detected_message)
+        val dialogInfo = when {
+            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.stylus_input_detected_title) to stringResource(R.string.stylus_input_detected_message)
+            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(R.string.non_stylus_input_detected_title) to stringResource(R.string.non_stylus_input_detected_message)
+            else -> return
         }
 
         AlertDialog(
@@ -225,19 +222,16 @@ internal fun ArtMakerDrawScreen(
             onDismissRequest = { shouldShowStylusDialog = false },
             confirmButton = {
                 Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Button(onClick = { shouldShowStylusDialog = false }) {
-                        Text(text = stringResource(id = android.R.string.ok))
-                    }
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding7)))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = stringResource(R.string.do_not_show_again))
-                        Checkbox(
-                            checked = false,
-                            onCheckedChange = {
-                                shouldShowStylusDialog = false
-                                onAction(ArtMakerAction.UpdateStylusDialogNeverShow(false))
-                            },
-                        )
+                    Button(
+                        onClick = {
+                            shouldShowStylusDialog = false
+                            when (type) {
+                                StylusDialogType.ENABLE_STYLUS_ONLY -> onAction(ArtMakerAction.UpdateEnableStylusDialogShow(false))
+                                StylusDialogType.DISABLE_STYLUS_ONLY -> onAction(ArtMakerAction.UpdateDisableStylusDialogShow(false))
+                            }
+                        },
+                    ) {
+                        Text(text = stringResource(id = R.string.got_it))
                     }
                 }
             },
