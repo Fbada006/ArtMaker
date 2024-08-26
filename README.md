@@ -23,7 +23,7 @@ ArtMaker is a flexible and customisable library that allows users to draw anythi
 Add the dependency below to your **module**'s `build.gradle` file:
 ```gradle
 dependencies {
-    implementation "io.github.fbada006:artmaker:1.0.0"
+    implementation "io.github.fbada006:artmaker:$latest_version"
 }
 ```
 
