@@ -11,6 +11,7 @@
     Flexible and lightweight Drawing Library
     <br />
 </p>
+
 ArtMaker is a flexible and customisable library that allows users to draw anything they want on screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing the `Bitmap` for use in the calling application.
 
 ## Getting started
