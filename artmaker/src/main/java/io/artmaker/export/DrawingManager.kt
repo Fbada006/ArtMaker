@@ -46,6 +46,7 @@ internal class DrawingManager {
             DrawEvent.Clear -> clear()
             DrawEvent.Redo -> redo()
             DrawEvent.Undo -> undo()
+            DrawEvent.Erase -> erase()
         }
     }
 
@@ -93,6 +94,10 @@ internal class DrawingManager {
             canRedo = undoStack.isNotEmpty(),
             canClear = _pathList.isNotEmpty(),
         )
+    }
+
+    private fun erase() {
+        TODO()
     }
 }
 
