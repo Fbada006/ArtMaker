@@ -17,7 +17,6 @@ package io.artmaker.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -25,7 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import io.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.R
 
@@ -37,29 +36,28 @@ private const val MAX_WIDTH = 50f
  */
 @Composable
 internal fun Slider(
-    modifier: Modifier = Modifier,
     sliderPosition: Float,
     onValueChange: (Float) -> Unit,
-    artMakerConfiguration: ArtMakerConfiguration,
+    configuration: ArtMakerConfiguration,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .padding(all = dimensionResource(id = R.dimen.Padding7)),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = sliderPosition.toInt().toString(),
+            text = stringResource(id = R.string.set_width, sliderPosition.toInt()),
             style = MaterialTheme.typography.titleLarge,
-            color = artMakerConfiguration.strokeSliderTextColor,
+            color = configuration.strokeSliderTextColor,
         )
         Slider(
             value = sliderPosition,
             onValueChange = onValueChange,
             colors = SliderDefaults.colors(
-                thumbColor = artMakerConfiguration.strokeSliderThumbColor,
-                activeTrackColor = artMakerConfiguration.strokeSliderActiveTrackColor,
-                inactiveTickColor = artMakerConfiguration.strokeSliderInactiveTickColor,
+                thumbColor = configuration.strokeSliderThumbColor,
+                activeTrackColor = configuration.strokeSliderActiveTrackColor,
+                inactiveTickColor = configuration.strokeSliderInactiveTickColor,
             ),
             valueRange = MIN_WIDTH..MAX_WIDTH,
         )

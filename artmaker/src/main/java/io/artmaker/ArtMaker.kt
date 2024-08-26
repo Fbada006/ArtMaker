@@ -47,9 +47,8 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.ExportType
 import io.artmaker.composables.ArtMakerControlMenu
 import io.artmaker.composables.ArtMakerDrawScreen
-import io.artmaker.composables.StrokeWidthSlider
+import io.artmaker.composables.StrokeSettings
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.viewmodels.ArtMakerViewModel
 import io.fbada006.artmaker.R
 
 /**
@@ -71,8 +70,8 @@ fun ArtMaker(
     val viewModel: ArtMakerViewModel = viewModel(
         factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
-    var showStrokeWidth by remember { mutableStateOf(value = false) }
-    val artMakerUIState by viewModel.artMakerUIState.collectAsStateWithLifecycle()
+    var showStrokeSettings by remember { mutableStateOf(value = false) }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
     val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
     var isFullScreenEnabled by remember { mutableStateOf(false) }
@@ -83,7 +82,7 @@ fun ArtMaker(
     Scaffold(
         floatingActionButton = {
             AnimatedVisibility(
-                visible = viewModel.pathList.isNotEmpty(),
+                visible = viewModel.pathList.isNotEmpty() && !showStrokeSettings,
                 modifier = Modifier.padding(bottom = if (isFullScreenEnabled) dimensionResource(id = R.dimen.Padding0) else dimensionResource(id = R.dimen.Padding60)),
             ) {
                 Column {
@@ -117,29 +116,37 @@ fun ArtMaker(
                     .weight(1f),
                 artMakerConfiguration = artMakerConfiguration,
                 onDrawEvent = {
-                    showStrokeWidth = false
+                    showStrokeSettings = false
                     viewModel.onDrawEvent(it)
                 },
                 onAction = viewModel::onAction,
-                pathList = viewModel.pathList,
-                shouldTriggerArtExport = shouldTriggerArtExport,
-                imageBitmap = viewModel.backgroundImage.value,
-                isFullScreenMode = isFullScreenEnabled,
+                state = DrawState(
+                    pathList = viewModel.pathList,
+                    shouldTriggerArtExport = shouldTriggerArtExport,
+                    backgroundImage = viewModel.backgroundImage.value,
+                    isFullScreenMode = isFullScreenEnabled,
+                    shouldUseStylusOnly = state.shouldUseStylusOnly,
+                    canShowEnableStylusDialog = state.canShowEnableStylusDialog,
+                    canShowDisableStylusDialog = state.canShowDisableStylusDialog,
+                ),
             )
-            StrokeWidthSlider(
-                state = artMakerUIState,
-                onAction = viewModel::onAction,
-                isVisible = showStrokeWidth,
-                artMakerConfiguration = artMakerConfiguration,
-            )
+            AnimatedVisibility(visible = showStrokeSettings) {
+                StrokeSettings(
+                    strokeWidth = state.strokeWidth,
+                    onAction = viewModel::onAction,
+                    configuration = artMakerConfiguration,
+                    modifier = Modifier
+                        .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding12), start = dimensionResource(id = R.dimen.Padding12)),
+                    shouldUseStylusOnly = state.shouldUseStylusOnly,
+                )
+            }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
                 ArtMakerControlMenu(
-                    state = artMakerUIState,
+                    state = state,
                     onAction = viewModel::onAction,
+                    onDrawEvent = viewModel::onDrawEvent,
                     modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
-                    onShowStrokeWidthPopup = {
-                        showStrokeWidth = !showStrokeWidth
-                    },
+                    onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,
                     artMakerConfiguration = artMakerConfiguration,

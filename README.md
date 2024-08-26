@@ -1,4 +1,6 @@
 [![Build ArtMaker](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml/badge.svg)](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml)
+[![Android Weekly](https://androidweekly.net/issues/issue-637/badge)](https://androidweekly.net/issues/issue-637)
+
 <!-- LOGO -->
 <br />
 <h1>
@@ -9,6 +11,7 @@
     Flexible and lightweight Drawing Library
     <br />
 </p>
+
 ArtMaker is a flexible and customisable library that allows users to draw anything they want on screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing the `Bitmap` for use in the calling application.
 
 ## Getting started

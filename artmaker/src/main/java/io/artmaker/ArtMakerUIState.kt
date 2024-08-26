@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.state
+package io.artmaker
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -28,4 +28,7 @@ data class ArtMakerUIState(
     val canRedo: Boolean = false,
     val canUndo: Boolean = false,
     val canClear: Boolean = false,
+    val shouldUseStylusOnly: Boolean = false,
+    val canShowEnableStylusDialog: Boolean = true,
+    val canShowDisableStylusDialog: Boolean = true,
 )

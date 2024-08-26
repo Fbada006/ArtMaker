@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.actions
+package io.artmaker
 
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.ImageBitmap
+import io.artmaker.models.PointsData
 
 /**
- * Events that happen during drawing
+ * Provides state from the [io.artmaker.composables.ArtMakerDrawScreen] screen
  */
-sealed interface DrawEvent {
-    data class AddNewShape(val offset: Offset) : DrawEvent
-    data class UpdateCurrentShape(val offset: Offset) : DrawEvent
-    data object UndoLastShapePoint : DrawEvent
-    data object Undo : DrawEvent
-    data object Redo : DrawEvent
-    data object Clear : DrawEvent
-}
+internal data class DrawState(
+    val pathList: SnapshotStateList<PointsData>,
+    val backgroundImage: ImageBitmap?,
+    val shouldTriggerArtExport: Boolean,
+    val isFullScreenMode: Boolean,
+    val shouldUseStylusOnly: Boolean,
+    val canShowEnableStylusDialog: Boolean,
+    val canShowDisableStylusDialog: Boolean,
+)
