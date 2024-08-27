@@ -36,6 +36,7 @@ import io.artmaker.data.ArtMakerSharedPreferences
 import io.artmaker.data.PreferenceKeys
 import io.artmaker.data.PreferenceKeys.SELECTED_STROKE_WIDTH
 import io.artmaker.export.DrawingManager
+import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.models.PointsData
 import io.artmaker.utils.saveToDisk
 import io.artmaker.utils.shareBitmap
@@ -50,6 +51,7 @@ internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
     private val drawingManager: DrawingManager,
     private val applicationContext: Context,
+    private val artMakerConfiguration: ArtMakerConfiguration
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow(
@@ -108,12 +110,23 @@ internal class ArtMakerViewModel(
         }
     }
 
-    fun onDrawEvent(event: DrawEvent) = drawingManager.onDrawEvent(event, _uiState.value.strokeColour, _uiState.value.strokeWidth)
+    fun onDrawEvent(event: DrawEvent) = drawingManager.onDrawEvent(
+        event,
+        _uiState.value.strokeColour,
+        _uiState.value.strokeWidth,
+        artMakerConfiguration.canvasBackgroundColor,
+    )
 
     private fun listenToUndoRedoState() {
         viewModelScope.launch {
             drawingManager.undoRedoState.collectLatest { state ->
-                _uiState.update { it.copy(canRedo = state.canRedo, canUndo = state.canUndo, canClear = state.canClear) }
+                _uiState.update {
+                    it.copy(
+                        canRedo = state.canRedo,
+                        canUndo = state.canUndo,
+                        canClear = state.canClear,
+                    )
+                }
             }
         }
     }
@@ -222,6 +235,7 @@ internal class ArtMakerViewModel(
                         ),
                         drawingManager = DrawingManager(),
                         applicationContext = application.applicationContext,
+                        artMakerConfiguration = ArtMakerConfiguration()
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")

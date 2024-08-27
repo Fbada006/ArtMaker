@@ -20,6 +20,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
+import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.models.PointsData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +39,7 @@ internal class DrawingManager {
     private val _undoRedoState = MutableStateFlow(UndoRedoState())
     val undoRedoState: StateFlow<UndoRedoState> = _undoRedoState
 
-    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
+    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int, eraserColor: Int) {
         when (event) {
             is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth)
             DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
@@ -46,7 +47,7 @@ internal class DrawingManager {
             DrawEvent.Clear -> clear()
             DrawEvent.Redo -> redo()
             DrawEvent.Undo -> undo()
-            is DrawEvent.EraseCurrentShape -> eraseCurrentShape(event.offset, strokeWidth = strokeWidth)
+            is DrawEvent.EraseCurrentShape -> eraseCurrentShape(event.offset, eraserColor = eraserColor, strokeWidth = strokeWidth)
         }
     }
 
@@ -96,10 +97,10 @@ internal class DrawingManager {
         )
     }
 
-    private fun eraseCurrentShape(offset: Offset, strokeWidth: Int) {
+    private fun eraseCurrentShape(offset: Offset, eraserColor: Int, strokeWidth: Int) {
         val data = PointsData(
             points = mutableStateListOf(offset),
-            strokeColor = Color.White,
+            strokeColor = Color(color = eraserColor),
             strokeWidth = strokeWidth.toFloat(),
         )
         _pathList.add(data)
