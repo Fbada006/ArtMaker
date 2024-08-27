@@ -132,6 +132,12 @@ internal fun ArtMakerControlMenu(
                     onItemClicked = onShowStrokeWidthPopup,
                 )
                 MenuItem(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ink_eraser),
+                    onItemClicked = {
+                        /*TODO*/
+                    },
+                )
+                MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
                     onItemClicked = {
                         onDrawEvent(DrawEvent.Undo)
