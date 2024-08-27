@@ -39,4 +39,5 @@ data class ArtMakerConfiguration(
     val controllerBackgroundColor: Color = Color.Unspecified,
     val strokeSliderBackgroundColor: Color = Color.Unspecified,
     val canShareArt: Boolean = false,
+    var isEraserActive: Boolean = false
 )
