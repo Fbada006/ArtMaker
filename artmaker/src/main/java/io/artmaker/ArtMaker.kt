@@ -75,6 +75,7 @@ fun ArtMaker(
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
     val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
     var isFullScreenEnabled by remember { mutableStateOf(false) }
+    var isEraserActive by remember { mutableStateOf(value = false) }
     LaunchedEffect(key1 = finishedImage) {
         finishedImage?.let { onFinishDrawing(it) }
     }
@@ -129,6 +130,7 @@ fun ArtMaker(
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
                 ),
+                isEraserActive = isEraserActive
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
@@ -150,6 +152,7 @@ fun ArtMaker(
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,
                     artMakerConfiguration = artMakerConfiguration,
+                    onActivateEraser = { isEraserActive = !isEraserActive }
                 )
             }
         }
