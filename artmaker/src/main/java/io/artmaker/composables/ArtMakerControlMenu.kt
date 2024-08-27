@@ -131,6 +131,9 @@ internal fun ArtMakerControlMenu(
                     imageVector = Icons.Filled.Edit,
                     onItemClicked = onShowStrokeWidthPopup,
                 )
+                MenuItem(imageVector = ImageVector.vectorResource(id = R.drawable.ink_eraser), onItemClicked = {
+                    // Erasing functionality...
+                })
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
                     onItemClicked = {
