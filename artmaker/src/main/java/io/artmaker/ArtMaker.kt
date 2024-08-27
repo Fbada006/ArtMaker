@@ -152,7 +152,8 @@ fun ArtMaker(
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,
                     artMakerConfiguration = artMakerConfiguration,
-                    onActivateEraser = { isEraserActive = !isEraserActive }
+                    onActivateEraser = { isEraserActive = !isEraserActive },
+                    isEraserActive = isEraserActive
                 )
             }
         }

@@ -173,23 +173,21 @@ internal fun ArtMakerDrawScreen(
                             )
                         ) return@pointerInteropFilter false
 
-                        /*if (isEraserActive) {
+                        if (isEraserActive) {
                             onDrawEvent(DrawEvent.EraseCurrentShape(offset = offset))
                         } else {
                             onDrawEvent(DrawEvent.AddNewShape(offset))
-                        }*/
-                        onDrawEvent(DrawEvent.AddNewShape(offset))
+                        }
                     }
 
                     MotionEvent.ACTION_MOVE -> {
                         val clampedOffset =
                             Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-                        /*if (isEraserActive) {
+                        if (isEraserActive) {
                             onDrawEvent(DrawEvent.EraseCurrentShape(offset = clampedOffset))
                         } else {
                             onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
-                        }*/
-                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
+                        }
                     }
 
                     MotionEvent.ACTION_CANCEL -> {
