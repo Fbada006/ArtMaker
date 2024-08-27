@@ -179,6 +179,7 @@ internal fun ArtMakerDrawScreen(
                         } else {
                             onDrawEvent(DrawEvent.AddNewShape(offset))
                         }
+                        onDrawEvent(DrawEvent.AddNewShape(offset))
                     }
 
                     MotionEvent.ACTION_MOVE -> {
