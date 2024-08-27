@@ -84,7 +84,7 @@ internal fun ArtMakerDrawScreen(
     onDrawEvent: (DrawEvent) -> Unit,
     onAction: (ArtMakerAction) -> Unit,
     state: DrawState,
-    isEraserActive: Boolean
+    isEraserActive: Boolean,
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -169,9 +169,11 @@ internal fun ArtMakerDrawScreen(
 
                         if (!event.validateEvent(
                                 context,
-                                state.shouldUseStylusOnly
+                                state.shouldUseStylusOnly,
                             )
-                        ) return@pointerInteropFilter false
+                        ) {
+                            return@pointerInteropFilter false
+                        }
 
                         if (isEraserActive) {
                             onDrawEvent(DrawEvent.EraseCurrentShape(offset = offset))

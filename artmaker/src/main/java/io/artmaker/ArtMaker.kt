@@ -130,7 +130,7 @@ fun ArtMaker(
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
                 ),
-                isEraserActive = isEraserActive
+                isEraserActive = isEraserActive,
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
@@ -153,7 +153,7 @@ fun ArtMaker(
                     imageBitmap = viewModel.backgroundImage.value,
                     artMakerConfiguration = artMakerConfiguration,
                     onActivateEraser = { isEraserActive = !isEraserActive },
-                    isEraserActive = isEraserActive
+                    isEraserActive = isEraserActive,
                 )
             }
         }

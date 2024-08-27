@@ -136,9 +136,13 @@ internal fun ArtMakerControlMenu(
                     },
                 )
                 MenuItem(
-                    imageVector = if (isEraserActive) ImageVector.vectorResource(id = R.drawable.ink_eraser_off) else ImageVector.vectorResource(
-                        id = R.drawable.ink_eraser,
-                    ),
+                    imageVector = if (isEraserActive) {
+                        ImageVector.vectorResource(id = R.drawable.ink_eraser_off)
+                    } else {
+                        ImageVector.vectorResource(
+                            id = R.drawable.ink_eraser,
+                        )
+                    },
                     onItemClicked = onActivateEraser,
                 )
                 MenuItem(

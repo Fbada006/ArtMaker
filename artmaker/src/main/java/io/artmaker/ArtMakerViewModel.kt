@@ -51,7 +51,7 @@ internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
     private val drawingManager: DrawingManager,
     private val applicationContext: Context,
-    private val artMakerConfiguration: ArtMakerConfiguration
+    private val artMakerConfiguration: ArtMakerConfiguration,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow(
@@ -235,7 +235,7 @@ internal class ArtMakerViewModel(
                         ),
                         drawingManager = DrawingManager(),
                         applicationContext = application.applicationContext,
-                        artMakerConfiguration = ArtMakerConfiguration()
+                        artMakerConfiguration = ArtMakerConfiguration(),
                     ) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel Class")
