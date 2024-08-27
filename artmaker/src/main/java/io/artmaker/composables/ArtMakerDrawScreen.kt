@@ -105,6 +105,7 @@ internal fun ArtMakerDrawScreen(
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
     var stylusDialogType by rememberSaveable { mutableStateOf("") }
+    var isEraserActive by rememberSaveable { mutableStateOf(value = false) }
 
     val graphicsLayer = rememberGraphicsLayer()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -166,7 +167,11 @@ internal fun ArtMakerDrawScreen(
                             stylusDialogType = type
                         }
 
-                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) return@pointerInteropFilter false
+                        if (!event.validateEvent(
+                                context,
+                                state.shouldUseStylusOnly
+                            )
+                        ) return@pointerInteropFilter false
 
                         onDrawEvent(DrawEvent.AddNewShape(offset))
                     }

@@ -27,4 +27,5 @@ sealed interface DrawEvent {
     data object Undo : DrawEvent
     data object Redo : DrawEvent
     data object Clear : DrawEvent
+    data class EraseCurrentShape(val offset: Offset) : DrawEvent
 }

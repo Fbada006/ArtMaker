@@ -46,6 +46,7 @@ internal class DrawingManager {
             DrawEvent.Clear -> clear()
             DrawEvent.Redo -> redo()
             DrawEvent.Undo -> undo()
+            is DrawEvent.EraseCurrentShape -> eraseCurrentShape(event.offset)
         }
     }
 
@@ -93,6 +94,11 @@ internal class DrawingManager {
             canRedo = undoStack.isNotEmpty(),
             canClear = _pathList.isNotEmpty(),
         )
+    }
+
+    private fun eraseCurrentShape(offset: Offset) {
+        val idx = _pathList.lastIndex
+        _pathList[idx].points.remove(element = offset)
     }
 }
 
