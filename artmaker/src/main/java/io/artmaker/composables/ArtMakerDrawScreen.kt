@@ -45,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
@@ -106,7 +105,6 @@ internal fun ArtMakerDrawScreen(
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
     var stylusDialogType by rememberSaveable { mutableStateOf("") }
-    //var isEraserActive by rememberSaveable { mutableStateOf(value = false) }
 
     val graphicsLayer = rememberGraphicsLayer()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -179,7 +177,6 @@ internal fun ArtMakerDrawScreen(
                         } else {
                             onDrawEvent(DrawEvent.AddNewShape(offset))
                         }
-                        onDrawEvent(DrawEvent.AddNewShape(offset))
                     }
 
                     MotionEvent.ACTION_MOVE -> {
