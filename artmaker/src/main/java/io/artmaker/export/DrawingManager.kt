@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Stack
-import kotlin.math.sqrt
 
 /**
  * The drawing manager will handle all the logic related to drawing including clearing, undo, and redo
@@ -99,12 +98,11 @@ internal class DrawingManager {
     }
 
     private fun eraseCurrentShape(offset: Offset, eraserRadius: Float) {
-
         val updatedPathList = _pathList.map { pointsData ->
             pointsData.copy(
                 points = pointsData.points.filter { point ->
                     (point - offset).getDistance() > eraserRadius
-                }.toMutableStateList()
+                }.toMutableStateList(),
             )
         }.filter { it.points.isNotEmpty() }
 

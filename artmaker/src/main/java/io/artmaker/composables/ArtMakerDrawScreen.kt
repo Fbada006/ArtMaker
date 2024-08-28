@@ -85,7 +85,7 @@ internal fun ArtMakerDrawScreen(
     onAction: (ArtMakerAction) -> Unit,
     state: DrawState,
     isEraserActive: Boolean,
-    eraserRadius: Float
+    eraserRadius: Float,
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -227,7 +227,7 @@ internal fun ArtMakerDrawScreen(
                         drawCircle(
                             color = Color.Gray.copy(alpha = 0.5f),
                             radius = eraserRadius,
-                            center = position
+                            center = position,
                         )
                     }
                 }
