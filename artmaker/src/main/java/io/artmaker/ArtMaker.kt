@@ -131,6 +131,7 @@ fun ArtMaker(
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
                 ),
                 isEraserActive = isEraserActive,
+                eraserRadius = state.strokeWidth.toFloat()
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(

@@ -85,6 +85,7 @@ internal fun ArtMakerDrawScreen(
     onAction: (ArtMakerAction) -> Unit,
     state: DrawState,
     isEraserActive: Boolean,
+    eraserRadius: Float
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -106,6 +107,7 @@ internal fun ArtMakerDrawScreen(
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
     var stylusDialogType by rememberSaveable { mutableStateOf("") }
+    var eraserPosition by remember { mutableStateOf<Offset?>(null) }
 
     val graphicsLayer = rememberGraphicsLayer()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -186,6 +188,7 @@ internal fun ArtMakerDrawScreen(
                     MotionEvent.ACTION_MOVE -> {
                         val clampedOffset =
                             Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
+                        eraserPosition = clampedOffset
                         if (isEraserActive) {
                             onDrawEvent(DrawEvent.EraseCurrentShape(offset = clampedOffset))
                         } else {
@@ -195,6 +198,7 @@ internal fun ArtMakerDrawScreen(
 
                     MotionEvent.ACTION_CANCEL -> {
                         onDrawEvent(DrawEvent.UndoLastShapePoint)
+                        eraserPosition = null
                     }
                 }
                 true
@@ -217,6 +221,15 @@ internal fun ArtMakerDrawScreen(
                         strokeWidth = data.strokeWidth,
                         alpha = data.alpha,
                     )
+                }
+                if (isEraserActive) {
+                    eraserPosition?.let { position ->
+                        drawCircle(
+                            color = Color.Gray.copy(alpha = 0.5f),
+                            radius = eraserRadius,
+                            center = position
+                        )
+                    }
                 }
             }
         },
