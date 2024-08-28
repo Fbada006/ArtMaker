@@ -17,7 +17,6 @@ package io.artmaker.export
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
