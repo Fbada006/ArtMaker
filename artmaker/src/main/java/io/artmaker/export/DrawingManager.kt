@@ -17,6 +17,7 @@ package io.artmaker.export
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Stack
+import kotlin.math.sqrt
 
 /**
  * The drawing manager will handle all the logic related to drawing including clearing, undo, and redo
@@ -38,7 +40,7 @@ internal class DrawingManager {
     private val _undoRedoState = MutableStateFlow(UndoRedoState())
     val undoRedoState: StateFlow<UndoRedoState> = _undoRedoState
 
-    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int, eraserColor: Int) {
+    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
         when (event) {
             is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth)
             DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
@@ -46,7 +48,7 @@ internal class DrawingManager {
             DrawEvent.Clear -> clear()
             DrawEvent.Redo -> redo()
             DrawEvent.Undo -> undo()
-            is DrawEvent.EraseCurrentShape -> eraseCurrentShape(event.offset, eraserColor = eraserColor, strokeWidth = strokeWidth)
+            is DrawEvent.EraseCurrentShape -> eraseCurrentShape(event.offset, eraserRadius = strokeWidth.toFloat())
         }
     }
 
@@ -96,13 +98,19 @@ internal class DrawingManager {
         )
     }
 
-    private fun eraseCurrentShape(offset: Offset, eraserColor: Int, strokeWidth: Int) {
-        val data = PointsData(
-            points = mutableStateListOf(offset),
-            strokeColor = Color(color = eraserColor),
-            strokeWidth = strokeWidth.toFloat(),
-        )
-        if (_pathList.isNotEmpty()) _pathList.removeLast()
+    private fun eraseCurrentShape(offset: Offset, eraserRadius: Float) {
+
+        val updatedPathList = _pathList.map { pointsData ->
+            pointsData.copy(
+                points = pointsData.points.filter { point ->
+                    (point - offset).getDistance() > eraserRadius
+                }.toMutableStateList()
+            )
+        }.filter { it.points.isNotEmpty() }
+
+        _pathList.clear()
+        _pathList.addAll(updatedPathList)
+
         _undoRedoState.update { computeUndoRedoState() }
     }
 }

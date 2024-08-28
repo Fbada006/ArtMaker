@@ -114,7 +114,6 @@ internal class ArtMakerViewModel(
         event,
         _uiState.value.strokeColour,
         _uiState.value.strokeWidth,
-        artMakerConfiguration.canvasBackgroundColor,
     )
 
     private fun listenToUndoRedoState() {

@@ -175,11 +175,12 @@ internal fun ArtMakerDrawScreen(
                             return@pointerInteropFilter false
                         }
 
-                        if (isEraserActive) {
+                        /*if (isEraserActive) {
                             onDrawEvent(DrawEvent.EraseCurrentShape(offset = offset))
                         } else {
                             onDrawEvent(DrawEvent.AddNewShape(offset))
-                        }
+                        }*/
+                        onDrawEvent(DrawEvent.AddNewShape(offset))
                     }
 
                     MotionEvent.ACTION_MOVE -> {
