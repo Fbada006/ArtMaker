@@ -102,7 +102,7 @@ internal class DrawingManager {
             strokeColor = Color(color = eraserColor),
             strokeWidth = strokeWidth.toFloat(),
         )
-        _pathList.add(data)
+        if (_pathList.isNotEmpty()) _pathList.removeLast()
         _undoRedoState.update { computeUndoRedoState() }
     }
 }
