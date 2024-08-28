@@ -98,17 +98,13 @@ internal class DrawingManager {
     }
 
     private fun eraseCurrentShape(offset: Offset, eraserRadius: Float) {
-        val updatedPathList = _pathList.map { pointsData ->
-            pointsData.copy(
-                points = pointsData.points.filter { point ->
-                    (point - offset).getDistance() > eraserRadius
-                }.toMutableStateList(),
-            )
-        }.filter { it.points.isNotEmpty() }
-
-        _pathList.clear()
-        _pathList.addAll(updatedPathList)
-
+        _pathList.forEach { pointsData ->
+            val pointsToRemove = pointsData.points.filter { point ->
+                (point - offset).getDistance() <= eraserRadius
+            }
+            pointsData.points.removeAll(elements = pointsToRemove)
+        }
+        _pathList.removeAll { it.points.isEmpty() }
         _undoRedoState.update { computeUndoRedoState() }
     }
 }
