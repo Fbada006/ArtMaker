@@ -15,16 +15,20 @@
  */
 package io.artmaker.export
 
+import android.graphics.PointF
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.PointsData
+import io.artmaker.utils.eraseLines
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Stack
+import kotlin.properties.Delegates
 
 /**
  * The drawing manager will handle all the logic related to drawing including clearing, undo, and redo
@@ -38,6 +42,8 @@ internal class DrawingManager {
     private val _undoRedoState = MutableStateFlow(UndoRedoState())
     val undoRedoState: StateFlow<UndoRedoState> = _undoRedoState
 
+    private var strokeWidth by Delegates.notNull<Int>()
+
     fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
         when (event) {
             is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth)
@@ -46,11 +52,12 @@ internal class DrawingManager {
             DrawEvent.Clear -> clear()
             DrawEvent.Redo -> redo()
             DrawEvent.Undo -> undo()
-            is DrawEvent.EraseCurrentShape -> eraseCurrentShape(event.offset, eraserRadius = strokeWidth.toFloat())
+            is DrawEvent.Erase -> erase(event.offset, eraserRadius = strokeWidth)
         }
     }
 
     private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int) {
+        this.strokeWidth = strokeWidth
         val data = PointsData(
             points = mutableStateListOf(offset),
             strokeColor = Color(strokeColor),
@@ -92,19 +99,43 @@ internal class DrawingManager {
         return UndoRedoState(
             canUndo = _pathList.isNotEmpty(),
             canRedo = undoStack.isNotEmpty(),
-            canClear = _pathList.isNotEmpty(),
+            canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty(),
+            canErase = _pathList.isNotEmpty(),
         )
     }
 
-    private fun eraseCurrentShape(offset: Offset, eraserRadius: Float) {
-        _pathList.forEach { pointsData ->
-            val pointsToRemove = pointsData.points.filter { point ->
-                (point - offset).getDistance() <= eraserRadius
-            }
-            pointsData.points.removeAll(elements = pointsToRemove)
-        }
-        _pathList.removeAll { it.points.isEmpty() }
-        _undoRedoState.update { computeUndoRedoState() }
+    private fun erase(offset: Offset, eraserRadius: Int) {
+        val index = _pathList.first().points.indexOf(offset)
+
+        val pointsData = _pathList[index]
+        _pathList.removeAt(index)
+
+        if (index == 0) return // If the deleted point is the first point, return
+
+        if (index == _pathList.size) return // If the deleted point is the last point, return
+
+        val beforePoints = _pathList.subList(0, index)
+        val afterPoints = _pathList.subList(index, _pathList.size)
+
+        _pathList.clear()
+        _pathList.addAll(beforePoints)
+        _pathList.addAll(afterPoints)
+
+//        val erasedPoint = PointF(offset.x, offset.y)
+//        val currentLines = _pathList.map { it.points }
+//        val (newLines, deletedIndexes) =
+//            eraseLines(
+//                lines = _pathList,
+//                eraseRadius = eraserRadius.toFloat(),
+//                erasedPoints = arrayOf(erasedPoint),
+//            )
+//
+//        println("Indexes to delete ----------- ${deletedIndexes.joinToString()}")
+//
+//        _pathList.clear()
+//        _pathList.addAll(newLines.first())
+//
+//        _undoRedoState.update { computeUndoRedoState() }
     }
 }
 
@@ -112,4 +143,5 @@ internal data class UndoRedoState(
     val canUndo: Boolean = false,
     val canRedo: Boolean = false,
     val canClear: Boolean = false,
+    val canErase: Boolean = false,
 )

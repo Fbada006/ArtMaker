@@ -50,6 +50,8 @@ import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.drawscope.DrawStyle
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
@@ -169,20 +171,15 @@ internal fun ArtMakerDrawScreen(
                             stylusDialogType = type
                         }
 
-                        if (!event.validateEvent(
-                                context,
-                                state.shouldUseStylusOnly,
-                            )
-                        ) {
+                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) {
                             return@pointerInteropFilter false
                         }
 
-                        /*if (isEraserActive) {
-                            onDrawEvent(DrawEvent.EraseCurrentShape(offset = offset))
+                        if (isEraserActive) {
+                            onDrawEvent(DrawEvent.Erase(offset = offset))
                         } else {
                             onDrawEvent(DrawEvent.AddNewShape(offset))
-                        }*/
-                        onDrawEvent(DrawEvent.AddNewShape(offset))
+                        }
                     }
 
                     MotionEvent.ACTION_MOVE -> {
@@ -190,7 +187,7 @@ internal fun ArtMakerDrawScreen(
                             Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
                         eraserPosition = clampedOffset
                         if (isEraserActive) {
-                            onDrawEvent(DrawEvent.EraseCurrentShape(offset = clampedOffset))
+                            onDrawEvent(DrawEvent.Erase(offset = clampedOffset))
                         } else {
                             onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
                         }
@@ -225,9 +222,12 @@ internal fun ArtMakerDrawScreen(
                 if (isEraserActive) {
                     eraserPosition?.let { position ->
                         drawCircle(
-                            color = Color.Gray.copy(alpha = 0.5f),
+                            color = Color.Gray,
                             radius = eraserRadius,
                             center = position,
+                            style = Stroke(
+                                width = 8.0f
+                            )
                         )
                     }
                 }

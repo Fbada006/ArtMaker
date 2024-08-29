@@ -139,7 +139,11 @@ fun ArtMaker(
                     onAction = viewModel::onAction,
                     configuration = artMakerConfiguration,
                     modifier = Modifier
-                        .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding12), start = dimensionResource(id = R.dimen.Padding12)),
+                        .padding(
+                            top = dimensionResource(id = R.dimen.Padding8),
+                            end = dimensionResource(id = R.dimen.Padding12),
+                            start = dimensionResource(id = R.dimen.Padding12),
+                        ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                 )
             }
