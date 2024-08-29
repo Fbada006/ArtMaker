@@ -109,6 +109,8 @@ internal fun ArtMakerDrawScreen(
     val graphicsLayer = rememberGraphicsLayer()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var isDrawing by remember { mutableStateOf(false) }
+
     val writeStorageAccessState = rememberMultiplePermissionsState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             // No permissions are needed on Android 10+ to add files in the shared storage
@@ -159,6 +161,7 @@ internal fun ArtMakerDrawScreen(
             }
             .pointerInteropFilter { event ->
                 val offset = Offset(event.x, event.y)
+                val pressure = event.getPressure(event.actionIndex)
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         getDialogType(context, event, state.shouldUseStylusOnly)?.let { type ->
@@ -167,17 +170,20 @@ internal fun ArtMakerDrawScreen(
                         }
 
                         if (!event.validateEvent(context, state.shouldUseStylusOnly)) return@pointerInteropFilter false
-
-                        onDrawEvent(DrawEvent.AddNewShape(offset))
+                        isDrawing = true
+                        onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
                     }
 
                     MotionEvent.ACTION_MOVE -> {
+                        isDrawing = true
                         val clampedOffset =
                             Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
+                        onDrawEvent(DrawEvent.AddNewShape(clampedOffset, pressure))
+//                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
                     }
 
                     MotionEvent.ACTION_CANCEL -> {
+                        isDrawing = false
                         onDrawEvent(DrawEvent.UndoLastShapePoint)
                     }
                 }
@@ -193,7 +199,9 @@ internal fun ArtMakerDrawScreen(
                         size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
                     )
                 }
+
                 state.pathList.forEach { data ->
+                    println("Points ------------------ ${data.points.joinToString()}")
                     drawPoints(
                         points = data.points,
                         pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
