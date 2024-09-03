@@ -94,7 +94,7 @@ internal class DrawingManager {
         return UndoRedoState(
             canUndo = _pathList.isNotEmpty(),
             canRedo = undoStack.isNotEmpty(),
-            canClear = _pathList.isNotEmpty(),
+            canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty(),
         )
     }
 }
