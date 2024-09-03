@@ -178,8 +178,7 @@ internal fun ArtMakerDrawScreen(
                         isDrawing = true
                         val clampedOffset =
                             Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-                        onDrawEvent(DrawEvent.AddNewShape(clampedOffset, pressure))
-//                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
+                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
                     }
 
                     MotionEvent.ACTION_CANCEL -> {
@@ -201,7 +200,6 @@ internal fun ArtMakerDrawScreen(
                 }
 
                 state.pathList.forEach { data ->
-                    println("Points ------------------ ${data.points.joinToString()}")
                     drawPoints(
                         points = data.points,
                         pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape

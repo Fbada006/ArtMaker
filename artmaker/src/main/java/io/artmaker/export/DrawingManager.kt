@@ -52,9 +52,8 @@ internal class DrawingManager {
     }
 
     private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure: Float) {
-        val oft = if (finalOffset == null) offset.plus(Offset(0f, 0f)) else finalOffset!!
         val data = PointsData(
-            points = mutableStateListOf(offset, oft),
+            points = mutableStateListOf(offset),
             strokeColor = Color(strokeColor),
             strokeWidth = strokeWidth.toFloat(),
             alpha = pressure,
@@ -66,8 +65,8 @@ internal class DrawingManager {
     }
 
     private fun updateCurrentShape(offset: Offset) {
-//        val idx = _pathList.lastIndex
-//        _pathList[idx].points.add(offset)
+        val idx = _pathList.lastIndex
+        _pathList[idx].points.add(offset)
     }
 
     private fun undoLastShapePoint() {
