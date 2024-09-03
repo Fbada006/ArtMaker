@@ -68,6 +68,7 @@ import io.artmaker.DrawState
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
+import io.artmaker.models.alpha
 import io.artmaker.utils.isStylusInput
 import io.artmaker.utils.validateEvent
 import io.fbada006.artmaker.R
@@ -199,7 +200,7 @@ internal fun ArtMakerDrawScreen(
                         points = data.points,
                         pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
                         color = data.strokeColor,
-                        alpha = data.alphas.average().coerceAtLeast(0.0).coerceAtMost(255.0).toFloat(),
+                        alpha = data.alpha(state.shouldDetectPressure),
                         strokeWidth = data.strokeWidth,
                     )
                 }

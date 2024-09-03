@@ -21,8 +21,8 @@ import androidx.compose.ui.geometry.Offset
  * Events that happen during drawing
  */
 sealed interface DrawEvent {
-    data class AddNewShape(val offset: Offset, val pressure: Float) : DrawEvent
-    data class UpdateCurrentShape(val offset: Offset, val pressure: Float) : DrawEvent
+    data class AddNewShape(val offset: Offset, val pressure: Float = 1.0f) : DrawEvent
+    data class UpdateCurrentShape(val offset: Offset, val pressure: Float = 1.0f) : DrawEvent
     data object UndoLastShapePoint : DrawEvent
     data object Undo : DrawEvent
     data object Redo : DrawEvent

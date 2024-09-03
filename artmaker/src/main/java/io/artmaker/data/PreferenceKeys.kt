@@ -16,10 +16,10 @@
 package io.artmaker.data
 
 object PreferenceKeys {
-    const val SELECTED_BACKGROUND_COLOUR = "com.artmaker.sharedpreferences.selectedBackgroundColour"
-    const val SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
-    const val SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"
-    const val USE_STYLUS_ONLY = "com.artmaker.sharedpreferences.useStylusOnly"
-    const val SHOW_ENABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showEnableStylusDialog"
-    const val SHOW_DISABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showDisableStylusDialog"
+    const val PREF_SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
+    const val PREF_SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"
+    const val PREF_USE_STYLUS_ONLY = "com.artmaker.sharedpreferences.useStylusOnly"
+    const val PREF_DETECT_PRESSURE = "com.artmaker.sharedpreferences.detectDrawingPressure"
+    const val PREF_SHOW_ENABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showEnableStylusDialog"
+    const val PREF_SHOW_DISABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showDisableStylusDialog"
 }
