@@ -38,8 +38,6 @@ internal class DrawingManager {
     private val _undoRedoState = MutableStateFlow(UndoRedoState())
     val undoRedoState: StateFlow<UndoRedoState> = _undoRedoState
 
-    private var finalOffset: Offset? = null
-
     fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
         when (event) {
             is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure)
@@ -59,7 +57,6 @@ internal class DrawingManager {
             alphas = mutableStateListOf(pressure),
         )
 
-        finalOffset = offset
         _pathList.add(data)
         _undoRedoState.update { computeUndoRedoState() }
     }
