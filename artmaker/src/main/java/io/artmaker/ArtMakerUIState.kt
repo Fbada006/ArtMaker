@@ -29,6 +29,7 @@ data class ArtMakerUIState(
     val canUndo: Boolean = false,
     val canClear: Boolean = false,
     val shouldUseStylusOnly: Boolean = false,
+    val shouldDetectPressure: Boolean = false,
     val canShowEnableStylusDialog: Boolean = true,
     val canShowDisableStylusDialog: Boolean = true,
 )

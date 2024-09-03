@@ -40,28 +40,31 @@ internal class DrawingManager {
 
     fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
         when (event) {
-            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth)
+            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure)
             DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
-            is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset)
+            is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset, event.pressure)
             DrawEvent.Clear -> clear()
             DrawEvent.Redo -> redo()
             DrawEvent.Undo -> undo()
         }
     }
 
-    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int) {
+    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure: Float) {
         val data = PointsData(
             points = mutableStateListOf(offset),
             strokeColor = Color(strokeColor),
             strokeWidth = strokeWidth.toFloat(),
+            alphas = mutableStateListOf(pressure),
         )
+
         _pathList.add(data)
         _undoRedoState.update { computeUndoRedoState() }
     }
 
-    private fun updateCurrentShape(offset: Offset) {
+    private fun updateCurrentShape(offset: Offset, pressure: Float) {
         val idx = _pathList.lastIndex
         _pathList[idx].points.add(offset)
+        _pathList[idx].alphas.add(pressure)
     }
 
     private fun undoLastShapePoint() {
@@ -91,7 +94,7 @@ internal class DrawingManager {
         return UndoRedoState(
             canUndo = _pathList.isNotEmpty(),
             canRedo = undoStack.isNotEmpty(),
-            canClear = _pathList.isNotEmpty(),
+            canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty(),
         )
     }
 }

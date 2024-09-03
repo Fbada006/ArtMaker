@@ -68,6 +68,7 @@ import io.artmaker.DrawState
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
+import io.artmaker.models.alpha
 import io.artmaker.utils.isStylusInput
 import io.artmaker.utils.validateEvent
 import io.fbada006.artmaker.R
@@ -159,6 +160,7 @@ internal fun ArtMakerDrawScreen(
             }
             .pointerInteropFilter { event ->
                 val offset = Offset(event.x, event.y)
+                val pressure = event.getPressure(event.actionIndex)
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         getDialogType(context, event, state.shouldUseStylusOnly)?.let { type ->
@@ -167,14 +169,13 @@ internal fun ArtMakerDrawScreen(
                         }
 
                         if (!event.validateEvent(context, state.shouldUseStylusOnly)) return@pointerInteropFilter false
-
-                        onDrawEvent(DrawEvent.AddNewShape(offset))
+                        onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
                     }
 
                     MotionEvent.ACTION_MOVE -> {
                         val clampedOffset =
                             Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset))
+                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset, pressure))
                     }
 
                     MotionEvent.ACTION_CANCEL -> {
@@ -193,13 +194,14 @@ internal fun ArtMakerDrawScreen(
                         size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
                     )
                 }
+
                 state.pathList.forEach { data ->
                     drawPoints(
                         points = data.points,
                         pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
                         color = data.strokeColor,
+                        alpha = data.alpha(state.shouldDetectPressure),
                         strokeWidth = data.strokeWidth,
-                        alpha = data.alpha,
                     )
                 }
             }

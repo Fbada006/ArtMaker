@@ -27,5 +27,14 @@ internal data class PointsData(
     var points: SnapshotStateList<Offset>,
     val strokeWidth: Float = 15f,
     val strokeColor: Color,
-    val alpha: Float = 1f,
+    val alphas: MutableList<Float>,
 )
+
+// The alpha will always be 1 during no pressure detection
+internal fun PointsData.alpha(detectPressure: Boolean): Float {
+    return if (detectPressure) {
+        this.alphas.average().coerceAtLeast(0.0).coerceAtMost(1.0).toFloat()
+    } else {
+        1.0f
+    }
+}
