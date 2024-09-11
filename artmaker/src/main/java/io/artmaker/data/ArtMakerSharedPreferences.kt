@@ -21,9 +21,7 @@ import android.content.SharedPreferences
 /**
  * This is a SharedPreferences implementation that uses a Generic class to store the user's data...
  */
-internal class ArtMakerSharedPreferences(
-    context: Context,
-) {
+internal class ArtMakerSharedPreferences(context: Context) {
 
     private val artMakerSharedPreferences: SharedPreferences = context.getSharedPreferences(
         "artMakerSharedPreferences",

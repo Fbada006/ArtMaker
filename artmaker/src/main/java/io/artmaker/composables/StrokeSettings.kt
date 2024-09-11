@@ -64,7 +64,11 @@ fun StrokeSettings(
         // Only show these setting if there is a stylus connected
         if (isStylusConnected(LocalContext.current)) {
             HorizontalDivider()
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Text(
                     text = stringResource(R.string.use_stylus_only),
                     style = MaterialTheme.typography.bodyLarge,
@@ -78,7 +82,11 @@ fun StrokeSettings(
                 )
             }
             HorizontalDivider()
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Text(
                     text = stringResource(R.string.enable_pressure_detection),
                     style = MaterialTheme.typography.bodyLarge,

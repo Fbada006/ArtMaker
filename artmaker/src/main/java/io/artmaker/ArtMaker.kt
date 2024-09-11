@@ -83,7 +83,9 @@ fun ArtMaker(
         floatingActionButton = {
             AnimatedVisibility(
                 visible = viewModel.pathList.isNotEmpty() && !showStrokeSettings,
-                modifier = Modifier.padding(bottom = if (isFullScreenEnabled) dimensionResource(id = R.dimen.Padding0) else dimensionResource(id = R.dimen.Padding60)),
+                modifier = Modifier.padding(
+                    bottom = if (isFullScreenEnabled) dimensionResource(id = R.dimen.Padding0) else dimensionResource(id = R.dimen.Padding60),
+                ),
             ) {
                 Column {
                     // Trigger sharing the image. It has to save the image first
@@ -137,7 +139,11 @@ fun ArtMaker(
                     onAction = viewModel::onAction,
                     configuration = artMakerConfiguration,
                     modifier = Modifier
-                        .padding(top = dimensionResource(id = R.dimen.Padding8), end = dimensionResource(id = R.dimen.Padding12), start = dimensionResource(id = R.dimen.Padding12)),
+                        .padding(
+                            top = dimensionResource(id = R.dimen.Padding8),
+                            end = dimensionResource(id = R.dimen.Padding12),
+                            start = dimensionResource(id = R.dimen.Padding12),
+                        ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                     shouldDetectPressure = state.shouldDetectPressure,
                 )

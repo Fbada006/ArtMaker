@@ -198,7 +198,8 @@ internal fun ArtMakerDrawScreen(
                 state.pathList.forEach { data ->
                     drawPoints(
                         points = data.points,
-                        pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon, // Draw a point if the shape has only one item otherwise a free flowing shape
+                        // Draw a point if the shape has only one item otherwise a free flowing shape
+                        pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon,
                         color = data.strokeColor,
                         alpha = data.alpha(state.shouldDetectPressure),
                         strokeWidth = data.strokeWidth,
@@ -212,8 +213,12 @@ internal fun ArtMakerDrawScreen(
         if (stylusDialogType.isEmpty()) return
         val type = StylusDialogType.valueOf(stylusDialogType)
         val dialogInfo = when {
-            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.stylus_input_detected_title) to stringResource(R.string.stylus_input_detected_message)
-            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(R.string.non_stylus_input_detected_title) to stringResource(R.string.non_stylus_input_detected_message)
+            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.stylus_input_detected_title) to
+                stringResource(R.string.stylus_input_detected_message)
+            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(
+                R.string.non_stylus_input_detected_title,
+            ) to
+                stringResource(R.string.non_stylus_input_detected_message)
             else -> return
         }
 
