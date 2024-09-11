@@ -45,7 +45,7 @@ fun eraseLines(pointsData: List<PointsData>, eraseRadius: Float = 40F, vararg er
                             points = newPoints,
                             strokeWidth = pd.strokeWidth,
                             strokeColor = pd.strokeColor,
-                            alpha = pd.alpha,
+                            alphas = pd.alphas,
                         ),
                     )
                 }
@@ -60,7 +60,7 @@ fun eraseLines(pointsData: List<PointsData>, eraseRadius: Float = 40F, vararg er
                         points = newPoints,
                         strokeWidth = pd.strokeWidth,
                         strokeColor = pd.strokeColor,
-                        alpha = pd.alpha,
+                        alphas = pd.alphas,
                     ),
                 )
             }

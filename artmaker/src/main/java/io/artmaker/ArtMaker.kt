@@ -127,6 +127,7 @@ fun ArtMaker(
                     backgroundImage = viewModel.backgroundImage.value,
                     isFullScreenMode = isFullScreenEnabled,
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
+                    shouldDetectPressure = state.shouldDetectPressure,
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
                 ),
@@ -145,6 +146,7 @@ fun ArtMaker(
                             start = dimensionResource(id = R.dimen.Padding12),
                         ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
+                    shouldDetectPressure = state.shouldDetectPressure,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {

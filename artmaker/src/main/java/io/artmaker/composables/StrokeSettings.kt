@@ -39,9 +39,17 @@ import io.artmaker.utils.isStylusConnected
 import io.fbada006.artmaker.R
 
 @Composable
-fun StrokeSettings(strokeWidth: Int, shouldUseStylusOnly: Boolean, onAction: (ArtMakerAction) -> Unit, configuration: ArtMakerConfiguration, modifier: Modifier = Modifier) {
+fun StrokeSettings(
+    strokeWidth: Int,
+    shouldUseStylusOnly: Boolean,
+    shouldDetectPressure: Boolean,
+    onAction: (ArtMakerAction) -> Unit,
+    configuration: ArtMakerConfiguration,
+    modifier: Modifier = Modifier,
+) {
     var sliderPosition by remember { mutableIntStateOf(strokeWidth) }
     var stylusOnly by remember { mutableStateOf(shouldUseStylusOnly) }
+    var detectPressure by remember { mutableStateOf(shouldDetectPressure) }
 
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly) {
         Slider(
@@ -66,6 +74,20 @@ fun StrokeSettings(strokeWidth: Int, shouldUseStylusOnly: Boolean, onAction: (Ar
                     onCheckedChange = {
                         stylusOnly = !stylusOnly
                         onAction(ArtMakerAction.UpdateSetStylusOnly(shouldUseStylusOnly = stylusOnly))
+                    },
+                )
+            }
+            HorizontalDivider()
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(R.string.enable_pressure_detection),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Switch(
+                    checked = detectPressure,
+                    onCheckedChange = {
+                        detectPressure = !detectPressure
+                        onAction(ArtMakerAction.UpdateSetPressureDetection(shouldDetectPressure = detectPressure))
                     },
                 )
             }

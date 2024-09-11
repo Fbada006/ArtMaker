@@ -48,9 +48,9 @@ internal class DrawingManager {
 
     fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
         when (event) {
-            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth)
+            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure)
             DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
-            is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset)
+            is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset, event.pressure)
             DrawEvent.Clear -> clear()
             DrawEvent.Redo -> redo()
             DrawEvent.Undo -> undo()
@@ -58,12 +58,13 @@ internal class DrawingManager {
         }
     }
 
-    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int) {
+    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure:Float) {
         this.strokeWidth = strokeWidth
         val data = PointsData(
             points = mutableStateListOf(offset),
             strokeColor = Color(strokeColor),
             strokeWidth = strokeWidth.toFloat(),
+            alphas = mutableStateListOf(pressure),
         )
         undoStack.push(UndoRedoAction.Draw(data))
         _pathList.add(data)
@@ -71,9 +72,10 @@ internal class DrawingManager {
         _undoRedoState.update { computeUndoRedoState() }
     }
 
-    private fun updateCurrentShape(offset: Offset) {
+    private fun updateCurrentShape(offset: Offset, pressure: Float) {
         val idx = _pathList.lastIndex
         _pathList[idx].points.add(offset)
+        _pathList[idx].alphas.add(pressure)
     }
 
     private fun undoLastShapePoint() {
