@@ -18,7 +18,6 @@ package io.artmaker.export
 import android.graphics.PointF
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
@@ -58,7 +57,7 @@ internal class DrawingManager {
         }
     }
 
-    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure:Float) {
+    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure: Float) {
         this.strokeWidth = strokeWidth
         val data = PointsData(
             points = mutableStateListOf(offset),
@@ -127,7 +126,7 @@ internal class DrawingManager {
             canUndo = undoStack.isNotEmpty(),
             canRedo = redoStack.isNotEmpty(),
             canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty() || redoStack.isNotEmpty(),
-            canErase = _pathList.isNotEmpty()
+            canErase = _pathList.isNotEmpty(),
         )
     }
 
@@ -137,7 +136,7 @@ internal class DrawingManager {
         val oldState = _pathList.toList()
         val newPoints = eraseLines(
             pointsData = _pathList,
-            erasedPoints = arrayOf(erasedPoint)
+            erasedPoints = arrayOf(erasedPoint),
         )
         // Only push to undoStack if there's an actual change
         if (oldState != newPoints) {

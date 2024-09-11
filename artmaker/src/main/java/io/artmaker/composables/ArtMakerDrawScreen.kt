@@ -50,7 +50,6 @@ import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.layer.drawLayer
@@ -173,7 +172,7 @@ internal fun ArtMakerDrawScreen(
                             stylusDialogType = type
                         }
 
-                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) {return@pointerInteropFilter false }
+                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) { return@pointerInteropFilter false }
 
                         if (isEraserActive) {
                             onDrawEvent(DrawEvent.Erase(offset = offset))
@@ -227,8 +226,8 @@ internal fun ArtMakerDrawScreen(
                             radius = eraserRadius,
                             center = position,
                             style = Stroke(
-                                width = 8.0f
-                            )
+                                width = 8.0f,
+                            ),
                         )
                     }
                 }
