@@ -90,17 +90,11 @@ internal class DrawingManager {
         _undoRedoState.update { computeUndoRedoState() }
     }
 
-    private fun computeUndoRedoState(): UndoRedoState {
-        return UndoRedoState(
-            canUndo = _pathList.isNotEmpty(),
-            canRedo = undoStack.isNotEmpty(),
-            canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty(),
-        )
-    }
+    private fun computeUndoRedoState(): UndoRedoState = UndoRedoState(
+        canUndo = _pathList.isNotEmpty(),
+        canRedo = undoStack.isNotEmpty(),
+        canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty(),
+    )
 }
 
-internal data class UndoRedoState(
-    val canUndo: Boolean = false,
-    val canRedo: Boolean = false,
-    val canClear: Boolean = false,
-)
+internal data class UndoRedoState(val canUndo: Boolean = false, val canRedo: Boolean = false, val canClear: Boolean = false)

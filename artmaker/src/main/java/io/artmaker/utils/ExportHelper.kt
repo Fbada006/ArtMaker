@@ -28,22 +28,20 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
 
-private suspend fun scanFilePath(context: Context, filePath: String): Uri? {
-    return suspendCancellableCoroutine { continuation ->
-        MediaScannerConnection.scanFile(
-            context,
-            arrayOf(filePath),
-            arrayOf("image/png"),
-        ) { _, scannedUri ->
-            if (scannedUri == null) {
-                continuation.cancel(
-                    Exception(
-                        "File $filePath could not be scanned",
-                    ),
-                )
-            } else {
-                continuation.resume(scannedUri)
-            }
+private suspend fun scanFilePath(context: Context, filePath: String): Uri? = suspendCancellableCoroutine { continuation ->
+    MediaScannerConnection.scanFile(
+        context,
+        arrayOf(filePath),
+        arrayOf("image/png"),
+    ) { _, scannedUri ->
+        if (scannedUri == null) {
+            continuation.cancel(
+                Exception(
+                    "File $filePath could not be scanned",
+                ),
+            )
+        } else {
+            continuation.resume(scannedUri)
         }
     }
 }

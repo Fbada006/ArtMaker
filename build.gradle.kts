@@ -11,7 +11,7 @@ subprojects {
     apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
 
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-        val ktlintVersion = "0.48.1"
+        val ktlintVersion = "1.3.1"
         kotlin {
             target("**/*.kt")
             targetExclude("**/build/**/*.kt")

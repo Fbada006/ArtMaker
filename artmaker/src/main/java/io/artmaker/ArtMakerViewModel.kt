@@ -227,9 +227,7 @@ internal class ArtMakerViewModel(
     }
 
     companion object {
-        fun provideFactory(
-            application: Application,
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        fun provideFactory(application: Application): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(ArtMakerViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
