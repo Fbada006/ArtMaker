@@ -47,34 +47,34 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ArtMakerViewModel(
-    private val preferences: ArtMakerSharedPreferences,
+    private val artMakerSharedPreferences: ArtMakerSharedPreferences,
     private val drawingManager: DrawingManager,
     private val applicationContext: Context,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow(
         value = ArtMakerUIState(
-            strokeColour = preferences.get(
+            strokeColour = artMakerSharedPreferences.get(
                 key = PreferenceKeys.PREF_SELECTED_STROKE_COLOUR,
                 defaultValue = Color.Red.toArgb(),
             ),
-            strokeWidth = preferences.get(
+            strokeWidth = artMakerSharedPreferences.get(
                 key = PREF_SELECTED_STROKE_WIDTH,
                 defaultValue = 5,
             ),
-            shouldUseStylusOnly = preferences.get(
+            shouldUseStylusOnly = artMakerSharedPreferences.get(
                 key = PreferenceKeys.PREF_USE_STYLUS_ONLY,
                 false,
             ),
-            shouldDetectPressure = preferences.get(
+            shouldDetectPressure = artMakerSharedPreferences.get(
                 key = PreferenceKeys.PREF_DETECT_PRESSURE,
                 false,
             ),
-            canShowEnableStylusDialog = preferences.get(
+            canShowEnableStylusDialog = artMakerSharedPreferences.get(
                 key = PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG,
                 true,
             ),
-            canShowDisableStylusDialog = preferences.get(
+            canShowDisableStylusDialog = artMakerSharedPreferences.get(
                 key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG,
                 true,
             ),
@@ -155,13 +155,13 @@ internal class ArtMakerViewModel(
     private fun updateBackgroundColour() {}
 
     private fun updateStrokeColor(colour: Color) {
-        preferences.set(
+        artMakerSharedPreferences.set(
             key = PreferenceKeys.PREF_SELECTED_STROKE_COLOUR,
             value = colour.toArgb(),
         )
         _uiState.update {
             it.copy(
-                strokeColour = preferences.get(
+                strokeColour = artMakerSharedPreferences.get(
                     key = PreferenceKeys.PREF_SELECTED_STROKE_COLOUR,
                     defaultValue = 0,
                 ),
@@ -174,13 +174,13 @@ internal class ArtMakerViewModel(
     }
 
     private fun selectStrokeWidth(strokeWidth: Int) {
-        preferences.set(
+        artMakerSharedPreferences.set(
             key = PREF_SELECTED_STROKE_WIDTH,
             value = strokeWidth,
         )
         _uiState.update {
             it.copy(
-                strokeWidth = preferences.get(
+                strokeWidth = artMakerSharedPreferences.get(
                     PREF_SELECTED_STROKE_WIDTH,
                     defaultValue = 5,
                 ),
@@ -189,10 +189,10 @@ internal class ArtMakerViewModel(
     }
 
     private fun updateStylusSetting(useStylusOnly: Boolean) {
-        preferences.set(PreferenceKeys.PREF_USE_STYLUS_ONLY, useStylusOnly)
+        artMakerSharedPreferences.set(PreferenceKeys.PREF_USE_STYLUS_ONLY, useStylusOnly)
         _uiState.update {
             it.copy(
-                shouldUseStylusOnly = preferences.get(
+                shouldUseStylusOnly = artMakerSharedPreferences.get(
                     key = PreferenceKeys.PREF_USE_STYLUS_ONLY,
                     false,
                 ),
@@ -201,10 +201,10 @@ internal class ArtMakerViewModel(
     }
 
     private fun updatePressureSetting(detectPressure: Boolean) {
-        preferences.set(PreferenceKeys.PREF_DETECT_PRESSURE, detectPressure)
+        artMakerSharedPreferences.set(PreferenceKeys.PREF_DETECT_PRESSURE, detectPressure)
         _uiState.update {
             it.copy(
-                shouldDetectPressure = preferences.get(
+                shouldDetectPressure = artMakerSharedPreferences.get(
                     key = PreferenceKeys.PREF_DETECT_PRESSURE,
                     false,
                 ),
@@ -213,10 +213,10 @@ internal class ArtMakerViewModel(
     }
 
     private fun updateEnableStylusDialog(canShow: Boolean) {
-        preferences.set(PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG, canShow)
+        artMakerSharedPreferences.set(PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG, canShow)
         _uiState.update {
             it.copy(
-                canShowEnableStylusDialog = preferences.get(
+                canShowEnableStylusDialog = artMakerSharedPreferences.get(
                     key = PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG,
                     true,
                 ),
@@ -225,10 +225,10 @@ internal class ArtMakerViewModel(
     }
 
     private fun updateDisableStylusDialog(canShow: Boolean) {
-        preferences.set(PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG, canShow)
+        artMakerSharedPreferences.set(PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG, canShow)
         _uiState.update {
             it.copy(
-                canShowDisableStylusDialog = preferences.get(
+                canShowDisableStylusDialog = artMakerSharedPreferences.get(
                     key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG,
                     true,
                 ),
@@ -242,7 +242,7 @@ internal class ArtMakerViewModel(
                 if (modelClass.isAssignableFrom(ArtMakerViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
                     return ArtMakerViewModel(
-                        preferences = ArtMakerSharedPreferences(
+                        artMakerSharedPreferences = ArtMakerSharedPreferences(
                             context = application,
                         ),
                         drawingManager = DrawingManager(),
