@@ -31,10 +31,8 @@ internal data class PointsData(
 )
 
 // The alpha will always be 1 during no pressure detection
-internal fun PointsData.alpha(detectPressure: Boolean): Float {
-    return if (detectPressure) {
-        this.alphas.average().coerceAtLeast(0.0).coerceAtMost(1.0).toFloat()
-    } else {
-        1.0f
-    }
+internal fun PointsData.alpha(detectPressure: Boolean): Float = if (detectPressure) {
+    this.alphas.average().coerceAtLeast(0.0).coerceAtMost(1.0).toFloat()
+} else {
+    1.0f
 }
