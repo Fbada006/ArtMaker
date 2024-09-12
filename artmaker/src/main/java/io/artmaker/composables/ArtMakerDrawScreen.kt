@@ -172,7 +172,9 @@ internal fun ArtMakerDrawScreen(
                             stylusDialogType = type
                         }
 
-                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) { return@pointerInteropFilter false }
+                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) {
+                            return@pointerInteropFilter false
+                        }
 
                         if (isEraserActive) {
                             onDrawEvent(DrawEvent.Erase(offset = offset))

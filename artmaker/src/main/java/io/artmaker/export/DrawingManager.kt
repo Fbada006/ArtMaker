@@ -120,14 +120,12 @@ internal class DrawingManager {
         _undoRedoState.update { computeUndoRedoState() }
     }
 
-    private fun computeUndoRedoState(): UndoRedoState {
-        return UndoRedoState(
-            canUndo = undoStack.isNotEmpty(),
-            canRedo = redoStack.isNotEmpty(),
-            canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty() || redoStack.isNotEmpty(),
-            canErase = _pathList.isNotEmpty(),
-        )
-    }
+    private fun computeUndoRedoState(): UndoRedoState = UndoRedoState(
+        canUndo = undoStack.isNotEmpty(),
+        canRedo = redoStack.isNotEmpty(),
+        canClear = _pathList.isNotEmpty() || undoStack.isNotEmpty() || redoStack.isNotEmpty(),
+        canErase = _pathList.isNotEmpty(),
+    )
 
     private fun erase(offset: Offset) {
         val erasedPoint = PointF(offset.x, offset.y)
@@ -151,7 +149,6 @@ internal class DrawingManager {
     }
 }
 
-internal data class UndoRedoState(val canUndo: Boolean = false, val canRedo: Boolean = false, val canClear: Boolean = false)
 internal data class UndoRedoState(
     val canUndo: Boolean = false,
     val canRedo: Boolean = false,

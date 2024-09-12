@@ -92,6 +92,4 @@ internal fun erasePointData(pointsData: List<PointsData>, eraseRadius: Float, va
     return newPointData
 }
 
-private fun getDistanceBetweenPointsSqr(aX: Float, aY: Float, bX: Float, bY: Float): Float {
-    return (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY)
-}
+private fun getDistanceBetweenPointsSqr(aX: Float, aY: Float, bX: Float, bY: Float): Float = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY)
