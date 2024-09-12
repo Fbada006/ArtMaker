@@ -90,7 +90,7 @@ internal class DrawingManager {
                 _pathList.add(action.pathData)
             }
             is UndoRedoEventType.AfterErase -> {
-                undoStack.push(UndoRedoEventType.AfterErase(_pathList.toList(), action.newState))
+                undoStack.push(UndoRedoEventType.AfterErase(_pathList, action.newState))
                 _pathList.clear()
                 _pathList.addAll(action.newState)
             }
@@ -102,11 +102,10 @@ internal class DrawingManager {
         if (undoStack.isEmpty()) return
         when (val action = undoStack.pop()) {
             is UndoRedoEventType.BeforeErase -> {
-                redoStack.push(UndoRedoEventType.BeforeErase(_pathList.last()))
-                _pathList.removeLast()
+                redoStack.push(UndoRedoEventType.BeforeErase(_pathList.removeLast()))
             }
             is UndoRedoEventType.AfterErase -> {
-                redoStack.push(UndoRedoEventType.AfterErase(_pathList.toList(), action.newState))
+                redoStack.push(UndoRedoEventType.AfterErase(_pathList, action.newState))
                 _pathList.clear()
                 _pathList.addAll(action.oldState)
             }
@@ -133,17 +132,17 @@ internal class DrawingManager {
     private fun erase(offset: Offset) {
         val erasedPoint = PointF(offset.x, offset.y)
         // Store the old state before erasing
-        val oldState = _pathList.toList()
-        val newPoints = eraseLines(
+        val oldPath = _pathList
+        val newPath = eraseLines(
             pointsData = _pathList,
             erasedPoints = arrayOf(erasedPoint),
         )
         // Only push to undoStack if there's an actual change
-        if (oldState != newPoints) {
-            undoStack.push(UndoRedoEventType.AfterErase(oldState, newPoints))
+        if (oldPath != newPath) {
+            undoStack.push(UndoRedoEventType.AfterErase(oldPath, newPath))
             // Clear the existing points and add the new points
             _pathList.clear()
-            _pathList.addAll(newPoints)
+            _pathList.addAll(newPath)
 
             redoStack.clear()
             _undoRedoState.update { computeUndoRedoState() }
