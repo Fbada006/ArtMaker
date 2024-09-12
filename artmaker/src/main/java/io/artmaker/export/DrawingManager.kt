@@ -21,7 +21,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
-import io.artmaker.actions.UndoRedoAction
+import io.artmaker.actions.UndoRedoEventType
 import io.artmaker.models.PointsData
 import io.artmaker.utils.eraseLines
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,8 +34,8 @@ import kotlin.properties.Delegates
  * The drawing manager will handle all the logic related to drawing including clearing, undo, and redo
  */
 internal class DrawingManager {
-    private val undoStack = Stack<UndoRedoAction>()
-    private val redoStack = Stack<UndoRedoAction>()
+    private val undoStack = Stack<UndoRedoEventType>()
+    private val redoStack = Stack<UndoRedoEventType>()
 
     private val _pathList = mutableStateListOf<PointsData>()
     val pathList: SnapshotStateList<PointsData> = _pathList
@@ -65,7 +65,7 @@ internal class DrawingManager {
             strokeWidth = strokeWidth.toFloat(),
             alphas = mutableStateListOf(pressure),
         )
-        undoStack.push(UndoRedoAction.Draw(data))
+        undoStack.push(UndoRedoEventType.BeforeErase(data))
         _pathList.add(data)
         redoStack.clear()
         _undoRedoState.update { computeUndoRedoState() }
@@ -85,12 +85,12 @@ internal class DrawingManager {
     private fun redo() {
         if (redoStack.isEmpty()) return
         when (val action = redoStack.pop()) {
-            is UndoRedoAction.Draw -> {
-                undoStack.push(UndoRedoAction.Draw(action.pathData))
+            is UndoRedoEventType.BeforeErase -> {
+                undoStack.push(UndoRedoEventType.BeforeErase(action.pathData))
                 _pathList.add(action.pathData)
             }
-            is UndoRedoAction.Erase -> {
-                undoStack.push(UndoRedoAction.Erase(_pathList.toList(), action.newState))
+            is UndoRedoEventType.AfterErase -> {
+                undoStack.push(UndoRedoEventType.AfterErase(_pathList.toList(), action.newState))
                 _pathList.clear()
                 _pathList.addAll(action.newState)
             }
@@ -101,12 +101,12 @@ internal class DrawingManager {
     private fun undo() {
         if (undoStack.isEmpty()) return
         when (val action = undoStack.pop()) {
-            is UndoRedoAction.Draw -> {
-                redoStack.push(UndoRedoAction.Draw(_pathList.last()))
+            is UndoRedoEventType.BeforeErase -> {
+                redoStack.push(UndoRedoEventType.BeforeErase(_pathList.last()))
                 _pathList.removeLast()
             }
-            is UndoRedoAction.Erase -> {
-                redoStack.push(UndoRedoAction.Erase(_pathList.toList(), action.newState))
+            is UndoRedoEventType.AfterErase -> {
+                redoStack.push(UndoRedoEventType.AfterErase(_pathList.toList(), action.newState))
                 _pathList.clear()
                 _pathList.addAll(action.oldState)
             }
@@ -140,7 +140,7 @@ internal class DrawingManager {
         )
         // Only push to undoStack if there's an actual change
         if (oldState != newPoints) {
-            undoStack.push(UndoRedoAction.Erase(oldState, newPoints))
+            undoStack.push(UndoRedoEventType.AfterErase(oldState, newPoints))
             // Clear the existing points and add the new points
             _pathList.clear()
             _pathList.addAll(newPoints)
