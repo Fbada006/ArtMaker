@@ -23,7 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import io.artmaker.models.PointsData
 import kotlin.math.pow
 
-private const val MIN_ERASE_RADIUS =30F
+private const val MIN_ERASE_RADIUS = 30F
 private const val MAX_ERASE_RADIUS = 40F
 
 /**
