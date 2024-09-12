@@ -22,7 +22,7 @@ import io.artmaker.models.PointsData
 /**
  * Provides state from the [io.artmaker.composables.ArtMakerDrawScreen] screen
  */
-internal data class DrawState(
+internal data class DrawScreenState(
     val pathList: SnapshotStateList<PointsData>,
     val backgroundImage: ImageBitmap?,
     val shouldTriggerArtExport: Boolean,

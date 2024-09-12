@@ -113,12 +113,22 @@ internal class ArtMakerViewModel(
         }
     }
 
-    fun onDrawEvent(event: DrawEvent) = drawingManager.onDrawEvent(event, _uiState.value.strokeColour, _uiState.value.strokeWidth)
+    fun onDrawEvent(event: DrawEvent) = drawingManager.onDrawEvent(
+        event,
+        _uiState.value.strokeColour,
+        _uiState.value.strokeWidth,
+    )
 
     private fun listenToUndoRedoState() {
         viewModelScope.launch {
             drawingManager.undoRedoState.collectLatest { state ->
-                _uiState.update { it.copy(canRedo = state.canRedo, canUndo = state.canUndo, canClear = state.canClear) }
+                _uiState.update {
+                    it.copy(
+                        canRedo = state.canRedo,
+                        canUndo = state.canUndo,
+                        canClear = state.canClear,
+                    )
+                }
             }
         }
     }

@@ -86,6 +86,8 @@ internal fun ArtMakerControlMenu(
     setBackgroundImage: (ImageBitmap?) -> Unit,
     imageBitmap: ImageBitmap?,
     artMakerConfiguration: ArtMakerConfiguration,
+    onActivateEraser: () -> Unit,
+    isEraserActive: Boolean,
 ) {
     var areImageOptionsExpanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -129,7 +131,19 @@ internal fun ArtMakerControlMenu(
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Edit,
-                    onItemClicked = onShowStrokeWidthPopup,
+                    onItemClicked = {
+                        onShowStrokeWidthPopup()
+                    },
+                )
+                MenuItem(
+                    imageVector = if (isEraserActive) {
+                        ImageVector.vectorResource(id = R.drawable.ink_eraser_off)
+                    } else {
+                        ImageVector.vectorResource(
+                            id = R.drawable.ink_eraser,
+                        )
+                    },
+                    onItemClicked = onActivateEraser,
                 )
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
