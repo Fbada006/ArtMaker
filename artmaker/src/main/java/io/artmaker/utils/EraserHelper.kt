@@ -23,14 +23,18 @@ import androidx.compose.ui.geometry.Offset
 import io.artmaker.models.PointsData
 import kotlin.math.pow
 
+private const val MIN_ERASE_RADIUS = 20F
+private const val MAX_ERASE_RADIUS = 40F
+
 /**
  * Erases pointData at the specified points.
  * @param pointsData Lines on which to run eraser.
  * @param eraseRadius  Eraser radius.
  * @param erasedPoints Array of eraser points. All lines intersecting circle with {@code eraserRadius} around these points will be erased.
  */
-fun eraseLines(pointsData: List<PointsData>, eraseRadius: Float = 40F, vararg erasedPoints: PointF): List<PointsData> {
-    val hitRadiusSqr = eraseRadius.toDouble().pow(2.0).toFloat()
+internal fun erasePointData(pointsData: List<PointsData>, eraseRadius: Float, vararg erasedPoints: PointF): List<PointsData> {
+    val hitEraseRadius = eraseRadius.coerceIn(MIN_ERASE_RADIUS, MAX_ERASE_RADIUS)
+    val hitRadiusSqr = hitEraseRadius.toDouble().pow(2.0).toFloat()
     val newPointData = ArrayList<PointsData>(pointsData.size)
     val indexesToDelete = ArrayList<Int>()
 
@@ -88,6 +92,6 @@ fun eraseLines(pointsData: List<PointsData>, eraseRadius: Float = 40F, vararg er
     return newPointData
 }
 
-fun getDistanceBetweenPointsSqr(aX: Float, aY: Float, bX: Float, bY: Float): Float {
+private fun getDistanceBetweenPointsSqr(aX: Float, aY: Float, bX: Float, bY: Float): Float {
     return (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY)
 }

@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
 import io.artmaker.actions.UndoRedoEventType
 import io.artmaker.models.PointsData
-import io.artmaker.utils.eraseLines
+import io.artmaker.utils.erasePointData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -90,7 +90,7 @@ internal class DrawingManager {
                 _pathList.add(action.pathData)
             }
             is UndoRedoEventType.AfterErase -> {
-                undoStack.push(UndoRedoEventType.AfterErase(_pathList, action.newState))
+                undoStack.push(UndoRedoEventType.AfterErase(_pathList.toList(), action.newState))
                 _pathList.clear()
                 _pathList.addAll(action.newState)
             }
@@ -105,7 +105,7 @@ internal class DrawingManager {
                 redoStack.push(UndoRedoEventType.BeforeErase(_pathList.removeLast()))
             }
             is UndoRedoEventType.AfterErase -> {
-                redoStack.push(UndoRedoEventType.AfterErase(_pathList, action.newState))
+                redoStack.push(UndoRedoEventType.AfterErase(_pathList.toList(), action.newState))
                 _pathList.clear()
                 _pathList.addAll(action.oldState)
             }
@@ -132,10 +132,11 @@ internal class DrawingManager {
     private fun erase(offset: Offset) {
         val erasedPoint = PointF(offset.x, offset.y)
         // Store the old state before erasing
-        val oldPath = _pathList
-        val newPath = eraseLines(
+        val oldPath = _pathList.toList()
+        val newPath = erasePointData(
             pointsData = _pathList,
             erasedPoints = arrayOf(erasedPoint),
+            eraseRadius = strokeWidth.toFloat(),
         )
         // Only push to undoStack if there's an actual change
         if (oldPath != newPath) {
