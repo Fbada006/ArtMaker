@@ -121,7 +121,7 @@ fun ArtMaker(
                     viewModel.onDrawEvent(it)
                 },
                 onAction = viewModel::onAction,
-                state = DrawState(
+                state = DrawScreenState(
                     pathList = viewModel.pathList,
                     shouldTriggerArtExport = shouldTriggerArtExport,
                     backgroundImage = viewModel.backgroundImage.value,

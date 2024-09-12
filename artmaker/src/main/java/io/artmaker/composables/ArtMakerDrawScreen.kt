@@ -65,7 +65,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import io.artmaker.DrawState
+import io.artmaker.DrawScreenState
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
@@ -85,7 +85,7 @@ internal fun ArtMakerDrawScreen(
     artMakerConfiguration: ArtMakerConfiguration,
     onDrawEvent: (DrawEvent) -> Unit,
     onAction: (ArtMakerAction) -> Unit,
-    state: DrawState,
+    state: DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
 ) {
