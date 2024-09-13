@@ -36,19 +36,19 @@ internal class PreferencesManager(private val preferences: ArtMakerSharedPrefere
         ),
         shouldUseStylusOnly = preferences.get(
             key = PreferenceKeys.PREF_USE_STYLUS_ONLY,
-            false,
+            defaultValue = false,
         ),
         shouldDetectPressure = preferences.get(
             key = PreferenceKeys.PREF_DETECT_PRESSURE,
-            false,
+            defaultValue = false,
         ),
         canShowEnableStylusDialog = preferences.get(
             key = PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG,
-            true,
+            defaultValue = true,
         ),
         canShowDisableStylusDialog = preferences.get(
             key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG,
-            true,
+            defaultValue = true,
         ),
     )
 
