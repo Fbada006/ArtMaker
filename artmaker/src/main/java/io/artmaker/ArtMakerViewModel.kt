@@ -35,6 +35,7 @@ import io.artmaker.actions.ExportType
 import io.artmaker.data.ArtMakerSharedPreferences
 import io.artmaker.data.PreferenceKeys
 import io.artmaker.data.PreferenceKeys.PREF_SELECTED_STROKE_WIDTH
+import io.artmaker.data.PreferencesManager
 import io.artmaker.export.DrawingManager
 import io.artmaker.models.PointsData
 import io.artmaker.utils.saveToDisk
@@ -47,38 +48,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ArtMakerViewModel(
-    private val preferences: ArtMakerSharedPreferences,
+    private val preferencesManager: PreferencesManager,
     private val drawingManager: DrawingManager,
     private val applicationContext: Context,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow(
-        value = ArtMakerUIState(
-            strokeColour = preferences.get(
-                key = PreferenceKeys.PREF_SELECTED_STROKE_COLOUR,
-                defaultValue = Color.Red.toArgb(),
-            ),
-            strokeWidth = preferences.get(
-                key = PREF_SELECTED_STROKE_WIDTH,
-                defaultValue = 5,
-            ),
-            shouldUseStylusOnly = preferences.get(
-                key = PreferenceKeys.PREF_USE_STYLUS_ONLY,
-                false,
-            ),
-            shouldDetectPressure = preferences.get(
-                key = PreferenceKeys.PREF_DETECT_PRESSURE,
-                false,
-            ),
-            canShowEnableStylusDialog = preferences.get(
-                key = PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG,
-                true,
-            ),
-            canShowDisableStylusDialog = preferences.get(
-                key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG,
-                true,
-            ),
-        ),
+        value = preferencesManager.loadInitialUIState(),
     )
     val uiState = _uiState.asStateFlow()
 
