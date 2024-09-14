@@ -15,7 +15,6 @@
  */
 package io.artmaker.composables
 
-import android.widget.Button
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,22 +22,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,7 +46,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
@@ -68,6 +61,7 @@ internal fun ColorPicker(
     onDismissRequest: () -> Unit,
     defaultColor: Int,
     onClick: (ColorArgb) -> Unit,
+    onColorPaletteClick: () -> Unit,
     artMakerConfiguration: ArtMakerConfiguration,
 ) {
     val sheetState = rememberModalBottomSheetState()
@@ -146,7 +140,7 @@ internal fun ColorPicker(
                             .size(size = dimensionResource(id = R.dimen.Padding48))
                             .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
                             .background(brush = Brush.sweepGradient(colors = allColors))
-                            .clickable {}
+                            .clickable { onColorPaletteClick() }
                             .align(Alignment.CenterVertically),
                     )
                 }

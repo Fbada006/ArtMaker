@@ -59,6 +59,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.core.os.BuildCompat
+import com.artmaker.customcolorpalette.CustomColorPalette
 import com.google.modernstorage.photopicker.PhotoPicker
 import io.artmaker.ArtMakerUIState
 import io.artmaker.actions.ArtMakerAction
@@ -104,6 +105,7 @@ internal fun ArtMakerControlMenu(
             setBackgroundImage(bitmap.asImageBitmap())
         }
     var showColorPicker by remember { mutableStateOf(false) }
+    var showColorPalette by remember { mutableStateOf(false) }
 
     Surface(
         shadowElevation = dimensionResource(id = R.dimen.Padding60),
@@ -227,7 +229,20 @@ internal fun ArtMakerControlMenu(
                         onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
                         showColorPicker = false
                     },
+                    onColorPaletteClick = {
+                        showColorPicker = false
+                        showColorPalette = true
+                    },
                     artMakerConfiguration = artMakerConfiguration,
+                )
+            }
+
+            if (showColorPalette) {
+                CustomColorPalette(
+                    onDismissRequest = {
+                        showColorPalette = false
+                        showColorPicker = true
+                    },
                 )
             }
         }
