@@ -15,23 +15,30 @@
  */
 package io.artmaker.composables
 
+import android.widget.Button
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,9 +48,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
@@ -62,7 +71,7 @@ internal fun ColorPicker(
     artMakerConfiguration: ArtMakerConfiguration,
 ) {
     val sheetState = rememberModalBottomSheetState()
-    var customColor by rememberSaveable { mutableIntStateOf(defaultColor) }
+    var selectedColor by rememberSaveable { mutableIntStateOf(defaultColor) }
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -77,58 +86,69 @@ internal fun ColorPicker(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
-                FlowRow(
-                    modifier = Modifier
-                        .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
-                    horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
-                    verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
-                    maxItemsInEachRow = NUM_COLUMNS,
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding8)),
                 ) {
-                    repeat(
-                        if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
-                            artMakerConfiguration.pickerCustomColors.size
-                        } else {
-                            ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size
-                        },
-                    ) { colorIndex ->
-                        val color =
-                            if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
-                                artMakerConfiguration.pickerCustomColors[colorIndex].toArgb()
-                            } else {
-                                ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
-                            }
-                        Box(
-                            modifier = Modifier,
-                        ) {
+                    val allColors = artMakerConfiguration.pickerCustomColors.ifEmpty {
+                        ColorUtils.COLOR_PICKER_DEFAULT_COLORS
+                    }
+                    FlowRow(
+                        modifier = Modifier
+                            .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
+                        horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                        maxItemsInEachRow = NUM_COLUMNS,
+                    ) {
+                        repeat(allColors.size) { colorIndex ->
+                            val color =
+                                if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
+                                    artMakerConfiguration.pickerCustomColors[colorIndex].toArgb()
+                                } else {
+                                    ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
+                                }
                             Box(
-                                modifier = Modifier
-                                    .size(size = dimensionResource(id = R.dimen.Padding48))
-                                    .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
-                                    .background(Color(color))
-                                    .clickable {
-                                        customColor = color
-                                        onClick(color)
-                                    },
-                            )
-
-                            if (color == customColor) {
-                                Icon(
-                                    imageVector = Icons.Default.Check,
-                                    contentDescription = null,
-                                    tint = if (androidx.core.graphics.ColorUtils.calculateLuminance(
-                                            color,
-                                        ) > LUMINANCE_THRESHOLD
-                                    ) {
-                                        Color.Black
-                                    } else {
-                                        Color.White
-                                    },
+                                modifier = Modifier,
+                            ) {
+                                Box(
                                     modifier = Modifier
-                                        .align(Alignment.Center),
+                                        .size(size = dimensionResource(id = R.dimen.Padding48))
+                                        .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
+                                        .background(Color(color))
+                                        .clickable {
+                                            selectedColor = color
+                                            onClick(color)
+                                        },
                                 )
+
+                                if (color == selectedColor) {
+                                    Icon(
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = null,
+                                        tint = if (androidx.core.graphics.ColorUtils.calculateLuminance(
+                                                color,
+                                            ) > LUMINANCE_THRESHOLD
+                                        ) {
+                                            Color.Black
+                                        } else {
+                                            Color.White
+                                        },
+                                        modifier = Modifier
+                                            .align(Alignment.Center),
+                                    )
+                                }
                             }
                         }
                     }
+
+                    // Custom color picker
+                    Box(
+                        modifier = Modifier
+                            .size(size = dimensionResource(id = R.dimen.Padding48))
+                            .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
+                            .background(brush = Brush.sweepGradient(colors = allColors))
+                            .clickable {}
+                            .align(Alignment.CenterVertically),
+                    )
                 }
             }
         }

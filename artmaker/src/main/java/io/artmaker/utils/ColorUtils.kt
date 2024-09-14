@@ -22,12 +22,12 @@ object ColorUtils {
         Color.Red,
         Color.Blue,
         Color.Black,
-        Color.White,
         Color.Yellow,
         Color.Cyan,
         Color.Gray,
         Color.Green,
         Color.Magenta,
         Color.DarkGray,
+        Color(color = 0xFFA020F0) //A purple
     )
 }
