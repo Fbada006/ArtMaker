@@ -15,19 +15,63 @@
  */
 package com.artmaker.customcolorpalette
 
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomColorPalette(onDismissRequest: () -> Unit, modifier: Modifier = Modifier) {
-    ModalBottomSheet(onDismissRequest = onDismissRequest) {
-        Text(
-            text = "Custom Color palette",
-            modifier = modifier,
+fun CustomColorPalette(
+    modifier: Modifier = Modifier,
+    color: HsvColor = HsvColor.from(Color.Red),
+    onColorChanged: (HsvColor) -> Unit,
+) {
+    val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
+        mutableStateOf(color)
+    }
+
+    Row(modifier = modifier) {
+        val barThickness = 32.dp
+        val paddingBetweenBars = 8.dp
+        val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
+        Column(modifier = Modifier.weight(0.8f)) {
+            SaturationValueArea(
+                modifier = Modifier.weight(1f),
+                currentColor = colorPickerValueState.value,
+                onSaturationValueChanged = { saturation, value ->
+                    colorPickerValueState.value =
+                        colorPickerValueState.value.copy(saturation = saturation, value = value)
+                    updatedOnColorChanged(colorPickerValueState.value)
+                },
+            )
+
+            Spacer(modifier = Modifier.height(paddingBetweenBars))
+
+            Box(modifier = Modifier.fillMaxWidth().height(barThickness).background(colorPickerValueState.value.toColor()))
+        }
+        Spacer(modifier = Modifier.width(paddingBetweenBars))
+        HueBar(
+            modifier = Modifier
+                .width(barThickness)
+                .fillMaxHeight(),
+            currentColor = colorPickerValueState.value,
+            onHueChanged = { newHue ->
+                colorPickerValueState.value = colorPickerValueState.value.copy(hue = newHue)
+                updatedOnColorChanged(colorPickerValueState.value)
+            },
         )
     }
 }

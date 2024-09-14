@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -37,9 +38,11 @@ import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,6 +61,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat
 import com.artmaker.customcolorpalette.CustomColorPalette
 import com.google.modernstorage.photopicker.PhotoPicker
@@ -75,7 +79,7 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
  * without any functionality.
  */
-@OptIn(BuildCompat.PrereleaseSdkCheck::class)
+@OptIn(BuildCompat.PrereleaseSdkCheck::class, ExperimentalMaterial3Api::class)
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(
@@ -238,12 +242,17 @@ internal fun ArtMakerControlMenu(
             }
 
             if (showColorPalette) {
-                CustomColorPalette(
+                ModalBottomSheet(
                     onDismissRequest = {
                         showColorPalette = false
                         showColorPicker = true
                     },
-                )
+                ) {
+                    CustomColorPalette(
+                        modifier = Modifier.height(332.dp).padding(12.dp),
+                        onColorChanged = {},
+                    )
+                }
             }
         }
     }
