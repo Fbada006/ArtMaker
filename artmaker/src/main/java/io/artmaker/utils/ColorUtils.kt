@@ -28,6 +28,6 @@ object ColorUtils {
         Color.Green,
         Color.Magenta,
         Color.DarkGray,
-        Color(color = 0xFFA020F0) //A purple
+        Color(color = 0xFFA020F0), // A purple
     )
 }

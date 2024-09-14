@@ -34,11 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomColorPalette(
-    modifier: Modifier = Modifier,
-    color: HsvColor = HsvColor.from(Color.Red),
-    onColorChanged: (HsvColor) -> Unit,
-) {
+fun CustomColorPalette(modifier: Modifier = Modifier, color: HsvColor = HsvColor.from(Color.Red), onColorChanged: (HsvColor) -> Unit) {
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
         mutableStateOf(color)
     }
