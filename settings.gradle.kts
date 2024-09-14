@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "ArtMaker"
 include(":demo")
 include(":artmaker")
+include(":customcolorpalette")

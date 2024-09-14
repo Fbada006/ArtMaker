@@ -107,6 +107,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":customcolorpalette"))
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.runtime.compose)
     implementation (libs.material.icons)
