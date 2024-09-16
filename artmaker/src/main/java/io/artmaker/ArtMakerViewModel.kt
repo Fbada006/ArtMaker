@@ -36,7 +36,7 @@ import io.artmaker.data.ArtMakerSharedPreferences
 import io.artmaker.data.CustomColorsManager
 import io.artmaker.data.PreferenceKeys
 import io.artmaker.data.PreferenceKeys.PREF_SELECTED_STROKE_WIDTH
-import io.artmaker.export.DrawingManager
+import io.artmaker.drawing.DrawingManager
 import io.artmaker.models.PointsData
 import io.artmaker.utils.saveToDisk
 import io.artmaker.utils.shareBitmap
