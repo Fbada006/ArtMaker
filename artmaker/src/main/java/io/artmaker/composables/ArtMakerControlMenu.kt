@@ -62,7 +62,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat
 import com.artmaker.customcolorpalette.CustomColorPalette
 import com.google.modernstorage.photopicker.PhotoPicker
@@ -248,8 +247,8 @@ internal fun ArtMakerControlMenu(
                 ) {
                     CustomColorPalette(
                         modifier = Modifier
-                            .height(332.dp)
-                            .padding(12.dp),
+                            .height(dimensionResource(R.dimen.color_palette_height))
+                            .padding(dimensionResource(R.dimen.Padding12)),
                         onAccept = {
                             onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
                             showColorPalette = false

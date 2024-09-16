@@ -26,4 +26,5 @@
     <dimen name="Padding32">32dp</dimen>
     <dimen name="Padding48">48dp</dimen>
     <dimen name="Padding60">60dp</dimen>
+    <dimen name="color_palette_height">330dp</dimen>
 </resources>

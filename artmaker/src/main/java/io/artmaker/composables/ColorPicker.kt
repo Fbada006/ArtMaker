@@ -105,12 +105,7 @@ internal fun ColorPicker(
                             maxItemsInEachRow = NUM_COLUMNS,
                         ) {
                             repeat(allColors.size) { colorIndex ->
-                                val color =
-                                    if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
-                                        artMakerConfiguration.pickerCustomColors[colorIndex].toArgb()
-                                    } else {
-                                        ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
-                                    }
+                                val color = allColors[colorIndex].toArgb()
                                 ColorItem(color, defaultColor, onClick)
                             }
                         }
