@@ -32,8 +32,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import io.fbada006.artmaker.customcolorpalette.R
 
 /**
  * The main entry point for the palette to create a custom colour aside from the default ones
@@ -53,8 +54,8 @@ fun CustomColorPalette(
     }
 
     Row(modifier = modifier) {
-        val barThickness = 32.dp
-        val paddingBetweenBars = 8.dp
+        val barThickness = dimensionResource(R.dimen.dimen32)
+        val paddingBetweenBars = dimensionResource(R.dimen.dimen8)
         Column(modifier = Modifier.weight(0.8f)) {
             SaturationValueArea(
                 modifier = Modifier.weight(1f),
@@ -83,7 +84,7 @@ fun CustomColorPalette(
                 Button(onClick = onCancel) {
                     Text(text = stringResource(android.R.string.cancel))
                 }
-                Spacer(Modifier.width(12.dp))
+                Spacer(Modifier.width(dimensionResource(R.dimen.dimen12)))
                 Button(onClick = { onAccept(colorPickerValueState.value.toColor()) }) {
                     Text(text = stringResource(android.R.string.ok))
                 }
