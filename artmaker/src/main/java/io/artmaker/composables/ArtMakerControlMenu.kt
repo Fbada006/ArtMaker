@@ -258,7 +258,6 @@ internal fun ArtMakerControlMenu(
                             showColorPalette = false
                             showColorPicker = true
                         },
-                        onColorChanged = {},
                     )
                 }
             }

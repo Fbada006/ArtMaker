@@ -28,21 +28,25 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
+/**
+ * The main entry point for the palette to create a custom colour aside from the default ones
+ *
+ * @param onCancel called when custom color creation is cancelled
+ * @param onAccept called when a new color has been created and ready to be used
+ * @param modifier is the Modifier
+ */
 @Composable
 fun CustomColorPalette(
     onCancel: () -> Unit,
     onAccept: (Color) -> Unit,
     modifier: Modifier = Modifier,
-    onColorChanged: (Color) -> Unit,
 ) {
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
         mutableStateOf(HsvColor.from(Color.Red))
@@ -51,7 +55,6 @@ fun CustomColorPalette(
     Row(modifier = modifier) {
         val barThickness = 32.dp
         val paddingBetweenBars = 8.dp
-        val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
         Column(modifier = Modifier.weight(0.8f)) {
             SaturationValueArea(
                 modifier = Modifier.weight(1f),
@@ -59,7 +62,6 @@ fun CustomColorPalette(
                 onSaturationValueChanged = { saturation, value ->
                     colorPickerValueState.value =
                         colorPickerValueState.value.copy(saturation = saturation, value = value)
-                    updatedOnColorChanged(colorPickerValueState.value.toColor())
                 },
             )
 
@@ -95,7 +97,6 @@ fun CustomColorPalette(
             currentColor = colorPickerValueState.value,
             onHueChanged = { newHue ->
                 colorPickerValueState.value = colorPickerValueState.value.copy(hue = newHue)
-                updatedOnColorChanged(colorPickerValueState.value.toColor())
             },
         )
     }
