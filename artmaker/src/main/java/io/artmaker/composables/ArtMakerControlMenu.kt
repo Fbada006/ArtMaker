@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -243,13 +244,20 @@ internal fun ArtMakerControlMenu(
 
             if (showColorPalette) {
                 ModalBottomSheet(
-                    onDismissRequest = {
-                        showColorPalette = false
-                        showColorPicker = true
-                    },
+                    onDismissRequest = { showColorPalette = false },
                 ) {
                     CustomColorPalette(
-                        modifier = Modifier.height(332.dp).padding(12.dp),
+                        modifier = Modifier
+                            .height(332.dp)
+                            .padding(12.dp),
+                        onAccept = {
+                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb())))
+                            showColorPalette = false
+                        },
+                        onCancel = {
+                            showColorPalette = false
+                            showColorPicker = true
+                        },
                         onColorChanged = {},
                     )
                 }

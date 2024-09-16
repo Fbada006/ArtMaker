@@ -16,6 +16,7 @@
 package com.artmaker.customcolorpalette
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,12 +34,18 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomColorPalette(modifier: Modifier = Modifier, color: HsvColor = HsvColor.from(Color.Red), onColorChanged: (HsvColor) -> Unit) {
+fun CustomColorPalette(
+    onCancel: () -> Unit,
+    onAccept: (Color) -> Unit,
+    modifier: Modifier = Modifier,
+    onColorChanged: (Color) -> Unit,
+) {
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
-        mutableStateOf(color)
+        mutableStateOf(HsvColor.from(Color.Red))
     }
 
     Row(modifier = modifier) {
@@ -50,13 +59,33 @@ fun CustomColorPalette(modifier: Modifier = Modifier, color: HsvColor = HsvColor
                 onSaturationValueChanged = { saturation, value ->
                     colorPickerValueState.value =
                         colorPickerValueState.value.copy(saturation = saturation, value = value)
-                    updatedOnColorChanged(colorPickerValueState.value)
+                    updatedOnColorChanged(colorPickerValueState.value.toColor())
                 },
             )
 
             Spacer(modifier = Modifier.height(paddingBetweenBars))
 
-            Box(modifier = Modifier.fillMaxWidth().height(barThickness).background(colorPickerValueState.value.toColor()))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(barThickness)
+                    .background(colorPickerValueState.value.toColor()),
+            )
+
+            Spacer(modifier = Modifier.height(paddingBetweenBars))
+
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Button(onClick = onCancel) {
+                    Text(text = stringResource(android.R.string.cancel))
+                }
+                Spacer(Modifier.width(12.dp))
+                Button(onClick = { onAccept(colorPickerValueState.value.toColor()) }) {
+                    Text(text = stringResource(android.R.string.ok))
+                }
+            }
         }
         Spacer(modifier = Modifier.width(paddingBetweenBars))
         HueBar(
@@ -66,7 +95,7 @@ fun CustomColorPalette(modifier: Modifier = Modifier, color: HsvColor = HsvColor
             currentColor = colorPickerValueState.value,
             onHueChanged = { newHue ->
                 colorPickerValueState.value = colorPickerValueState.value.copy(hue = newHue)
-                updatedOnColorChanged(colorPickerValueState.value)
+                updatedOnColorChanged(colorPickerValueState.value.toColor())
             },
         )
     }
