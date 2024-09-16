@@ -33,6 +33,7 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.actions.ExportType
 import io.artmaker.data.ArtMakerSharedPreferences
+import io.artmaker.data.CustomColorsManager
 import io.artmaker.data.PreferenceKeys
 import io.artmaker.data.PreferenceKeys.PREF_SELECTED_STROKE_WIDTH
 import io.artmaker.export.DrawingManager
@@ -48,6 +49,7 @@ import kotlinx.coroutines.launch
 
 internal class ArtMakerViewModel(
     private val preferences: ArtMakerSharedPreferences,
+    private val customColorsManager: CustomColorsManager,
     private val drawingManager: DrawingManager,
     private val applicationContext: Context,
 ) : ViewModel() {
@@ -104,7 +106,7 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.TriggerArtExport -> triggerArtExport(action.type)
             is ArtMakerAction.ExportArt -> exportArt(action.bitmap)
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
-            is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color)
+            is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color, isCustomColour = action.isCustomColor)
             is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
             is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.shouldUseStylusOnly)
             is ArtMakerAction.UpdateSetPressureDetection -> updatePressureSetting(detectPressure = action.shouldDetectPressure)
@@ -154,7 +156,8 @@ internal class ArtMakerViewModel(
 
     private fun updateBackgroundColour() {}
 
-    private fun updateStrokeColor(colour: Color) {
+    private fun updateStrokeColor(colour: Color, isCustomColour: Boolean) {
+        if (isCustomColour) saveCustomColour(colour)
         preferences.set(
             key = PreferenceKeys.PREF_SELECTED_STROKE_COLOUR,
             value = colour.toArgb(),
@@ -167,6 +170,10 @@ internal class ArtMakerViewModel(
                 ),
             )
         }
+    }
+
+    private fun saveCustomColour(color: Color) {
+        customColorsManager.saveColor(color.toArgb())
     }
 
     fun setImage(bitmap: ImageBitmap?) {
@@ -245,6 +252,7 @@ internal class ArtMakerViewModel(
                         preferences = ArtMakerSharedPreferences(
                             context = application,
                         ),
+                        customColorsManager = CustomColorsManager(application),
                         drawingManager = DrawingManager(),
                         applicationContext = application.applicationContext,
                     ) as T

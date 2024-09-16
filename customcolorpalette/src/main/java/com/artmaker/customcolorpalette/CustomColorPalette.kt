@@ -44,11 +44,7 @@ import io.fbada006.artmaker.customcolorpalette.R
  * @param modifier is the Modifier
  */
 @Composable
-fun CustomColorPalette(
-    onCancel: () -> Unit,
-    onAccept: (Color) -> Unit,
-    modifier: Modifier = Modifier,
-) {
+fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit, modifier: Modifier = Modifier) {
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
         mutableStateOf(HsvColor.from(Color.Red))
     }

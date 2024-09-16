@@ -251,7 +251,7 @@ internal fun ArtMakerControlMenu(
                             .height(332.dp)
                             .padding(12.dp),
                         onAccept = {
-                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb())))
+                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
                             showColorPalette = false
                         },
                         onCancel = {

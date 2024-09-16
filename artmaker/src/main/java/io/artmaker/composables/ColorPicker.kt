@@ -19,6 +19,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -32,11 +33,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,7 +49,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import io.artmaker.data.CustomColorsManager
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
@@ -64,8 +71,9 @@ internal fun ColorPicker(
     onColorPaletteClick: () -> Unit,
     artMakerConfiguration: ArtMakerConfiguration,
 ) {
+    val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
-    var selectedColor by rememberSaveable { mutableIntStateOf(defaultColor) }
+    val customColorsManager = remember { CustomColorsManager(context) }
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -83,52 +91,48 @@ internal fun ColorPicker(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding8)),
                 ) {
-                    val allColors = artMakerConfiguration.pickerCustomColors.ifEmpty {
-                        ColorUtils.COLOR_PICKER_DEFAULT_COLORS
-                    }
-                    FlowRow(
-                        modifier = Modifier
-                            .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
-                        horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
-                        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
-                        maxItemsInEachRow = NUM_COLUMNS,
-                    ) {
-                        repeat(allColors.size) { colorIndex ->
-                            val color =
-                                if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
-                                    artMakerConfiguration.pickerCustomColors[colorIndex].toArgb()
-                                } else {
-                                    ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
-                                }
-                            Box(
-                                modifier = Modifier,
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(size = dimensionResource(id = R.dimen.Padding48))
-                                        .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
-                                        .background(Color(color))
-                                        .clickable {
-                                            selectedColor = color
-                                            onClick(color)
-                                        },
-                                )
+                    Column {
+                        val customColors = customColorsManager.getColors()
+                        val allColors = artMakerConfiguration.pickerCustomColors.ifEmpty {
+                            ColorUtils.COLOR_PICKER_DEFAULT_COLORS
+                        }
 
-                                if (color == selectedColor) {
-                                    Icon(
-                                        imageVector = Icons.Default.Check,
-                                        contentDescription = null,
-                                        tint = if (androidx.core.graphics.ColorUtils.calculateLuminance(
-                                                color,
-                                            ) > LUMINANCE_THRESHOLD
-                                        ) {
-                                            Color.Black
-                                        } else {
-                                            Color.White
-                                        },
-                                        modifier = Modifier
-                                            .align(Alignment.Center),
-                                    )
+                        FlowRow(
+                            modifier = Modifier
+                                .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
+                            horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                            verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                            maxItemsInEachRow = NUM_COLUMNS,
+                        ) {
+                            repeat(allColors.size) { colorIndex ->
+                                val color =
+                                    if (artMakerConfiguration.pickerCustomColors.isNotEmpty()) {
+                                        artMakerConfiguration.pickerCustomColors[colorIndex].toArgb()
+                                    } else {
+                                        ColorUtils.COLOR_PICKER_DEFAULT_COLORS[colorIndex].toArgb()
+                                    }
+                                ColorItem(color, defaultColor, onClick)
+                            }
+                        }
+
+                        // Only display the custom colors if we have any
+                        if (customColors.isNotEmpty()) {
+                            Text(
+                                text = stringResource(R.string.recent_colors),
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.Padding4)),
+                            )
+
+                            FlowRow(
+                                modifier = Modifier
+                                    .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
+                                horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                                verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                                maxItemsInEachRow = NUM_COLUMNS,
+                            ) {
+                                repeat(customColors.size) { colorIndex ->
+                                    val color = customColors[colorIndex]
+                                    ColorItem(color, defaultColor, onClick)
                                 }
                             }
                         }
@@ -139,12 +143,48 @@ internal fun ColorPicker(
                         modifier = Modifier
                             .size(size = dimensionResource(id = R.dimen.Padding48))
                             .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
-                            .background(brush = Brush.sweepGradient(colors = allColors))
+                            .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
                             .align(Alignment.CenterVertically),
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Unit) {
+    var selectedColor by rememberSaveable { mutableIntStateOf(defaultColor) }
+    Box(
+        modifier = Modifier,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(size = dimensionResource(id = R.dimen.Padding48))
+                .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
+                .background(Color(color))
+                .clickable {
+                    selectedColor = color
+                    onClick(color)
+                },
+        )
+
+        if (color == selectedColor) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = null,
+                tint = if (androidx.core.graphics.ColorUtils.calculateLuminance(
+                        color,
+                    ) > LUMINANCE_THRESHOLD
+                ) {
+                    Color.Black
+                } else {
+                    Color.White
+                },
+                modifier = Modifier
+                    .align(Alignment.Center),
+            )
         }
     }
 }
