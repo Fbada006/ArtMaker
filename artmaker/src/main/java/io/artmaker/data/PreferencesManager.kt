@@ -76,43 +76,43 @@ internal class PreferencesManager(private val preferences: ArtMakerSharedPrefere
         preferences.set(key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG, value = canShow)
     }
 
-    fun getStrokeColor(strokeColour: Int) {
-        preferences.get(
+    fun getStrokeColor(strokeColour: Int): Int {
+        return preferences.get(
             key = PreferenceKeys.PREF_SELECTED_STROKE_COLOUR,
             defaultValue = strokeColour
         )
     }
 
-    fun getStrokeWidth(strokeWidth: Int) {
-        preferences.get(
+    fun getStrokeWidth(strokeWidth: Int): Int {
+        return preferences.get(
             key = PreferenceKeys.PREF_SELECTED_STROKE_WIDTH,
             defaultValue = strokeWidth
         )
     }
 
-    fun getStylusOnlySetting(useStylusOnly: Boolean) {
-        preferences.get(
+    fun getStylusOnlySetting(useStylusOnly: Boolean): Boolean {
+        return preferences.get(
             key = PreferenceKeys.PREF_USE_STYLUS_ONLY,
             defaultValue = useStylusOnly
         )
     }
 
-    fun getPressureDetectionSetting(detectPressure: Boolean) {
-        preferences.get(
+    fun getPressureDetectionSetting(detectPressure: Boolean): Boolean {
+        return preferences.get(
             key = PreferenceKeys.PREF_DETECT_PRESSURE,
             defaultValue = detectPressure
         )
     }
 
-    fun getEnableStylusDialog(canShow: Boolean) {
-        preferences.get(
+    fun getEnableStylusDialog(canShow: Boolean): Boolean {
+        return preferences.get(
             key = PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG,
             defaultValue = canShow
         )
     }
 
-    fun getDisableStylusDialog(canShow: Boolean) {
-        preferences.get(
+    fun getDisableStylusDialog(canShow: Boolean): Boolean {
+        return preferences.get(
             key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG,
             defaultValue = canShow
         )
