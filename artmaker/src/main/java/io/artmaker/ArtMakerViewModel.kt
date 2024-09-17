@@ -131,7 +131,7 @@ internal class ArtMakerViewModel(
         preferencesManager.updateStrokeColor(strokeColour = colour)
         _uiState.update {
             it.copy(
-                strokeColour = preferencesManager.getStrokeColor(strokeColour = colour),
+                strokeColour = preferencesManager.getStrokeColor(),
             )
         }
     }
@@ -144,7 +144,7 @@ internal class ArtMakerViewModel(
         preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
         _uiState.update {
             it.copy(
-                strokeWidth = preferencesManager.getStrokeWidth(strokeWidth = strokeWidth),
+                strokeWidth = preferencesManager.getStrokeWidth(),
             )
         }
     }
@@ -153,7 +153,7 @@ internal class ArtMakerViewModel(
         preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
         _uiState.update {
             it.copy(
-                shouldUseStylusOnly = preferencesManager.getStylusOnlySetting(useStylusOnly = useStylusOnly),
+                shouldUseStylusOnly = preferencesManager.getStylusOnlySetting(),
             )
         }
     }
@@ -162,7 +162,7 @@ internal class ArtMakerViewModel(
         preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
         _uiState.update {
             it.copy(
-                shouldDetectPressure = preferencesManager.getPressureDetectionSetting(detectPressure = detectPressure),
+                shouldDetectPressure = preferencesManager.getPressureDetectionSetting(),
             )
         }
     }
@@ -171,7 +171,7 @@ internal class ArtMakerViewModel(
         preferencesManager.updateEnableStylusDialog(canShow = canShow)
         _uiState.update {
             it.copy(
-                canShowEnableStylusDialog = preferencesManager.getEnableStylusDialog(canShow = canShow),
+                canShowEnableStylusDialog = preferencesManager.getEnableStylusDialog(),
             )
         }
     }
@@ -180,7 +180,7 @@ internal class ArtMakerViewModel(
         preferencesManager.updateDisableStylusDialog(canShow = canShow)
         _uiState.update {
             it.copy(
-                canShowDisableStylusDialog = preferencesManager.getDisableStylusDialog(canShow = canShow),
+                canShowDisableStylusDialog = preferencesManager.getDisableStylusDialog(),
             )
         }
     }
