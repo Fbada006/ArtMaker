@@ -31,7 +31,7 @@ internal class CustomColorsManager(context: Context) {
 
     // Saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
     fun saveColor(color: Int) {
-        var colors = getColors().distinct().toMutableList()
+        var colors = getColors().toMutableList()
         colors.add(color)
 
         if (colors.size > MAX_CUSTOM_COLORS) {
@@ -48,9 +48,9 @@ internal class CustomColorsManager(context: Context) {
         val json = preferences.get(PREF_CUSTOM_COLORS, "")
         return if (json.isNotEmpty()) {
             val serializableList = this.json.decodeFromString<CustomColors>(json)
-            serializableList.colors
+            serializableList.colors.distinct()
         } else {
             emptyList()
-        }.distinct()
+        }
     }
 }
