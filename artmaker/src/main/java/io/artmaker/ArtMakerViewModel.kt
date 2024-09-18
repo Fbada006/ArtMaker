@@ -22,6 +22,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
@@ -79,7 +80,7 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.TriggerArtExport -> triggerArtExport(action.type)
             is ArtMakerAction.ExportArt -> exportArt(action.bitmap)
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
-            is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color.toArgb(), isCustomColour = action.isCustomColor)
+            is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color, isCustomColour = action.isCustomColor)
             is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
             is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.shouldUseStylusOnly)
             is ArtMakerAction.UpdateSetPressureDetection -> updatePressureSetting(detectPressure = action.shouldDetectPressure)
@@ -129,9 +130,9 @@ internal class ArtMakerViewModel(
 
     private fun updateBackgroundColour() {}
 
-    private fun updateStrokeColor(colour: Int, isCustomColour: Boolean) {
+    private fun updateStrokeColor(colour: Color, isCustomColour: Boolean) {
         if (isCustomColour) customColorsManager.saveColor(colour)
-        preferencesManager.updateStrokeColor(strokeColour = colour)
+        preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
         _uiState.update {
             it.copy(strokeColour = preferencesManager.getStrokeColor())
         }
