@@ -21,7 +21,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.spotless)
     alias(libs.plugins.vanniktech)
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.20"
+    alias(libs.plugins.serialization)
 }
 
 apply(from = "${rootDir}/scripts/publish.gradle.kts")
