@@ -16,7 +16,10 @@
 package io.artmaker.data
 
 import android.content.Context
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import io.artmaker.data.PreferenceKeys.PREF_CUSTOM_COLORS
+import io.artmaker.utils.ColorUtils
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -30,9 +33,11 @@ internal class CustomColorsManager(context: Context) {
     private val preferences = ArtMakerSharedPreferences(context)
 
     // Saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
-    fun saveColor(color: Int) {
-        var colors = getColors().toMutableList()
-        colors.add(color)
+    fun saveColor(color: Color) {
+        // Do not save a colour that already exists in the defaults
+        if (ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(color)) return
+        var colors = getColors().distinct().toMutableList()
+        colors.add(color.toArgb())
 
         if (colors.size > MAX_CUSTOM_COLORS) {
             colors = colors.takeLast(MAX_CUSTOM_COLORS).toMutableList()
