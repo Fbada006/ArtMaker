@@ -37,6 +37,7 @@ import io.artmaker.data.CustomColorsManager
 import io.artmaker.data.PreferencesManager
 import io.artmaker.drawing.DrawingManager
 import io.artmaker.models.PointsData
+import io.artmaker.utils.ColorUtils
 import io.artmaker.utils.saveToDisk
 import io.artmaker.utils.shareBitmap
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -131,7 +132,8 @@ internal class ArtMakerViewModel(
     private fun updateBackgroundColour() {}
 
     private fun updateStrokeColor(colour: Color, isCustomColour: Boolean) {
-        if (isCustomColour) customColorsManager.saveColor(colour)
+        // Save a colour only if it is custom and does not exist in defaults
+        if (isCustomColour && !ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(colour)) customColorsManager.saveColor(colour.toArgb())
         preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
         _uiState.update {
             it.copy(strokeColour = preferencesManager.getStrokeColor())
