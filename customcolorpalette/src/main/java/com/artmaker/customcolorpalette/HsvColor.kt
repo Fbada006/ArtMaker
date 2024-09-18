@@ -28,9 +28,9 @@ internal data class HsvColor(
     // from = 0.0, to = 360.0
     val hue: Float,
     // from = 0.0, to = 1.0
-    val saturation: Float,
+    val saturation: Float = 1.0f,
     // from = 0.0, to = 1.0
-    val value: Float,
+    val value: Float = 1.0f,
 ) {
 
     fun toColor(): Color = Color.hsv(hue, saturation, value)

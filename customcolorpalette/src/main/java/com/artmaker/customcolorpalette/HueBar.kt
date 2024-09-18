@@ -26,9 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.dp
 
 /**
  * Hue side bar Component that changes the hue of a colour.
@@ -57,7 +55,6 @@ internal fun HueBar(modifier: Modifier = Modifier, currentColor: HsvColor, onHue
             },
     ) {
         drawRect(rainbowBrush)
-        drawRect(Color.Gray, style = Stroke(0.5.dp.toPx()))
 
         val huePoint = getPointFromHue(color = currentColor, height = this.size.height)
         drawVerticalSelector(huePoint)
@@ -79,9 +76,12 @@ private val rainbowColors = listOf(
     Color(0xFFFF0000),
 )
 
-private fun getPointFromHue(color: HsvColor, height: Float): Float = height - (color.hue * height / 360f)
+private const val MAX_HUE = 360f
+private const val MIN_Y = 0f
+
+private fun getPointFromHue(color: HsvColor, height: Float): Float = height - (color.hue * height / MAX_HUE)
 
 private fun getHueFromPoint(y: Float, height: Float): Float {
-    val newY = y.coerceIn(0f, height)
-    return 360f - newY * 360f / height
+    val newY = y.coerceIn(MIN_Y, height)
+    return MAX_HUE - newY * MAX_HUE / height
 }

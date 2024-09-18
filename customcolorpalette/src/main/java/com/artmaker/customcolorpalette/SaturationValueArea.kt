@@ -49,16 +49,13 @@ internal fun SaturationValueArea(
     onSaturationValueChanged: (saturation: Float, value: Float) -> Unit,
 ) {
     val blackGradientBrush = remember {
-        Brush.verticalGradient(listOf(Color(0xffffffff), Color(0xff000000)))
+        Brush.verticalGradient(listOf(Color.White, Color.Black))
     }
 
     val currentColorGradientBrush = remember(currentColor.hue) {
-        val hsv = HsvColor(currentColor.hue, 1.0f, 1.0f)
+        val hsv = HsvColor(currentColor.hue)
         Brush.horizontalGradient(
-            listOf(
-                Color(0xffffffff),
-                hsv.toColor(),
-            ),
+            listOf(Color.White, hsv.toColor()),
         )
     }
 
@@ -80,49 +77,51 @@ internal fun SaturationValueArea(
     ) {
         drawRect(blackGradientBrush)
         drawRect(currentColorGradientBrush, blendMode = BlendMode.Modulate)
-        drawRect(Color.Gray, style = Stroke(0.5.dp.toPx()))
 
         drawCircleSelector(currentColor)
     }
 }
 
 private fun DrawScope.drawCircleSelector(currentColor: HsvColor) {
-    val radius = 6.dp
+    val outerCircleRadius = 6.dp
+    val innerCircleRadius = 4.dp
+    val outerCircleStrokeWidth = 2.dp
+    val innerCircleStrokeWidth = 1.dp
+
     val point = getSaturationValuePoint(currentColor, size = size)
-    val circleStyle = Stroke(2.dp.toPx())
+    val outerCircleStyle = Stroke(outerCircleStrokeWidth.toPx())
+    val innerCircleStyle = Stroke(innerCircleStrokeWidth.toPx())
+
     drawCircle(
         color = Color.White,
-        radius = radius.toPx(),
+        radius = outerCircleRadius.toPx(),
         center = point,
-        style = circleStyle,
+        style = outerCircleStyle,
     )
     drawCircle(
         color = Color.Gray,
-        radius = (radius - 2.dp).toPx(),
+        radius = innerCircleRadius.toPx(),
         center = point,
-        style = Stroke(1.dp.toPx()),
+        style = innerCircleStyle,
     )
 }
 
 private fun getSaturationPoint(offset: Offset, size: IntSize): Pair<Float, Float> {
-    val (saturation, value) = getSaturationValueFromPosition(
-        offset,
-        size.toSize(),
-    )
+    val (saturation, value) = getSaturationValueFromPosition(offset, size.toSize())
     return saturation to value
 }
 
 /**
  * Gets the X/Y offset for a color based on the input Size
- * (This is for the large inner area)
  *
  * @return an Offset within the Size that represents the saturation and value of the supplied Color.
  */
 private fun getSaturationValuePoint(color: HsvColor, size: Size): Offset {
+    val colorMax = 1f
     val height: Float = size.height
     val width: Float = size.width
 
-    return Offset((color.saturation * width), (1f - color.value) * height)
+    return Offset((color.saturation * width), (colorMax - color.value) * height)
 }
 
 /**
@@ -131,14 +130,19 @@ private fun getSaturationValuePoint(color: HsvColor, size: Size): Offset {
  * @return new saturation and value
  */
 private fun getSaturationValueFromPosition(offset: Offset, size: Size): Pair<Float, Float> {
+    val minXY = 0f
+    val minSaturation = 0f
+    val maxSaturation = 1f
+    val colorMax = 1f
+
     val width = size.width
     val height = size.height
 
-    val newX = offset.x.coerceIn(0f, width)
+    val newX = offset.x.coerceIn(minXY, width)
 
-    val newY = offset.y.coerceIn(0f, size.height)
-    val saturation = 1f / width * newX
-    val value = 1f - 1f / height * newY
+    val newY = offset.y.coerceIn(minXY, size.height)
+    val saturation = newX / width
+    val value = colorMax - (newY / height)
 
-    return saturation.coerceIn(0f, 1f) to value.coerceIn(0f, 1f)
+    return saturation.coerceIn(minSaturation, maxSaturation) to value.coerceIn(minSaturation, maxSaturation)
 }
