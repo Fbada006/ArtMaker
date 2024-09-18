@@ -75,9 +75,15 @@ fun ArtMaker(
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
     val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
     var isFullScreenEnabled by remember { mutableStateOf(false) }
-    var isEraserActive by remember { mutableStateOf(value = state.canErase) }
+    var isEraserActive by remember { mutableStateOf(value = false) }
     LaunchedEffect(key1 = finishedImage) {
         finishedImage?.let { onFinishDrawing(it) }
+    }
+
+    LaunchedEffect(key1 = state.canErase) {
+        if (!state.canErase) {
+            isEraserActive = false
+        }
     }
 
     Scaffold(
