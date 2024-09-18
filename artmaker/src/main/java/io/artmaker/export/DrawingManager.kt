@@ -72,9 +72,11 @@ internal class DrawingManager {
     }
 
     private fun updateCurrentShape(offset: Offset, pressure: Float) {
-        val idx = _pathList.lastIndex
-        _pathList[idx].points.add(offset)
-        _pathList[idx].alphas.add(pressure)
+        if (pathList.isNotEmpty()) {
+            val idx = _pathList.lastIndex
+            _pathList[idx].points.add(offset)
+            _pathList[idx].alphas.add(pressure)
+        }
     }
 
     private fun undoLastShapePoint() {
