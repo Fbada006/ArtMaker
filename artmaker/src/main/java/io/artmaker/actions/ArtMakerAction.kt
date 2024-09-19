@@ -25,7 +25,7 @@ sealed interface ArtMakerAction {
     data class TriggerArtExport(val type: ExportType) : ArtMakerAction
     data class ExportArt(val bitmap: ImageBitmap) : ArtMakerAction
     data object UpdateBackground : ArtMakerAction
-    data class SelectStrokeColour(val color: Color) : ArtMakerAction
+    data class SelectStrokeColour(val color: Color, val isCustomColor: Boolean = false) : ArtMakerAction
     data class SetStrokeWidth(val strokeWidth: Int) : ArtMakerAction
     data class UpdateSetStylusOnly(val shouldUseStylusOnly: Boolean) : ArtMakerAction
     data class UpdateSetPressureDetection(val shouldDetectPressure: Boolean) : ArtMakerAction

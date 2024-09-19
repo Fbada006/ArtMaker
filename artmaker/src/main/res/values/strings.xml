@@ -29,4 +29,5 @@
     <string name="use_stylus_only">Use stylus only</string>
     <string name="enable_pressure_detection">Enable pressure detection</string>
     <string name="got_it">Got it</string>
+    <string name="recent_colors">Recent Colors</string>
 </resources>
