@@ -150,6 +150,7 @@ internal fun ArtMakerControlMenu(
                         )
                     },
                     onItemClicked = onActivateEraser,
+                    enabled = state.canErase,
                 )
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),

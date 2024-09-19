@@ -104,6 +104,7 @@ internal class ArtMakerViewModel(
                         canRedo = state.canRedo,
                         canUndo = state.canUndo,
                         canClear = state.canClear,
+                        canErase = state.canErase,
                     )
                 }
             }

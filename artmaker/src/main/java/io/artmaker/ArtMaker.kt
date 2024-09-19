@@ -80,6 +80,12 @@ fun ArtMaker(
         finishedImage?.let { onFinishDrawing(it) }
     }
 
+    LaunchedEffect(key1 = state.canErase) {
+        if (!state.canErase) {
+            isEraserActive = false
+        }
+    }
+
     Scaffold(
         floatingActionButton = {
             AnimatedVisibility(
