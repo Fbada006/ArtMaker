@@ -22,6 +22,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
@@ -32,9 +33,11 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.actions.ExportType
 import io.artmaker.data.ArtMakerSharedPreferences
+import io.artmaker.data.CustomColorsManager
 import io.artmaker.data.PreferencesManager
-import io.artmaker.export.DrawingManager
+import io.artmaker.drawing.DrawingManager
 import io.artmaker.models.PointsData
+import io.artmaker.utils.ColorUtils
 import io.artmaker.utils.saveToDisk
 import io.artmaker.utils.shareBitmap
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +48,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ArtMakerViewModel(
+    private val customColorsManager: CustomColorsManager,
     private val preferencesManager: PreferencesManager,
     private val drawingManager: DrawingManager,
     private val applicationContext: Context,
@@ -77,7 +81,7 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.TriggerArtExport -> triggerArtExport(action.type)
             is ArtMakerAction.ExportArt -> exportArt(action.bitmap)
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
-            is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color.toArgb())
+            is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color, isCustomColour = action.isCustomColor)
             is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
             is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.shouldUseStylusOnly)
             is ArtMakerAction.UpdateSetPressureDetection -> updatePressureSetting(detectPressure = action.shouldDetectPressure)
@@ -127,12 +131,12 @@ internal class ArtMakerViewModel(
 
     private fun updateBackgroundColour() {}
 
-    private fun updateStrokeColor(colour: Int) {
-        preferencesManager.updateStrokeColor(strokeColour = colour)
+    private fun updateStrokeColor(colour: Color, isCustomColour: Boolean) {
+        // Save a colour only if it is custom and does not exist in defaults
+        if (isCustomColour && !ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(colour)) customColorsManager.saveColor(colour.toArgb())
+        preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
         _uiState.update {
-            it.copy(
-                strokeColour = preferencesManager.getStrokeColor(),
-            )
+            it.copy(strokeColour = preferencesManager.getStrokeColor())
         }
     }
 
@@ -143,45 +147,35 @@ internal class ArtMakerViewModel(
     private fun selectStrokeWidth(strokeWidth: Int) {
         preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
         _uiState.update {
-            it.copy(
-                strokeWidth = preferencesManager.getStrokeWidth(),
-            )
+            it.copy(strokeWidth = preferencesManager.getStrokeWidth())
         }
     }
 
     private fun updateStylusSetting(useStylusOnly: Boolean) {
         preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
         _uiState.update {
-            it.copy(
-                shouldUseStylusOnly = preferencesManager.getStylusOnlySetting(),
-            )
+            it.copy(shouldUseStylusOnly = preferencesManager.getStylusOnlySetting())
         }
     }
 
     private fun updatePressureSetting(detectPressure: Boolean) {
         preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
         _uiState.update {
-            it.copy(
-                shouldDetectPressure = preferencesManager.getPressureDetectionSetting(),
-            )
+            it.copy(shouldDetectPressure = preferencesManager.getPressureDetectionSetting())
         }
     }
 
     private fun updateEnableStylusDialog(canShow: Boolean) {
         preferencesManager.updateEnableStylusDialog(canShow = canShow)
         _uiState.update {
-            it.copy(
-                canShowEnableStylusDialog = preferencesManager.getEnableStylusDialog(),
-            )
+            it.copy(canShowEnableStylusDialog = preferencesManager.getEnableStylusDialog())
         }
     }
 
     private fun updateDisableStylusDialog(canShow: Boolean) {
         preferencesManager.updateDisableStylusDialog(canShow = canShow)
         _uiState.update {
-            it.copy(
-                canShowDisableStylusDialog = preferencesManager.getDisableStylusDialog(),
-            )
+            it.copy(canShowDisableStylusDialog = preferencesManager.getDisableStylusDialog())
         }
     }
 
@@ -192,6 +186,7 @@ internal class ArtMakerViewModel(
                     @Suppress("UNCHECKED_CAST")
                     return ArtMakerViewModel(
                         preferencesManager = PreferencesManager(preferences = ArtMakerSharedPreferences(context = application)),
+                        customColorsManager = CustomColorsManager(application),
                         drawingManager = DrawingManager(),
                         applicationContext = application.applicationContext,
                     ) as T

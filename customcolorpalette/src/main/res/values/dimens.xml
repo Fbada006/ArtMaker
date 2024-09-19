@@ -15,16 +15,7 @@
      limitations under the License.
 -->
 <resources>
-    <dimen name="Padding0">0dp</dimen>
-    <dimen name="Padding2">2dp</dimen>
-    <dimen name="Padding4">4dp</dimen>
-    <dimen name="Padding7">7dp</dimen>
-    <dimen name="Padding8">8dp</dimen>
-    <dimen name="Padding10">10dp</dimen>
-    <dimen name="Padding12">12dp</dimen>
-    <dimen name="Padding30">30dp</dimen>
-    <dimen name="Padding32">32dp</dimen>
-    <dimen name="Padding48">48dp</dimen>
-    <dimen name="Padding60">60dp</dimen>
-    <dimen name="color_palette_height">330dp</dimen>
+    <dimen name="dimen32">32dp</dimen>
+    <dimen name="dimen12">12dp</dimen>
+    <dimen name="dimen8">8dp</dimen>
 </resources>

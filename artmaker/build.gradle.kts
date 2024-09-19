@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.spotless)
     alias(libs.plugins.vanniktech)
+    alias(libs.plugins.serialization)
 }
 
 apply(from = "${rootDir}/scripts/publish.gradle.kts")
@@ -107,6 +108,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":customcolorpalette"))
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.runtime.compose)
     implementation (libs.material.icons)
@@ -116,6 +118,7 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.7.0-beta06") {
         because("We need to use graphics layer to export composable as image.")
     }
+    implementation(libs.kotlinx.serialization.json)
     implementation (libs.accompanist.permissions)
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.graphics)

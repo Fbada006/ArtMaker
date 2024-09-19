@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -37,9 +38,11 @@ import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,12 +56,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.core.os.BuildCompat
+import com.artmaker.customcolorpalette.CustomColorPalette
 import com.google.modernstorage.photopicker.PhotoPicker
 import io.artmaker.ArtMakerUIState
 import io.artmaker.actions.ArtMakerAction
@@ -74,7 +79,7 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
  * without any functionality.
  */
-@OptIn(BuildCompat.PrereleaseSdkCheck::class)
+@OptIn(BuildCompat.PrereleaseSdkCheck::class, ExperimentalMaterial3Api::class)
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(
@@ -104,6 +109,7 @@ internal fun ArtMakerControlMenu(
             setBackgroundImage(bitmap.asImageBitmap())
         }
     var showColorPicker by remember { mutableStateOf(false) }
+    var showColorPalette by remember { mutableStateOf(false) }
 
     Surface(
         shadowElevation = dimensionResource(id = R.dimen.Padding60),
@@ -227,8 +233,32 @@ internal fun ArtMakerControlMenu(
                         onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
                         showColorPicker = false
                     },
+                    onColorPaletteClick = {
+                        showColorPicker = false
+                        showColorPalette = true
+                    },
                     artMakerConfiguration = artMakerConfiguration,
                 )
+            }
+
+            if (showColorPalette) {
+                ModalBottomSheet(
+                    onDismissRequest = { showColorPalette = false },
+                ) {
+                    CustomColorPalette(
+                        modifier = Modifier
+                            .height(dimensionResource(R.dimen.color_palette_height))
+                            .padding(dimensionResource(R.dimen.Padding12)),
+                        onAccept = {
+                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
+                            showColorPalette = false
+                        },
+                        onCancel = {
+                            showColorPalette = false
+                            showColorPicker = true
+                        },
+                    )
+                }
             }
         }
     }
