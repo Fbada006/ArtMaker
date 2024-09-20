@@ -48,6 +48,7 @@ import io.artmaker.actions.ExportType
 import io.artmaker.composables.ArtMakerControlMenu
 import io.artmaker.composables.ArtMakerDrawScreen
 import io.artmaker.composables.StrokeSettings
+import io.artmaker.composables.StrokeState
 import io.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.R
 
@@ -144,7 +145,7 @@ fun ArtMaker(
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
-                    strokeWidth = state.strokeWidth,
+                    state = StrokeState(strokeColor = state.strokeColour, strokeWidth = state.strokeWidth),
                     onAction = viewModel::onAction,
                     configuration = artMakerConfiguration,
                     modifier = Modifier
