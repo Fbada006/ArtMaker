@@ -21,21 +21,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.dimensionResource
 import io.fbada006.artmaker.R
 import kotlin.math.sin
 
 @Composable
 internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
-    var wavyLineOffsets by remember { mutableStateOf(listOf<Offset>()) }
-
     Box(
         modifier = modifier
             .background(color = Color(248, 246, 240), shape = RoundedCornerShape(dimensionResource(R.dimen.Padding12))),
@@ -48,28 +43,30 @@ internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
             val canvasWidth = size.width
             val canvasHeight = size.height
 
-            wavyLineOffsets = wavyOffsets(canvasWidth, canvasHeight)
-
-            wavyLineOffsets.zipWithNext { current, next ->
-                drawLine(
-                    color = Color(state.strokeColor),
-                    start = current,
-                    end = next,
-                    strokeWidth = state.strokeWidth.toFloat(),
-                )
-            }
+            drawPath(
+                path = createWavePath(canvasWidth, canvasHeight),
+                color = Color(state.strokeColor),
+                style = Stroke(
+                    width = state.strokeWidth.toFloat(),
+                ),
+            )
         }
     }
 }
 
 internal data class StrokeState(val strokeColor: Int, val strokeWidth: Int)
 
-private fun wavyOffsets(canvasWidth: Float, canvasHeight: Float): List<Offset> {
+private fun createWavePath(canvasWidth: Float, canvasHeight: Float): Path {
+    val path = Path()
     val waveAmplitude = canvasHeight / 4
     val waveFrequency = 0.01f
 
-    return List(canvasWidth.toInt()) { x ->
+    path.moveTo(0f, canvasHeight / 2)
+
+    for (x in 0..canvasWidth.toInt()) {
         val y = sin(x * waveFrequency) * waveAmplitude + canvasHeight / 2
-        Offset(x.toFloat(), y)
+        path.lineTo(x.toFloat(), y)
     }
+
+    return path
 }
