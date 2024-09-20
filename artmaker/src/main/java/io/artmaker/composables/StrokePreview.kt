@@ -33,7 +33,10 @@ import kotlin.math.sin
 internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .background(color = Color(248, 246, 240), shape = RoundedCornerShape(dimensionResource(R.dimen.Padding12))),
+            .background(
+                color = Color(248, 246, 240),
+                shape = RoundedCornerShape(dimensionResource(R.dimen.Padding12)),
+            ),
     ) {
         Canvas(
             modifier = Modifier
