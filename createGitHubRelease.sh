@@ -65,3 +65,11 @@ esac
 # Calculate the next GitHub Release version...
 next_github_release_version=$(get_next_release_version "$current_github_release_version" "$github_release_type")
 echo "The next GitHub Release version will be: $next_github_release_version"
+
+# Get the GitHub Release Notes...
+echo "Enter the GitHub Release Notes (end the input using an empty line):"
+github_release_notes=""
+while IFS= read -r line; do
+    [[ -z "$line" ]] && break
+    release_notes+="$line"$'\n'
+done
