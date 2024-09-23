@@ -73,3 +73,14 @@ while IFS= read -r line; do
     [[ -z "$line" ]] && break
     release_notes+="$line"$'\n'
 done
+
+# Get the confirmation before creating the GitHub Release...
+echo "The following GitHub Release will be created:"
+echo "GitHub Release Version: $next_github_release_version"
+echo "GitHub Release Notes: $github_release_notes"
+read -rp "Proceed? (y/n): " confirmation
+
+if [[ $confirmation != "y" ]]; then
+    echo "GitHub Release Creation has been aborted..."
+    exit 0
+fi
