@@ -34,7 +34,30 @@ get_next_release_version() {
 
 }
 
-# Retrieve the current Release Version from scripts/publish.gradle.kts...
+# Retrieve the current GitHub Release Version from scripts/publish.gradle.kts...
 current_release_version=$(grep 'libVersion =' scripts/publish.gradle.kts | sed 's/[^0-9.]//g')
 
 echo "Current Release Version is: $current_release_version"
+
+# Get the Release Type as User Input...
+echo "Please select the type of Release:"
+echo "1) Major (Incompatible API Changes)"
+echo "2) Minor (Backward Compatible Functionality)"
+echo "3) Patch (Backward Compatible BUg Fixes)"
+read -rp "Please choose your Release (1/2/3): " release_type_choice
+
+case $release_type_choice in
+    1)
+        release_type="Major"
+        ;;
+    2)
+        release_type="Minor"
+        ;;
+    3)
+        release_type="Patch"
+        ;;
+    *)
+        echo "Invalid Choice"
+        exit 1
+        ;;
+esac
