@@ -33,3 +33,8 @@ get_next_release_version() {
   echo "${version_parts[0]}.${version_parts[1]}.${version_parts[2]}"
 
 }
+
+# Retrieve the current Release Version from scripts/publish.gradle.kts...
+current_release_version=$(grep 'libVersion =' scripts/publish.gradle.kts | sed 's/[^0-9.]//g')
+
+echo "Current Release Version is: $current_release_version"
