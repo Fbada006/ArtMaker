@@ -3,6 +3,14 @@
 # Please ensure that you grant the Execute permission when running it for the first time using the following command:
 # chmod +x ./createGitHubRelease.sh
 
+# Retrieve the GitHub Personal Access Token from local.properties...
+GITHUB_PERSONAL_ACCESS_TOKEN=$(grep "GITHUB_PERSONAL_ACCESS_TOKEN" local.properties | cut -d'=' -f2 | tr -d '[:space:]')
+
+if [[ -z "$GITHUB_PERSONAL_ACCESS_TOKEN" ]]; then
+    echo "Error: GITHUB_PERSONAL_ACCESS_TOKEN NOT FOUND. Please set it in the local.properties file..."
+    exit 1
+fi
+
 # Get the next release version based on the input...
 get_next_release_version() {
 
@@ -88,7 +96,7 @@ fi
 # Create the GitHub Release using the GitHub API...
 github_repository="Fbada006/ArtMaker"
 github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repository/releases" \
-                -H "Authorization: token $GITHUB_TOKEN" \
+                -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
                 -H "Content-Type: application/json" \
                 -d "{
                     \"tag_name\": \"v$next_github_release_version\",
