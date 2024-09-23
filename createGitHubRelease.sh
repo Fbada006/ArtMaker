@@ -84,3 +84,23 @@ if [[ $confirmation != "y" ]]; then
     echo "GitHub Release Creation has been aborted..."
     exit 0
 fi
+
+# Create the GitHub Release using the GitHub API...
+github_repository="Fbada006/ArtMaker"
+github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repository/releases" \
+                -H "Authorization: token $GITHUB_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d "{
+                    \"tag_name\": \"v$next_github_release_version\",
+                    \"target_commitish\": \"main\",
+                    \"name\": \"Release $next_github_release_version\",
+                    \"body\": \"$github_release_notes\",
+                    \"draft\": false,
+                    \"prerelease\": false
+                }")
+
+if [[ $(echo "$github_api_response" | grep '"id"') ]]; then
+  echo "GitHub Release has been created successfully!"
+else
+  echo "Failed to create the GitHub Release..."
+  echo "Response: $github_api_response"
