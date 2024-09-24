@@ -23,7 +23,6 @@ import io.artmaker.composables.LineStyle
 /**
  * PreferencesManager is used to handle the [ArtMakerSharedPreferences] functionalities and abstract them from [ArtMakerViewModel].
  */
-
 internal class PreferencesManager(private val preferences: ArtMakerSharedPreferences) {
 
     fun loadInitialUIState(): ArtMakerUIState = ArtMakerUIState(
