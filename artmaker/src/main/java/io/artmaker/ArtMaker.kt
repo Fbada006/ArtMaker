@@ -145,7 +145,7 @@ fun ArtMaker(
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
-                    state = StrokeState(strokeColor = state.strokeColour, strokeWidth = state.strokeWidth),
+                    state = StrokeState(strokeColor = state.strokeColour, strokeWidth = state.strokeWidth, lineStyle = state.lineStyle),
                     onAction = viewModel::onAction,
                     configuration = artMakerConfiguration,
                     modifier = Modifier

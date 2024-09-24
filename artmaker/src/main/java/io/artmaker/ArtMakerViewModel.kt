@@ -32,6 +32,7 @@ import androidx.lifecycle.viewModelScope
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.actions.ExportType
+import io.artmaker.composables.LineStyle
 import io.artmaker.data.ArtMakerSharedPreferences
 import io.artmaker.data.CustomColorsManager
 import io.artmaker.data.PreferencesManager
@@ -87,6 +88,7 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.UpdateSetPressureDetection -> updatePressureSetting(detectPressure = action.shouldDetectPressure)
             is ArtMakerAction.UpdateEnableStylusDialogShow -> updateEnableStylusDialog(canShow = action.canShowEnableStylusDialog)
             is ArtMakerAction.UpdateDisableStylusDialogShow -> updateDisableStylusDialog(canShow = action.canShowDisableStylusDialog)
+            is ArtMakerAction.SetLineStyle -> updateLineStyle(style = action.style)
         }
     }
 
@@ -156,6 +158,13 @@ internal class ArtMakerViewModel(
         preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
         _uiState.update {
             it.copy(shouldUseStylusOnly = preferencesManager.getStylusOnlySetting())
+        }
+    }
+
+    private fun updateLineStyle(style: LineStyle) {
+        preferencesManager.updateLineStyle(style = style)
+        _uiState.update {
+            it.copy(lineStyle = preferencesManager.getLineStyle())
         }
     }
 

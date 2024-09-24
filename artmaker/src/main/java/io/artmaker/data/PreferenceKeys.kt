@@ -23,4 +23,5 @@ object PreferenceKeys {
     const val PREF_SHOW_ENABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showEnableStylusDialog"
     const val PREF_SHOW_DISABLE_STYLUS_DIALOG = "com.artmaker.sharedpreferences.showDisableStylusDialog"
     const val PREF_CUSTOM_COLORS = "com.artmaker.sharedpreferences.customColors"
+    const val PREF_LINE_STYLE = "com.artmaker.sharedpreferences.lineStyle"
 }

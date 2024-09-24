@@ -31,11 +31,12 @@ private fun createSquareStamp(size: Float): Path = Path().apply {
     addRect(Rect(0f, 0f, size, size))
 }
 
-internal fun createPathEffect(style: LineStyle, size: Float): PathEffect {
+internal fun createPathEffect(style: LineStyle, size: Float): PathEffect? {
     val stamp = when (style) {
         LineStyle.ROUND_DOTTED -> createCircleStamp(size)
         LineStyle.SQUARE_DOTTED -> createSquareStamp(size)
-        else -> throw IllegalArgumentException("PathUtils.kt: Cannot create a path effect for line style $style")
+        LineStyle.DASHED -> return PathEffect.dashPathEffect(floatArrayOf(65f, 10f), 0f)
+        LineStyle.FILLED -> return null
     }
 
     return PathEffect.stampedPathEffect(
