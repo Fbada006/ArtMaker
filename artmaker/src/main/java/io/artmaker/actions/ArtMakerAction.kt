@@ -17,11 +17,12 @@ package io.artmaker.actions
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import io.artmaker.composables.LineStyle
 
 /**
  * Define all of the user's actions
  */
-sealed interface ArtMakerAction {
+internal sealed interface ArtMakerAction {
     data class TriggerArtExport(val type: ExportType) : ArtMakerAction
     data class ExportArt(val bitmap: ImageBitmap) : ArtMakerAction
     data object UpdateBackground : ArtMakerAction
@@ -31,9 +32,10 @@ sealed interface ArtMakerAction {
     data class UpdateSetPressureDetection(val shouldDetectPressure: Boolean) : ArtMakerAction
     class UpdateEnableStylusDialogShow(val canShowEnableStylusDialog: Boolean) : ArtMakerAction
     class UpdateDisableStylusDialogShow(val canShowDisableStylusDialog: Boolean) : ArtMakerAction
+    data class SetLineStyle(val style: LineStyle) : ArtMakerAction
 }
 
-sealed interface ExportType {
+internal sealed interface ExportType {
     data object ShareImage : ExportType
     data object FinishDrawingImage : ExportType
 }

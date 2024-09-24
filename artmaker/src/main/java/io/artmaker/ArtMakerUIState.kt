@@ -17,11 +17,12 @@ package io.artmaker
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import io.artmaker.composables.LineStyle
 
 /**
  * Determines the UI state
  */
-data class ArtMakerUIState(
+internal data class ArtMakerUIState(
     val backgroundColour: Int = Color.White.toArgb(),
     val strokeWidth: Int,
     val strokeColour: Int,
@@ -33,4 +34,5 @@ data class ArtMakerUIState(
     val shouldDetectPressure: Boolean = false,
     val canShowEnableStylusDialog: Boolean = true,
     val canShowDisableStylusDialog: Boolean = true,
+    val lineStyle: LineStyle,
 )
