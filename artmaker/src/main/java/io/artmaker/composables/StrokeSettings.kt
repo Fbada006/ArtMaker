@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.isStylusConnected
@@ -74,7 +73,7 @@ internal fun StrokeSettings(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(54.dp),
+                .height(dimensionResource(R.dimen.art_maker_line_style_selector_height)),
         )
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.Padding7)))
         HorizontalDivider()

@@ -248,7 +248,7 @@ internal fun ArtMakerControlMenu(
                 ) {
                     CustomColorPalette(
                         modifier = Modifier
-                            .height(dimensionResource(R.dimen.color_palette_height))
+                            .height(dimensionResource(R.dimen.art_maker_color_palette_height))
                             .padding(dimensionResource(R.dimen.Padding12)),
                         onAccept = {
                             onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))

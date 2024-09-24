@@ -32,8 +32,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import io.artmaker.utils.createPathEffect
+import io.fbada006.artmaker.R
 
 @Composable
 internal fun LineStyleSelector(selectedStyle: LineStyle, onStyleSelected: (LineStyle) -> Unit, modifier: Modifier = Modifier) {
@@ -42,10 +44,10 @@ internal fun LineStyleSelector(selectedStyle: LineStyle, onStyleSelected: (LineS
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier,
     ) {
-        Text("Line Style", style = MaterialTheme.typography.bodyLarge)
+        Text(stringResource(R.string.line_style), style = MaterialTheme.typography.bodyLarge)
 
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.art_maker_line_style_selector_spacing)),
         ) {
             LineStyleOption(
                 style = LineStyle.FILLED,
@@ -73,14 +75,14 @@ internal fun LineStyleSelector(selectedStyle: LineStyle, onStyleSelected: (LineS
 
 @Composable
 internal fun LineStyleOption(style: LineStyle, isSelected: Boolean, onClick: () -> Unit) {
-    val strokeWidth = 4f
+    val strokeWidth = 6f
     Card(
         modifier = Modifier
-            .size(width = 54.dp, height = 48.dp)
-            .padding(4.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = if (isSelected) 8.dp else 1.dp,
-        ),
+            .size(
+                width = dimensionResource(R.dimen.art_maker_line_style_option_width),
+                height = dimensionResource(R.dimen.art_maker_line_style_option_height)
+            )
+            .padding(dimensionResource(R.dimen.art_maker_line_style_option_padding)),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Unspecified,
         ),
@@ -90,7 +92,7 @@ internal fun LineStyleOption(style: LineStyle, isSelected: Boolean, onClick: () 
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-            Canvas(modifier = Modifier.size(40.dp)) {
+            Canvas(modifier = Modifier.size(dimensionResource(R.dimen.art_maker_line_style_option_canvas))) {
                 val pathEffect = when (style) {
                     LineStyle.FILLED -> null
                     LineStyle.DASHED -> PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
