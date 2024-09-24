@@ -17,6 +17,7 @@ package io.artmaker
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.ImageBitmap
+import io.artmaker.composables.LineStyle
 import io.artmaker.models.PointsData
 
 /**
@@ -31,4 +32,5 @@ internal data class DrawScreenState(
     val shouldDetectPressure: Boolean,
     val canShowEnableStylusDialog: Boolean,
     val canShowDisableStylusDialog: Boolean,
+    val lineStyle: LineStyle,
 )

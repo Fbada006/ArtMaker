@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -70,7 +71,9 @@ import io.artmaker.actions.ArtMakerAction
 import io.artmaker.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.models.alpha
+import io.artmaker.utils.createPathEffect
 import io.artmaker.utils.isStylusInput
+import io.artmaker.utils.toPath
 import io.artmaker.utils.validateEvent
 import io.fbada006.artmaker.R
 import kotlinx.coroutines.launch
@@ -213,14 +216,26 @@ internal fun ArtMakerDrawScreen(
                 }
 
                 state.pathList.forEach { data ->
-                    drawPoints(
-                        points = data.points,
-                        // Draw a point if the shape has only one item otherwise a free flowing shape
-                        pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon,
-                        color = data.strokeColor,
-                        alpha = data.alpha(state.shouldDetectPressure),
-                        strokeWidth = data.strokeWidth,
-                    )
+                    if (data.points.size == 1) {
+                        drawPoints(
+                            points = data.points,
+                            pointMode = PointMode.Points,
+                            color = data.strokeColor,
+                            alpha = data.alpha(state.shouldDetectPressure),
+                            strokeWidth = data.strokeWidth,
+                            cap = if (state.lineStyle == LineStyle.ROUND_DOTTED) StrokeCap.Round else StrokeCap.Square
+                        )
+                    } else {
+                        drawPath(
+                            path = data.points.toPath(),
+                            color = data.strokeColor,
+                            style = Stroke(
+                                width = data.strokeWidth,
+                                pathEffect = createPathEffect(style = state.lineStyle, size = data.strokeWidth),
+                            ),
+                            alpha = data.alpha(state.shouldDetectPressure),
+                        )
+                    }
                 }
                 if (isEraserActive) {
                     eraserPosition?.let { position ->
@@ -244,10 +259,12 @@ internal fun ArtMakerDrawScreen(
         val dialogInfo = when {
             state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(R.string.stylus_input_detected_title) to
                 stringResource(R.string.stylus_input_detected_message)
+
             state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(
                 R.string.non_stylus_input_detected_title,
             ) to
                 stringResource(R.string.non_stylus_input_detected_message)
+
             else -> return
         }
 

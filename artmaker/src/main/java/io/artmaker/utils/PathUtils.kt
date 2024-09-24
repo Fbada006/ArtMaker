@@ -17,6 +17,7 @@
 
 package io.artmaker.utils
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
@@ -45,4 +46,16 @@ internal fun createPathEffect(style: LineStyle, size: Float): PathEffect? {
         phase = 0f,
         style = StampedPathEffectStyle.Rotate,
     )
+}
+
+internal fun List<Offset>.toPath(): Path {
+    if (this.isEmpty()) return Path()
+    val offsets = this
+
+    return Path().apply {
+        moveTo(offsets.first().x, offsets.first().y)
+        for (i in 1 until offsets.size) {
+            lineTo(offsets[i].x, offsets[i].y)
+        }
+    }
 }
