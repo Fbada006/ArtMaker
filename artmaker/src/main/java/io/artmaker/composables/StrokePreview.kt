@@ -46,11 +46,19 @@ internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
             val canvasWidth = size.width
             val canvasHeight = size.height
 
+//            val e1 = PathEffect.stampedPathEffect(
+//                shape = createCircleStamp(state.strokeWidth.toFloat()),
+//                advance = (state.strokeWidth * 1.5).toFloat(),
+//                phase = 0f,
+//                style = StampedPathEffectStyle.Rotate,
+//            )
+
             drawPath(
                 path = createWavePath(canvasWidth, canvasHeight),
                 color = Color(state.strokeColor),
                 style = Stroke(
                     width = state.strokeWidth.toFloat(),
+                    pathEffect = null,
                 ),
             )
         }
