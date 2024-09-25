@@ -64,6 +64,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":shared"))
     implementation(project(":artmaker"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
