@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.org.jlleitschuh.gradle.ktlint)
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.serialization) apply false
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.multiplatform) apply false
 }
 subprojects {
     apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)

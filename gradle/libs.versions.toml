@@ -1,7 +1,7 @@
 [versions]
 accompanistPermissions = "0.32.0"
 agp = "8.5.1"
-kotlin = "2.0.0"
+kotlin = "2.0.20"
 jvmTarget = "17"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -24,6 +24,7 @@ uiTestManifest="1.7.1"
 junit4UiTest="1.7.1"
 composeMaterial3="1.3.0"
 composeBom = "2024.04.01"
+compose = "1.6.11"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -56,3 +57,5 @@ org-jlleitschuh-gradle-ktlint ={ id = "org.jlleitschuh.gradle.ktlint", version.r
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 vanniktech = {id = "com.vanniktech.maven.publish", version.ref = "vanniktechVersion"}
 serialization={id="org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
