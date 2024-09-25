@@ -223,7 +223,7 @@ internal fun ArtMakerDrawScreen(
                             color = data.strokeColor,
                             alpha = data.alpha(state.shouldDetectPressure),
                             strokeWidth = data.strokeWidth,
-                            cap = if (state.lineStyle == LineStyle.ROUND_DOTTED) StrokeCap.Round else StrokeCap.Square,
+                            cap = if (data.lineStyle == LineStyle.ROUND_DOTTED) StrokeCap.Round else StrokeCap.Square,
                         )
                     } else {
                         drawPath(
@@ -231,7 +231,7 @@ internal fun ArtMakerDrawScreen(
                             color = data.strokeColor,
                             style = Stroke(
                                 width = data.strokeWidth,
-                                pathEffect = createPathEffect(style = state.lineStyle, size = data.strokeWidth),
+                                pathEffect = createPathEffect(style = data.lineStyle, size = data.strokeWidth),
                             ),
                             alpha = data.alpha(state.shouldDetectPressure),
                         )

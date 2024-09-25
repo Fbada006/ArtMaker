@@ -139,7 +139,6 @@ fun ArtMaker(
                     shouldDetectPressure = state.shouldDetectPressure,
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
-                    lineStyle = state.lineStyle,
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat(),

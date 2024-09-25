@@ -80,7 +80,7 @@ internal fun LineStyleOption(style: LineStyle, isSelected: Boolean, onClick: () 
         modifier = Modifier
             .size(
                 width = dimensionResource(R.dimen.art_maker_line_style_option_width),
-                height = dimensionResource(R.dimen.art_maker_line_style_option_height)
+                height = dimensionResource(R.dimen.art_maker_line_style_option_height),
             )
             .padding(dimensionResource(R.dimen.art_maker_line_style_option_padding)),
         colors = CardDefaults.cardColors(
