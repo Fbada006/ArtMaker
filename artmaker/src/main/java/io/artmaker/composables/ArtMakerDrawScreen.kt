@@ -65,11 +65,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.math.MathUtils.clamp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import io.artmaker.DrawScreenState
-import io.artmaker.actions.ArtMakerAction
-import io.artmaker.actions.DrawEvent
+import com.fbada006.shared.DrawScreenState
+import com.fbada006.shared.actions.ArtMakerAction
+import com.fbada006.shared.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.models.alpha
+import com.fbada006.shared.models.alpha
 import io.artmaker.utils.isStylusInput
 import io.artmaker.utils.validateEvent
 import io.fbada006.artmaker.R
@@ -83,9 +83,9 @@ import kotlinx.coroutines.launch
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
     artMakerConfiguration: ArtMakerConfiguration,
-    onDrawEvent: (DrawEvent) -> Unit,
-    onAction: (ArtMakerAction) -> Unit,
-    state: DrawScreenState,
+    onDrawEvent: (com.fbada006.shared.actions.DrawEvent) -> Unit,
+    onAction: (com.fbada006.shared.actions.ArtMakerAction) -> Unit,
+    state: com.fbada006.shared.DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
 ) {
@@ -127,7 +127,7 @@ internal fun ArtMakerDrawScreen(
         if (state.shouldTriggerArtExport) {
             if (writeStorageAccessState.allPermissionsGranted) {
                 val bitmap = graphicsLayer.toImageBitmap()
-                onAction(ArtMakerAction.ExportArt(bitmap))
+                onAction(com.fbada006.shared.actions.ArtMakerAction.ExportArt(bitmap))
             } else if (writeStorageAccessState.shouldShowRationale) {
                 launch {
                     val result = snackbarHostState.showSnackbar(
@@ -177,9 +177,9 @@ internal fun ArtMakerDrawScreen(
                         }
 
                         if (isEraserActive) {
-                            onDrawEvent(DrawEvent.Erase(offset = offset))
+                            onDrawEvent(com.fbada006.shared.actions.DrawEvent.Erase(offset = offset))
                         } else {
-                            onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
+                            onDrawEvent(com.fbada006.shared.actions.DrawEvent.AddNewShape(offset, pressure))
                         }
                     }
 
@@ -188,14 +188,14 @@ internal fun ArtMakerDrawScreen(
                             Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
                         eraserPosition = clampedOffset
                         if (isEraserActive) {
-                            onDrawEvent(DrawEvent.Erase(offset = clampedOffset))
+                            onDrawEvent(com.fbada006.shared.actions.DrawEvent.Erase(offset = clampedOffset))
                         } else {
-                            onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset, pressure))
+                            onDrawEvent(com.fbada006.shared.actions.DrawEvent.UpdateCurrentShape(clampedOffset, pressure))
                         }
                     }
 
                     MotionEvent.ACTION_CANCEL -> {
-                        onDrawEvent(DrawEvent.UndoLastShapePoint)
+                        onDrawEvent(com.fbada006.shared.actions.DrawEvent.UndoLastShapePoint)
                         eraserPosition = null
                     }
                 }
@@ -262,8 +262,8 @@ internal fun ArtMakerDrawScreen(
                         onClick = {
                             shouldShowStylusDialog = false
                             when (type) {
-                                StylusDialogType.ENABLE_STYLUS_ONLY -> onAction(ArtMakerAction.UpdateEnableStylusDialogShow(false))
-                                StylusDialogType.DISABLE_STYLUS_ONLY -> onAction(ArtMakerAction.UpdateDisableStylusDialogShow(false))
+                                StylusDialogType.ENABLE_STYLUS_ONLY -> onAction(com.fbada006.shared.actions.ArtMakerAction.UpdateEnableStylusDialogShow(false))
+                                StylusDialogType.DISABLE_STYLUS_ONLY -> onAction(com.fbada006.shared.actions.ArtMakerAction.UpdateDisableStylusDialogShow(false))
                             }
                         },
                     ) {

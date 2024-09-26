@@ -33,7 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import io.artmaker.actions.ArtMakerAction
+import com.fbada006.shared.actions.ArtMakerAction
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.isStylusConnected
 import io.fbada006.artmaker.R
@@ -43,7 +43,7 @@ fun StrokeSettings(
     strokeWidth: Int,
     shouldUseStylusOnly: Boolean,
     shouldDetectPressure: Boolean,
-    onAction: (ArtMakerAction) -> Unit,
+    onAction: (com.fbada006.shared.actions.ArtMakerAction) -> Unit,
     configuration: ArtMakerConfiguration,
     modifier: Modifier = Modifier,
 ) {
@@ -56,7 +56,7 @@ fun StrokeSettings(
             sliderPosition = sliderPosition.toFloat(),
             onValueChange = {
                 sliderPosition = it.toInt()
-                onAction(ArtMakerAction.SetStrokeWidth(strokeWidth = sliderPosition))
+                onAction(com.fbada006.shared.actions.ArtMakerAction.SetStrokeWidth(strokeWidth = sliderPosition))
             },
             configuration = configuration,
             modifier = Modifier.fillMaxWidth(),
@@ -77,7 +77,7 @@ fun StrokeSettings(
                     checked = stylusOnly,
                     onCheckedChange = {
                         stylusOnly = !stylusOnly
-                        onAction(ArtMakerAction.UpdateSetStylusOnly(shouldUseStylusOnly = stylusOnly))
+                        onAction(com.fbada006.shared.actions.ArtMakerAction.UpdateSetStylusOnly(shouldUseStylusOnly = stylusOnly))
                     },
                 )
             }
@@ -95,7 +95,7 @@ fun StrokeSettings(
                     checked = detectPressure,
                     onCheckedChange = {
                         detectPressure = !detectPressure
-                        onAction(ArtMakerAction.UpdateSetPressureDetection(shouldDetectPressure = detectPressure))
+                        onAction(com.fbada006.shared.actions.ArtMakerAction.UpdateSetPressureDetection(shouldDetectPressure = detectPressure))
                     },
                 )
             }

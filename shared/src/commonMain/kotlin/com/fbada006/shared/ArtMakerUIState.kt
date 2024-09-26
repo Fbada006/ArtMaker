@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker
+package com.fbada006.shared
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.toArgb
  */
 data class ArtMakerUIState(
     val backgroundColour: Int = Color.White.toArgb(),
-    val strokeWidth: Int,
-    val strokeColour: Int,
+    val strokeWidth: Int = 5,
+    val strokeColour: Int = Color.Red.toArgb(),
     val canRedo: Boolean = false,
     val canUndo: Boolean = false,
     val canClear: Boolean = false,

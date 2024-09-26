@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.data
+package com.fbada006.shared.data
+
 
 object PreferenceKeys {
     const val PREF_SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"

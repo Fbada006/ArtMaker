@@ -52,9 +52,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import io.artmaker.data.CustomColorsManager
+import com.fbada006.shared.data.CustomColorsManager
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.utils.ColorUtils
+import com.fbada006.shared.utils.ColorUtils
 import io.fbada006.artmaker.R
 
 private const val NUM_COLUMNS = 5
@@ -73,7 +73,7 @@ internal fun ColorPicker(
 ) {
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
-    val customColorsManager = remember { CustomColorsManager(context) }
+    val customColorsManager = remember { com.fbada006.shared.data.CustomColorsManager(context) }
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -94,7 +94,7 @@ internal fun ColorPicker(
                     Column {
                         val customColors = customColorsManager.getColors()
                         val allColors = artMakerConfiguration.pickerCustomColors.ifEmpty {
-                            ColorUtils.COLOR_PICKER_DEFAULT_COLORS
+                            com.fbada006.shared.utils.ColorUtils.COLOR_PICKER_DEFAULT_COLORS
                         }
 
                         FlowRow(
@@ -138,7 +138,7 @@ internal fun ColorPicker(
                         modifier = Modifier
                             .size(size = dimensionResource(id = R.dimen.Padding48))
                             .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
-                            .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
+                            .background(brush = Brush.sweepGradient(colors = com.fbada006.shared.utils.ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
                             .align(Alignment.CenterVertically),
                     )
