@@ -103,20 +103,38 @@ if [[ $confirmation != "y" ]]; then
     exit 0
 fi
 
+# Get the current branch name (assumes you're running the script from the branch)
+branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if the branch is a release branch or the testing branch
+if [[ $branch_name != release/* && $branch_name != "emmanuelmuturia/task/create-github-release-pipeline" ]]; then
+  echo "Error: The current branch is neither a release branch (release/*) nor the testing branch (emmanuelmuturia/task/create-github-release-pipeline). Found: $branch_name"
+  exit 1
+fi
+
+# If on a release branch, extract the version from the branch name (e.g., release/1.2.5 -> 1.2.5)
+if [[ $branch_name == release/* ]]; then
+  release_version_from_branch=${branch_name#release/}
+  tag_name="v$release_version_from_branch"
+else
+  # If on the testing branch, assign a custom tag (or keep it as-is for testing)
+  tag_name="v$release_version_from_branch"
+fi
+
 # Create the GitHub Release using the Rest API...
 # Please note that the "draft" parameter should be set to "true" when testing this Bash Script...
 github_repository="Fbada006/ArtMaker"
 github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repository/releases" \
                 -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
                 -H "Content-Type: application/json" \
-                -d "{
-                    \"tag_name\": \"v$next_github_release_version\",
-                    \"target_commitish\": \"main\",
-                    \"name\": \"Release $next_github_release_version\",
-                    \"body\": \"$refined_github_release_notes\",
+               -d "{
+                    \"tag_name\": \"$tag_name\",
+                    \"target_commitish\": \"$branch_name\",
+                    \"name\": \"Release $tag_name\",
+                    \"body\": \"$escaped_github_release_notes\",
                     \"draft\": true,
                     \"prerelease\": false
-                    }")
+                }")
 
 if [[ $(echo "$github_api_response" | grep '"id"') ]]; then
   echo "GitHub Release has been created successfully!"
