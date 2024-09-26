@@ -1,17 +1,23 @@
 #!/bin/bash
 
 # Please ensure that you grant the Execute permission when running it for the first time using the following command:
-# chmod +x ./createGitHubRelease.sh
+# chmod +x createGitHubRelease.sh
+
+# Afterwards, you can run the Bash Script using the following command:
+
+# ./createGitHubRelease.sh
 
 # Retrieve the GitHub Personal Access Token from local.properties...
+# Please make sure you use a Personal Access GitHub Token. For more information, please visit: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 GITHUB_PERSONAL_ACCESS_TOKEN=$(grep "GITHUB_PERSONAL_ACCESS_TOKEN" local.properties | cut -d'=' -f2 | tr -d '[:space:]')
 
+# Terminate the Bash Script's execution if the GitHub Token cannot be found...
 if [[ -z "$GITHUB_PERSONAL_ACCESS_TOKEN" ]]; then
     echo "Error: GITHUB_PERSONAL_ACCESS_TOKEN NOT FOUND. Please set it in the local.properties file..."
     exit 1
 fi
 
-# Get the next release version based on the input...
+# Get the next Release Version based on the input...
 get_next_release_version() {
 
   local current_github_release_version=$1
@@ -33,7 +39,7 @@ get_next_release_version() {
             github_release_version_parts[2]=$((github_release_version_parts[2] + 1))
             ;;
           *)
-            echo "Invalid release type"
+            echo "Invalid Release Type"
             exit 1
             ;;
   esac
@@ -75,11 +81,11 @@ next_github_release_version=$(get_next_release_version "$current_github_release_
 echo "The next GitHub Release version will be: $next_github_release_version"
 
 # Get the GitHub Release Notes...
-echo "Enter the GitHub Release Notes (end the input using an empty line):"
+echo "Enter the GitHub Release Notes (end the input using an empty line by pressing ENTER twice):"
 github_release_notes=""
 while IFS= read -r line; do
     [[ -z "$line" ]] && break
-    release_notes+="$line"$'\n'
+    github_release_notes+="$line"$'\n'
 done
 
 # Get the confirmation before creating the GitHub Release...
@@ -88,12 +94,14 @@ echo "GitHub Release Version: $next_github_release_version"
 echo "GitHub Release Notes: $github_release_notes"
 read -rp "Proceed? (y/n): " confirmation
 
+# Terminate the Bash Script's execution if either "n" or an invalid response has been input...
 if [[ $confirmation != "y" ]]; then
     echo "GitHub Release Creation has been aborted..."
     exit 0
 fi
 
-# Create the GitHub Release using the GitHub API...
+# Create the GitHub Release using the Rest API...
+# Please note that the "draft" parameter should be set to "true" when testing this Bash Script...
 github_repository="Fbada006/ArtMaker"
 github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repository/releases" \
                 -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
@@ -103,7 +111,7 @@ github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repo
                     \"target_commitish\": \"main\",
                     \"name\": \"Release $next_github_release_version\",
                     \"body\": \"$github_release_notes\",
-                    \"draft\": true,
+                    \"draft\": false,
                     \"prerelease\": false
                 }")
 
