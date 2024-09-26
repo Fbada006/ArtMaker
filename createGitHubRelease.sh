@@ -88,6 +88,9 @@ while IFS= read -r line; do
     github_release_notes+="$line"$'\n'
 done
 
+# Escape the double quotes in the release notes for JSON Compatibility...
+refined_github_release_notes=$(echo "$github_release_notes" | sed 's/"/\\"/g')
+
 # Get the confirmation before creating the GitHub Release...
 echo "The following GitHub Release will be created:"
 echo "GitHub Release Version: $next_github_release_version"
@@ -106,14 +109,14 @@ github_repository="Fbada006/ArtMaker"
 github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repository/releases" \
                 -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" \
                 -H "Content-Type: application/json" \
-               -d "{
+                -d "{
                     \"tag_name\": \"v$next_github_release_version\",
                     \"target_commitish\": \"main\",
                     \"name\": \"Release $next_github_release_version\",
-                    \"body\": \"$github_release_notes\",
-                    \"draft\": false,
+                    \"body\": \"$refined_github_release_notes\",
+                    \"draft\": true,
                     \"prerelease\": false
-                }")
+                    }")
 
 if [[ $(echo "$github_api_response" | grep '"id"') ]]; then
   echo "GitHub Release has been created successfully!"
