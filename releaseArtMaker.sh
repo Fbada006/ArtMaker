@@ -91,6 +91,14 @@ done
 # Escape the double quotes in the Release Notes for JSON Compatibility...
 refined_github_release_notes=$(echo "$github_release_notes" | sed 's/"/\\"/g')
 
+# Create the Changelog Link...
+previous_github_release_version="v$current_github_release_version"
+new_github_release_version="v$next_github_release_version"
+changelog_link="**Full Changelog**: https://github.com/Fbada006/ArtMaker/compare/$previous_github_release_version...$new_github_release_version"
+
+# Add the Release Notes...
+full_github_release_notes="**New Feature**\n$refined_github_release_notes\n$changelog_link"
+
 # Get the confirmation before creating the GitHub Release...
 echo "The following GitHub Release will be created:"
 echo "GitHub Release Version: $next_github_release_version"
@@ -111,8 +119,8 @@ github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repo
                 -d "{
                     \"tag_name\": \"v$next_github_release_version\",
                     \"target_commitish\": \"main\",
-                    \"name\": \"Release $next_github_release_version\",
-                    \"body\": \"$refined_github_release_notes\",
+                    \"name\": \"🎉 Release $next_github_release_version\",
+                    \"body\": \"$full_github_release_notes\",
                     \"draft\": false,
                     \"prerelease\": false
                     }")
