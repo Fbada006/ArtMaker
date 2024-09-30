@@ -38,3 +38,18 @@ subprojects {
         }
     }
 }
+
+tasks.register<Exec>(name = "releaseArtMaker") {
+
+    val releaseScript = file(path = "releaseArtMaker.sh")
+
+    doFirst {
+        println(message = "Setting the Execute permissions on the GitHub Release script...")
+        releaseScript.setExecutable(true)
+    }
+
+    commandLine("bash", "./releaseArtMaker.sh")
+
+    workingDir = projectDir
+
+}
