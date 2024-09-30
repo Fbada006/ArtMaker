@@ -97,7 +97,7 @@ new_github_release_version="v$next_github_release_version"
 changelog_link="**Full Changelog**: https://github.com/Fbada006/ArtMaker/compare/$previous_github_release_version...$new_github_release_version"
 
 # Add the Release Notes...
-full_github_release_notes="**New Feature**\n$refined_github_release_notes\n$changelog_link"
+full_github_release_notes="**New Feature**\n$refined_github_release_notes\n\n\n$changelog_link"
 
 # Get the confirmation before creating the GitHub Release...
 echo "The following GitHub Release will be created:"
