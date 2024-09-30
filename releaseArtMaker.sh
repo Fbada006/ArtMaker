@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Please ensure that you grant the Execute permission when running it for the first time using the following command:
-# chmod +x releaseArtMaker.sh
-
-# Afterwards, you can run the Bash Script using the following command:
-
-# ./releaseArtMaker.sh
-
 # Retrieve the GitHub Personal Access Token from local.properties...
 # Please make sure you use a Personal Access GitHub Token. For more information, please visit: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 GITHUB_PERSONAL_ACCESS_TOKEN=$(grep "GITHUB_PERSONAL_ACCESS_TOKEN" local.properties | cut -d'=' -f2 | tr -d '[:space:]')

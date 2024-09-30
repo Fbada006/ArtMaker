@@ -44,12 +44,11 @@ tasks.register<Exec>(name = "releaseArtMaker") {
     val releaseScript = file(path = "releaseArtMaker.sh")
 
     doFirst {
+        // Grant the Execute Permission before executing the Bash Script...
         println(message = "Setting the Execute permissions on the GitHub Release script...")
         releaseScript.setExecutable(true)
     }
 
+    // Execute the Bash Script...
     commandLine("bash", "./releaseArtMaker.sh")
-
-    workingDir = projectDir
-
 }
