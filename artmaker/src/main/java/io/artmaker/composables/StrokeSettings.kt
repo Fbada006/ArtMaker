@@ -18,9 +18,9 @@ package io.artmaker.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -53,15 +53,30 @@ internal fun StrokeSettings(
     var sliderPosition by remember { mutableIntStateOf(state.strokeWidth) }
     var stylusOnly by remember { mutableStateOf(shouldUseStylusOnly) }
     var detectPressure by remember { mutableStateOf(shouldDetectPressure) }
+    var lineStyle by remember { mutableStateOf(state.lineStyle) }
 
     Column(modifier = modifier) {
         StrokePreview(
             state = state,
             modifier = Modifier
                 .height(dimensionResource(R.dimen.Padding60))
-                .fillMaxWidth()
-                .padding(bottom = dimensionResource(R.dimen.Padding7)),
+                .fillMaxWidth(),
         )
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.Padding7)))
+        HorizontalDivider()
+
+        LineStyleSelector(
+            lineStyle,
+            onStyleSelected = {
+                lineStyle = it
+                onAction(ArtMakerAction.SetLineStyle(style = lineStyle))
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(R.dimen.art_maker_line_style_selector_height)),
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.Padding7)))
+        HorizontalDivider()
 
         Slider(
             sliderPosition = sliderPosition.toFloat(),

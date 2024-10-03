@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.dimensionResource
+import io.artmaker.utils.createPathEffect
 import io.fbada006.artmaker.R
 import kotlin.math.sin
 
@@ -51,13 +52,14 @@ internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
                 color = Color(state.strokeColor),
                 style = Stroke(
                     width = state.strokeWidth.toFloat(),
+                    pathEffect = createPathEffect(style = state.lineStyle, size = state.strokeWidth.toFloat()),
                 ),
             )
         }
     }
 }
 
-internal data class StrokeState(val strokeColor: Int, val strokeWidth: Int)
+internal data class StrokeState(val strokeColor: Int, val strokeWidth: Int, val lineStyle: LineStyle)
 
 private fun createWavePath(canvasWidth: Float, canvasHeight: Float): Path {
     val path = Path()

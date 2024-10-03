@@ -22,6 +22,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.artmaker.actions.DrawEvent
 import io.artmaker.actions.UndoRedoEventType
+import io.artmaker.composables.LineStyle
 import io.artmaker.models.PointsData
 import io.artmaker.utils.erasePointData
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,9 +46,9 @@ internal class DrawingManager {
 
     private var strokeWidth by Delegates.notNull<Int>()
 
-    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
+    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int, lineStyle: LineStyle) {
         when (event) {
-            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure)
+            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure, lineStyle)
             DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
             is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset, event.pressure)
             DrawEvent.Clear -> clear()
@@ -57,13 +58,14 @@ internal class DrawingManager {
         }
     }
 
-    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure: Float) {
+    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure: Float, lineStyle: LineStyle) {
         this.strokeWidth = strokeWidth
         val data = PointsData(
             points = mutableStateListOf(offset),
             strokeColor = Color(strokeColor),
             strokeWidth = strokeWidth.toFloat(),
             alphas = mutableStateListOf(pressure),
+            lineStyle = lineStyle,
         )
         undoStack.push(UndoRedoEventType.BeforeErase(data))
         _pathList.add(data)

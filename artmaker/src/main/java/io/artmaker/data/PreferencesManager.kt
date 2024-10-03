@@ -18,38 +18,21 @@ package io.artmaker.data
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import io.artmaker.ArtMakerUIState
+import io.artmaker.composables.LineStyle
 
 /**
  * PreferencesManager is used to handle the [ArtMakerSharedPreferences] functionalities and abstract them from [ArtMakerViewModel].
  */
-
 internal class PreferencesManager(private val preferences: ArtMakerSharedPreferences) {
 
     fun loadInitialUIState(): ArtMakerUIState = ArtMakerUIState(
-        strokeColour = preferences.get(
-            key = PreferenceKeys.PREF_SELECTED_STROKE_COLOUR,
-            defaultValue = Color.Red.toArgb(),
-        ),
-        strokeWidth = preferences.get(
-            key = PreferenceKeys.PREF_SELECTED_STROKE_WIDTH,
-            defaultValue = 5,
-        ),
-        shouldUseStylusOnly = preferences.get(
-            key = PreferenceKeys.PREF_USE_STYLUS_ONLY,
-            defaultValue = false,
-        ),
-        shouldDetectPressure = preferences.get(
-            key = PreferenceKeys.PREF_DETECT_PRESSURE,
-            defaultValue = false,
-        ),
-        canShowEnableStylusDialog = preferences.get(
-            key = PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG,
-            defaultValue = true,
-        ),
-        canShowDisableStylusDialog = preferences.get(
-            key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG,
-            defaultValue = true,
-        ),
+        strokeColour = getStrokeColor(),
+        strokeWidth = getStrokeWidth(),
+        shouldUseStylusOnly = getStylusOnlySetting(),
+        shouldDetectPressure = getPressureDetectionSetting(),
+        canShowEnableStylusDialog = getEnableStylusDialog(),
+        canShowDisableStylusDialog = getDisableStylusDialog(),
+        lineStyle = getLineStyle(),
     )
 
     fun updateStrokeColor(strokeColour: Int) {
@@ -74,6 +57,19 @@ internal class PreferencesManager(private val preferences: ArtMakerSharedPrefere
 
     fun updateDisableStylusDialog(canShow: Boolean) {
         preferences.set(key = PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG, value = canShow)
+    }
+
+    fun updateLineStyle(style: LineStyle) {
+        preferences.set(key = PreferenceKeys.PREF_LINE_STYLE, value = style.toString())
+    }
+
+    fun getLineStyle(): LineStyle {
+        val style = preferences.get(
+            key = PreferenceKeys.PREF_LINE_STYLE,
+            defaultValue = LineStyle.FILLED.toString(),
+        )
+
+        return LineStyle.valueOf(style)
     }
 
     fun getStrokeColor(): Int = preferences.get(

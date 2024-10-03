@@ -26,5 +26,13 @@
     <dimen name="Padding32">32dp</dimen>
     <dimen name="Padding48">48dp</dimen>
     <dimen name="Padding60">60dp</dimen>
-    <dimen name="color_palette_height">330dp</dimen>
+    <dimen name="art_maker_color_palette_height">330dp</dimen>
+
+    <!--Line style UI-->
+    <dimen name="art_maker_line_style_selector_height">54dp</dimen>
+    <dimen name="art_maker_line_style_option_width">54dp</dimen>
+    <dimen name="art_maker_line_style_option_height">48dp</dimen>
+    <dimen name="art_maker_line_style_selector_spacing">8dp</dimen>
+    <dimen name="art_maker_line_style_option_padding">4dp</dimen>
+    <dimen name="art_maker_line_style_option_canvas">40dp</dimen>
 </resources>
