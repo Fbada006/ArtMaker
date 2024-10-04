@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker
+package com.fbada006.shared
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.ImageBitmap
-import io.artmaker.models.PointsData
+import com.fbada006.shared.models.PointsData
 
 /**
  * Provides state from the [io.artmaker.composables.ArtMakerDrawScreen] screen

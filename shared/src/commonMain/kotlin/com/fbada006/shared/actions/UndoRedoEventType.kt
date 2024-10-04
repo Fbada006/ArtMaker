@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.actions
+package com.fbada006.shared.actions
 
-import io.artmaker.models.PointsData
+import com.fbada006.shared.models.PointsData
 
 /**
  * Represents drawing type during the undo, redo phase before or after pressing the eraser button

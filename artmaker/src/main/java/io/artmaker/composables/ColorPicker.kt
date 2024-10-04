@@ -52,7 +52,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import io.artmaker.data.CustomColorsManager
+import com.fbada006.shared.data.CustomColorsManager
 import io.artmaker.models.ArtMakerConfiguration
 import io.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.R
@@ -73,7 +73,7 @@ internal fun ColorPicker(
 ) {
     val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
-    val customColorsManager = remember { CustomColorsManager(context) }
+    val customColorsManager = remember { com.fbada006.shared.data.CustomColorsManager(context) }
 
     ModalBottomSheet(
         sheetState = sheetState,
