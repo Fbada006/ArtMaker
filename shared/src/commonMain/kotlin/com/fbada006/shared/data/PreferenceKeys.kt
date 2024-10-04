@@ -15,7 +15,6 @@
  */
 package com.fbada006.shared.data
 
-
 object PreferenceKeys {
     const val PREF_SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
     const val PREF_SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"

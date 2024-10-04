@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.map
 /**
  * PreferencesManager is used to handle the [ArtMakerSharedPreferences] functionalities and abstract them from [ArtMakerViewModel].
  */
-
 internal class PreferencesManager(private val preferences: DataStore<Preferences>) {
 
 //    fun loadInitialUIState(): ArtMakerUIState = ArtMakerUIState(
