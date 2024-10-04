@@ -65,11 +65,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.core.os.BuildCompat
 import com.artmaker.customcolorpalette.CustomColorPalette
 import com.google.modernstorage.photopicker.PhotoPicker
-import io.artmaker.ArtMakerUIState
-import io.artmaker.actions.ArtMakerAction
-import io.artmaker.actions.DrawEvent
+import com.fbada006.shared.ArtMakerUIState
+import com.fbada006.shared.actions.ArtMakerAction
+import com.fbada006.shared.actions.DrawEvent
 import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.utils.ColorUtils
+import com.fbada006.shared.utils.ColorUtils
 import io.fbada006.artmaker.R
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
@@ -83,9 +83,9 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(
-    state: ArtMakerUIState,
-    onAction: (ArtMakerAction) -> Unit,
-    onDrawEvent: (DrawEvent) -> Unit,
+    state: com.fbada006.shared.ArtMakerUIState,
+    onAction: (com.fbada006.shared.actions.ArtMakerAction) -> Unit,
+    onDrawEvent: (com.fbada006.shared.actions.DrawEvent) -> Unit,
     modifier: Modifier = Modifier,
     onShowStrokeWidthPopup: () -> Unit,
     setBackgroundImage: (ImageBitmap?) -> Unit,
@@ -127,7 +127,7 @@ internal fun ArtMakerControlMenu(
                     modifier = Modifier
                         .border(
                             width = dimensionResource(id = R.dimen.Padding2),
-                            brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
+                            brush = Brush.sweepGradient(colors = com.fbada006.shared.utils.ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
                             shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding32)),
                         )
                         .padding(all = dimensionResource(id = R.dimen.Padding2)),
@@ -155,21 +155,21 @@ internal fun ArtMakerControlMenu(
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
                     onItemClicked = {
-                        onDrawEvent(DrawEvent.Undo)
+                        onDrawEvent(com.fbada006.shared.actions.DrawEvent.Undo)
                     },
                     enabled = state.canUndo,
                 )
                 MenuItem(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
                     onItemClicked = {
-                        onDrawEvent(DrawEvent.Redo)
+                        onDrawEvent(com.fbada006.shared.actions.DrawEvent.Redo)
                     },
                     enabled = state.canRedo,
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Refresh,
                     onItemClicked = {
-                        onDrawEvent(DrawEvent.Clear)
+                        onDrawEvent(com.fbada006.shared.actions.DrawEvent.Clear)
                     },
                     enabled = state.canClear,
                 )
@@ -231,7 +231,7 @@ internal fun ArtMakerControlMenu(
                     onDismissRequest = { showColorPicker = false },
                     defaultColor = state.strokeColour,
                     onClick = { colorArgb ->
-                        onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
+                        onAction(com.fbada006.shared.actions.ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
                         showColorPicker = false
                     },
                     onColorPaletteClick = {
@@ -251,7 +251,7 @@ internal fun ArtMakerControlMenu(
                             .height(dimensionResource(R.dimen.color_palette_height))
                             .padding(dimensionResource(R.dimen.Padding12)),
                         onAccept = {
-                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
+                            onAction(com.fbada006.shared.actions.ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
                             showColorPalette = false
                         },
                         onCancel = {

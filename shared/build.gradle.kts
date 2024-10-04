@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
 }
 //https://youtrack.jetbrains.com/issue/KT-66448/Multiplatform-wizards.-Get-rid-of-deprecated-kotlinOptions
 kotlin {
@@ -49,6 +50,11 @@ kotlin {
                 implementation(ui)
                 implementation(runtime)
                 implementation(foundation)
+            }
+            with(libs){
+                implementation(lifecycle.viewmodel)
+                implementation(kotlinx.serialization.json)
+                implementation(androidx.datastore.preferences.core)
             }
         }
         commonTest.dependencies {

@@ -43,8 +43,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.core.os.BuildCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.artmaker.actions.ArtMakerAction
-import io.artmaker.actions.ExportType
+import com.fbada006.shared.actions.ArtMakerAction
+import com.fbada006.shared.actions.ExportType
 import io.artmaker.composables.ArtMakerControlMenu
 import io.artmaker.composables.ArtMakerDrawScreen
 import io.artmaker.composables.StrokeSettings
@@ -67,8 +67,8 @@ fun ArtMaker(
     artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
 ) {
     val context = LocalContext.current
-    val viewModel: ArtMakerViewModel = viewModel(
-        factory = ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
+    val viewModel: com.fbada006.shared.ArtMakerViewModel = viewModel(
+        factory = com.fbada006.shared.ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
     )
     var showStrokeSettings by remember { mutableStateOf(value = false) }
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -97,13 +97,13 @@ fun ArtMaker(
                 Column {
                     // Trigger sharing the image. It has to save the image first
                     if (artMakerConfiguration.canShareArt) {
-                        FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
+                        FloatingActionButton(onClick = { viewModel.onAction(com.fbada006.shared.actions.ArtMakerAction.TriggerArtExport(com.fbada006.shared.actions.ExportType.ShareImage)) }) {
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
                     // Finish the drawing and hand it back to the calling application as a bitmap
-                    FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
+                    FloatingActionButton(onClick = { viewModel.onAction(com.fbada006.shared.actions.ArtMakerAction.TriggerArtExport(com.fbada006.shared.actions.ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
@@ -129,7 +129,7 @@ fun ArtMaker(
                     viewModel.onDrawEvent(it)
                 },
                 onAction = viewModel::onAction,
-                state = DrawScreenState(
+                state = com.fbada006.shared.DrawScreenState(
                     pathList = viewModel.pathList,
                     shouldTriggerArtExport = shouldTriggerArtExport,
                     backgroundImage = viewModel.backgroundImage.value,
