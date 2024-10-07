@@ -124,7 +124,7 @@ github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repo
                     \"target_commitish\": \"$RELEASE_BRANCH_NAME\",
                     \"name\": \"🎉 Release $next_github_release_version\",
                     \"body\": \"$full_github_release_notes\",
-                    \"draft\": false,
+                    \"draft\": true,
                     \"prerelease\": false
                     }")
 
