@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Check if branch starts with "release"
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+if [[ ! $BRANCH_NAME =~ ^release ]]; then
+    echo "Error: This is not a release branch. A release branch has to start with the word \"release\" Exiting."
+    exit 1
+fi
+
+# Store branch name
+RELEASE_BRANCH_NAME=$BRANCH_NAME
+
 # Retrieve the GitHub Personal Access Token from local.properties...
 # Please make sure you use a Personal Access GitHub Token. For more information, please visit: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 GITHUB_PERSONAL_ACCESS_TOKEN=$(grep "GITHUB_PERSONAL_ACCESS_TOKEN" local.properties | cut -d'=' -f2 | tr -d '[:space:]')
