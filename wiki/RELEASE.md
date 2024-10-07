@@ -25,6 +25,6 @@ The steps are straightforward when doing a release as outline below:
 8. Select your release type from the choices provided using the number that corresponds to it.
 9. Write your release notes as you would (you can use the hyphens as was done in the previous release notes) and press ENTER once to move to the next line. Press ENTER twice to complete your input.
 10. Confirm your release notes by inputting "y" as prompted and you should get a confirmation message on the same after your release has been created.
-11. Go to the [Releases](https://github.com/Fbada006/ArtMaker/releases), navigate into your release, and ensure the `Set as the latest release` checkbox at the bottom of the page is selected.
+11. Go to the [releases](https://github.com/Fbada006/ArtMaker/releases), navigate into your release, and ensure the `Set as the latest release` checkbox at the bottom of the page is selected.
 12. Publish the release and wait for the `publish` pipeline to run and upload the artefacts to maven. In case of a failure here, start again from number 2 above and repeat.
 13. Open a PR from the release branch to the main branch, get a review, ensure all checks have passed, and merge.
