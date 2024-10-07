@@ -121,7 +121,7 @@ github_api_response=$(curl -s -X POST "https://api.github.com/repos/$github_repo
                 -H "Content-Type: application/json" \
                 -d "{
                     \"tag_name\": \"v$next_github_release_version\",
-                    \"target_commitish\": \"main\",
+                    \"target_commitish\": \"$RELEASE_BRANCH_NAME\",
                     \"name\": \"🎉 Release $next_github_release_version\",
                     \"body\": \"$full_github_release_notes\",
                     \"draft\": false,
