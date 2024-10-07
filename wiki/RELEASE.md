@@ -23,3 +23,15 @@ The steps are straightforward when doing a release as outline below:
 6. Ensure the `Set as the latest release` checkbox at the bottom of the page is selected.
 7. Publish the release and wait for the `publish` pipeline to run and upload the artefacts to maven. In case of a failure here, start again from number 2 above and repeat.
 8. Open a PR from the release branch to the main branch, get a review, ensure all checks have passed, and merge. 
+
+# Triggering The GitHub Release Pipeline
+
+The following are the steps required to successfully trigger the GitHub Release Pipeline:
+
+1. Ensure that you are on the Release Branch as the Bash Script will fail to execute otherwise.
+2. Grant the Execute permission using the following command: `chmod +x releaseArtMaker.sh`
+3. Ensure you have your GitHub Token stored in the **local.properties** file and named **GITHUB_TOKEN**. Please use the [Classic Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#personal-access-tokens-classic) as the [Fine Grained Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) need a bit of configuration.
+4. Run the executable Bash Script using the following command: `./releaseArtMaker.sh`
+5. Select your Release Type from the choices provided using the number that corresponds to the Release Type.
+6. Write your Release Notes as you would (you can use the hyphens as was done in the previous Release Notes) and press ENTER once to move to the next line. Press ENTER twice to complete your input.
+7. Confirm your Release Notes by inputting "y" as prompted and you should get a confirmation message on the same after your GitHub Release has been created.
