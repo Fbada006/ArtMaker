@@ -28,7 +28,7 @@ The steps are straightforward when doing a release as outline below:
 
 The following are the steps required to successfully trigger the GitHub Release Pipeline:
 
-1. Ensure that you are on the Release Branch as the Bash Script will fail to execute otherwise.
+1. Ensure that you are on the Release Branch (locally) as the Bash Script will fail to execute otherwise. Also, make sure that the Release Branch exists remotely on GitHub.
 2. Grant the Execute permission using the following command: `chmod +x releaseArtMaker.sh`
 3. Ensure you have your GitHub Token stored in the **local.properties** file and named **GITHUB_TOKEN**. Please use the [Classic Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#personal-access-tokens-classic) as the [Fine Grained Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) need a bit of configuration.
 4. Run the executable Bash Script using the following command: `./releaseArtMaker.sh`
