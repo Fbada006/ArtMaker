@@ -53,6 +53,7 @@ kotlin {
                 implementation(materialIconsExtended)
                 implementation(material3)
             }
+            implementation(compose.components.resources)
 //            with(libs){
                 implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
                 implementation(libs.kotlinx.serialization.json)
@@ -63,6 +64,12 @@ kotlin {
         commonTest.dependencies {
         }
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "io.fbada006.artmaker"
+    generateResClass = auto
 }
 
 android {

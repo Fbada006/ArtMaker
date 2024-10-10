@@ -53,13 +53,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.fbada006.shared.ArtMakerUIState
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
+import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.ic_redo
+import io.fbada006.artmaker.ic_undo
+import io.fbada006.artmaker.ink_eraser
+import io.fbada006.artmaker.ink_eraser_off
+import io.fbada006.artmaker.redo
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
 
@@ -68,7 +78,7 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
  * without any functionality.
  */
-@OptIn( ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 //@SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(
@@ -266,6 +276,7 @@ private fun RowScope.MenuItem(
     colorTint: Color = MaterialTheme.colorScheme.primary,
     enabled: Boolean = true,
 ) {
+    val alpha = if (enabled) 1f else 0.5f
     IconButton(
         onClick = onItemClicked,
         modifier = Modifier.weight(1f, true),
@@ -274,8 +285,8 @@ private fun RowScope.MenuItem(
         Icon(
             imageVector = imageVector,
             contentDescription = null,
-            tint = colorTint.copy(alpha = (if (enabled) 1f else 0.5f)),
-            modifier = modifier.size(size = 32.dp),
+            tint = colorTint.copy(alpha = alpha),
+            modifier = modifier.size(32.dp),
         )
     }
 }
