@@ -15,12 +15,13 @@
  */
 @file:JvmName("EraserHelper")
 
-package io.artmaker.utils
+package com.fbada006.shared.utils
 
-import android.graphics.PointF
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
+import com.fbada006.shared.models.PointF
 import com.fbada006.shared.models.PointsData
+import kotlin.jvm.JvmName
 import kotlin.math.pow
 
 private const val MIN_ERASE_RADIUS = 30F
@@ -32,10 +33,10 @@ private const val MAX_ERASE_RADIUS = 40F
  * @param eraseRadius  Eraser radius.
  * @param erasedPoints Array of eraser points. All lines intersecting circle with {@code eraserRadius} around these points will be erased.
  */
-internal fun erasePointData(pointsData: List<com.fbada006.shared.models.PointsData>, eraseRadius: Float, vararg erasedPoints: PointF): List<com.fbada006.shared.models.PointsData> {
+internal fun erasePointData(pointsData: List<PointsData>, eraseRadius: Float, vararg erasedPoints: PointF): List<PointsData> {
     val hitEraseRadius = eraseRadius.coerceIn(MIN_ERASE_RADIUS, MAX_ERASE_RADIUS)
     val hitRadiusSqr = hitEraseRadius.toDouble().pow(2.0).toFloat()
-    val newPointData = ArrayList<com.fbada006.shared.models.PointsData>(pointsData.size)
+    val newPointData = ArrayList<PointsData>(pointsData.size)
     val indexesToDelete = ArrayList<Int>()
 
     for (pd in pointsData) {
@@ -60,7 +61,7 @@ internal fun erasePointData(pointsData: List<com.fbada006.shared.models.PointsDa
                     val newPoints = SnapshotStateList<Offset>()
                     newPoints.addAll(pd.points.subList(startIdx, indexToDelete))
                     newPointData.add(
-                        com.fbada006.shared.models.PointsData(
+                        PointsData(
                             points = newPoints,
                             strokeWidth = pd.strokeWidth,
                             strokeColor = pd.strokeColor,
@@ -75,7 +76,7 @@ internal fun erasePointData(pointsData: List<com.fbada006.shared.models.PointsDa
                 val newPoints = SnapshotStateList<Offset>()
                 newPoints.addAll(pd.points.subList(startIdx, pd.points.size))
                 newPointData.add(
-                    com.fbada006.shared.models.PointsData(
+                    PointsData(
                         points = newPoints,
                         strokeWidth = pd.strokeWidth,
                         strokeColor = pd.strokeColor,
