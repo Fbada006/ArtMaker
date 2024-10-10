@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.composables
+package com.fbada006.shared.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,9 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import io.artmaker.models.ArtMakerConfiguration
-import io.fbada006.artmaker.R
+import com.fbada006.shared.models.ArtMakerConfiguration
 
 private const val MIN_WIDTH = 1f
 private const val MAX_WIDTH = 50f
@@ -42,7 +40,7 @@ internal fun Slider(sliderPosition: Float, onValueChange: (Float) -> Unit, confi
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = stringResource(id = R.string.set_width, sliderPosition.toInt()),
+            text = "Set width ${sliderPosition.toInt()}",
             style = MaterialTheme.typography.titleLarge,
             color = configuration.strokeSliderTextColor,
         )

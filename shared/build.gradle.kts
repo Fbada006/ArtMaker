@@ -50,12 +50,15 @@ kotlin {
                 implementation(ui)
                 implementation(runtime)
                 implementation(foundation)
+                implementation(materialIconsExtended)
+                implementation(material3)
             }
-            with(libs){
-                implementation(lifecycle.viewmodel)
-                implementation(kotlinx.serialization.json)
-                implementation(androidx.datastore.preferences.core)
-            }
+//            with(libs){
+                implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+                implementation(libs.kotlinx.serialization.json)
+                api(libs.androidx.datastore.preferences.core)
+                api(libs.androidx.datastore)
+//            }
         }
         commonTest.dependencies {
         }

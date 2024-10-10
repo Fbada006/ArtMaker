@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker
+package com.fbada006.shared
 
-import android.app.Application
-import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,23 +31,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
-import androidx.core.os.BuildCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fbada006.shared.actions.ArtMakerAction
-import com.fbada006.shared.actions.ExportType
-import io.artmaker.composables.ArtMakerControlMenu
-import io.artmaker.composables.ArtMakerDrawScreen
-import io.artmaker.composables.StrokeSettings
-import io.artmaker.models.ArtMakerConfiguration
-import io.fbada006.artmaker.R
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.fbada006.shared.data.CustomColorsManager
+import com.fbada006.shared.data.PreferencesManager
+import com.fbada006.shared.drawing.DrawingManager
+import com.fbada006.shared.models.ArtMakerConfiguration
 
 /**
  * [ArtMaker] has the draw screen as well as control menu (the bar offering customisation options). By default, it is a white screen that allows the user
@@ -59,26 +53,31 @@ import io.fbada006.artmaker.R
  * @param onFinishDrawing is the callback exposed once the user clicks done (the [FloatingActionButton] with the checkmark) to trigger finish drawing
  * @param artMakerConfiguration is the configuration to customise the appearance of the control menu and other values
  */
-@OptIn(BuildCompat.PrereleaseSdkCheck::class)
+//@OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
 fun ArtMaker(
     modifier: Modifier = Modifier,
-    onFinishDrawing: (Bitmap) -> Unit = {},
+//    onFinishDrawing: (Bitmap) -> Unit = {},
     artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
 ) {
-    val context = LocalContext.current
-    val viewModel: com.fbada006.shared.ArtMakerViewModel = viewModel(
-        factory = com.fbada006.shared.ArtMakerViewModel.provideFactory(application = context.applicationContext as Application),
-    )
+//    val context = LocalContext.current
+    val viewModel: ArtMakerViewModel = viewModel {
+        ArtMakerViewModel(
+            customColorsManager = CustomColorsManager(),
+            preferencesManager = PreferencesManager(),
+            drawingManager = DrawingManager(),
+        )
+    }
+
     var showStrokeSettings by remember { mutableStateOf(value = false) }
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsStateWithLifecycle()
-    val finishedImage by viewModel.finishedImage.collectAsStateWithLifecycle()
+    val state by viewModel.uiState.collectAsState()
+    val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsState()
+//    val finishedImage by viewModel.finishedImage.collectAsState()
     var isFullScreenEnabled by remember { mutableStateOf(false) }
     var isEraserActive by remember { mutableStateOf(value = false) }
-    LaunchedEffect(key1 = finishedImage) {
-        finishedImage?.let { onFinishDrawing(it) }
-    }
+//    LaunchedEffect(key1 = finishedImage) {
+//        finishedImage?.let { onFinishDrawing(it) }
+//    }
 
     LaunchedEffect(key1 = state.canErase) {
         if (!state.canErase) {
@@ -91,7 +90,7 @@ fun ArtMaker(
             AnimatedVisibility(
                 visible = viewModel.pathList.isNotEmpty() && !showStrokeSettings,
                 modifier = Modifier.padding(
-                    bottom = if (isFullScreenEnabled) dimensionResource(id = R.dimen.Padding0) else dimensionResource(id = R.dimen.Padding60),
+                    bottom = if (isFullScreenEnabled) 0.dp else 60.dp,
                 ),
             ) {
                 Column {
@@ -101,12 +100,12 @@ fun ArtMaker(
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
                     }
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
+                    Spacer(modifier = Modifier.height(4.dp))
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(com.fbada006.shared.actions.ArtMakerAction.TriggerArtExport(com.fbada006.shared.actions.ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.Padding4)))
+                    Spacer(modifier = Modifier.height(4.dp))
                     FloatingActionButton(onClick = { isFullScreenEnabled = !isFullScreenEnabled }) {
                         Icon(
                             imageVector = if (isFullScreenEnabled) Icons.Filled.Fullscreen else Icons.Filled.FullscreenExit,
@@ -119,7 +118,7 @@ fun ArtMaker(
         modifier = modifier,
     ) { values ->
         Column(modifier = Modifier.padding(values)) {
-            ArtMakerDrawScreen(
+            com.fbada006.shared.composables.ArtMakerDrawScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),
@@ -129,7 +128,7 @@ fun ArtMaker(
                     viewModel.onDrawEvent(it)
                 },
                 onAction = viewModel::onAction,
-                state = com.fbada006.shared.DrawScreenState(
+                state = DrawScreenState(
                     pathList = viewModel.pathList,
                     shouldTriggerArtExport = shouldTriggerArtExport,
                     backgroundImage = viewModel.backgroundImage.value,
@@ -143,26 +142,26 @@ fun ArtMaker(
                 eraserRadius = state.strokeWidth.toFloat(),
             )
             AnimatedVisibility(visible = showStrokeSettings) {
-                StrokeSettings(
+                com.fbada006.shared.composables.StrokeSettings(
                     strokeWidth = state.strokeWidth,
                     onAction = viewModel::onAction,
                     configuration = artMakerConfiguration,
                     modifier = Modifier
                         .padding(
-                            top = dimensionResource(id = R.dimen.Padding8),
-                            end = dimensionResource(id = R.dimen.Padding12),
-                            start = dimensionResource(id = R.dimen.Padding12),
+                            top = 8.dp,
+                            end = 12.dp,
+                            start = 12.dp,
                         ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                     shouldDetectPressure = state.shouldDetectPressure,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
-                ArtMakerControlMenu(
+                com.fbada006.shared.composables.ArtMakerControlMenu(
                     state = state,
                     onAction = viewModel::onAction,
                     onDrawEvent = viewModel::onDrawEvent,
-                    modifier = Modifier.height(dimensionResource(id = R.dimen.Padding60)),
+                    modifier = Modifier.height(60.dp),
                     onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,

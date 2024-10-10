@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.composables
+package com.fbada006.shared.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,19 +31,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import com.fbada006.shared.actions.ArtMakerAction
-import io.artmaker.models.ArtMakerConfiguration
-import io.artmaker.utils.isStylusConnected
-import io.fbada006.artmaker.R
+import com.fbada006.shared.models.ArtMakerConfiguration
 
 @Composable
 fun StrokeSettings(
     strokeWidth: Int,
     shouldUseStylusOnly: Boolean,
     shouldDetectPressure: Boolean,
-    onAction: (com.fbada006.shared.actions.ArtMakerAction) -> Unit,
+    onAction: (ArtMakerAction) -> Unit,
     configuration: ArtMakerConfiguration,
     modifier: Modifier = Modifier,
 ) {
@@ -56,49 +52,49 @@ fun StrokeSettings(
             sliderPosition = sliderPosition.toFloat(),
             onValueChange = {
                 sliderPosition = it.toInt()
-                onAction(com.fbada006.shared.actions.ArtMakerAction.SetStrokeWidth(strokeWidth = sliderPosition))
+                onAction(ArtMakerAction.SetStrokeWidth(strokeWidth = sliderPosition))
             },
             configuration = configuration,
             modifier = Modifier.fillMaxWidth(),
         )
         // Only show these setting if there is a stylus connected
-        if (isStylusConnected(LocalContext.current)) {
-            HorizontalDivider()
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.use_stylus_only),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Switch(
-                    checked = stylusOnly,
-                    onCheckedChange = {
-                        stylusOnly = !stylusOnly
-                        onAction(com.fbada006.shared.actions.ArtMakerAction.UpdateSetStylusOnly(shouldUseStylusOnly = stylusOnly))
-                    },
-                )
-            }
-            HorizontalDivider()
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.enable_pressure_detection),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Switch(
-                    checked = detectPressure,
-                    onCheckedChange = {
-                        detectPressure = !detectPressure
-                        onAction(com.fbada006.shared.actions.ArtMakerAction.UpdateSetPressureDetection(shouldDetectPressure = detectPressure))
-                    },
-                )
-            }
+//        if (isStylusConnected(LocalContext.current)) {
+        HorizontalDivider()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Use stylus only",
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            Switch(
+                checked = stylusOnly,
+                onCheckedChange = {
+                    stylusOnly = !stylusOnly
+                    onAction(ArtMakerAction.UpdateSetStylusOnly(shouldUseStylusOnly = stylusOnly))
+                },
+            )
         }
+        HorizontalDivider()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Enable pressure detection",
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            Switch(
+                checked = detectPressure,
+                onCheckedChange = {
+                    detectPressure = !detectPressure
+                    onAction(ArtMakerAction.UpdateSetPressureDetection(shouldDetectPressure = detectPressure))
+                },
+            )
+        }
+//        }
     }
 }

@@ -131,12 +131,12 @@ internal class ArtMakerViewModel(
         viewModelScope.launch {
             // Save a colour only if it is custom and does not exist in defaults
             if (isCustomColour && !ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(colour)) customColorsManager.saveColor(colour.toArgb())
-            preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
-            preferencesManager.getStrokeColor().collect { strokeColor->
-                _uiState.update {
-                    it.copy(strokeColour = strokeColor)
-                }
-            }
+//            preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
+//            preferencesManager.getStrokeColor().collect { strokeColor->
+//                _uiState.update {
+//                    it.copy(strokeColour = strokeColor)
+//                }
+//            }
         }
     }
 
@@ -146,57 +146,57 @@ internal class ArtMakerViewModel(
 
     private fun selectStrokeWidth(strokeWidth: Int) {
         viewModelScope.launch {
-            preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
-            preferencesManager.getStrokeWidth().collect { stroke->
-                _uiState.update {
-                    it.copy(strokeWidth = stroke)
-                }
-            }
+//            preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
+//            preferencesManager.getStrokeWidth().collect { stroke->
+//                _uiState.update {
+//                    it.copy(strokeWidth = stroke)
+//                }
+//            }
         }
     }
 
     private fun updateStylusSetting(useStylusOnly: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
-            preferencesManager.getStylusOnlySetting().collect { stylus->
-                _uiState.update {
-                    it.copy(shouldUseStylusOnly = stylus)
-                }
-            }
+//            preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
+//            preferencesManager.getStylusOnlySetting().collect { stylus->
+//                _uiState.update {
+//                    it.copy(shouldUseStylusOnly = stylus)
+//                }
+//            }
         }
     }
 
     private fun updatePressureSetting(detectPressure: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
-            preferencesManager.getPressureDetectionSetting().collect { pressure->
-                _uiState.update {
-                    it.copy(shouldDetectPressure = pressure)
-                }
-            }
+//            preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
+//            preferencesManager.getPressureDetectionSetting().collect { pressure->
+//                _uiState.update {
+//                    it.copy(shouldDetectPressure = pressure)
+//                }
+//            }
         }
     }
 
     private fun updateEnableStylusDialog(canShow: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updateEnableStylusDialog(canShow = canShow)
-            preferencesManager.getEnableStylusDialog().collect { stylusDialog->
-                _uiState.update {
-                    it.copy(canShowEnableStylusDialog = stylusDialog)
-                }
-            }
+//            preferencesManager.updateEnableStylusDialog(canShow = canShow)
+//            preferencesManager.getEnableStylusDialog().collect { stylusDialog->
+//                _uiState.update {
+//                    it.copy(canShowEnableStylusDialog = stylusDialog)
+//                }
+//            }
         }
 
     }
 
     private fun updateDisableStylusDialog(canShow: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updateDisableStylusDialog(canShow = canShow)
-            preferencesManager.getDisableStylusDialog().collect { disableStylusDialog->
-                _uiState.update {
-                    it.copy(canShowDisableStylusDialog = disableStylusDialog)
-                }
-            }
+//            preferencesManager.updateDisableStylusDialog(canShow = canShow)
+//            preferencesManager.getDisableStylusDialog().collect { disableStylusDialog->
+//                _uiState.update {
+//                    it.copy(canShowDisableStylusDialog = disableStylusDialog)
+//                }
+//            }
         }
     }
 
