@@ -16,28 +16,14 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-/*
- * Copyright 2024 ArtMaker
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
 }
-
+//https://youtrack.jetbrains.com/issue/KT-66448/Multiplatform-wizards.-Get-rid-of-deprecated-kotlinOptions
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -52,23 +38,41 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "customcolorpalette"
+            baseName = "shared"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.ui)
-            implementation(compose.material3)
-            implementation(libs.colormath)
-            implementation(compose.foundation)
+            //put your multiplatform dependencies here
+            with(compose) {
+                implementation(ui)
+                implementation(runtime)
+                implementation(foundation)
+                implementation(materialIconsExtended)
+                implementation(material3)
+            }
+            implementation(compose.components.resources)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.kotlinx.serialization.json)
+            api(libs.androidx.datastore.preferences.core)
+            api(libs.androidx.datastore)
+            implementation(project(":customcolorpalette"))
+        }
+        commonTest.dependencies {
         }
     }
 }
 
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "io.fbada006.artmaker"
+    generateResClass = auto
+}
+
 android {
-    namespace = "io.fbada006.customcolorpalette"
+    namespace = "com.fbada006.shared"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
