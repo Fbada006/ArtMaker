@@ -73,12 +73,9 @@ internal fun ColorPicker(
     onColorPaletteClick: () -> Unit,
     artMakerConfiguration: ArtMakerConfiguration,
 ) {
-//    val context = LocalContext.current
-    val sheetState = rememberModalBottomSheetState()
     val customColorsManager = remember { CustomColorsManager() }
 
     ModalBottomSheet(
-        sheetState = sheetState,
         onDismissRequest = onDismissRequest,
         containerColor = Color.LightGray,
     ) {
