@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
             ArtMakerTheme {
                 ArtMaker(
                     modifier = Modifier.fillMaxSize(),
+                    preferences = createDataStore(applicationContext)
                 )
                 println("Greetings----${Greeting().greet()}")
             }
