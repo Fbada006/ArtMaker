@@ -10,4 +10,4 @@ fun createDataStore(producePath: () -> String): DataStore<Preferences> =
         produceFile = { producePath().toPath() }
     )
 
-internal const val ARTMAKER_DATASTORE_FILE_NAME = "artmaker.preferences_pb"
+const val ARTMAKER_DATASTORE_FILE_NAME = "artmaker.preferences_pb"

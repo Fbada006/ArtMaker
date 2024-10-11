@@ -39,6 +39,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.ExportType
@@ -63,12 +65,12 @@ fun ArtMaker(
     modifier: Modifier = Modifier,
     onFinishDrawing: (ImageBitmap) -> Unit = {},
     artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
+    preferences: DataStore<Preferences>
 ) {
-//    val context = LocalContext.current
     val viewModel: ArtMakerViewModel = viewModel {
         ArtMakerViewModel(
             customColorsManager = CustomColorsManager(),
-            preferencesManager = PreferencesManager(),
+            preferencesManager = PreferencesManager(preferences),
             drawingManager = DrawingManager(),
         )
     }
