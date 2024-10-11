@@ -62,7 +62,7 @@ internal class ArtMakerViewModel(
     val finishedImage = _finishedImage.asStateFlow()
 
     init {
-        listenToUndoRedoState()
+        init()
     }
 
     fun onAction(action: ArtMakerAction) {
@@ -85,7 +85,7 @@ internal class ArtMakerViewModel(
         _uiState.value.strokeWidth,
     )
 
-    private fun listenToUndoRedoState() {
+    private fun init() {
         viewModelScope.launch {
             drawingManager.undoRedoState.collectLatest { state ->
                 _uiState.update {
@@ -97,6 +97,21 @@ internal class ArtMakerViewModel(
                     )
                 }
             }
+        }
+
+        viewModelScope.launch {
+            preferencesManager.state
+                .collectLatest { newState ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            strokeColour = newState.strokeColour,
+                            strokeWidth = newState.strokeWidth,
+                            shouldUseStylusOnly = newState.shouldUseStylusOnly,
+                            shouldDetectPressure = newState.shouldDetectPressure,
+                            canShowEnableStylusDialog = newState.canShowEnableStylusDialog,
+                        )
+                    }
+                }
         }
     }
 
@@ -126,11 +141,6 @@ internal class ArtMakerViewModel(
             // Save a colour only if it is custom and does not exist in defaults
             if (isCustomColour && !ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(colour)) customColorsManager.saveColor(colour.toArgb())
             preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
-            preferencesManager.getStrokeColor().collect { strokeColor->
-                _uiState.update {
-                    it.copy(strokeColour = strokeColor)
-                }
-            }
         }
     }
 
@@ -141,44 +151,24 @@ internal class ArtMakerViewModel(
     private fun selectStrokeWidth(strokeWidth: Int) {
         viewModelScope.launch {
             preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
-            preferencesManager.getStrokeWidth().collect { stroke->
-                _uiState.update {
-                    it.copy(strokeWidth = stroke)
-                }
-            }
         }
     }
 
     private fun updateStylusSetting(useStylusOnly: Boolean) {
         viewModelScope.launch {
             preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
-            preferencesManager.getStylusOnlySetting().collect { stylus->
-                _uiState.update {
-                    it.copy(shouldUseStylusOnly = stylus)
-                }
-            }
         }
     }
 
     private fun updatePressureSetting(detectPressure: Boolean) {
         viewModelScope.launch {
             preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
-            preferencesManager.getPressureDetectionSetting().collect { pressure->
-                _uiState.update {
-                    it.copy(shouldDetectPressure = pressure)
-                }
-            }
         }
     }
 
     private fun updateEnableStylusDialog(canShow: Boolean) {
         viewModelScope.launch {
             preferencesManager.updateEnableStylusDialog(canShow = canShow)
-            preferencesManager.getEnableStylusDialog().collect { stylusDialog->
-                _uiState.update {
-                    it.copy(canShowEnableStylusDialog = stylusDialog)
-                }
-            }
         }
 
     }
@@ -186,11 +176,6 @@ internal class ArtMakerViewModel(
     private fun updateDisableStylusDialog(canShow: Boolean) {
         viewModelScope.launch {
             preferencesManager.updateDisableStylusDialog(canShow = canShow)
-            preferencesManager.getDisableStylusDialog().collect { disableStylusDialog->
-                _uiState.update {
-                    it.copy(canShowDisableStylusDialog = disableStylusDialog)
-                }
-            }
         }
     }
 }
