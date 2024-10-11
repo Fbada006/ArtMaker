@@ -1,4 +1,4 @@
-package com.artmaker.demo
+package com.fbada006.shared
 
 import android.content.Context
 import androidx.datastore.core.DataStore
