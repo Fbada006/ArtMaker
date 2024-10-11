@@ -35,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -88,7 +87,7 @@ internal fun ArtMakerDrawScreen(
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
     val stylusDialogType by rememberSaveable { mutableStateOf("") }
-    val eraserPosition by remember { mutableStateOf<Offset?>(null) }
+    var eraserPosition by remember { mutableStateOf<Offset?>(null) }
 
 //    val graphicsLayer = rememberGraphicsLayer()
 //    val snackbarHostState = remember { SnackbarHostState() }
@@ -141,26 +140,40 @@ internal fun ArtMakerDrawScreen(
 //                    drawLayer(graphicsLayer)
 //                }
 //            }
-            .pointerInput(Unit) {
+            .pointerInput(isEraserActive) {
                 detectTapGestures(
                     onTap = { offset ->
-                        onDrawEvent(DrawEvent.AddNewShape(offset, 1f))
+                        if (isEraserActive) {
+                            onDrawEvent(DrawEvent.Erase(offset = offset))
+                        } else {
+                            onDrawEvent(DrawEvent.AddNewShape(offset, 1f))
+                        }
                     },
                 )
             }
-            .pointerInput(state.isFullScreenMode) {
+            .pointerInput(isEraserActive) {
                 detectDragGestures(
                     onDragStart = { offset ->
-                        onDrawEvent(DrawEvent.AddNewShape(offset, 1f))
+                        if (isEraserActive) {
+                            onDrawEvent(DrawEvent.Erase(offset = offset))
+                        } else {
+                            onDrawEvent(DrawEvent.AddNewShape(offset, 1f))
+                        }
                     },
                     onDragCancel = {
+                        eraserPosition = null
                         onDrawEvent(DrawEvent.UndoLastShapePoint)
                     },
                 ) { change, _ ->
                     val offset = change.position
 //                    val clampedOffset =
 //                        Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-                    onDrawEvent(DrawEvent.UpdateCurrentShape(Offset(offset.x, offset.y), 1f))
+                    eraserPosition = offset
+                    if (isEraserActive) {
+                        onDrawEvent(DrawEvent.Erase(offset = offset))
+                    } else {
+                        onDrawEvent(DrawEvent.UpdateCurrentShape(offset, 1f))
+                    }
                 }
             },
 //            .pointerInteropFilter { event ->

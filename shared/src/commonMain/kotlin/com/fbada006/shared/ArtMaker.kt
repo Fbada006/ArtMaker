@@ -39,6 +39,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fbada006.shared.actions.ArtMakerAction
+import com.fbada006.shared.actions.ExportType
+import com.fbada006.shared.composables.ArtMakerControlMenu
+import com.fbada006.shared.composables.ArtMakerDrawScreen
+import com.fbada006.shared.composables.StrokeSettings
 import com.fbada006.shared.data.CustomColorsManager
 import com.fbada006.shared.data.PreferencesManager
 import com.fbada006.shared.drawing.DrawingManager
@@ -95,13 +100,13 @@ fun ArtMaker(
                 Column {
                     // Trigger sharing the image. It has to save the image first
                     if (artMakerConfiguration.canShareArt) {
-                        FloatingActionButton(onClick = { viewModel.onAction(com.fbada006.shared.actions.ArtMakerAction.TriggerArtExport(com.fbada006.shared.actions.ExportType.ShareImage)) }) {
+                        FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     // Finish the drawing and hand it back to the calling application as a bitmap
-                    FloatingActionButton(onClick = { viewModel.onAction(com.fbada006.shared.actions.ArtMakerAction.TriggerArtExport(com.fbada006.shared.actions.ExportType.FinishDrawingImage)) }) {
+                    FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
                     Spacer(modifier = Modifier.height(4.dp))
@@ -117,7 +122,7 @@ fun ArtMaker(
         modifier = modifier,
     ) { values ->
         Column(modifier = Modifier.padding(values)) {
-            com.fbada006.shared.composables.ArtMakerDrawScreen(
+            ArtMakerDrawScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),
@@ -141,7 +146,7 @@ fun ArtMaker(
                 eraserRadius = state.strokeWidth.toFloat(),
             )
             AnimatedVisibility(visible = showStrokeSettings) {
-                com.fbada006.shared.composables.StrokeSettings(
+                StrokeSettings(
                     strokeWidth = state.strokeWidth,
                     onAction = viewModel::onAction,
                     configuration = artMakerConfiguration,
@@ -156,7 +161,7 @@ fun ArtMaker(
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
-                com.fbada006.shared.composables.ArtMakerControlMenu(
+                ArtMakerControlMenu(
                     state = state,
                     onAction = viewModel::onAction,
                     onDrawEvent = viewModel::onDrawEvent,
