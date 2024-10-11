@@ -37,6 +37,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fbada006.shared.actions.ArtMakerAction
@@ -57,11 +58,10 @@ import com.fbada006.shared.models.ArtMakerConfiguration
  * @param onFinishDrawing is the callback exposed once the user clicks done (the [FloatingActionButton] with the checkmark) to trigger finish drawing
  * @param artMakerConfiguration is the configuration to customise the appearance of the control menu and other values
  */
-//@OptIn(BuildCompat.PrereleaseSdkCheck::class)
 @Composable
 fun ArtMaker(
     modifier: Modifier = Modifier,
-//    onFinishDrawing: (Bitmap) -> Unit = {},
+    onFinishDrawing: (ImageBitmap) -> Unit = {},
     artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
 ) {
 //    val context = LocalContext.current
@@ -76,12 +76,12 @@ fun ArtMaker(
     var showStrokeSettings by remember { mutableStateOf(value = false) }
     val state by viewModel.uiState.collectAsState()
     val shouldTriggerArtExport by viewModel.shouldTriggerArtExport.collectAsState()
-//    val finishedImage by viewModel.finishedImage.collectAsState()
+    val finishedImage by viewModel.finishedImage.collectAsState()
     var isFullScreenEnabled by remember { mutableStateOf(false) }
     var isEraserActive by remember { mutableStateOf(value = false) }
-//    LaunchedEffect(key1 = finishedImage) {
-//        finishedImage?.let { onFinishDrawing(it) }
-//    }
+    LaunchedEffect(key1 = finishedImage) {
+        finishedImage?.let { onFinishDrawing(it) }
+    }
 
     LaunchedEffect(key1 = state.canErase) {
         if (!state.canErase) {

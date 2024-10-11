@@ -54,6 +54,10 @@ import androidx.compose.ui.unit.dp
 import com.fbada006.shared.data.CustomColorsManager
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
+import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.change_image
+import io.fbada006.artmaker.recent_colors
+import org.jetbrains.compose.resources.stringResource
 
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int
@@ -111,7 +115,7 @@ internal fun ColorPicker(
                         // Only display the custom colors if we have any
                         if (customColors.isNotEmpty()) {
                             Text(
-                                text = "Recent colours",
+                                text = stringResource(Res.string.recent_colors),
                                 style = MaterialTheme.typography.bodyLarge,
                                 modifier = Modifier.padding(vertical = 4.dp),
                             )

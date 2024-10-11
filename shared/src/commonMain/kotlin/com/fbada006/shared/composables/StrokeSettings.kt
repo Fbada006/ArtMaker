@@ -33,6 +33,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.models.ArtMakerConfiguration
+import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.enable_pressure_detection
+import io.fbada006.artmaker.use_stylus_only
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun StrokeSettings(
@@ -66,7 +70,7 @@ fun StrokeSettings(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Use stylus only",
+                text = stringResource(Res.string.use_stylus_only),
                 style = MaterialTheme.typography.bodyLarge,
             )
             Switch(
@@ -84,7 +88,7 @@ fun StrokeSettings(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Enable pressure detection",
+                text = stringResource(Res.string.enable_pressure_detection),
                 style = MaterialTheme.typography.bodyLarge,
             )
             Switch(

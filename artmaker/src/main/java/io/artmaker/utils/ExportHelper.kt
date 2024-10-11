@@ -70,7 +70,7 @@ internal fun shareBitmap(context: Context, uri: Uri) {
         putExtra(Intent.EXTRA_STREAM, uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
-    val chooser = createChooser(intent, context.getString(R.string.share_your_image)).apply {
+    val chooser = createChooser(intent, "context.getString(R.string.share_your_image)").apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     startActivity(context, chooser, null)

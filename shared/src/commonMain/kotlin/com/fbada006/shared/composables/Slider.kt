@@ -25,6 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.fbada006.shared.models.ArtMakerConfiguration
+import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.set_width
+import org.jetbrains.compose.resources.stringResource
 
 private const val MIN_WIDTH = 1f
 private const val MAX_WIDTH = 50f
@@ -40,7 +43,7 @@ internal fun Slider(sliderPosition: Float, onValueChange: (Float) -> Unit, confi
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "Set width ${sliderPosition.toInt()}",
+            text = stringResource(Res.string.set_width, sliderPosition.toInt().toString()),
             style = MaterialTheme.typography.titleLarge,
             color = configuration.strokeSliderTextColor,
         )

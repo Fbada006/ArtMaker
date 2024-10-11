@@ -59,8 +59,8 @@ internal class ArtMakerViewModel(
 
     private val exportType = mutableStateOf<ExportType>(ExportType.FinishDrawingImage)
 
-//    private val _finishedImage = MutableStateFlow<Bitmap?>(null)
-//    val finishedImage = _finishedImage.asStateFlow()
+    private val _finishedImage = MutableStateFlow<ImageBitmap?>(null)
+    val finishedImage = _finishedImage.asStateFlow()
 
     init {
         listenToUndoRedoState()
@@ -107,17 +107,17 @@ internal class ArtMakerViewModel(
     }
 
     private fun exportArt(bitmap: ImageBitmap) {
-//        _shouldTriggerArtExport.update { false }
-//        viewModelScope.launch {
-//            val bmp = bitmap.asAndroidBitmap()
-//            if (exportType.value == ExportType.FinishDrawingImage) {
-//                // At this point, the drawing done and we are going to share it programmatically
-//                _finishedImage.update { bmp }
-//                return@launch
-//            }
+        _shouldTriggerArtExport.update { false }
+        viewModelScope.launch {
+            if (exportType.value == ExportType.FinishDrawingImage) {
+                // At this point, the drawing done and we are going to share it programmatically
+                _finishedImage.update { bitmap }
+                return@launch
+            }
 //            val uri = bmp.saveToDisk(applicationContext)
 //            shareBitmap(applicationContext, uri)
 //        }
+        }
     }
 
     private fun updateBackgroundColour() {}
@@ -194,21 +194,4 @@ internal class ArtMakerViewModel(
 //            }
         }
     }
-
-//    companion object {
-//        fun provideFactory(application: Application): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-//            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//                if (modelClass.isAssignableFrom(ArtMakerViewModel::class.java)) {
-//                    @Suppress("UNCHECKED_CAST")
-//                    return ArtMakerViewModel(
-//                        preferencesManager = PreferencesManager(preferences = ArtMakerSharedPreferences(context = application)),
-//                        customColorsManager = CustomColorsManager(application),
-//                        drawingManager = DrawingManager(),
-//                        applicationContext = application.applicationContext,
-//                    ) as T
-//                }
-//                throw IllegalArgumentException("Unknown ViewModel Class")
-//            }
-//        }
-//    }
 }

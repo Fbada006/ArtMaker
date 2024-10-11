@@ -52,6 +52,13 @@ import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.models.alpha
+import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.got_it
+import io.fbada006.artmaker.non_stylus_input_detected_message
+import io.fbada006.artmaker.non_stylus_input_detected_title
+import io.fbada006.artmaker.stylus_input_detected_message
+import io.fbada006.artmaker.stylus_input_detected_title
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * [ArtMakerDrawScreen] is the composable that handles the drawing.
@@ -256,11 +263,11 @@ internal fun ArtMakerDrawScreen(
         if (stylusDialogType.isEmpty()) return
         val type = StylusDialogType.valueOf(stylusDialogType)
         val dialogInfo = when {
-            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> "stringResource(R.string.stylus_input_detected_title)" to
-                    "stringResource(R.string.stylus_input_detected_message)"
+            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(Res.string.stylus_input_detected_title) to
+                    stringResource(Res.string.stylus_input_detected_message)
 
-            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> "stringResource(R.string.non_stylus_input_detected_title,)" to
-                    "stringResource(R.string.non_stylus_input_detected_message)"
+            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(Res.string.non_stylus_input_detected_title,) to
+                    stringResource(Res.string.non_stylus_input_detected_message)
 
             else -> return
         }
@@ -281,7 +288,7 @@ internal fun ArtMakerDrawScreen(
                             }
                         },
                     ) {
-                        Text(text = "Got it")
+                        Text(text = stringResource(Res.string.got_it))
                     }
                 }
             },

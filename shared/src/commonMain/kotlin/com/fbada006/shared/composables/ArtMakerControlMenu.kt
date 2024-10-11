@@ -63,6 +63,10 @@ import com.fbada006.shared.icons.Undo
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
 import customcolorpalette.CustomColorPalette
+import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.change_image
+import io.fbada006.artmaker.clear_image
+import org.jetbrains.compose.resources.stringResource
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
 
@@ -187,7 +191,7 @@ internal fun ArtMakerControlMenu(
                 ) {
                     DropdownMenuItem(
                         text = {
-                            Text(text = "Change Image")
+                            Text(text = stringResource(Res.string.change_image))
                         },
                         onClick = {
                             // Launch the picker with only one image selectable
@@ -202,7 +206,7 @@ internal fun ArtMakerControlMenu(
                     )
                     DropdownMenuItem(
                         text = {
-                            Text(text = "Clear image")
+                            Text(text = stringResource(Res.string.clear_image))
                         },
                         onClick = {
                             setBackgroundImage(null)
