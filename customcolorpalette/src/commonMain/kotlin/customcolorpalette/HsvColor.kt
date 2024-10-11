@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.customcolorpalette
+package customcolorpalette
 
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import android.graphics.Color as AndroidColor
+import com.github.ajalt.colormath.model.HSV
+import com.github.ajalt.colormath.model.RGB
 
 /**
  * A representation of Color in Hue, Saturation and Value form.
@@ -36,11 +36,18 @@ internal data class HsvColor(
     fun toColor(): Color = Color.hsv(hue, saturation, value)
 
     companion object {
-        fun from(color: Color): HsvColor {
-            val hsvArr = FloatArray(3)
-            AndroidColor.colorToHSV(color.toArgb(), hsvArr)
-            return HsvColor(hsvArr[0], hsvArr[1], hsvArr[2])
-        }
+        private fun HSV.toColor(): HsvColor = HsvColor(
+            hue = if (this.h.isNaN()) 0f else this.h,
+            saturation = this.s,
+            value = this.v,
+        )
+
+        fun from(color: Color): HsvColor = RGB(
+            color.red,
+            color.green,
+            color.blue,
+            color.alpha,
+        ).toHSV().toColor()
 
         val Saver: Saver<HsvColor, *> = listSaver(
             save = {

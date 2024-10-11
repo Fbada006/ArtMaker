@@ -53,23 +53,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.fbada006.shared.ArtMakerUIState
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
-import io.fbada006.artmaker.Res
-import io.fbada006.artmaker.ic_redo
-import io.fbada006.artmaker.ic_undo
-import io.fbada006.artmaker.ink_eraser
-import io.fbada006.artmaker.ink_eraser_off
-import io.fbada006.artmaker.redo
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.vectorResource
+import customcolorpalette.CustomColorPalette
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
 
@@ -249,19 +241,19 @@ internal fun ArtMakerControlMenu(
                 ModalBottomSheet(
                     onDismissRequest = { showColorPalette = false },
                 ) {
-//                    CustomColorPalette(
-//                        modifier = Modifier
-//                            .height(dimensionResource(R.dimen.color_palette_height))
-//                            .padding(dimensionResource(R.dimen.Padding12)),
-//                        onAccept = {
-//                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
-//                            showColorPalette = false
-//                        },
-//                        onCancel = {
-//                            showColorPalette = false
-//                            showColorPicker = true
-//                        },
-//                    )
+                    CustomColorPalette(
+                        modifier = Modifier
+                            .height(330.dp)
+                            .padding(12.dp),
+                        onAccept = {
+                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
+                            showColorPalette = false
+                        },
+                        onCancel = {
+                            showColorPalette = false
+                            showColorPicker = true
+                        },
+                    )
                 }
             }
         }

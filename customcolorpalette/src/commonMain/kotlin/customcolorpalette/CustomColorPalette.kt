@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.customcolorpalette
+package customcolorpalette
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,9 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import io.fbada006.artmaker.customcolorpalette.R
+import androidx.compose.ui.unit.dp
 
 /**
  * The main entry point for the palette to create a custom colour aside from the default ones
@@ -50,8 +48,8 @@ fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit, modifier
     }
 
     Row(modifier = modifier) {
-        val barThickness = dimensionResource(R.dimen.dimen32)
-        val paddingBetweenBars = dimensionResource(R.dimen.dimen8)
+        val barThickness = 32.dp
+        val paddingBetweenBars = 8.dp
         Column(modifier = Modifier.weight(0.8f)) {
             SaturationValueArea(
                 modifier = Modifier.weight(1f),
@@ -78,11 +76,11 @@ fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit, modifier
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Button(onClick = onCancel) {
-                    Text(text = stringResource(android.R.string.cancel))
+                    Text(text = "Cancel")
                 }
-                Spacer(Modifier.width(dimensionResource(R.dimen.dimen12)))
+                Spacer(Modifier.width(12.dp))
                 Button(onClick = { onAccept(colorPickerValueState.value.toColor()) }) {
-                    Text(text = stringResource(android.R.string.ok))
+                    Text(text = "Ok")
                 }
             }
         }

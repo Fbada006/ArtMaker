@@ -31,11 +31,11 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -46,7 +46,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
-            with(compose){
+            with(compose) {
                 implementation(ui)
                 implementation(runtime)
                 implementation(foundation)
@@ -55,10 +55,11 @@ kotlin {
             }
             implementation(compose.components.resources)
 //            with(libs){
-                implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
-                implementation(libs.kotlinx.serialization.json)
-                api(libs.androidx.datastore.preferences.core)
-                api(libs.androidx.datastore)
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+            implementation(libs.kotlinx.serialization.json)
+            api(libs.androidx.datastore.preferences.core)
+            api(libs.androidx.datastore)
+            implementation(project(":customcolorpalette"))
 //            }
         }
         commonTest.dependencies {

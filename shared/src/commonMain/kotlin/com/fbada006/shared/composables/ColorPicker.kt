@@ -51,14 +51,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-//import androidx.compose.ui.platform.LocalContext
-//import androidx.compose.ui.res.dimensionResource
-//import androidx.compose.ui.res.stringResource
 import com.fbada006.shared.data.CustomColorsManager
 import com.fbada006.shared.models.ArtMakerConfiguration
-//import io.artmaker.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
-//import io.fbada006.artmaker.R
 
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int
