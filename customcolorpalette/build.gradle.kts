@@ -59,11 +59,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.lifecycle.runtime.compose)
-            implementation(libs.androidx.ui)
-            implementation(libs.androidx.material3)
+            implementation(compose.ui)
+            implementation(compose.material3)
             implementation(libs.colormath)
-            implementation(libs.androidx.foundation)
+            implementation(compose.foundation)
         }
     }
 }
