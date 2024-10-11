@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.composables
+package com.fbada006.shared.composables
 
-import android.annotation.SuppressLint
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
+//import android.annotation.SuppressLint
+//import android.graphics.BitmapFactory
+//import android.graphics.ImageDecoder
+//import android.os.Build
+//import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,10 +32,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.PhonelinkErase
+import androidx.compose.material.icons.filled.Redo
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Undo
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -55,22 +61,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+//import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.core.os.BuildCompat
-import com.artmaker.customcolorpalette.CustomColorPalette
-import com.google.modernstorage.photopicker.PhotoPicker
+import androidx.compose.ui.unit.dp
+//import androidx.compose.ui.platform.LocalContext
+//import androidx.compose.ui.res.dimensionResource
+//import androidx.compose.ui.res.stringResource
+//import androidx.compose.ui.res.vectorResource
+//import androidx.core.os.BuildCompat
+//import com.artmaker.customcolorpalette.CustomColorPalette
+//import com.google.modernstorage.photopicker.PhotoPicker
 import com.fbada006.shared.ArtMakerUIState
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
-import io.artmaker.models.ArtMakerConfiguration
+import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
-import io.fbada006.artmaker.R
+//import io.fbada006.artmaker.R
 
 private const val IMAGE_PICKER_MAX_ITEMS = 1
 
@@ -79,13 +86,13 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
  * without any functionality.
  */
-@OptIn(BuildCompat.PrereleaseSdkCheck::class, ExperimentalMaterial3Api::class)
-@SuppressLint("UnsafeOptInUsageError")
+//@OptIn(BuildCompat.PrereleaseSdkCheck::class, ExperimentalMaterial3Api::class)
+//@SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(
-    state: com.fbada006.shared.ArtMakerUIState,
-    onAction: (com.fbada006.shared.actions.ArtMakerAction) -> Unit,
-    onDrawEvent: (com.fbada006.shared.actions.DrawEvent) -> Unit,
+    state: ArtMakerUIState,
+    onAction: (ArtMakerAction) -> Unit,
+    onDrawEvent: (DrawEvent) -> Unit,
     modifier: Modifier = Modifier,
     onShowStrokeWidthPopup: () -> Unit,
     setBackgroundImage: (ImageBitmap?) -> Unit,
@@ -95,24 +102,24 @@ internal fun ArtMakerControlMenu(
     isEraserActive: Boolean,
 ) {
     var areImageOptionsExpanded by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-    val photoPicker =
-        rememberLauncherForActivityResult(PhotoPicker()) { uris ->
-            val uri = uris.firstOrNull() ?: return@rememberLauncherForActivityResult
-            val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                // For Android 9.0 (API level 28) and above
-                ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
-            } else {
-                // For Android versions below 9.0
-                BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
-            }
-            setBackgroundImage(bitmap.asImageBitmap())
-        }
-    var showColorPicker by remember { mutableStateOf(false) }
+//    val context = LocalContext.current
+//    val photoPicker =
+//        rememberLauncherForActivityResult(PhotoPicker()) { uris ->
+//            val uri = uris.firstOrNull() ?: return@rememberLauncherForActivityResult
+//            val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                // For Android 9.0 (API level 28) and above
+//                ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
+//            } else {
+//                // For Android versions below 9.0
+//                BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
+//            }
+//            setBackgroundImage(bitmap.asImageBitmap())
+//        }
+//    var showColorPicker by remember { mutableStateOf(false) }
     var showColorPalette by remember { mutableStateOf(false) }
 
     Surface(
-        shadowElevation = dimensionResource(id = R.dimen.Padding60),
+        shadowElevation =60.dp,
         modifier = modifier,
         color = artMakerConfiguration.controllerBackgroundColor,
     ) {
@@ -120,19 +127,19 @@ internal fun ArtMakerControlMenu(
             Row(
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(all = dimensionResource(id = R.dimen.Padding10)),
+                    .padding(all = 10.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 MenuItem(
                     modifier = Modifier
                         .border(
-                            width = dimensionResource(id = R.dimen.Padding2),
-                            brush = Brush.sweepGradient(colors = com.fbada006.shared.utils.ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
-                            shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding32)),
+                            width =2.dp,
+                            brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
+                            shape = RoundedCornerShape(size = 32.dp),
                         )
-                        .padding(all = dimensionResource(id = R.dimen.Padding2)),
+                        .padding(all = 2.dp),
                     imageVector = Icons.Filled.Circle,
-                    onItemClicked = { showColorPicker = true },
+                    onItemClicked = { },
                     colorTint = Color(state.strokeColour),
                 )
                 MenuItem(
@@ -143,33 +150,32 @@ internal fun ArtMakerControlMenu(
                 )
                 MenuItem(
                     imageVector = if (isEraserActive) {
-                        ImageVector.vectorResource(id = R.drawable.ink_eraser_off)
+                        Icons.Default.Check
+
                     } else {
-                        ImageVector.vectorResource(
-                            id = R.drawable.ink_eraser,
-                        )
+                        Icons.Default.PhonelinkErase
                     },
                     onItemClicked = onActivateEraser,
                     enabled = state.canErase,
                 )
                 MenuItem(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_undo),
+                    imageVector = Icons.AutoMirrored.Filled.Undo,
                     onItemClicked = {
-                        onDrawEvent(com.fbada006.shared.actions.DrawEvent.Undo)
+                        onDrawEvent(DrawEvent.Undo)
                     },
                     enabled = state.canUndo,
                 )
                 MenuItem(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_redo),
+                    imageVector = Icons.AutoMirrored.Filled.Redo,
                     onItemClicked = {
-                        onDrawEvent(com.fbada006.shared.actions.DrawEvent.Redo)
+                        onDrawEvent(DrawEvent.Redo)
                     },
                     enabled = state.canRedo,
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Refresh,
                     onItemClicked = {
-                        onDrawEvent(com.fbada006.shared.actions.DrawEvent.Clear)
+                        onDrawEvent(DrawEvent.Clear)
                     },
                     enabled = state.canClear,
                 )
@@ -179,19 +185,19 @@ internal fun ArtMakerControlMenu(
                         if (imageBitmap != null) {
                             areImageOptionsExpanded = true
                         } else {
-                            photoPicker.launch(
-                                PhotoPicker.Args(
-                                    PhotoPicker.Type.IMAGES_ONLY,
-                                    IMAGE_PICKER_MAX_ITEMS,
-                                ),
-                            )
+//                            photoPicker.launch(
+//                                PhotoPicker.Args(
+//                                    PhotoPicker.Type.IMAGES_ONLY,
+//                                    IMAGE_PICKER_MAX_ITEMS,
+//                                ),
+//                            )
                         }
                     },
                 )
             }
             Box(
                 Modifier
-                    .padding(all = dimensionResource(id = R.dimen.Padding12))
+                    .padding(all = 12.dp)
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
@@ -202,22 +208,22 @@ internal fun ArtMakerControlMenu(
                 ) {
                     DropdownMenuItem(
                         text = {
-                            Text(text = stringResource(id = R.string.change_image))
+                            Text(text ="change image")
                         },
                         onClick = {
                             // Launch the picker with only one image selectable
-                            photoPicker.launch(
-                                PhotoPicker.Args(
-                                    PhotoPicker.Type.IMAGES_ONLY,
-                                    IMAGE_PICKER_MAX_ITEMS,
-                                ),
-                            )
+//                            photoPicker.launch(
+//                                PhotoPicker.Args(
+//                                    PhotoPicker.Type.IMAGES_ONLY,
+//                                    IMAGE_PICKER_MAX_ITEMS,
+//                                ),
+//                            )
                             areImageOptionsExpanded = false
                         },
                     )
                     DropdownMenuItem(
                         text = {
-                            Text(text = stringResource(id = R.string.clear_image))
+                            Text(text ="Clear Image")
                         },
                         onClick = {
                             setBackgroundImage(null)
@@ -226,41 +232,41 @@ internal fun ArtMakerControlMenu(
                     )
                 }
             }
-            if (showColorPicker) {
-                ColorPicker(
-                    onDismissRequest = { showColorPicker = false },
-                    defaultColor = state.strokeColour,
-                    onClick = { colorArgb ->
-                        onAction(com.fbada006.shared.actions.ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
-                        showColorPicker = false
-                    },
-                    onColorPaletteClick = {
-                        showColorPicker = false
-                        showColorPalette = true
-                    },
-                    artMakerConfiguration = artMakerConfiguration,
-                )
-            }
+//            if (showColorPicker) {
+//                ColorPicker(
+//                    onDismissRequest = { showColorPicker = false },
+//                    defaultColor = state.strokeColour,
+//                    onClick = { colorArgb ->
+//                        onAction(ArtMakerAction.SelectStrokeColour(Color(colorArgb)))
+//                        showColorPicker = false
+//                    },
+//                    onColorPaletteClick = {
+//                        showColorPicker = false
+//                        showColorPalette = true
+//                    },
+//                    artMakerConfiguration = artMakerConfiguration,
+//                )
+//            }
 
-            if (showColorPalette) {
-                ModalBottomSheet(
-                    onDismissRequest = { showColorPalette = false },
-                ) {
-                    CustomColorPalette(
-                        modifier = Modifier
-                            .height(dimensionResource(R.dimen.color_palette_height))
-                            .padding(dimensionResource(R.dimen.Padding12)),
-                        onAccept = {
-                            onAction(com.fbada006.shared.actions.ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
-                            showColorPalette = false
-                        },
-                        onCancel = {
-                            showColorPalette = false
-                            showColorPicker = true
-                        },
-                    )
-                }
-            }
+//            if (showColorPalette) {
+//                ModalBottomSheet(
+//                    onDismissRequest = { showColorPalette = false },
+//                ) {
+//                    CustomColorPalette(
+//                        modifier = Modifier
+//                            .height(dimensionResource(R.dimen.color_palette_height))
+//                            .padding(dimensionResource(R.dimen.Padding12)),
+//                        onAccept = {
+//                            onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
+//                            showColorPalette = false
+//                        },
+//                        onCancel = {
+//                            showColorPalette = false
+//                            showColorPicker = true
+//                        },
+//                    )
+//                }
+//            }
         }
     }
 }
@@ -282,7 +288,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint.copy(alpha = (if (enabled) 1f else 0.5f)),
-            modifier = modifier.size(size = dimensionResource(id = R.dimen.Padding32)),
+            modifier = modifier.size(size = 32.dp),
         )
     }
 }

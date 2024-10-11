@@ -15,7 +15,7 @@
  */
 @file:JvmName("MotionEventUtil")
 
-package io.artmaker.utils
+package com.fbada006.shared.utils
 
 import android.content.Context
 import android.hardware.input.InputManager

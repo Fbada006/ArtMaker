@@ -31,11 +31,11 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -46,15 +46,32 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
-            with(compose){
+            with(compose) {
                 implementation(ui)
                 implementation(runtime)
                 implementation(foundation)
+                implementation(material3)
+                implementation(uiTooling)
+                implementation(materialIconsExtended)
             }
             with(libs){
                 implementation(lifecycle.viewmodel)
+                implementation(lifecycle.runtime.compose)
+                implementation(androidx.lifecycle.runtime.ktx)
+                implementation(androidx.activity.compose)
+
+                implementation(material.icons)
+                implementation(lifecycle.runtime.compose)
                 implementation(kotlinx.serialization.json)
                 implementation(androidx.datastore.preferences.core)
+                implementation(material.icons)
+                implementation(androidx.activity.compose)
+                implementation(androidx.core.ktx)
+                implementation(androidx.ui.graphics)
+                implementation(androidx.ui.tooling.preview)
+                implementation(androidx.material3)
+                implementation(androidx.lifecycle.runtime.ktx)
+                implementation(androidx.activity.compose)
             }
         }
         commonTest.dependencies {
@@ -72,4 +89,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+dependencies {
+    implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
 }

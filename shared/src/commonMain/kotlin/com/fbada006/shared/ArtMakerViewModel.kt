@@ -45,7 +45,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ArtMakerViewModel(
-    private val customColorsManager: CustomColorsManager,
+//    private val customColorsManager: CustomColorsManager ,
     private val preferencesManager: PreferencesManager,
     private val drawingManager: DrawingManager,
 //    private val applicationContext: Context,
@@ -130,7 +130,7 @@ internal class ArtMakerViewModel(
     private fun updateStrokeColor(colour: Color, isCustomColour: Boolean) {
         viewModelScope.launch {
             // Save a colour only if it is custom and does not exist in defaults
-            if (isCustomColour && !ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(colour)) customColorsManager.saveColor(colour.toArgb())
+//            if (isCustomColour && !ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(colour)) customColorsManager.saveColor(colour.toArgb())
             preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
             preferencesManager.getStrokeColor().collect { strokeColor->
                 _uiState.update {

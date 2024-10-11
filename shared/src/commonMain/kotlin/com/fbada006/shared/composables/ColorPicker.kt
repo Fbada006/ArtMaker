@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.artmaker.composables
+package com.fbada006.shared.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,13 +49,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+//import androidx.compose.ui.platform.LocalContext
+//import androidx.compose.ui.res.dimensionResource
+//import androidx.compose.ui.res.stringResource
 import com.fbada006.shared.data.CustomColorsManager
-import io.artmaker.models.ArtMakerConfiguration
+import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
-import io.fbada006.artmaker.R
+//import io.fbada006.artmaker.R
 
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int
@@ -71,9 +72,9 @@ internal fun ColorPicker(
     onColorPaletteClick: () -> Unit,
     artMakerConfiguration: ArtMakerConfiguration,
 ) {
-    val context = LocalContext.current
+//    val context = LocalContext.current
     val sheetState = rememberModalBottomSheetState()
-    val customColorsManager = remember { com.fbada006.shared.data.CustomColorsManager(context) }
+//    val customColorsManager = remember { CustomColorsManager(context) }
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -84,24 +85,24 @@ internal fun ColorPicker(
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(bottom = dimensionResource(id = R.dimen.Padding10)),
+                .padding(bottom =10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding8)),
+                    horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
                 ) {
                     Column {
-                        val customColors = customColorsManager.getColors()
+//                        val customColors = customColorsManager.getColors()
                         val allColors = artMakerConfiguration.pickerCustomColors.ifEmpty {
-                            com.fbada006.shared.utils.ColorUtils.COLOR_PICKER_DEFAULT_COLORS
+                            ColorUtils.COLOR_PICKER_DEFAULT_COLORS
                         }
 
                         FlowRow(
                             modifier = Modifier
-                                .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
-                            horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
-                            verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+                                .padding(vertical =4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
+                            verticalArrangement = Arrangement.spacedBy(space = 4.dp),
                             maxItemsInEachRow = NUM_COLUMNS,
                         ) {
                             repeat(allColors.size) { colorIndex ->
@@ -111,41 +112,40 @@ internal fun ColorPicker(
                         }
 
                         // Only display the custom colors if we have any
-                        if (customColors.isNotEmpty()) {
-                            Text(
-                                text = stringResource(R.string.recent_colors),
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.Padding4)),
-                            )
-
-                            FlowRow(
-                                modifier = Modifier
-                                    .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
-                                horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
-                                verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
-                                maxItemsInEachRow = NUM_COLUMNS,
-                            ) {
-                                repeat(customColors.size) { colorIndex ->
-                                    val color = customColors[colorIndex]
-                                    ColorItem(color, defaultColor, onClick)
-                                }
-                            }
+//                        if (customColors.isNotEmpty()) {
+//                            Text(
+//                                text = stringResource(R.string.recent_colors),
+//                                style = MaterialTheme.typography.bodyLarge,
+//                                modifier = Modifier.padding(vertical = dimensionResource(R.dimen.Padding4)),
+//                            )
+//
+//                            FlowRow(
+//                                modifier = Modifier
+//                                    .padding(vertical = dimensionResource(id = R.dimen.Padding4)),
+//                                horizontalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+//                                verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.Padding4)),
+//                                maxItemsInEachRow = NUM_COLUMNS,
+//                            ) {
+//                                repeat(customColors.size) { colorIndex ->
+//                                    val color = customColors[colorIndex]
+//                                    ColorItem(color, defaultColor, onClick)
+//                                }
+//                            }
                         }
                     }
 
                     // Custom color picker
                     Box(
                         modifier = Modifier
-                            .size(size = dimensionResource(id = R.dimen.Padding48))
-                            .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
-                            .background(brush = Brush.sweepGradient(colors = com.fbada006.shared.utils.ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
+                            .size(size = 48.dp)
+                            .clip(RoundedCornerShape(size =8.dp))
+                            .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
-                            .align(Alignment.CenterVertically),
+//                            .align(Alignment.CenterVertically),
                     )
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -156,8 +156,8 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
     ) {
         Box(
             modifier = Modifier
-                .size(size = dimensionResource(id = R.dimen.Padding48))
-                .clip(RoundedCornerShape(size = dimensionResource(id = R.dimen.Padding8)))
+                .size(size = 48.dp)
+                .clip(RoundedCornerShape(size = 8.dp))
                 .background(Color(color))
                 .clickable {
                     selectedColor = color
@@ -169,14 +169,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = null,
-                tint = if (androidx.core.graphics.ColorUtils.calculateLuminance(
-                        color,
-                    ) > LUMINANCE_THRESHOLD
-                ) {
-                    Color.Black
-                } else {
-                    Color.White
-                },
+                tint = Color.Black,
                 modifier = Modifier
                     .align(Alignment.Center),
             )
