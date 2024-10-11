@@ -68,7 +68,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.fbada006.artmaker.customcolorpalette"
+    namespace = "io.fbada006.customcolorpalette"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
