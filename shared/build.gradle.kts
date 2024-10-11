@@ -31,11 +31,11 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -46,20 +46,29 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
-            with(compose){
+            with(compose) {
                 implementation(ui)
                 implementation(runtime)
                 implementation(foundation)
+                implementation(materialIconsExtended)
+                implementation(material3)
             }
-            with(libs){
-                implementation(lifecycle.viewmodel)
-                implementation(kotlinx.serialization.json)
-                implementation(androidx.datastore.preferences.core)
-            }
+            implementation(compose.components.resources)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.kotlinx.serialization.json)
+            api(libs.androidx.datastore.preferences.core)
+            api(libs.androidx.datastore)
+            implementation(project(":customcolorpalette"))
         }
         commonTest.dependencies {
         }
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "io.fbada006.artmaker"
+    generateResClass = auto
 }
 
 android {

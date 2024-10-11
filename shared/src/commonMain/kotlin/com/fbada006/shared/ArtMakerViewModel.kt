@@ -15,19 +15,14 @@
  */
 package com.fbada006.shared
 
-//import android.app.Application
-//import android.content.Context
-//import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-//import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
@@ -64,8 +59,8 @@ internal class ArtMakerViewModel(
 
     private val exportType = mutableStateOf<ExportType>(ExportType.FinishDrawingImage)
 
-//    private val _finishedImage = MutableStateFlow<Bitmap?>(null)
-//    val finishedImage = _finishedImage.asStateFlow()
+    private val _finishedImage = MutableStateFlow<ImageBitmap?>(null)
+    val finishedImage = _finishedImage.asStateFlow()
 
     init {
         listenToUndoRedoState()
@@ -112,17 +107,17 @@ internal class ArtMakerViewModel(
     }
 
     private fun exportArt(bitmap: ImageBitmap) {
-//        _shouldTriggerArtExport.update { false }
-//        viewModelScope.launch {
-//            val bmp = bitmap.asAndroidBitmap()
-//            if (exportType.value == ExportType.FinishDrawingImage) {
-//                // At this point, the drawing done and we are going to share it programmatically
-//                _finishedImage.update { bmp }
-//                return@launch
-//            }
+        _shouldTriggerArtExport.update { false }
+        viewModelScope.launch {
+            if (exportType.value == ExportType.FinishDrawingImage) {
+                // At this point, the drawing done and we are going to share it programmatically
+                _finishedImage.update { bitmap }
+                return@launch
+            }
 //            val uri = bmp.saveToDisk(applicationContext)
 //            shareBitmap(applicationContext, uri)
 //        }
+        }
     }
 
     private fun updateBackgroundColour() {}
@@ -131,12 +126,12 @@ internal class ArtMakerViewModel(
         viewModelScope.launch {
             // Save a colour only if it is custom and does not exist in defaults
             if (isCustomColour && !ColorUtils.COLOR_PICKER_DEFAULT_COLORS.contains(colour)) customColorsManager.saveColor(colour.toArgb())
-            preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
-            preferencesManager.getStrokeColor().collect { strokeColor->
-                _uiState.update {
-                    it.copy(strokeColour = strokeColor)
-                }
-            }
+//            preferencesManager.updateStrokeColor(strokeColour = colour.toArgb())
+//            preferencesManager.getStrokeColor().collect { strokeColor->
+//                _uiState.update {
+//                    it.copy(strokeColour = strokeColor)
+//                }
+//            }
         }
     }
 
@@ -146,74 +141,57 @@ internal class ArtMakerViewModel(
 
     private fun selectStrokeWidth(strokeWidth: Int) {
         viewModelScope.launch {
-            preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
-            preferencesManager.getStrokeWidth().collect { stroke->
-                _uiState.update {
-                    it.copy(strokeWidth = stroke)
-                }
-            }
+//            preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
+//            preferencesManager.getStrokeWidth().collect { stroke->
+//                _uiState.update {
+//                    it.copy(strokeWidth = stroke)
+//                }
+//            }
         }
     }
 
     private fun updateStylusSetting(useStylusOnly: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
-            preferencesManager.getStylusOnlySetting().collect { stylus->
-                _uiState.update {
-                    it.copy(shouldUseStylusOnly = stylus)
-                }
-            }
+//            preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
+//            preferencesManager.getStylusOnlySetting().collect { stylus->
+//                _uiState.update {
+//                    it.copy(shouldUseStylusOnly = stylus)
+//                }
+//            }
         }
     }
 
     private fun updatePressureSetting(detectPressure: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
-            preferencesManager.getPressureDetectionSetting().collect { pressure->
-                _uiState.update {
-                    it.copy(shouldDetectPressure = pressure)
-                }
-            }
+//            preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
+//            preferencesManager.getPressureDetectionSetting().collect { pressure->
+//                _uiState.update {
+//                    it.copy(shouldDetectPressure = pressure)
+//                }
+//            }
         }
     }
 
     private fun updateEnableStylusDialog(canShow: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updateEnableStylusDialog(canShow = canShow)
-            preferencesManager.getEnableStylusDialog().collect { stylusDialog->
-                _uiState.update {
-                    it.copy(canShowEnableStylusDialog = stylusDialog)
-                }
-            }
+//            preferencesManager.updateEnableStylusDialog(canShow = canShow)
+//            preferencesManager.getEnableStylusDialog().collect { stylusDialog->
+//                _uiState.update {
+//                    it.copy(canShowEnableStylusDialog = stylusDialog)
+//                }
+//            }
         }
 
     }
 
     private fun updateDisableStylusDialog(canShow: Boolean) {
         viewModelScope.launch {
-            preferencesManager.updateDisableStylusDialog(canShow = canShow)
-            preferencesManager.getDisableStylusDialog().collect { disableStylusDialog->
-                _uiState.update {
-                    it.copy(canShowDisableStylusDialog = disableStylusDialog)
-                }
-            }
+//            preferencesManager.updateDisableStylusDialog(canShow = canShow)
+//            preferencesManager.getDisableStylusDialog().collect { disableStylusDialog->
+//                _uiState.update {
+//                    it.copy(canShowDisableStylusDialog = disableStylusDialog)
+//                }
+//            }
         }
     }
-
-//    companion object {
-//        fun provideFactory(application: Application): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-//            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//                if (modelClass.isAssignableFrom(ArtMakerViewModel::class.java)) {
-//                    @Suppress("UNCHECKED_CAST")
-//                    return ArtMakerViewModel(
-//                        preferencesManager = PreferencesManager(preferences = ArtMakerSharedPreferences(context = application)),
-//                        customColorsManager = CustomColorsManager(application),
-//                        drawingManager = DrawingManager(),
-//                        applicationContext = application.applicationContext,
-//                    ) as T
-//                }
-//                throw IllegalArgumentException("Unknown ViewModel Class")
-//            }
-//        }
-//    }
 }
