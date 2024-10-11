@@ -30,10 +30,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.PhonelinkErase
-import androidx.compose.material.icons.filled.Redo
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Undo
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -59,6 +56,10 @@ import androidx.compose.ui.unit.dp
 import com.fbada006.shared.ArtMakerUIState
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
+import com.fbada006.shared.icons.Ink_eraser
+import com.fbada006.shared.icons.Ink_eraser_off
+import com.fbada006.shared.icons.Redo
+import com.fbada006.shared.icons.Undo
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
 import customcolorpalette.CustomColorPalette
@@ -71,7 +72,6 @@ private const val IMAGE_PICKER_MAX_ITEMS = 1
  * without any functionality.
  */
 @OptIn(ExperimentalMaterial3Api::class)
-//@SuppressLint("UnsafeOptInUsageError")
 @Composable
 internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
@@ -133,29 +133,19 @@ internal fun ArtMakerControlMenu(
                     },
                 )
                 MenuItem(
-                    imageVector = Icons.Filled.PhonelinkErase
-                    
-//                    if (isEraserActive) {
-//                        ImageVector.vectorResource(id = R.drawable.ink_eraser_off)
-//                    } else {
-//                        ImageVector.vectorResource(
-//                            id = R.drawable.ink_eraser,
-//                        )
-//                    }
-                    
-                    ,
+                    imageVector = if (isEraserActive) Ink_eraser else Ink_eraser_off,
                     onItemClicked = onActivateEraser,
                     enabled = state.canErase,
                 )
                 MenuItem(
-                    imageVector = Icons.Filled.Undo,
+                    imageVector = Undo,
                     onItemClicked = {
                         onDrawEvent(DrawEvent.Undo)
                     },
                     enabled = state.canUndo,
                 )
                 MenuItem(
-                    imageVector = Icons.Filled.Redo,
+                    imageVector = Redo,
                     onItemClicked = {
                         onDrawEvent(DrawEvent.Redo)
                     },

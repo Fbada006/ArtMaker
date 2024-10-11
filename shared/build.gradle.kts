@@ -54,13 +54,11 @@ kotlin {
                 implementation(material3)
             }
             implementation(compose.components.resources)
-//            with(libs){
-            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+            implementation(libs.lifecycle.viewmodel)
             implementation(libs.kotlinx.serialization.json)
             api(libs.androidx.datastore.preferences.core)
             api(libs.androidx.datastore)
             implementation(project(":customcolorpalette"))
-//            }
         }
         commonTest.dependencies {
         }

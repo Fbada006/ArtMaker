@@ -39,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.fbada006.shared.data.CustomColorsManager
 import com.fbada006.shared.data.PreferencesManager
 import com.fbada006.shared.drawing.DrawingManager
