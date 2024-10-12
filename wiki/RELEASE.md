@@ -26,5 +26,5 @@ The steps are straightforward when doing a release as outline below:
 9. Confirm your release notes by inputting "y" as prompted and you should get a confirmation message on the same after your release has been created.
 10. Go to the [releases](https://github.com/Fbada006/ArtMaker/releases), navigate into your release, and ensure the `Set as the latest release` checkbox at the bottom of the page is selected.
 11. Publish the release and wait for the `publish` pipeline to run and upload the artefacts to maven. In case of a failure here, start again from number 2 above and repeat.
-12. Once everything has been successfully completed, update the `libVersion` variable in `scripts/publish.gradle.kts` to match the latest release version.
+12. Once everything has been successfully completed, update the `libVersion` variable in `scripts/publish.gradle.kts` to match the latest release version as indicated in your release branch name.
 13. Open a PR from the release branch to the main branch, get a review, ensure all checks have passed, and merge.
