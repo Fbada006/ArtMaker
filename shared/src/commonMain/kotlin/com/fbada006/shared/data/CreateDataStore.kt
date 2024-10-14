@@ -7,7 +7,9 @@ import okio.Path.Companion.toPath
 
 fun createDataStore(producePath: () -> String): DataStore<Preferences> =
     PreferenceDataStoreFactory.createWithPath(
-        produceFile = { producePath().toPath() }
+        produceFile = { producePath().toPath() },
     )
 
 const val ARTMAKER_DATASTORE_FILE_NAME = "artmaker.preferences_pb"
+
+expect fun getDataStore(): DataStore<Preferences>

@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.map
 /**
  * PreferencesManager is used to handle the  functionalities and abstract them from [com.fbada006.shared.ArtMakerViewModel].
  */
-internal class PreferencesManager(private val preferences: DataStore<Preferences>) {
+internal class PreferencesManager(private val preferences: DataStore<Preferences> = getDataStore()) {
 
     val state = combine(
         getStrokeColor(),
