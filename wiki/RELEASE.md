@@ -22,7 +22,7 @@ The steps are straightforward when doing a release as outline below:
 5. Ensure you have your GitHub Token stored in the **local.properties** file and named **GITHUB_TOKEN**. Please use the [Classic Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#personal-access-tokens-classic) as the [Fine Grained Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) need a bit of configuration.
 6. Run the now executable `releaseArtMaker.sh` using the following command: `./releaseArtMaker.sh`
 7. Select your release type from the choices provided using the number that corresponds to it.
-8. Write your release notes as you would (you can use the hyphens as was done in the previous release notes) and press ENTER once to move to the next line. Press ENTER twice to complete your input.
+8. Write your release notes (no need to begin each Release Note with a hyphen as it has already been done) and press ENTER once to move to the next line. Press ENTER twice to complete your input.
 9. Confirm your release notes by inputting "y" as prompted and you should get a confirmation message on the same after your release has been created.
 10. Go to the [releases](https://github.com/Fbada006/ArtMaker/releases), navigate into your release, and ensure the `Set as the latest release` checkbox at the bottom of the page is selected.
 11. Publish the release and wait for the `publish` pipeline to run and upload the artefacts to maven. In case of a failure here, start again from number 2 above and repeat.
