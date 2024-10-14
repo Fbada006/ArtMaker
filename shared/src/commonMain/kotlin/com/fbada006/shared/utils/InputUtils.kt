@@ -18,8 +18,7 @@ internal fun PointerInputChange.isStylusInput(): Boolean = this.type == PointerT
  */
 internal fun PointerInputChange.validateEvent(useStylusOnly: Boolean): Boolean {
     if (!isStylusConnected()) return true // No stylus
-    val isStylusDrawing = this.isStylusInput()
 
     // Check if stylus drawing is required but not detected
-    return !useStylusOnly || isStylusDrawing
+    return !useStylusOnly || this.isStylusInput()
 }
