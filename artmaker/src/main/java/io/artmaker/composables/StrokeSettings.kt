@@ -18,7 +18,9 @@ package io.artmaker.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -32,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import io.artmaker.actions.ArtMakerAction
 import io.artmaker.models.ArtMakerConfiguration
@@ -39,19 +42,42 @@ import io.artmaker.utils.isStylusConnected
 import io.fbada006.artmaker.R
 
 @Composable
-fun StrokeSettings(
-    strokeWidth: Int,
+internal fun StrokeSettings(
+    state: StrokeState,
     shouldUseStylusOnly: Boolean,
     shouldDetectPressure: Boolean,
     onAction: (ArtMakerAction) -> Unit,
     configuration: ArtMakerConfiguration,
     modifier: Modifier = Modifier,
 ) {
-    var sliderPosition by remember { mutableIntStateOf(strokeWidth) }
+    var sliderPosition by remember { mutableIntStateOf(state.strokeWidth) }
     var stylusOnly by remember { mutableStateOf(shouldUseStylusOnly) }
     var detectPressure by remember { mutableStateOf(shouldDetectPressure) }
+    var lineStyle by remember { mutableStateOf(state.lineStyle) }
 
-    Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(modifier = modifier) {
+        StrokePreview(
+            state = state,
+            modifier = Modifier
+                .height(dimensionResource(R.dimen.Padding60))
+                .fillMaxWidth(),
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.Padding7)))
+        HorizontalDivider()
+
+        LineStyleSelector(
+            lineStyle,
+            onStyleSelected = {
+                lineStyle = it
+                onAction(ArtMakerAction.SetLineStyle(style = lineStyle))
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(R.dimen.art_maker_line_style_selector_height)),
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.Padding7)))
+        HorizontalDivider()
+
         Slider(
             sliderPosition = sliderPosition.toFloat(),
             onValueChange = {

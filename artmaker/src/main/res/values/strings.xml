@@ -30,4 +30,5 @@
     <string name="enable_pressure_detection">Enable pressure detection</string>
     <string name="got_it">Got it</string>
     <string name="recent_colors">Recent Colors</string>
+    <string name="line_style">Line Style</string>
 </resources>
