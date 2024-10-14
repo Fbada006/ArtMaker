@@ -207,45 +207,6 @@ internal fun ArtMakerDrawScreen(
                     }
                 }
             },
-//            .pointerInteropFilter { event ->
-//                val offset = Offset(event.x, event.y)
-//                val pressure = event.getPressure(event.actionIndex)
-//                when (event.action) {
-//                    MotionEvent.ACTION_DOWN -> {
-//                        getDialogType(context, event, state.shouldUseStylusOnly)?.let { type ->
-//                            shouldShowStylusDialog = true
-//                            stylusDialogType = type
-//                        }
-//
-//                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) {
-//                            return@pointerInteropFilter false
-//                        }
-//
-//                        if (isEraserActive) {
-//                            onDrawEvent(DrawEvent.Erase(offset = offset))
-//                        } else {
-//                            onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
-//                        }
-//                    }
-//
-//                    MotionEvent.ACTION_MOVE -> {
-//                        val clampedOffset =
-//                            Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-//                        eraserPosition = clampedOffset
-//                        if (isEraserActive) {
-//                            onDrawEvent(DrawEvent.Erase(offset = clampedOffset))
-//                        } else {
-//                            onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset, pressure))
-//                        }
-//                    }
-//
-//                    MotionEvent.ACTION_CANCEL -> {
-//                        onDrawEvent(DrawEvent.UndoLastShapePoint)
-//                        eraserPosition = null
-//                    }
-//                }
-//                true
-//            }
         onDraw = {
             drawIntoCanvas {
                 state.backgroundImage?.let { bitmap ->
