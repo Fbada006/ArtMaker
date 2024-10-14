@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.demo.ui.theme
+package com.artmaker.androidApp.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
