@@ -149,8 +149,10 @@ internal fun ArtMakerDrawScreen(
 //                    drawLayer(graphicsLayer)
 //                }
 //            }
-            .pointerInput(isEraserActive) {
+            .pointerInput(state.shouldUseStylusOnly || isEraserActive) {
                 awaitPointerEventScope {
+                    var isDrawing = false
+
                     while (true) {
                         val event = awaitPointerEvent()
                         val change = event.changes.first()
@@ -166,8 +168,12 @@ internal fun ArtMakerDrawScreen(
                                 }
 
                                 if (!change.validateEvent(state.shouldUseStylusOnly)) {
-                                    return@awaitPointerEventScope
+                                    // Ignore this event
+                                    continue
                                 }
+
+                                // Start a new shape when pressing
+                                isDrawing = true
 
                                 if (isEraserActive) {
                                     onDrawEvent(DrawEvent.Erase(offset))
@@ -177,12 +183,20 @@ internal fun ArtMakerDrawScreen(
                             }
 
                             PointerEventType.Move -> {
-                                eraserPosition = offset
-                                if (isEraserActive) {
-                                    onDrawEvent(DrawEvent.Erase(offset))
-                                } else {
-                                    onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                if (isDrawing) {
+                                    eraserPosition = offset
+
+                                    if (isEraserActive) {
+                                        onDrawEvent(DrawEvent.Erase(offset))
+                                    } else {
+                                        // Update the current shape
+                                        onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                    }
                                 }
+                            }
+
+                            PointerEventType.Release -> {
+                                isDrawing = false
                             }
 
                             PointerEventType.Unknown -> {
