@@ -17,9 +17,6 @@ package com.fbada006.shared.composables
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -48,10 +45,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerInputChange
-import androidx.compose.ui.input.pointer.changedToDown
-import androidx.compose.ui.input.pointer.changedToUp
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.layout.onSizeChanged
 import com.fbada006.shared.DrawScreenState
 import com.fbada006.shared.actions.ArtMakerAction
@@ -59,6 +53,7 @@ import com.fbada006.shared.actions.DrawEvent
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.models.alpha
 import com.fbada006.shared.utils.isStylusInput
+import com.fbada006.shared.utils.validateEvent
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.got_it
 import io.fbada006.artmaker.non_stylus_input_detected_message
@@ -100,7 +95,7 @@ internal fun ArtMakerDrawScreen(
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
-    val stylusDialogType by rememberSaveable { mutableStateOf("") }
+    var stylusDialogType by rememberSaveable { mutableStateOf("") }
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
 
 //    val graphicsLayer = rememberGraphicsLayer()
@@ -158,12 +153,22 @@ internal fun ArtMakerDrawScreen(
                 awaitPointerEventScope {
                     while (true) {
                         val event = awaitPointerEvent()
+                        val change = event.changes.first()
 
                         val offset = event.changes.first().position
                         val pressure = event.changes.first().pressure
 
                         when (event.type) {
                             PointerEventType.Press -> {
+                                getDialogType(change, state.shouldUseStylusOnly)?.let { type ->
+                                    shouldShowStylusDialog = true
+                                    stylusDialogType = type
+                                }
+
+                                if (!change.validateEvent(state.shouldUseStylusOnly)) {
+                                    return@awaitPointerEventScope
+                                }
+
                                 if (isEraserActive) {
                                     onDrawEvent(DrawEvent.Erase(offset))
                                 } else {
@@ -301,9 +306,9 @@ internal fun ArtMakerDrawScreen(
     }
 }
 
-private fun getDialogType(input: PointerInputChange, useStylusOnly: Boolean) = when {
-    input.isStylusInput() && !useStylusOnly -> StylusDialogType.ENABLE_STYLUS_ONLY.name
-//    !input.validateEvent(context, useStylusOnly) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
+private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean) = when {
+    change.isStylusInput() && !useStylusOnly -> StylusDialogType.ENABLE_STYLUS_ONLY.name
+    !change.validateEvent(useStylusOnly) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
     else -> null
 }
 

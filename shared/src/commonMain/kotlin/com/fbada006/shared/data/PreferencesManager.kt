@@ -38,13 +38,15 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         getStylusOnlySetting(),
         getPressureDetectionSetting(),
         getEnableStylusDialog(),
-    ) { strokeColor, strokeWidth, stylusOnly, detectPressure, enableStylusDialog ->
+        getDisableStylusDialog(),
+    ) { values->
         ArtMakerUIState(
-            strokeColour = strokeColor,
-            strokeWidth = strokeWidth,
-            shouldUseStylusOnly = stylusOnly,
-            shouldDetectPressure = detectPressure,
-            canShowEnableStylusDialog = enableStylusDialog,
+            strokeColour = values[0] as Int,
+            strokeWidth = values[1] as Int,
+            shouldUseStylusOnly = values[2] as Boolean,
+            shouldDetectPressure = values[3] as Boolean,
+            canShowEnableStylusDialog = values[4] as Boolean,
+            canShowDisableStylusDialog = values[5] as Boolean,
         )
     }
 

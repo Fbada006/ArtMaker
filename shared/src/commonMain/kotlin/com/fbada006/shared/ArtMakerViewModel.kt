@@ -170,7 +170,6 @@ internal class ArtMakerViewModel(
         viewModelScope.launch {
             preferencesManager.updateEnableStylusDialog(canShow = canShow)
         }
-
     }
 
     private fun updateDisableStylusDialog(canShow: Boolean) {
