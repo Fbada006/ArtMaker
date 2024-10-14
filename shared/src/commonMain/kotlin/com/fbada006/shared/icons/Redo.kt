@@ -12,10 +12,10 @@ import androidx.compose.ui.unit.dp
 @Suppress("RedundantVisibilityModifier")
 public val Redo: ImageVector
 	get() {
-		if (_Redo != null) {
-			return _Redo!!
+		if (redo != null) {
+			return redo!!
 		}
-		_Redo = ImageVector.Builder(
+		redo = ImageVector.Builder(
             name = "Redo",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -55,7 +55,7 @@ public val Redo: ImageVector
 				horizontalLineTo(13f)
 			}
 		}.build()
-		return _Redo!!
+		return redo!!
 	}
 
-private var _Redo: ImageVector? = null
+private var redo: ImageVector? = null

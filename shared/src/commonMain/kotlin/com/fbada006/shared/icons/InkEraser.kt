@@ -10,12 +10,12 @@ import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
 @Suppress("RedundantVisibilityModifier")
-public val Ink_eraser: ImageVector
+public val InkEraser: ImageVector
 	get() {
-		if (_Ink_eraser != null) {
-			return _Ink_eraser!!
+		if (ink_eraser != null) {
+			return ink_eraser!!
 		}
-		_Ink_eraser = ImageVector.Builder(
+		ink_eraser = ImageVector.Builder(
             name = "Ink_eraser",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -59,7 +59,7 @@ public val Ink_eraser: ImageVector
 				moveToRelative(-6f, -240f)
 			}
 		}.build()
-		return _Ink_eraser!!
+		return ink_eraser!!
 	}
 
-private var _Ink_eraser: ImageVector? = null
+private var ink_eraser: ImageVector? = null

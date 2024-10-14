@@ -26,6 +26,11 @@ package com.fbada006.shared.utils
 //import java.io.File
 //import kotlin.coroutines.resume
 //
+
+fun placeHolder():Boolean{
+    return true
+}
+
 //private suspend fun scanFilePath(context: Context, filePath: String): Uri? = suspendCancellableCoroutine { continuation ->
 //    MediaScannerConnection.scanFile(
 //        context,

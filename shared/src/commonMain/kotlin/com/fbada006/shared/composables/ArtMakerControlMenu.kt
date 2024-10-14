@@ -56,8 +56,8 @@ import androidx.compose.ui.unit.dp
 import com.fbada006.shared.ArtMakerUIState
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
-import com.fbada006.shared.icons.Ink_eraser
-import com.fbada006.shared.icons.Ink_eraser_off
+import com.fbada006.shared.icons.InkEraser
+import com.fbada006.shared.icons.InkEraserOff
 import com.fbada006.shared.icons.Redo
 import com.fbada006.shared.icons.Undo
 import com.fbada006.shared.models.ArtMakerConfiguration
@@ -137,7 +137,7 @@ internal fun ArtMakerControlMenu(
                     },
                 )
                 MenuItem(
-                    imageVector = if (isEraserActive) Ink_eraser else Ink_eraser_off,
+                    imageVector = if (isEraserActive) InkEraser else InkEraserOff,
                     onItemClicked = onActivateEraser,
                     enabled = state.canErase,
                 )
