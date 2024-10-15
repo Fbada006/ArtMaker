@@ -3,6 +3,10 @@ package com.fbada006.shared.dimensions
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * This is the representation of the Dimensions to be used across all of the platforms.
+ */
+
 object Dimensions {
     val Padding0: Dp = 0.dp
     val Padding2: Dp = 2.dp
