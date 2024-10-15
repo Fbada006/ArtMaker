@@ -9,13 +9,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-@Suppress("RedundantVisibilityModifier")
-public val Undo: ImageVector
+val Undo: ImageVector
 	get() {
-		if (_Undo != null) {
-			return _Undo!!
+		if (undo != null) {
+			return undo!!
 		}
-		_Undo = ImageVector.Builder(
+		undo = ImageVector.Builder(
             name = "Undo",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -55,7 +54,7 @@ public val Undo: ImageVector
 				horizontalLineTo(11f)
 			}
 		}.build()
-		return _Undo!!
+		return undo!!
 	}
 
-private var _Undo: ImageVector? = null
+private var undo: ImageVector? = null

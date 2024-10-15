@@ -22,17 +22,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.artmaker.androidApp.ui.theme.ArtMakerTheme
 import com.fbada006.shared.ArtMaker
+import com.fbada006.shared.ArtMakerInitializer
 import com.fbada006.shared.Greeting
-import com.fbada006.shared.data.createDataStore
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ArtMakerInitializer.initialise(this)
         setContent {
             ArtMakerTheme {
                 ArtMaker(
-                    modifier = Modifier.fillMaxSize(),
-                    preferences = createDataStore(applicationContext),
+                    modifier = Modifier.fillMaxSize()
                 )
                 println("Greetings----${Greeting().greet()}")
             }

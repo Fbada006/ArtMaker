@@ -17,8 +17,6 @@ package com.fbada006.shared.composables
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -45,6 +43,8 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import com.fbada006.shared.DrawScreenState
@@ -52,6 +52,8 @@ import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.models.alpha
+import com.fbada006.shared.utils.isStylusInput
+import com.fbada006.shared.utils.validateEvent
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.got_it
 import io.fbada006.artmaker.non_stylus_input_detected_message
@@ -93,7 +95,7 @@ internal fun ArtMakerDrawScreen(
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
-    val stylusDialogType by rememberSaveable { mutableStateOf("") }
+    var stylusDialogType by rememberSaveable { mutableStateOf("") }
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
 
 //    val graphicsLayer = rememberGraphicsLayer()
@@ -147,81 +149,64 @@ internal fun ArtMakerDrawScreen(
 //                    drawLayer(graphicsLayer)
 //                }
 //            }
-            .pointerInput(isEraserActive) {
-                detectTapGestures(
-                    onTap = { offset ->
-                        if (isEraserActive) {
-                            onDrawEvent(DrawEvent.Erase(offset = offset))
-                        } else {
-                            onDrawEvent(DrawEvent.AddNewShape(offset, 1f))
+            .pointerInput(state.shouldUseStylusOnly || isEraserActive) {
+                awaitPointerEventScope {
+                    var isDrawing = false
+
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        val change = event.changes.first()
+
+                        val offset = event.changes.first().position
+                        val pressure = event.changes.first().pressure
+
+                        when (event.type) {
+                            PointerEventType.Press -> {
+                                getDialogType(change, state.shouldUseStylusOnly)?.let { type ->
+                                    shouldShowStylusDialog = true
+                                    stylusDialogType = type
+                                }
+
+                                if (!change.validateEvent(state.shouldUseStylusOnly)) {
+                                    // Ignore this event
+                                    continue
+                                }
+
+                                // Start a new shape when pressing
+                                isDrawing = true
+
+                                if (isEraserActive) {
+                                    onDrawEvent(DrawEvent.Erase(offset))
+                                } else {
+                                    onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
+                                }
+                            }
+
+                            PointerEventType.Move -> {
+                                if (isDrawing) {
+                                    eraserPosition = offset
+
+                                    if (isEraserActive) {
+                                        onDrawEvent(DrawEvent.Erase(offset))
+                                    } else {
+                                        // Update the current shape
+                                        onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                    }
+                                }
+                            }
+
+                            PointerEventType.Release -> {
+                                isDrawing = false
+                            }
+
+                            PointerEventType.Unknown -> {
+                                eraserPosition = null
+                                onDrawEvent(DrawEvent.UndoLastShapePoint)
+                            }
                         }
-                    },
-                )
-            }
-            .pointerInput(isEraserActive) {
-                detectDragGestures(
-                    onDragStart = { offset ->
-                        if (isEraserActive) {
-                            onDrawEvent(DrawEvent.Erase(offset = offset))
-                        } else {
-                            onDrawEvent(DrawEvent.AddNewShape(offset, 1f))
-                        }
-                    },
-                    onDragCancel = {
-                        eraserPosition = null
-                        onDrawEvent(DrawEvent.UndoLastShapePoint)
-                    },
-                ) { change, _ ->
-                    val offset = change.position
-//                    val clampedOffset =
-//                        Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-                    eraserPosition = offset
-                    if (isEraserActive) {
-                        onDrawEvent(DrawEvent.Erase(offset = offset))
-                    } else {
-                        onDrawEvent(DrawEvent.UpdateCurrentShape(offset, 1f))
                     }
                 }
             },
-//            .pointerInteropFilter { event ->
-//                val offset = Offset(event.x, event.y)
-//                val pressure = event.getPressure(event.actionIndex)
-//                when (event.action) {
-//                    MotionEvent.ACTION_DOWN -> {
-//                        getDialogType(context, event, state.shouldUseStylusOnly)?.let { type ->
-//                            shouldShowStylusDialog = true
-//                            stylusDialogType = type
-//                        }
-//
-//                        if (!event.validateEvent(context, state.shouldUseStylusOnly)) {
-//                            return@pointerInteropFilter false
-//                        }
-//
-//                        if (isEraserActive) {
-//                            onDrawEvent(DrawEvent.Erase(offset = offset))
-//                        } else {
-//                            onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
-//                        }
-//                    }
-//
-//                    MotionEvent.ACTION_MOVE -> {
-//                        val clampedOffset =
-//                            Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
-//                        eraserPosition = clampedOffset
-//                        if (isEraserActive) {
-//                            onDrawEvent(DrawEvent.Erase(offset = clampedOffset))
-//                        } else {
-//                            onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset, pressure))
-//                        }
-//                    }
-//
-//                    MotionEvent.ACTION_CANCEL -> {
-//                        onDrawEvent(DrawEvent.UndoLastShapePoint)
-//                        eraserPosition = null
-//                    }
-//                }
-//                true
-//            }
         onDraw = {
             drawIntoCanvas {
                 state.backgroundImage?.let { bitmap ->
@@ -266,7 +251,7 @@ internal fun ArtMakerDrawScreen(
             state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(Res.string.stylus_input_detected_title) to
                     stringResource(Res.string.stylus_input_detected_message)
 
-            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(Res.string.non_stylus_input_detected_title,) to
+            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(Res.string.non_stylus_input_detected_title) to
                     stringResource(Res.string.non_stylus_input_detected_message)
 
             else -> return
@@ -296,10 +281,10 @@ internal fun ArtMakerDrawScreen(
     }
 }
 
-//private fun getDialogType(context: Context, event: MotionEvent, useStylusOnly: Boolean) = when {
-//    event.isStylusInput() && !useStylusOnly -> StylusDialogType.ENABLE_STYLUS_ONLY.name
-//    !event.validateEvent(context, useStylusOnly) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
-//    else -> null
-//}
+private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean) = when {
+    change.isStylusInput() && !useStylusOnly -> StylusDialogType.ENABLE_STYLUS_ONLY.name
+    !change.validateEvent(useStylusOnly) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
+    else -> null
+}
 
 internal enum class StylusDialogType { ENABLE_STYLUS_ONLY, DISABLE_STYLUS_ONLY }
