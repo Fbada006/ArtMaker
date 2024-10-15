@@ -9,8 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-@Suppress("RedundantVisibilityModifier")
-public val InkEraser: ImageVector
+val InkEraser: ImageVector
 	get() {
 		if (ink_eraser != null) {
 			return ink_eraser!!
