@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.artmaker.demo
+package com.artmaker.androidApp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import com.artmaker.demo.ui.theme.ArtMakerTheme
+import com.artmaker.androidApp.ui.theme.ArtMakerTheme
 import com.fbada006.shared.ArtMaker
 import com.fbada006.shared.ArtMakerInitializer
 import com.fbada006.shared.Greeting
