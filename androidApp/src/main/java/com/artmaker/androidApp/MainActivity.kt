@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ArtMakerTheme {
                 ArtMaker(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
                 println("Greetings----${Greeting().greet()}")
             }
