@@ -143,6 +143,7 @@ fun ArtMaker(
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat(),
+                imageBitmap = finishedImage
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(

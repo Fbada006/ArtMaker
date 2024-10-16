@@ -121,7 +121,7 @@ internal class ArtMakerViewModel(
         _shouldTriggerArtExport.update { true }
     }
 
-    private fun exportArt(bitmap: ImageBitmap) {
+    private fun exportArt(bitmap: ImageBitmap?) {
         _shouldTriggerArtExport.update { false }
         viewModelScope.launch {
             if (exportType.value == ExportType.FinishDrawingImage) {

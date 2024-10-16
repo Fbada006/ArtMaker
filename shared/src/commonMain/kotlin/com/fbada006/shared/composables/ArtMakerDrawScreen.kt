@@ -24,8 +24,11 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
@@ -54,12 +58,19 @@ import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.models.alpha
 import com.fbada006.shared.utils.isStylusInput
 import com.fbada006.shared.utils.validateEvent
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionState
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.got_it
+import io.fbada006.artmaker.grant_access
 import io.fbada006.artmaker.non_stylus_input_detected_message
 import io.fbada006.artmaker.non_stylus_input_detected_title
 import io.fbada006.artmaker.stylus_input_detected_message
 import io.fbada006.artmaker.stylus_input_detected_title
+import io.fbada006.artmaker.the_storage_permission_is_needed_to_save_the_image
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 /**
@@ -74,7 +85,15 @@ internal fun ArtMakerDrawScreen(
     state: DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
+    imageBitmap: ImageBitmap?
 ) {
+    val factory = rememberPermissionsControllerFactory()
+    val controller = remember(factory) {
+        factory.createPermissionsController()
+    }
+    // Binds the permissions controller to the LocalLifecycleOwner lifecycle.
+    BindEffect(controller)
+
 //    val context = LocalContext.current
 //    val density = LocalDensity.current
 //    val configuration = LocalConfiguration.current
@@ -98,39 +117,38 @@ internal fun ArtMakerDrawScreen(
     var stylusDialogType by rememberSaveable { mutableStateOf("") }
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
 
-//    val graphicsLayer = rememberGraphicsLayer()
-//    val snackbarHostState = remember { SnackbarHostState() }
-//
-//    val writeStorageAccessState = rememberMultiplePermissionsState(
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            // No permissions are needed on Android 10+ to add files in the shared storage
-//            emptyList()
-//        } else {
-//            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//        },
-//    )
+    val snackbarHostState = remember { SnackbarHostState() }
 
-//    LaunchedEffect(key1 = state.shouldTriggerArtExport) {
-//        if (state.shouldTriggerArtExport) {
-//            if (writeStorageAccessState.allPermissionsGranted) {
-//                val bitmap = graphicsLayer.toImageBitmap()
-//                onAction(com.fbada006.shared.actions.ArtMakerAction.ExportArt(bitmap))
-//            } else if (writeStorageAccessState.shouldShowRationale) {
-//                launch {
-//                    val result = snackbarHostState.showSnackbar(
-//                        message = context.getString(R.string.the_storage_permission_is_needed_to_save_the_image),
-//                        actionLabel = context.getString(R.string.grant_access),
-//                    )
-//
-//                    if (result == SnackbarResult.ActionPerformed) {
-//                        writeStorageAccessState.launchMultiplePermissionRequest()
-//                    }
-//                }
-//            } else {
-//                writeStorageAccessState.launchMultiplePermissionRequest()
-//            }
-//        }
-//    }
+    LaunchedEffect(key1 = state.shouldTriggerArtExport) {
+        if (state.shouldTriggerArtExport) {
+            val permissionState = controller.getPermissionState(Permission.WRITE_STORAGE)
+            when (permissionState) {
+                PermissionState.Granted -> {
+                onAction(ArtMakerAction.ExportArt(imageBitmap))
+                }
+
+                PermissionState.NotDetermined -> {
+                    launch {
+                        val result = snackbarHostState.showSnackbar(
+                            message = Res.string.the_storage_permission_is_needed_to_save_the_image.toString(),
+                            actionLabel = Res.string.grant_access.toString(),
+                        )
+
+                        if (result == SnackbarResult.ActionPerformed) {
+                            controller.openAppSettings()
+                        }
+                    }
+                }
+
+                else -> {
+                    /**
+                     * From previous implementation we were calling launchMultiplePermissionRequest()
+                     * I will leave this block blank so we can discuss further
+                     */
+                }
+            }
+        }
+    }
 
     Canvas(
         modifier = modifier
