@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.ExportType
@@ -94,7 +93,7 @@ fun ArtMaker(
             AnimatedVisibility(
                 visible = viewModel.pathList.isNotEmpty() && !showStrokeSettings,
                 modifier = Modifier.padding(
-                    bottom = if (isFullScreenEnabled) Dimensions.Padding0 else Dimensions.Padding60,
+                    bottom = if (isFullScreenEnabled) Dimensions.FullScreenEnabledPadding else Dimensions.FullScreenDisabledPadding,
                 ),
             ) {
                 Column {
@@ -104,12 +103,12 @@ fun ArtMaker(
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
                     }
-                    Spacer(modifier = Modifier.height(Dimensions.Padding4))
+                    Spacer(modifier = Modifier.height(Dimensions.FirstArtMakerSpacerHeight))
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
-                    Spacer(modifier = Modifier.height(Dimensions.Padding4))
+                    Spacer(modifier = Modifier.height(Dimensions.SecondArtMakerSpacerHeight))
                     FloatingActionButton(onClick = { isFullScreenEnabled = !isFullScreenEnabled }) {
                         Icon(
                             imageVector = if (isFullScreenEnabled) Icons.Filled.Fullscreen else Icons.Filled.FullscreenExit,
@@ -152,9 +151,9 @@ fun ArtMaker(
                     configuration = artMakerConfiguration,
                     modifier = Modifier
                         .padding(
-                            top = Dimensions.Padding8,
-                            end = Dimensions.Padding12,
-                            start = Dimensions.Padding12,
+                            top = Dimensions.StrokeSettingsTopPadding,
+                            end = Dimensions.StrokeSettingsEndPadding,
+                            start = Dimensions.StrokeSettingsStartPadding,
                         ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                     shouldDetectPressure = state.shouldDetectPressure,
@@ -165,7 +164,7 @@ fun ArtMaker(
                     state = state,
                     onAction = viewModel::onAction,
                     onDrawEvent = viewModel::onDrawEvent,
-                    modifier = Modifier.height(Dimensions.Padding60),
+                    modifier = Modifier.height(Dimensions.ControlMenuHeight),
                     onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,

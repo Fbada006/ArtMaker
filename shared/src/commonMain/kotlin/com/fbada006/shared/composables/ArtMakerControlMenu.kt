@@ -52,7 +52,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import com.fbada006.shared.ArtMakerUIState
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
@@ -108,7 +107,7 @@ internal fun ArtMakerControlMenu(
     var showColorPalette by remember { mutableStateOf(false) }
 
     Surface(
-        shadowElevation = Dimensions.Padding60,
+        shadowElevation = Dimensions.ControlMenuShadowElevation,
         modifier = modifier,
         color = artMakerConfiguration.controllerBackgroundColor,
     ) {
@@ -116,17 +115,17 @@ internal fun ArtMakerControlMenu(
             Row(
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(all = Dimensions.Padding10),
+                    .padding(all = Dimensions.ControlMenuPadding),
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 MenuItem(
                     modifier = Modifier
                         .border(
-                            width = Dimensions.Padding2,
+                            width = Dimensions.ColorPickerBorderWidth,
                             brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
-                            shape = RoundedCornerShape(size = Dimensions.Padding32),
+                            shape = RoundedCornerShape(size = Dimensions.ColorPickerShapeSize),
                         )
-                        .padding(all = Dimensions.Padding2),
+                        .padding(all = Dimensions.ColorPickerPadding),
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
@@ -181,7 +180,7 @@ internal fun ArtMakerControlMenu(
             }
             Box(
                 Modifier
-                    .padding(all = Dimensions.Padding12)
+                    .padding(all = Dimensions.ControlMenuBoxPadding)
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
@@ -239,7 +238,7 @@ internal fun ArtMakerControlMenu(
                     CustomColorPalette(
                         modifier = Modifier
                             .height(Dimensions.ColorPaletteHeight)
-                            .padding(Dimensions.Padding12)
+                            .padding(Dimensions.ColorPalettePadding)
                             .navigationBarsPadding(),
                         onAccept = {
                             onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
@@ -274,7 +273,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint.copy(alpha = alpha),
-            modifier = modifier.size(Dimensions.Padding32),
+            modifier = modifier.size(Dimensions.MenuItemSize),
         )
     }
 }
