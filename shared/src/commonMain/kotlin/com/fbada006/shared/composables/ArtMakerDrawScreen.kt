@@ -85,7 +85,7 @@ internal fun ArtMakerDrawScreen(
     state: DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
-    imageBitmap: ImageBitmap?
+    imageBitmap: ImageBitmap?,
 ) {
     val factory = rememberPermissionsControllerFactory()
     val controller = remember(factory) {
@@ -141,6 +141,7 @@ internal fun ArtMakerDrawScreen(
                 }
 
                 else -> {
+                    onAction(ArtMakerAction.ExportArt(imageBitmap))
                     /**
                      * From previous implementation we were calling launchMultiplePermissionRequest()
                      * I will leave this block blank so we can discuss further
