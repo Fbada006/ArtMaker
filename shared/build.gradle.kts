@@ -24,9 +24,12 @@ plugins {
     alias(libs.plugins.serialization)
 }
 //https://youtrack.jetbrains.com/issue/KT-66448/Multiplatform-wizards.-Get-rid-of-deprecated-kotlinOptions
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
@@ -53,6 +56,8 @@ kotlin {
                 implementation(materialIconsExtended)
                 implementation(material3)
             }
+            api(libs.moko.permissions)
+            api(libs.moko.permissions.compose)
             implementation(compose.components.resources)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.kotlinx.serialization.json)
@@ -61,6 +66,10 @@ kotlin {
             implementation(project(":customcolorpalette"))
         }
         commonTest.dependencies {
+        }
+        androidMain.dependencies {
+            implementation("androidx.appcompat:appcompat:1.7.0")
+            implementation("androidx.activity:activity-compose:1.9.2")
         }
     }
 }
