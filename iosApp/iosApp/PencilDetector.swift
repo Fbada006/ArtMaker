@@ -9,7 +9,9 @@ import CoreBluetooth
 
 class PencilDetector: NSObject, CBCentralManagerDelegate {
     private var centralManager: CBCentralManager?
-
+    // Shared property to determine if Pencil is connected
+    private var pencilIsConnected: Bool = false
+    
     override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
@@ -31,9 +33,6 @@ class PencilDetector: NSObject, CBCentralManagerDelegate {
             }
         }
     }
-
-    // Shared property to determine if Pencil is connected
-    private var pencilIsConnected: Bool = false
 
     func isPencilConnected() -> Bool {
         return pencilIsConnected
