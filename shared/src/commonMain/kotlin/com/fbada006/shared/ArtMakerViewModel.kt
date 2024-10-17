@@ -32,6 +32,7 @@ import com.fbada006.shared.data.PreferencesManager
 import com.fbada006.shared.drawing.DrawingManager
 import com.fbada006.shared.models.PointsData
 import com.fbada006.shared.utils.ColorUtils
+import com.fbada006.shared.utils.shareImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -129,6 +130,7 @@ internal class ArtMakerViewModel(
                 _finishedImage.update { bitmap }
                 return@launch
             }
+            shareImage(bitmap)
 //            val uri = bmp.saveToDisk(applicationContext)
 //            shareBitmap(applicationContext, uri)
 //        }
