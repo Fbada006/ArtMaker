@@ -109,7 +109,7 @@ internal class ArtMakerViewModel(
                             shouldUseStylusOnly = newState.shouldUseStylusOnly,
                             shouldDetectPressure = newState.shouldDetectPressure,
                             canShowEnableStylusDialog = newState.canShowEnableStylusDialog,
-                            canShowDisableStylusDialog = newState.canShowDisableStylusDialog
+                            canShowDisableStylusDialog = newState.canShowDisableStylusDialog,
                         )
                     }
                 }
