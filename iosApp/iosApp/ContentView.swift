@@ -12,6 +12,13 @@ struct ComposeView: UIViewControllerRepresentable {
 }
 
 struct ContentView: View {
+    
+    init () {
+        IExportHelperKt.triggerIosSharing = {
+         print("IOS sharing triggered")
+        }
+    }
+    
     var body: some View {
         ComposeView()
     }

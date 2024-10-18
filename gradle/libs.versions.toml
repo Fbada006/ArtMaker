@@ -56,7 +56,6 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferences" }
 androidx-datastore = {module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences"}
 
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
