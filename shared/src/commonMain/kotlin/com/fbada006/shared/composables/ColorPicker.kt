@@ -81,12 +81,12 @@ internal fun ColorPicker(
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(bottom = Dimensions.ColorPickerColumnPadding),
+                .padding(bottom = Dimensions.ColorPickerBottomPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ColorPickerHorizontalSpacing),
+                    horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ColorPickerHorizontalArrangement),
                 ) {
                     Column {
                         val customColors by customColorsManager.getColors().collectAsState(listOf())
@@ -97,8 +97,8 @@ internal fun ColorPicker(
                         FlowRow(
                             modifier = Modifier
                                 .padding(vertical = Dimensions.FirstColorsRowPadding),
-                            horizontalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorsRowHorizontalArrangement),
-                            verticalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorsRowVerticalArrangement),
+                            horizontalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorSetHorizontalArrangement),
+                            verticalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorSetVerticalArrangement),
                             maxItemsInEachRow = NUM_COLUMNS,
                         ) {
                             repeat(allColors.size) { colorIndex ->
@@ -117,9 +117,9 @@ internal fun ColorPicker(
 
                             FlowRow(
                                 modifier = Modifier
-                                    .padding(vertical = Dimensions.SecondColorsRowPadding),
-                                horizontalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorsRowHorizontalArrangement),
-                                verticalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorsRowVerticalArrangement),
+                                    .padding(vertical = Dimensions.SecondColorSetPadding),
+                                horizontalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorSetHorizontalArrangement),
+                                verticalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorSetVerticalArrangement),
                                 maxItemsInEachRow = NUM_COLUMNS,
                             ) {
                                 repeat(customColors.size) { colorIndex ->

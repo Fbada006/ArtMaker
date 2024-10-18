@@ -107,7 +107,7 @@ internal fun ArtMakerControlMenu(
     var showColorPalette by remember { mutableStateOf(false) }
 
     Surface(
-        shadowElevation = Dimensions.ControlMenuShadowElevation,
+        shadowElevation = Dimensions.ArtMakerControlMenuShadowElevation,
         modifier = modifier,
         color = artMakerConfiguration.controllerBackgroundColor,
     ) {
@@ -115,17 +115,17 @@ internal fun ArtMakerControlMenu(
             Row(
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(all = Dimensions.ControlMenuPadding),
+                    .padding(all = Dimensions.ArtMakerControlMenuPadding),
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 MenuItem(
                     modifier = Modifier
                         .border(
-                            width = Dimensions.ColorPickerBorderWidth,
+                            width = Dimensions.ColorPickerMenuItemBorderWidth,
                             brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
-                            shape = RoundedCornerShape(size = Dimensions.ColorPickerShapeSize),
+                            shape = RoundedCornerShape(size = Dimensions.ColorPickerMenuItemShapeSize),
                         )
-                        .padding(all = Dimensions.ColorPickerPadding),
+                        .padding(all = Dimensions.ColorPickerMenuItemPadding),
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
@@ -180,7 +180,7 @@ internal fun ArtMakerControlMenu(
             }
             Box(
                 Modifier
-                    .padding(all = Dimensions.ControlMenuBoxPadding)
+                    .padding(all = Dimensions.ArtMakerControlMenuDropDownPadding)
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
@@ -237,8 +237,8 @@ internal fun ArtMakerControlMenu(
                 ) {
                     CustomColorPalette(
                         modifier = Modifier
-                            .height(Dimensions.ColorPaletteHeight)
-                            .padding(Dimensions.ColorPalettePadding)
+                            .height(Dimensions.CustomColorPaletteHeight)
+                            .padding(Dimensions.CustomColorPalettePadding)
                             .navigationBarsPadding(),
                         onAccept = {
                             onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))

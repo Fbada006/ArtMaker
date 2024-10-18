@@ -103,12 +103,12 @@ fun ArtMaker(
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
                     }
-                    Spacer(modifier = Modifier.height(Dimensions.FirstArtMakerSpacerHeight))
+                    Spacer(modifier = Modifier.height(Dimensions.ExportArtButtonSpacerHeight))
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
-                    Spacer(modifier = Modifier.height(Dimensions.SecondArtMakerSpacerHeight))
+                    Spacer(modifier = Modifier.height(Dimensions.FullScreenToggleButtonSpacerHeight))
                     FloatingActionButton(onClick = { isFullScreenEnabled = !isFullScreenEnabled }) {
                         Icon(
                             imageVector = if (isFullScreenEnabled) Icons.Filled.Fullscreen else Icons.Filled.FullscreenExit,
@@ -164,7 +164,7 @@ fun ArtMaker(
                     state = state,
                     onAction = viewModel::onAction,
                     onDrawEvent = viewModel::onDrawEvent,
-                    modifier = Modifier.height(Dimensions.ControlMenuHeight),
+                    modifier = Modifier.height(Dimensions.ArtMakerControlMenuHeight),
                     onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,

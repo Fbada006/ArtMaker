@@ -8,38 +8,40 @@ import androidx.compose.ui.unit.dp
  */
 
 object Dimensions {
-    val ColorPickerPadding: Dp = 2.dp
-    val ColorPickerBorderWidth: Dp = 2.dp
-    val ColorPickerHorizontalSpacing: Dp = 8.dp
+    val ColorPickerMenuItemPadding: Dp = 2.dp
+    val ColorPickerMenuItemBorderWidth: Dp = 2.dp
+    val ColorPickerHorizontalArrangement: Dp = 8.dp
     val ColorItemShapeSize: Dp = 8.dp
     val CustomColorPickerShapeSize: Dp = 8.dp
     val StrokeSettingsTopPadding: Dp = 8.dp
-    val ControlMenuPadding: Dp = 10.dp
-    val ColorPickerColumnPadding: Dp = 10.dp
     val StrokeSettingsEndPadding: Dp = 12.dp
     val StrokeSettingsStartPadding: Dp = 12.dp
-    val ControlMenuBoxPadding: Dp = 12.dp
-    val ColorPalettePadding: Dp = 12.dp
+    val ArtMakerControlMenuPadding: Dp = 10.dp
+    val ColorPickerBottomPadding: Dp = 10.dp
+    val ArtMakerControlMenuDropDownPadding: Dp = 12.dp
+    val CustomColorPalettePadding: Dp = 12.dp
     val MenuItemSize: Dp = 32.dp
-    val ColorPickerShapeSize: Dp = 32.dp
+    val ColorPickerMenuItemShapeSize: Dp = 32.dp
     val ColorItemSize: Dp = 48.dp
     val CustomColorPickerSize: Dp = 48.dp
     val FullScreenDisabledPadding: Dp = 60.dp
     val FullScreenEnabledPadding: Dp = 0.dp
-    val ControlMenuHeight: Dp = 60.dp
-    val ControlMenuShadowElevation: Dp = 60.dp
-    val ColorPaletteHeight: Dp = 330.dp
-    val FirstArtMakerSpacerHeight: Dp = 4.dp
-    val SecondArtMakerSpacerHeight: Dp = 4.dp
+    val ArtMakerControlMenuHeight: Dp = 60.dp
+    val ArtMakerControlMenuShadowElevation: Dp = 60.dp
+    val CustomColorPaletteHeight: Dp = 330.dp
+    val ExportArtButtonSpacerHeight: Dp = 4.dp
+    val FullScreenToggleButtonSpacerHeight: Dp = 4.dp
     val FirstColorsRowPadding: Dp = 4.dp
-    val FirstColorsRowHorizontalArrangement: Dp = 4.dp
-    val FirstColorsRowVerticalArrangement: Dp = 4.dp
+    val FirstColorSetHorizontalArrangement: Dp = 4.dp
+    val FirstColorSetVerticalArrangement: Dp = 4.dp
     val RecentColorsTextPadding: Dp = 4.dp
-    val SecondColorsRowPadding: Dp = 4.dp
-    val SecondColorsRowHorizontalArrangement: Dp = 4.dp
-    val SecondColorsRowVerticalArrangement: Dp = 4.dp
-    val FirstStrokeSettingsSpacerHeight: Dp = 7.dp
-    val SecondStrokeSettingsSpacerHeight: Dp = 7.dp
+    val SecondColorSetPadding: Dp = 4.dp
+    val SecondColorSetHorizontalArrangement: Dp = 4.dp
+    val SecondColorSetVerticalArrangement: Dp = 4.dp
+
+    // Missing UI Components' Dimensions...
+    val StrokePreviewSpacerHeight: Dp = 7.dp
+    val LineStyleSelectorSpacerHeight: Dp = 7.dp
     val StrokePreviewPadding: Dp = 7.dp
     val StrokePreviewShapeSize: Dp = 12.dp
 
