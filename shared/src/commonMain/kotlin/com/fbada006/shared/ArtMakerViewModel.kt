@@ -125,20 +125,8 @@ internal class ArtMakerViewModel(
     }
 
     private fun triggerArtExport(type: ExportType) {
-        viewModelScope.launch {
-            try {
-                exportType.value = type
-                _shouldTriggerArtExport.update { true }
-                permissionsController.providePermission(Permission.WRITE_STORAGE)
-            } catch (e: DeniedException) {
-                _shouldTriggerArtExport.update { false }
-            } catch (e: DeniedAlwaysException) {
-                _shouldTriggerArtExport.update { false }
-            } catch (e: RequestCanceledException) {
-                _shouldTriggerArtExport.update { false }
-
-            }
-        }
+        exportType.value = type
+        _shouldTriggerArtExport.update { true }
     }
 
     private fun exportArt(bitmap: ImageBitmap?) {

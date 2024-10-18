@@ -68,6 +68,10 @@ kotlin {
         commonTest.dependencies {
         }
         androidMain.dependencies {
+            implementation("androidx.compose.ui:ui:1.7.4") {
+                because("We need to use graphics layer to export composable as image.")
+            }
+            implementation (libs.accompanist.permissions)
             implementation("androidx.appcompat:appcompat:1.7.0")
             implementation("androidx.activity:activity-compose:1.9.2")
         }
