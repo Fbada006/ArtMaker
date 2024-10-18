@@ -166,7 +166,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = null,
-                tint = Color.Black
+                tint = Color.Black,
 //                if (androidx.core.graphics.ColorUtils.calculateLuminance(
 //                        color,
 //                    ) > LUMINANCE_THRESHOLD
@@ -175,7 +175,6 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
 //                } else {
 //                    Color.White
 //                }
-                ,
                 modifier = Modifier
                     .align(Alignment.Center),
             )

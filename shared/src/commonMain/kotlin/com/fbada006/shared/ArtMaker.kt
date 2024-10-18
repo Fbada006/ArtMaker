@@ -62,7 +62,7 @@ import com.fbada006.shared.models.ArtMakerConfiguration
 fun ArtMaker(
     modifier: Modifier = Modifier,
     onFinishDrawing: (ImageBitmap) -> Unit = {},
-    artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration()
+    artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
 ) {
     val viewModel: ArtMakerViewModel = viewModel {
         ArtMakerViewModel(
