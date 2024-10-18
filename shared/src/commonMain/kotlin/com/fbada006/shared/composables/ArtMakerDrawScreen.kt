@@ -25,11 +25,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
@@ -60,7 +56,6 @@ import com.fbada006.shared.models.alpha
 import com.fbada006.shared.utils.ShareableContent
 import com.fbada006.shared.utils.isStylusInput
 import com.fbada006.shared.utils.validateEvent
-import dev.icerock.moko.permissions.PermissionsController
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.got_it
 import io.fbada006.artmaker.non_stylus_input_detected_message
@@ -81,8 +76,6 @@ internal fun ArtMakerDrawScreen(
     state: DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
-    imageBitmap: ImageBitmap?,
-    permissionsController: PermissionsController
 ) {
 //    val context = LocalContext.current
 //    val density = LocalDensity.current

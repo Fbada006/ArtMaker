@@ -50,8 +50,6 @@ import com.fbada006.shared.data.PreferencesManager
 import com.fbada006.shared.drawing.DrawingManager
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ImagePicker
-import dev.icerock.moko.permissions.compose.BindEffect
-import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 
 /**
  * [ArtMaker] has the draw screen as well as control menu (the bar offering customisation options). By default, it is a white screen that allows the user
@@ -68,19 +66,11 @@ fun ArtMaker(
     artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
     imagePicker: ImagePicker
 ) {
-    val factory = rememberPermissionsControllerFactory()
-    val permissionsController = remember(factory) {
-        factory.createPermissionsController()
-    }
-    // Binds the permissions controller to the LocalLifecycleOwner lifecycle.
-    BindEffect(permissionsController)
-
     val viewModel: ArtMakerViewModel = viewModel {
         ArtMakerViewModel(
             customColorsManager = CustomColorsManager(),
             preferencesManager = PreferencesManager(),
-            drawingManager = DrawingManager(),
-            permissionsController = permissionsController
+            drawingManager = DrawingManager()
         )
     }
 
@@ -154,9 +144,7 @@ fun ArtMaker(
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
                 ),
                 isEraserActive = isEraserActive,
-                eraserRadius = state.strokeWidth.toFloat(),
-                imageBitmap = finishedImage,
-                permissionsController = permissionsController
+                eraserRadius = state.strokeWidth.toFloat()
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
