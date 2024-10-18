@@ -29,7 +29,6 @@ composeBom = "2024.09.03"
 compose = "1.6.11"
 datastorePreferences = "1.1.1"
 viewModelCompose = "2.8.0"
-moko = "0.18.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -56,8 +55,6 @@ lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-ru
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferences" }
 androidx-datastore = {module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences"}
-moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
-moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

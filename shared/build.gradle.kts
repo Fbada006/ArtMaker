@@ -56,8 +56,6 @@ kotlin {
                 implementation(materialIconsExtended)
                 implementation(material3)
             }
-            api(libs.moko.permissions)
-            api(libs.moko.permissions.compose)
             implementation(compose.components.resources)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.kotlinx.serialization.json)

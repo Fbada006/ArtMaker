@@ -33,12 +33,6 @@ import com.fbada006.shared.drawing.DrawingManager
 import com.fbada006.shared.models.PointsData
 import com.fbada006.shared.utils.ColorUtils
 import com.fbada006.shared.utils.shareImage
-import dev.icerock.moko.permissions.DeniedAlwaysException
-import dev.icerock.moko.permissions.DeniedException
-import dev.icerock.moko.permissions.Permission
-import dev.icerock.moko.permissions.PermissionState
-import dev.icerock.moko.permissions.PermissionsController
-import dev.icerock.moko.permissions.RequestCanceledException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,7 +44,6 @@ internal class ArtMakerViewModel(
     private val customColorsManager: CustomColorsManager,
     private val preferencesManager: PreferencesManager,
     private val drawingManager: DrawingManager,
-    private val permissionsController: PermissionsController
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow(ArtMakerUIState())
