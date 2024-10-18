@@ -33,6 +33,12 @@ import com.fbada006.shared.drawing.DrawingManager
 import com.fbada006.shared.models.PointsData
 import com.fbada006.shared.utils.ColorUtils
 import com.fbada006.shared.utils.shareImage
+import dev.icerock.moko.permissions.DeniedAlwaysException
+import dev.icerock.moko.permissions.DeniedException
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionState
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.RequestCanceledException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,6 +50,7 @@ internal class ArtMakerViewModel(
     private val customColorsManager: CustomColorsManager,
     private val preferencesManager: PreferencesManager,
     private val drawingManager: DrawingManager,
+    private val permissionsController: PermissionsController
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow(ArtMakerUIState())
@@ -118,8 +125,20 @@ internal class ArtMakerViewModel(
     }
 
     private fun triggerArtExport(type: ExportType) {
-        exportType.value = type
-        _shouldTriggerArtExport.update { true }
+        viewModelScope.launch {
+            try {
+                exportType.value = type
+                _shouldTriggerArtExport.update { true }
+                permissionsController.providePermission(Permission.WRITE_STORAGE)
+            } catch (e: DeniedException) {
+                _shouldTriggerArtExport.update { false }
+            } catch (e: DeniedAlwaysException) {
+                _shouldTriggerArtExport.update { false }
+            } catch (e: RequestCanceledException) {
+                _shouldTriggerArtExport.update { false }
+
+            }
+        }
     }
 
     private fun exportArt(bitmap: ImageBitmap?) {
@@ -131,9 +150,6 @@ internal class ArtMakerViewModel(
                 return@launch
             }
             shareImage(bitmap)
-//            val uri = bmp.saveToDisk(applicationContext)
-//            shareBitmap(applicationContext, uri)
-//        }
         }
     }
 

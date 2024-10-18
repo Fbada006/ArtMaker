@@ -58,10 +58,7 @@ import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.models.alpha
 import com.fbada006.shared.utils.isStylusInput
 import com.fbada006.shared.utils.validateEvent
-import dev.icerock.moko.permissions.Permission
-import dev.icerock.moko.permissions.PermissionState
-import dev.icerock.moko.permissions.compose.BindEffect
-import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import dev.icerock.moko.permissions.PermissionsController
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.got_it
 import io.fbada006.artmaker.grant_access
@@ -70,7 +67,6 @@ import io.fbada006.artmaker.non_stylus_input_detected_title
 import io.fbada006.artmaker.stylus_input_detected_message
 import io.fbada006.artmaker.stylus_input_detected_title
 import io.fbada006.artmaker.the_storage_permission_is_needed_to_save_the_image
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 /**
@@ -86,14 +82,8 @@ internal fun ArtMakerDrawScreen(
     isEraserActive: Boolean,
     eraserRadius: Float,
     imageBitmap: ImageBitmap?,
+    permissionsController: PermissionsController
 ) {
-    val factory = rememberPermissionsControllerFactory()
-    val controller = remember(factory) {
-        factory.createPermissionsController()
-    }
-    // Binds the permissions controller to the LocalLifecycleOwner lifecycle.
-    BindEffect(controller)
-
 //    val context = LocalContext.current
 //    val density = LocalDensity.current
 //    val configuration = LocalConfiguration.current
@@ -121,33 +111,9 @@ internal fun ArtMakerDrawScreen(
 
     LaunchedEffect(key1 = state.shouldTriggerArtExport) {
         if (state.shouldTriggerArtExport) {
-            val permissionState = controller.getPermissionState(Permission.WRITE_STORAGE)
-            when (permissionState) {
-                PermissionState.Granted -> {
-                onAction(ArtMakerAction.ExportArt(imageBitmap))
-                }
-
-                PermissionState.NotDetermined -> {
-                    launch {
-                        val result = snackbarHostState.showSnackbar(
-                            message = Res.string.the_storage_permission_is_needed_to_save_the_image.toString(),
-                            actionLabel = Res.string.grant_access.toString(),
-                        )
-
-                        if (result == SnackbarResult.ActionPerformed) {
-                            controller.openAppSettings()
-                        }
-                    }
-                }
-
-                else -> {
-                    onAction(ArtMakerAction.ExportArt(imageBitmap))
-                    /**
-                     * From previous implementation we were calling launchMultiplePermissionRequest()
-                     * I will leave this block blank so we can discuss further
-                     */
-                }
-            }
+            onAction(ArtMakerAction.ExportArt(imageBitmap))
+        }else {
+            showSnackBar(snackbarHostState, permissionsController)
         }
     }
 
@@ -297,6 +263,20 @@ internal fun ArtMakerDrawScreen(
                 }
             },
         )
+    }
+}
+
+private suspend fun showSnackBar(
+    snackbarHostState: SnackbarHostState,
+    controller: PermissionsController,
+) {
+    val result = snackbarHostState.showSnackbar(
+        message = Res.string.the_storage_permission_is_needed_to_save_the_image.toString(),
+        actionLabel = Res.string.grant_access.toString(),
+    )
+
+    if (result == SnackbarResult.ActionPerformed) {
+        controller.openAppSettings()
     }
 }
 
