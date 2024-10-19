@@ -13,7 +13,9 @@ struct iosAppApp: App {
     
     init() {
         InputUtilsIosKt.doesIosDeviceHaveAStylus = {
-            let isConnected = PencilDetector().isPencilConnected()
+            let detector = ApplePencilDetector.shared()
+            let isConnected = detector.isPencilConnected
+            print(isConnected)
             return KotlinBoolean(bool: isConnected)
         }
     }
