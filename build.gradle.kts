@@ -27,7 +27,7 @@ subprojects {
                     "indent_size" to "4",
                     "continuation_indent_size" to "4",
                     // To be removed after the KMP Migration...
-                    "ktlint_standard_no-empty-file" to "disabled"
+                    "ktlint_standard_no-empty-file" to "disabled",
                 ),
             )
             licenseHeaderFile(rootProject.file("$rootDir/spotless/copyright.kt"))
