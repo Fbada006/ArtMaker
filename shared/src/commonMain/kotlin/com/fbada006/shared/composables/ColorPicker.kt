@@ -36,7 +36,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,12 +49,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.dp
 import com.fbada006.shared.data.CustomColorsManager
+import com.fbada006.shared.dimensions.Dimensions
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
 import io.fbada006.artmaker.Res
-import io.fbada006.artmaker.change_image
 import io.fbada006.artmaker.recent_colors
 import org.jetbrains.compose.resources.stringResource
 
@@ -83,12 +81,12 @@ internal fun ColorPicker(
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(bottom = 10.dp),
+                .padding(bottom = Dimensions.ColorPickerBottomPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ColorPickerHorizontalArrangement),
                 ) {
                     Column {
                         val customColors by customColorsManager.getColors().collectAsState(listOf())
@@ -98,9 +96,9 @@ internal fun ColorPicker(
 
                         FlowRow(
                             modifier = Modifier
-                                .padding(vertical = 4.dp),
-                            horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
-                            verticalArrangement = Arrangement.spacedBy(space = 4.dp),
+                                .padding(vertical = Dimensions.FirstColorsRowPadding),
+                            horizontalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorSetHorizontalArrangement),
+                            verticalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorSetVerticalArrangement),
                             maxItemsInEachRow = NUM_COLUMNS,
                         ) {
                             repeat(allColors.size) { colorIndex ->
@@ -114,14 +112,14 @@ internal fun ColorPicker(
                             Text(
                                 text = stringResource(Res.string.recent_colors),
                                 style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(vertical = 4.dp),
+                                modifier = Modifier.padding(vertical = Dimensions.RecentColorsTextPadding),
                             )
 
                             FlowRow(
                                 modifier = Modifier
-                                    .padding(vertical = 4.dp),
-                                horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
-                                verticalArrangement = Arrangement.spacedBy(space = 4.dp),
+                                    .padding(vertical = Dimensions.SecondColorSetPadding),
+                                horizontalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorSetHorizontalArrangement),
+                                verticalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorSetVerticalArrangement),
                                 maxItemsInEachRow = NUM_COLUMNS,
                             ) {
                                 repeat(customColors.size) { colorIndex ->
@@ -135,8 +133,8 @@ internal fun ColorPicker(
                     // Custom color picker
                     Box(
                         modifier = Modifier
-                            .size(size = 48.dp)
-                            .clip(RoundedCornerShape(size = 8.dp))
+                            .size(size = Dimensions.CustomColorPickerSize)
+                            .clip(RoundedCornerShape(size = Dimensions.CustomColorPickerShapeSize))
                             .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
                             .align(Alignment.CenterVertically),
@@ -155,8 +153,8 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
     ) {
         Box(
             modifier = Modifier
-                .size(size = 48.dp)
-                .clip(RoundedCornerShape(size = 8.dp))
+                .size(size = Dimensions.ColorItemSize)
+                .clip(RoundedCornerShape(size = Dimensions.ColorItemShapeSize))
                 .background(Color(color))
                 .clickable {
                     selectedColor = color
@@ -168,7 +166,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = null,
-                tint = Color.Black
+                tint = Color.Black,
 //                if (androidx.core.graphics.ColorUtils.calculateLuminance(
 //                        color,
 //                    ) > LUMINANCE_THRESHOLD
@@ -177,7 +175,6 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
 //                } else {
 //                    Color.White
 //                }
-                ,
                 modifier = Modifier
                     .align(Alignment.Center),
             )

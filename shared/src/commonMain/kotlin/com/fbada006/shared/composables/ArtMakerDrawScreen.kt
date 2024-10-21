@@ -87,7 +87,7 @@ internal fun ArtMakerDrawScreen(
 //    } else {
 //        with(density) {
 //            62.dp.toPx()
-////            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+// //            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
 //        }
 //    }
 //    val screenHeightPx = with(density) { screenHeight.toPx() }
@@ -251,11 +251,15 @@ internal fun ArtMakerDrawScreen(
         if (stylusDialogType.isEmpty()) return
         val type = StylusDialogType.valueOf(stylusDialogType)
         val dialogInfo = when {
-            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(Res.string.stylus_input_detected_title) to
-                    stringResource(Res.string.stylus_input_detected_message)
+            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(
+                Res.string.stylus_input_detected_title,
+            ) to
+                stringResource(Res.string.stylus_input_detected_message)
 
-            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(Res.string.non_stylus_input_detected_title) to
-                    stringResource(Res.string.non_stylus_input_detected_message)
+            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(
+                Res.string.non_stylus_input_detected_title,
+            ) to
+                stringResource(Res.string.non_stylus_input_detected_message)
 
             else -> return
         }
