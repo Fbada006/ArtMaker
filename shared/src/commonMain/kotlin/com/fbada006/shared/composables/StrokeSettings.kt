@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.models.ArtMakerConfiguration
-//import com.fbada006.shared.utils.isStylusConnected
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.enable_pressure_detection
 import io.fbada006.artmaker.use_stylus_only
