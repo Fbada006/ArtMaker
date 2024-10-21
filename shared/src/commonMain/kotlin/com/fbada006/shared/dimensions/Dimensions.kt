@@ -23,29 +23,21 @@ import androidx.compose.ui.unit.dp
  */
 
 object Dimensions {
-    val ColorPickerMenuItemPadding: Dp = 2.dp
-    val ColorPickerMenuItemBorderWidth: Dp = 2.dp
-    val ColorPickerHorizontalArrangement: Dp = 8.dp
-    val ColorItemShapeSize: Dp = 8.dp
-    val CustomColorPickerShapeSize: Dp = 8.dp
-    val StrokeSettingsTopPadding: Dp = 8.dp
-    val StrokeSettingsEndPadding: Dp = 12.dp
-    val StrokeSettingsStartPadding: Dp = 12.dp
+
+    // ArtMakerControlMenu
+    val ArtMakerControlMenuShadowElevation: Dp = 60.dp
     val ArtMakerControlMenuPadding: Dp = 10.dp
-    val ColorPickerBottomPadding: Dp = 10.dp
+    val ColorPickerMenuItemBorderWidth: Dp = 2.dp
+    val ColorPickerMenuItemShapeSize: Dp = 32.dp
+    val ColorPickerMenuItemPadding: Dp = 2.dp
     val ArtMakerControlMenuDropDownPadding: Dp = 12.dp
+    val CustomColorPaletteHeight: Dp = 330.dp
     val CustomColorPalettePadding: Dp = 12.dp
     val MenuItemSize: Dp = 32.dp
-    val ColorPickerMenuItemShapeSize: Dp = 32.dp
-    val ColorItemSize: Dp = 48.dp
-    val CustomColorPickerSize: Dp = 48.dp
-    val FullScreenDisabledPadding: Dp = 60.dp
-    val FullScreenEnabledPadding: Dp = 0.dp
-    val ArtMakerControlMenuHeight: Dp = 60.dp
-    val ArtMakerControlMenuShadowElevation: Dp = 60.dp
-    val CustomColorPaletteHeight: Dp = 330.dp
-    val ExportArtButtonSpacerHeight: Dp = 4.dp
-    val FullScreenToggleButtonSpacerHeight: Dp = 4.dp
+
+    // Color Picker
+    val ColorPickerBottomPadding: Dp = 10.dp
+    val ColorPickerHorizontalArrangement: Dp = 8.dp
     val FirstColorsRowPadding: Dp = 4.dp
     val FirstColorSetHorizontalArrangement: Dp = 4.dp
     val FirstColorSetVerticalArrangement: Dp = 4.dp
@@ -53,12 +45,28 @@ object Dimensions {
     val SecondColorSetPadding: Dp = 4.dp
     val SecondColorSetHorizontalArrangement: Dp = 4.dp
     val SecondColorSetVerticalArrangement: Dp = 4.dp
+    val CustomColorPickerSize: Dp = 48.dp
+    val CustomColorPickerShapeSize: Dp = 8.dp
+    val ColorItemSize: Dp = 48.dp
+    val ColorItemShapeSize: Dp = 8.dp
 
-    // Missing UI Components' Dimensions...
+    // ArtMaker
+    val FullScreenEnabledPadding: Dp = 0.dp
+    val FullScreenDisabledPadding: Dp = 60.dp
+    val ExportArtButtonSpacerHeight: Dp = 4.dp
+    val FullScreenToggleButtonSpacerHeight: Dp = 4.dp
+    val StrokeSettingsTopPadding: Dp = 8.dp
+    val StrokeSettingsEndPadding: Dp = 12.dp
+    val StrokeSettingsStartPadding: Dp = 12.dp
+    val ArtMakerControlMenuHeight: Dp = 60.dp
+
+    // StrokePreview
+    val StrokePreviewShapeSize: Dp = 12.dp
+    val StrokePreviewPadding: Dp = 7.dp
+
+    // StrokeSettings
     val StrokePreviewSpacerHeight: Dp = 7.dp
     val LineStyleSelectorSpacerHeight: Dp = 7.dp
-    val StrokePreviewPadding: Dp = 7.dp
-    val StrokePreviewShapeSize: Dp = 12.dp
 
     // Line style UI
     val LineStyleSelectorHeight: Dp = 54.dp
