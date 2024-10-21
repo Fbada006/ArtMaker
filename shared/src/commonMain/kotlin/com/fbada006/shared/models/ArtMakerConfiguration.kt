@@ -36,7 +36,7 @@ data class ArtMakerConfiguration(
     val strokeSliderTextColor: Color = Color.Unspecified,
     val pickerCustomColors: List<Color> = emptyList(),
     val canvasBackgroundColor: Int = Color.White.toArgb(),
-    val controllerBackgroundColor: Color = Color.LightGray.copy(alpha = 0.5f),
+    val controllerBackgroundColor: Color = Color.LightGray,
     val strokeSliderBackgroundColor: Color = Color.Unspecified,
     val canShareArt: Boolean = false,
 )
