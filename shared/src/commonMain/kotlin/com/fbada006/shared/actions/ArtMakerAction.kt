@@ -27,6 +27,7 @@ sealed interface ArtMakerAction {
     data object UpdateBackground : ArtMakerAction
     data class SelectStrokeColour(val color: Color, val isCustomColor: Boolean = false) : ArtMakerAction
     data class SetStrokeWidth(val strokeWidth: Int) : ArtMakerAction
+    data class UpdateStylusAvailability(val isStylusAvailable: Boolean) : ArtMakerAction
     data class UpdateSetStylusOnly(val shouldUseStylusOnly: Boolean) : ArtMakerAction
     data class UpdateSetPressureDetection(val shouldDetectPressure: Boolean) : ArtMakerAction
     class UpdateEnableStylusDialogShow(val canShowEnableStylusDialog: Boolean) : ArtMakerAction

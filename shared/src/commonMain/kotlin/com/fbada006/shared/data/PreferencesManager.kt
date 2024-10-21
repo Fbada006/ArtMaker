@@ -39,7 +39,8 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         getPressureDetectionSetting(),
         getEnableStylusDialog(),
         getDisableStylusDialog(),
-    ) { values->
+        getStylusAvailability()
+    ) { values ->
         ArtMakerUIState(
             strokeColour = values[0] as Int,
             strokeWidth = values[1] as Int,
@@ -47,6 +48,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
             shouldDetectPressure = values[3] as Boolean,
             canShowEnableStylusDialog = values[4] as Boolean,
             canShowDisableStylusDialog = values[5] as Boolean,
+            isStylusAvailable = values[6] as Boolean,
         )
     }
 
@@ -91,6 +93,19 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
             datastore[key] = canShow
         }
     }
+
+    suspend fun updateDeviceStylusAvailability(isStylusAvailable: Boolean) {
+        preferences.edit { datastore ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_IS_STYLUS_AVAILABLE)
+            datastore[key] = isStylusAvailable
+        }
+    }
+
+    private fun getStylusAvailability(): Flow<Boolean> =
+        preferences.data.map { preferences ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_IS_STYLUS_AVAILABLE)
+            preferences[key] ?: false
+        }
 
     private fun getStrokeColor(): Flow<Int> =
         preferences.data.map { preferences ->
