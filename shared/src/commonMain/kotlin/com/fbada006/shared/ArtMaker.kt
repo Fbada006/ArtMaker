@@ -62,7 +62,7 @@ import com.fbada006.shared.models.ArtMakerConfiguration
 fun ArtMaker(
     modifier: Modifier = Modifier,
     onFinishDrawing: (ImageBitmap) -> Unit = {},
-    artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration()
+    artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
 ) {
     val viewModel: ArtMakerViewModel = viewModel {
         ArtMakerViewModel(
@@ -140,6 +140,7 @@ fun ArtMaker(
                     shouldDetectPressure = state.shouldDetectPressure,
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
+                    isStylusAvailable = state.isStylusAvailable,
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat(),
@@ -157,6 +158,7 @@ fun ArtMaker(
                         ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                     shouldDetectPressure = state.shouldDetectPressure,
+                    isStylusAvailable = state.isStylusAvailable,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
