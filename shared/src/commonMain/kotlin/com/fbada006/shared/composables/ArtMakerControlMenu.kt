@@ -59,7 +59,7 @@ import com.fbada006.shared.dimensions.Dimensions
 import com.fbada006.shared.icons.InkEraserOff
 import com.fbada006.shared.icons.Redo
 import com.fbada006.shared.icons.Undo
-import com.fbada006.shared.icons.inkEraser
+import com.fbada006.shared.icons.InkEraser
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
 import customcolorpalette.CustomColorPalette
@@ -137,7 +137,7 @@ internal fun ArtMakerControlMenu(
                     },
                 )
                 MenuItem(
-                    imageVector = if (isEraserActive) inkEraser else InkEraserOff,
+                    imageVector = if (isEraserActive) InkEraser else InkEraserOff,
                     onItemClicked = onActivateEraser,
                     enabled = state.canErase,
                 )
