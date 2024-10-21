@@ -29,7 +29,7 @@ subprojects {
                     // To be removed after the KMP Migration...
                     "ktlint_standard_no-empty-file" to "disabled",
                     // This rule has been disabled as it gets violated in InkEraser.kt when :spotlessApply is run for some reason...
-                    "ktlint_standard_property-naming" to "disabled",
+                    //"ktlint_standard_property-naming" to "disabled",
                 ),
             )
             licenseHeaderFile(rootProject.file("$rootDir/spotless/copyright.kt"))
