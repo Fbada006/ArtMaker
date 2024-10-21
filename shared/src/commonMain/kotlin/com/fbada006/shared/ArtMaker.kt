@@ -140,6 +140,7 @@ fun ArtMaker(
                     shouldDetectPressure = state.shouldDetectPressure,
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
+                    isStylusAvailable = state.isStylusAvailable,
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat(),
@@ -157,6 +158,7 @@ fun ArtMaker(
                         ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                     shouldDetectPressure = state.shouldDetectPressure,
+                    isStylusAvailable = state.isStylusAvailable,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {

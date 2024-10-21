@@ -39,6 +39,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         getPressureDetectionSetting(),
         getEnableStylusDialog(),
         getDisableStylusDialog(),
+        getStylusAvailability()
     ) { values ->
         ArtMakerUIState(
             strokeColour = values[0] as Int,
@@ -47,6 +48,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
             shouldDetectPressure = values[3] as Boolean,
             canShowEnableStylusDialog = values[4] as Boolean,
             canShowDisableStylusDialog = values[5] as Boolean,
+            isStylusAvailable = values[6] as Boolean,
         )
     }
 
@@ -92,33 +94,52 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         }
     }
 
-    private fun getStrokeColor(): Flow<Int> = preferences.data.map { preferences ->
-        val key = intPreferencesKey(PreferenceKeys.PREF_SELECTED_STROKE_COLOUR)
-        preferences[key] ?: Color.Red.toArgb()
+    suspend fun updateDeviceStylusAvailability(isStylusAvailable: Boolean) {
+        preferences.edit { datastore ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_IS_STYLUS_AVAILABLE)
+            datastore[key] = isStylusAvailable
+        }
     }
 
-    private fun getStrokeWidth(): Flow<Int> = preferences.data.map { preferences ->
-        val key = intPreferencesKey(PreferenceKeys.PREF_SELECTED_STROKE_WIDTH)
-        preferences[key] ?: 5
-    }
+    private fun getStylusAvailability(): Flow<Boolean> =
+        preferences.data.map { preferences ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_IS_STYLUS_AVAILABLE)
+            preferences[key] ?: false
+        }
 
-    private fun getStylusOnlySetting(): Flow<Boolean> = preferences.data.map { preferences ->
-        val key = booleanPreferencesKey(PreferenceKeys.PREF_USE_STYLUS_ONLY)
-        preferences[key] ?: false
-    }
+    private fun getStrokeColor(): Flow<Int> =
+        preferences.data.map { preferences ->
+            val key = intPreferencesKey(PreferenceKeys.PREF_SELECTED_STROKE_COLOUR)
+            preferences[key] ?: Color.Red.toArgb()
+        }
 
-    private fun getPressureDetectionSetting(): Flow<Boolean> = preferences.data.map { preferences ->
-        val key = booleanPreferencesKey(PreferenceKeys.PREF_DETECT_PRESSURE)
-        preferences[key] ?: false
-    }
+    private fun getStrokeWidth(): Flow<Int> =
+        preferences.data.map { preferences ->
+            val key = intPreferencesKey(PreferenceKeys.PREF_SELECTED_STROKE_WIDTH)
+            preferences[key] ?: 5
+        }
 
-    private fun getEnableStylusDialog(): Flow<Boolean> = preferences.data.map { preferences ->
-        val key = booleanPreferencesKey(PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG)
-        preferences[key] ?: true
-    }
+    private fun getStylusOnlySetting(): Flow<Boolean> =
+        preferences.data.map { preferences ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_USE_STYLUS_ONLY)
+            preferences[key] ?: false
+        }
 
-    private fun getDisableStylusDialog(): Flow<Boolean> = preferences.data.map { preferences ->
-        val key = booleanPreferencesKey(PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG)
-        preferences[key] ?: true
-    }
+    private fun getPressureDetectionSetting(): Flow<Boolean> =
+        preferences.data.map { preferences ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_DETECT_PRESSURE)
+            preferences[key] ?: false
+        }
+
+    private fun getEnableStylusDialog(): Flow<Boolean> =
+        preferences.data.map { preferences ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_SHOW_ENABLE_STYLUS_DIALOG)
+            preferences[key] ?: true
+        }
+
+    private fun getDisableStylusDialog(): Flow<Boolean> =
+        preferences.data.map { preferences ->
+            val key = booleanPreferencesKey(PreferenceKeys.PREF_SHOW_DISABLE_STYLUS_DIALOG)
+            preferences[key] ?: true
+        }
 }

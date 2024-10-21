@@ -162,12 +162,15 @@ internal fun ArtMakerDrawScreen(
 
                         when (event.type) {
                             PointerEventType.Press -> {
-                                getDialogType(change, state.shouldUseStylusOnly)?.let { type ->
+                                // Only update the stylus availability if this is a stylus input and the stylus availability state is not updated
+                                if (change.isStylusInput() && !state.isStylusAvailable) onAction(ArtMakerAction.UpdateStylusAvailability(change.isStylusInput()))
+
+                                getDialogType(change, state.shouldUseStylusOnly, state.isStylusAvailable)?.let { type ->
                                     shouldShowStylusDialog = true
                                     stylusDialogType = type
                                 }
 
-                                if (!change.validateEvent(state.shouldUseStylusOnly)) {
+                                if (!change.validateEvent(state.shouldUseStylusOnly, state.isStylusAvailable)) {
                                     // Ignore this event
                                     continue
                                 }
@@ -285,9 +288,9 @@ internal fun ArtMakerDrawScreen(
     }
 }
 
-private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean) = when {
+private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean, isStylusAvailable: Boolean) = when {
     change.isStylusInput() && !useStylusOnly -> StylusDialogType.ENABLE_STYLUS_ONLY.name
-    !change.validateEvent(useStylusOnly) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
+    !change.validateEvent(useStylusOnly, isStylusAvailable) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
     else -> null
 }
 

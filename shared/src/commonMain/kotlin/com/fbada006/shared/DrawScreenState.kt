@@ -20,13 +20,14 @@ import androidx.compose.ui.graphics.ImageBitmap
 import com.fbada006.shared.models.PointsData
 
 /**
- * Provides state from the [io.artmaker.composables.ArtMakerDrawScreen] screen
+ * Provides state from the [com.fbada006.shared.composables.ArtMakerDrawScreen] screen
  */
 internal data class DrawScreenState(
     val pathList: SnapshotStateList<PointsData>,
     val backgroundImage: ImageBitmap?,
     val shouldTriggerArtExport: Boolean,
     val isFullScreenMode: Boolean,
+    val isStylusAvailable: Boolean,
     val shouldUseStylusOnly: Boolean,
     val shouldDetectPressure: Boolean,
     val canShowEnableStylusDialog: Boolean,

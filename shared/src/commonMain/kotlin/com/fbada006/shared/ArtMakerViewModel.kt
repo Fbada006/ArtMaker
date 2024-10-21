@@ -71,11 +71,12 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.ExportArt -> exportArt(action.bitmap)
             ArtMakerAction.UpdateBackground -> updateBackgroundColour()
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color, isCustomColour = action.isCustomColor)
-            is ArtMakerAction.SetStrokeWidth -> selectStrokeWidth(strokeWidth = action.strokeWidth)
-            is ArtMakerAction.UpdateSetStylusOnly -> updateStylusSetting(useStylusOnly = action.shouldUseStylusOnly)
-            is ArtMakerAction.UpdateSetPressureDetection -> updatePressureSetting(detectPressure = action.shouldDetectPressure)
-            is ArtMakerAction.UpdateEnableStylusDialogShow -> updateEnableStylusDialog(canShow = action.canShowEnableStylusDialog)
-            is ArtMakerAction.UpdateDisableStylusDialogShow -> updateDisableStylusDialog(canShow = action.canShowDisableStylusDialog)
+            is ArtMakerAction.SetStrokeWidth -> updatePref { updateStrokeWidth(strokeWidth = action.strokeWidth) }
+            is ArtMakerAction.UpdateSetStylusOnly -> updatePref { updateStylusOnlySetting(useStylusOnly = action.shouldUseStylusOnly) }
+            is ArtMakerAction.UpdateSetPressureDetection -> updatePref { updatePressureDetectionSetting(detectPressure = action.shouldDetectPressure) }
+            is ArtMakerAction.UpdateEnableStylusDialogShow -> updatePref { updateEnableStylusDialog(canShow = action.canShowEnableStylusDialog) }
+            is ArtMakerAction.UpdateDisableStylusDialogShow -> updatePref { updateDisableStylusDialog(canShow = action.canShowDisableStylusDialog) }
+            is ArtMakerAction.UpdateStylusAvailability -> updatePref { updateDeviceStylusAvailability(isStylusAvailable = action.isStylusAvailable) }
         }
     }
 
@@ -110,6 +111,7 @@ internal class ArtMakerViewModel(
                             shouldDetectPressure = newState.shouldDetectPressure,
                             canShowEnableStylusDialog = newState.canShowEnableStylusDialog,
                             canShowDisableStylusDialog = newState.canShowDisableStylusDialog,
+                            isStylusAvailable = newState.isStylusAvailable,
                         )
                     }
                 }
@@ -149,33 +151,9 @@ internal class ArtMakerViewModel(
         _backgroundImage.value = bitmap
     }
 
-    private fun selectStrokeWidth(strokeWidth: Int) {
+    private fun updatePref(method: suspend PreferencesManager.() -> Unit) {
         viewModelScope.launch {
-            preferencesManager.updateStrokeWidth(strokeWidth = strokeWidth)
-        }
-    }
-
-    private fun updateStylusSetting(useStylusOnly: Boolean) {
-        viewModelScope.launch {
-            preferencesManager.updateStylusOnlySetting(useStylusOnly = useStylusOnly)
-        }
-    }
-
-    private fun updatePressureSetting(detectPressure: Boolean) {
-        viewModelScope.launch {
-            preferencesManager.updatePressureDetectionSetting(detectPressure = detectPressure)
-        }
-    }
-
-    private fun updateEnableStylusDialog(canShow: Boolean) {
-        viewModelScope.launch {
-            preferencesManager.updateEnableStylusDialog(canShow = canShow)
-        }
-    }
-
-    private fun updateDisableStylusDialog(canShow: Boolean) {
-        viewModelScope.launch {
-            preferencesManager.updateDisableStylusDialog(canShow = canShow)
+            method.invoke(preferencesManager)
         }
     }
 }
