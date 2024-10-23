@@ -40,7 +40,7 @@ actual fun ShareableContent(shouldExport: Boolean, onAction: (ArtMakerAction) ->
             } else if (writeStorageAccessState.shouldShowRationale) {
                 launch {
                     val result = snackbarHostState.showSnackbar(
-                        message = "A message",
+                        message = "The storage permission is needed to save the image.",
                         actionLabel = "Grant access",
                     )
 
@@ -53,7 +53,12 @@ actual fun ShareableContent(shouldExport: Boolean, onAction: (ArtMakerAction) ->
             }
         }
     }
-
+    /**
+     * Remove this implementation and the corresponding iOS implementation
+     * once Compose KMP has support for the graphics layer. This will allow for
+     * more shared UI code between Android and iOS. Expected to be available
+     * in Compose KMP 1.7.1 (next release from the time of writing this comment).
+     */
     Box(
         modifier
             .drawWithCache {
