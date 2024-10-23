@@ -63,7 +63,6 @@ import com.fbada006.shared.utils.ImagePicker
 fun ArtMaker(
     modifier: Modifier = Modifier,
     onFinishDrawing: (ImageBitmap) -> Unit = {},
-    imagePicker: ImagePicker,
     artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
 ) {
     val viewModel: ArtMakerViewModel = viewModel {
@@ -175,7 +174,6 @@ fun ArtMaker(
                     artMakerConfiguration = artMakerConfiguration,
                     onActivateEraser = { isEraserActive = !isEraserActive },
                     isEraserActive = isEraserActive,
-                    imagePicker = imagePicker
                 )
             }
         }

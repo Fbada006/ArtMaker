@@ -63,6 +63,7 @@ import com.fbada006.shared.icons.InkEraser
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
 import com.fbada006.shared.utils.ImagePicker
+import com.fbada006.shared.utils.createPicker
 import customcolorpalette.CustomColorPalette
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.change_image
@@ -87,8 +88,8 @@ internal fun ArtMakerControlMenu(
     artMakerConfiguration: ArtMakerConfiguration,
     onActivateEraser: () -> Unit,
     isEraserActive: Boolean,
-    imagePicker: ImagePicker
 ) {
+    val imagePicker = createPicker()
     /**
      * Before we Pick the Image, we first need to register the picker and set the background Image
      */

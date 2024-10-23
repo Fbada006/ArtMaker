@@ -29,6 +29,7 @@ actual fun ShareableContent(
     val uiViewController = LocalUIViewController.current
 
     LaunchedEffect(shouldExport) {
+        if (shouldExport) {
             val view = uiViewController.view
             val bounds = view.bounds
             val size = CGSizeMake(
@@ -67,6 +68,7 @@ actual fun ShareableContent(
             }
 
             onAction(ArtMakerAction.ExportArt(imageBitmap))
+        }
     }
 
     Box(modifier = modifier) {

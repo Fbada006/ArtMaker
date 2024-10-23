@@ -2,16 +2,14 @@ package com.fbada006.shared.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.interop.LocalUIViewController
 import platform.UIKit.UIViewController
 
-actual class ImagePickerFactory(
-    private val rootController: UIViewController
-){
 
-    @Composable
-    actual fun createPicker(): ImagePicker {
-        return remember {
-            ImagePicker(rootController)
-        }
+@Composable
+actual fun createPicker(): ImagePicker {
+    val rootController = LocalUIViewController.current
+    return remember {
+        ImagePicker(rootController)
     }
 }
