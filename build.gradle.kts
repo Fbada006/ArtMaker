@@ -17,11 +17,17 @@ subprojects {
         val ktlintVersion = "1.3.1"
         kotlin {
             target("**/*.kt")
-            targetExclude("**/build/**/*.kt")
+            targetExclude(
+                "**/build/**/*.kt",
+                // To be removed after the KMP Migration...
+                "src/commonMain/kotlin/com/fbada006/shared/data/ArtMakerSharedPreferences.kt",
+            )
             ktlint(ktlintVersion).editorConfigOverride(
                 mapOf(
                     "indent_size" to "4",
                     "continuation_indent_size" to "4",
+                    // To be removed after the KMP Migration...
+                    "ktlint_standard_no-empty-file" to "disabled",
                 ),
             )
             licenseHeaderFile(rootProject.file("$rootDir/spotless/copyright.kt"))

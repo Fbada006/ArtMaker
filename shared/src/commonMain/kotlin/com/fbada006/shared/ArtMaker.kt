@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.ExportType
@@ -47,6 +46,7 @@ import com.fbada006.shared.composables.ArtMakerDrawScreen
 import com.fbada006.shared.composables.StrokeSettings
 import com.fbada006.shared.data.CustomColorsManager
 import com.fbada006.shared.data.PreferencesManager
+import com.fbada006.shared.dimensions.Dimensions
 import com.fbada006.shared.drawing.DrawingManager
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ImagePicker
@@ -63,8 +63,8 @@ import com.fbada006.shared.utils.ImagePicker
 fun ArtMaker(
     modifier: Modifier = Modifier,
     onFinishDrawing: (ImageBitmap) -> Unit = {},
+    imagePicker: ImagePicker,
     artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
-    imagePicker: ImagePicker
 ) {
     val viewModel: ArtMakerViewModel = viewModel {
         ArtMakerViewModel(
@@ -95,7 +95,7 @@ fun ArtMaker(
             AnimatedVisibility(
                 visible = viewModel.pathList.isNotEmpty() && !showStrokeSettings,
                 modifier = Modifier.padding(
-                    bottom = if (isFullScreenEnabled) 0.dp else 60.dp,
+                    bottom = if (isFullScreenEnabled) Dimensions.FullScreenEnabledPadding else Dimensions.FullScreenDisabledPadding,
                 ),
             ) {
                 Column {
@@ -105,12 +105,12 @@ fun ArtMaker(
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(Dimensions.ExportArtButtonSpacerHeight))
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(Dimensions.FullScreenToggleButtonSpacerHeight))
                     FloatingActionButton(onClick = { isFullScreenEnabled = !isFullScreenEnabled }) {
                         Icon(
                             imageVector = if (isFullScreenEnabled) Icons.Filled.Fullscreen else Icons.Filled.FullscreenExit,
@@ -142,6 +142,7 @@ fun ArtMaker(
                     shouldDetectPressure = state.shouldDetectPressure,
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
+                    isStylusAvailable = state.isStylusAvailable,
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat()
@@ -153,12 +154,13 @@ fun ArtMaker(
                     configuration = artMakerConfiguration,
                     modifier = Modifier
                         .padding(
-                            top = 8.dp,
-                            end = 12.dp,
-                            start = 12.dp,
+                            top = Dimensions.StrokeSettingsTopPadding,
+                            end = Dimensions.StrokeSettingsEndPadding,
+                            start = Dimensions.StrokeSettingsStartPadding,
                         ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                     shouldDetectPressure = state.shouldDetectPressure,
+                    isStylusAvailable = state.isStylusAvailable,
                 )
             }
             AnimatedVisibility(visible = !isFullScreenEnabled) {
@@ -166,7 +168,7 @@ fun ArtMaker(
                     state = state,
                     onAction = viewModel::onAction,
                     onDrawEvent = viewModel::onDrawEvent,
-                    modifier = Modifier.height(60.dp),
+                    modifier = Modifier.height(Dimensions.ArtMakerControlMenuHeight),
                     onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,

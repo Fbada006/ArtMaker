@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import com.artmaker.androidApp.ui.theme.ArtMakerTheme
 import com.fbada006.shared.ArtMaker
 import com.fbada006.shared.ArtMakerInitializer
-import com.fbada006.shared.Greeting
 import com.fbada006.shared.utils.ImagePickerFactory
 
 class MainActivity : ComponentActivity() {
@@ -36,7 +35,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     imagePicker = ImagePickerFactory().createPicker()
                 )
-                println("Greetings----${Greeting().greet()}")
             }
         }
     }

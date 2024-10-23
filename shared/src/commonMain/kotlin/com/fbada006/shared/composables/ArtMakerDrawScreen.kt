@@ -89,7 +89,7 @@ internal fun ArtMakerDrawScreen(
 //    } else {
 //        with(density) {
 //            62.dp.toPx()
-////            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
+// //            (dimensionResource(id = R.dimen.Padding60) + dimensionResource(id = R.dimen.Padding2)).toPx()
 //        }
 //    }
 //    val screenHeightPx = with(density) { screenHeight.toPx() }
@@ -122,17 +122,20 @@ internal fun ArtMakerDrawScreen(
                             val offset = event.changes.first().position
                             val pressure = event.changes.first().pressure
 
-                            when (event.type) {
-                                PointerEventType.Press -> {
-                                    getDialogType(change, state.shouldUseStylusOnly)?.let { type ->
-                                        shouldShowStylusDialog = true
-                                        stylusDialogType = type
-                                    }
+                        when (event.type) {
+                            PointerEventType.Press -> {
+                                // Only update the stylus availability if this is a stylus input and the stylus availability state is not updated
+                                if (change.isStylusInput() && !state.isStylusAvailable) onAction(ArtMakerAction.UpdateStylusAvailability(change.isStylusInput()))
 
-                                    if (!change.validateEvent(state.shouldUseStylusOnly)) {
-                                        // Ignore this event
-                                        continue
-                                    }
+                                getDialogType(change, state.shouldUseStylusOnly, state.isStylusAvailable)?.let { type ->
+                                    shouldShowStylusDialog = true
+                                    stylusDialogType = type
+                                }
+
+                                if (!change.validateEvent(state.shouldUseStylusOnly, state.isStylusAvailable)) {
+                                    // Ignore this event
+                                    continue
+                                }
 
                                     // Start a new shape when pressing
                                     isDrawing = true
@@ -211,11 +214,15 @@ internal fun ArtMakerDrawScreen(
         if (stylusDialogType.isEmpty()) return
         val type = StylusDialogType.valueOf(stylusDialogType)
         val dialogInfo = when {
-            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(Res.string.stylus_input_detected_title) to
-                    stringResource(Res.string.stylus_input_detected_message)
+            state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(
+                Res.string.stylus_input_detected_title,
+            ) to
+                stringResource(Res.string.stylus_input_detected_message)
 
-            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(Res.string.non_stylus_input_detected_title) to
-                    stringResource(Res.string.non_stylus_input_detected_message)
+            state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(
+                Res.string.non_stylus_input_detected_title,
+            ) to
+                stringResource(Res.string.non_stylus_input_detected_message)
 
             else -> return
         }
@@ -244,9 +251,9 @@ internal fun ArtMakerDrawScreen(
     }
 }
 
-private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean) = when {
+private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean, isStylusAvailable: Boolean) = when {
     change.isStylusInput() && !useStylusOnly -> StylusDialogType.ENABLE_STYLUS_ONLY.name
-    !change.validateEvent(useStylusOnly) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
+    !change.validateEvent(useStylusOnly, isStylusAvailable) -> StylusDialogType.DISABLE_STYLUS_ONLY.name
     else -> null
 }
 
