@@ -24,9 +24,12 @@ plugins {
     alias(libs.plugins.serialization)
 }
 //https://youtrack.jetbrains.com/issue/KT-66448/Multiplatform-wizards.-Get-rid-of-deprecated-kotlinOptions
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
@@ -61,6 +64,14 @@ kotlin {
             implementation(project(":customcolorpalette"))
         }
         commonTest.dependencies {
+        }
+        androidMain.dependencies {
+            implementation("androidx.compose.ui:ui:1.7.4") {
+                because("We need to use graphics layer to export composable as image.")
+            }
+            implementation (libs.accompanist.permissions)
+            implementation(libs.androidx.appcompat)
+            implementation(libs.androidx.activity.compose)
         }
     }
 }

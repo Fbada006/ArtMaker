@@ -18,6 +18,7 @@ package com.fbada006.shared.composables
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -52,6 +53,7 @@ import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.models.alpha
+import com.fbada006.shared.utils.ShareableContent
 import com.fbada006.shared.utils.isStylusInput
 import com.fbada006.shared.utils.validateEvent
 import io.fbada006.artmaker.Res
@@ -98,67 +100,27 @@ internal fun ArtMakerDrawScreen(
     var stylusDialogType by rememberSaveable { mutableStateOf("") }
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
 
-//    val graphicsLayer = rememberGraphicsLayer()
-//    val snackbarHostState = remember { SnackbarHostState() }
-//
-//    val writeStorageAccessState = rememberMultiplePermissionsState(
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            // No permissions are needed on Android 10+ to add files in the shared storage
-//            emptyList()
-//        } else {
-//            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//        },
-//    )
+    ShareableContent(shouldExport = state.shouldTriggerArtExport, onAction = onAction, modifier = modifier, content = {
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color(color = artMakerConfiguration.canvasBackgroundColor))
+                .onSizeChanged { updatedSize ->
+                    val bitmapSize =
+                        updatedSize.takeIf { it.height != 0 && it.width != 0 } ?: return@onSizeChanged
+                    bitmapHeight = bitmapSize.height
+                    bitmapWidth = bitmapSize.width
+                }
+                .pointerInput(state.shouldUseStylusOnly || isEraserActive) {
+                    awaitPointerEventScope {
+                        var isDrawing = false
 
-//    LaunchedEffect(key1 = state.shouldTriggerArtExport) {
-//        if (state.shouldTriggerArtExport) {
-//            if (writeStorageAccessState.allPermissionsGranted) {
-//                val bitmap = graphicsLayer.toImageBitmap()
-//                onAction(com.fbada006.shared.actions.ArtMakerAction.ExportArt(bitmap))
-//            } else if (writeStorageAccessState.shouldShowRationale) {
-//                launch {
-//                    val result = snackbarHostState.showSnackbar(
-//                        message = context.getString(R.string.the_storage_permission_is_needed_to_save_the_image),
-//                        actionLabel = context.getString(R.string.grant_access),
-//                    )
-//
-//                    if (result == SnackbarResult.ActionPerformed) {
-//                        writeStorageAccessState.launchMultiplePermissionRequest()
-//                    }
-//                }
-//            } else {
-//                writeStorageAccessState.launchMultiplePermissionRequest()
-//            }
-//        }
-//    }
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.first()
 
-    Canvas(
-        modifier = modifier
-            .background(color = Color(color = artMakerConfiguration.canvasBackgroundColor))
-            .onSizeChanged { updatedSize ->
-                val bitmapSize =
-                    updatedSize.takeIf { it.height != 0 && it.width != 0 } ?: return@onSizeChanged
-                bitmapHeight = bitmapSize.height
-                bitmapWidth = bitmapSize.width
-            }
-//            .drawWithCache {
-//                onDrawWithContent {
-//                    graphicsLayer.record {
-//                        this@onDrawWithContent.drawContent()
-//                    }
-//                    drawLayer(graphicsLayer)
-//                }
-//            }
-            .pointerInput(state.shouldUseStylusOnly || isEraserActive) {
-                awaitPointerEventScope {
-                    var isDrawing = false
-
-                    while (true) {
-                        val event = awaitPointerEvent()
-                        val change = event.changes.first()
-
-                        val offset = event.changes.first().position
-                        val pressure = event.changes.first().pressure
+                            val offset = event.changes.first().position
+                            val pressure = event.changes.first().pressure
 
                         when (event.type) {
                             PointerEventType.Press -> {
@@ -175,77 +137,78 @@ internal fun ArtMakerDrawScreen(
                                     continue
                                 }
 
-                                // Start a new shape when pressing
-                                isDrawing = true
-
-                                if (isEraserActive) {
-                                    onDrawEvent(DrawEvent.Erase(offset))
-                                } else {
-                                    onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
-                                }
-                            }
-
-                            PointerEventType.Move -> {
-                                if (isDrawing) {
-                                    eraserPosition = offset
+                                    // Start a new shape when pressing
+                                    isDrawing = true
 
                                     if (isEraserActive) {
                                         onDrawEvent(DrawEvent.Erase(offset))
                                     } else {
-                                        // Update the current shape
-                                        onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                        onDrawEvent(DrawEvent.AddNewShape(offset, pressure))
                                     }
                                 }
-                            }
 
-                            PointerEventType.Release -> {
-                                isDrawing = false
-                            }
+                                PointerEventType.Move -> {
+                                    if (isDrawing) {
+                                        eraserPosition = offset
 
-                            PointerEventType.Unknown -> {
-                                eraserPosition = null
-                                onDrawEvent(DrawEvent.UndoLastShapePoint)
+                                        if (isEraserActive) {
+                                            onDrawEvent(DrawEvent.Erase(offset))
+                                        } else {
+                                            // Update the current shape
+                                            onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                        }
+                                    }
+                                }
+
+                                PointerEventType.Release -> {
+                                    isDrawing = false
+                                }
+
+                                PointerEventType.Unknown -> {
+                                    eraserPosition = null
+                                    onDrawEvent(DrawEvent.UndoLastShapePoint)
+                                }
                             }
+                        }
+                    }
+                },
+            onDraw = {
+                drawIntoCanvas {
+                    state.backgroundImage?.let { bitmap ->
+                        val shader = ImageShader(bitmap, TileMode.Clamp)
+                        val brush = ShaderBrush(shader)
+                        drawRect(
+                            brush = brush,
+                            size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
+                        )
+                    }
+
+                    state.pathList.forEach { data ->
+                        drawPoints(
+                            points = data.points,
+                            // Draw a point if the shape has only one item otherwise a free flowing shape
+                            pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon,
+                            color = data.strokeColor,
+                            alpha = data.alpha(state.shouldDetectPressure),
+                            strokeWidth = data.strokeWidth,
+                        )
+                    }
+                    if (isEraserActive) {
+                        eraserPosition?.let { position ->
+                            drawCircle(
+                                color = Color.Gray,
+                                radius = eraserRadius,
+                                center = position,
+                                style = Stroke(
+                                    width = 8.0f,
+                                ),
+                            )
                         }
                     }
                 }
             },
-        onDraw = {
-            drawIntoCanvas {
-                state.backgroundImage?.let { bitmap ->
-                    val shader = ImageShader(bitmap, TileMode.Clamp)
-                    val brush = ShaderBrush(shader)
-                    drawRect(
-                        brush = brush,
-                        size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
-                    )
-                }
-
-                state.pathList.forEach { data ->
-                    drawPoints(
-                        points = data.points,
-                        // Draw a point if the shape has only one item otherwise a free flowing shape
-                        pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon,
-                        color = data.strokeColor,
-                        alpha = data.alpha(state.shouldDetectPressure),
-                        strokeWidth = data.strokeWidth,
-                    )
-                }
-                if (isEraserActive) {
-                    eraserPosition?.let { position ->
-                        drawCircle(
-                            color = Color.Gray,
-                            radius = eraserRadius,
-                            center = position,
-                            style = Stroke(
-                                width = 8.0f,
-                            ),
-                        )
-                    }
-                }
-            }
-        },
-    )
+        )
+    })
 
     if (shouldShowStylusDialog && (state.canShowEnableStylusDialog || state.canShowDisableStylusDialog)) {
         if (stylusDialogType.isEmpty()) return

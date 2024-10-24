@@ -62,13 +62,13 @@ import com.fbada006.shared.icons.Undo
 import com.fbada006.shared.icons.InkEraser
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
+import com.fbada006.shared.utils.ImagePicker
+import com.fbada006.shared.utils.createPicker
 import customcolorpalette.CustomColorPalette
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.change_image
 import io.fbada006.artmaker.clear_image
 import org.jetbrains.compose.resources.stringResource
-
-private const val IMAGE_PICKER_MAX_ITEMS = 1
 
 /**
  * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
@@ -89,20 +89,14 @@ internal fun ArtMakerControlMenu(
     onActivateEraser: () -> Unit,
     isEraserActive: Boolean,
 ) {
+    val imagePicker = createPicker()
+    /**
+     * Before we Pick the Image, we first need to register the picker and set the background Image
+     */
+    imagePicker.registerPicker { image->
+        setBackgroundImage(image)
+    }
     var areImageOptionsExpanded by remember { mutableStateOf(false) }
-//    val context = LocalContext.current
-//    val photoPicker =
-//        rememberLauncherForActivityResult(PhotoPicker()) { uris ->
-//            val uri = uris.firstOrNull() ?: return@rememberLauncherForActivityResult
-//            val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//                // For Android 9.0 (API level 28) and above
-//                ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
-//            } else {
-//                // For Android versions below 9.0
-//                BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
-//            }
-//            setBackgroundImage(bitmap.asImageBitmap())
-//        }
     var showColorPicker by remember { mutableStateOf(false) }
     var showColorPalette by remember { mutableStateOf(false) }
 
@@ -168,12 +162,7 @@ internal fun ArtMakerControlMenu(
                         if (imageBitmap != null) {
                             areImageOptionsExpanded = true
                         } else {
-//                            photoPicker.launch(
-//                                PhotoPicker.Args(
-//                                    PhotoPicker.Type.IMAGES_ONLY,
-//                                    IMAGE_PICKER_MAX_ITEMS,
-//                                ),
-//                            )
+                            imagePicker.pickImage()
                         }
                     },
                 )
@@ -194,13 +183,7 @@ internal fun ArtMakerControlMenu(
                             Text(text = stringResource(Res.string.change_image))
                         },
                         onClick = {
-                            // Launch the picker with only one image selectable
-//                            photoPicker.launch(
-//                                PhotoPicker.Args(
-//                                    PhotoPicker.Type.IMAGES_ONLY,
-//                                    IMAGE_PICKER_MAX_ITEMS,
-//                                ),
-//                            )
+                            imagePicker.pickImage()
                             areImageOptionsExpanded = false
                         },
                     )

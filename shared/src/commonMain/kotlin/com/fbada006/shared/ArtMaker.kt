@@ -49,6 +49,7 @@ import com.fbada006.shared.data.PreferencesManager
 import com.fbada006.shared.dimensions.Dimensions
 import com.fbada006.shared.drawing.DrawingManager
 import com.fbada006.shared.models.ArtMakerConfiguration
+import com.fbada006.shared.utils.ImagePicker
 
 /**
  * [ArtMaker] has the draw screen as well as control menu (the bar offering customisation options). By default, it is a white screen that allows the user
@@ -68,7 +69,7 @@ fun ArtMaker(
         ArtMakerViewModel(
             customColorsManager = CustomColorsManager(),
             preferencesManager = PreferencesManager(),
-            drawingManager = DrawingManager(),
+            drawingManager = DrawingManager()
         )
     }
 
@@ -143,7 +144,7 @@ fun ArtMaker(
                     isStylusAvailable = state.isStylusAvailable,
                 ),
                 isEraserActive = isEraserActive,
-                eraserRadius = state.strokeWidth.toFloat(),
+                eraserRadius = state.strokeWidth.toFloat()
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(

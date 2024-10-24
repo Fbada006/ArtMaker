@@ -17,6 +17,7 @@ package com.fbada006.shared.models
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+
 /**
  * ArtMakerConfiguration holding custom configuration for the ArtMaker Composable
  * @param strokeSliderThumbColor  thumb color when enabled
@@ -38,5 +39,5 @@ data class ArtMakerConfiguration(
     val canvasBackgroundColor: Int = Color.White.toArgb(),
     val controllerBackgroundColor: Color = Color.LightGray,
     val strokeSliderBackgroundColor: Color = Color.Unspecified,
-    val canShareArt: Boolean = false,
+    val canShareArt: Boolean = true,
 )
