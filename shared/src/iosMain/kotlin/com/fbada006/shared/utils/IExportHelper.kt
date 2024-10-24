@@ -7,8 +7,9 @@ import platform.CoreGraphics.CGBitmapContextCreate
 import platform.CoreGraphics.CGBitmapContextCreateImage
 import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
 import platform.CoreGraphics.CGImageAlphaInfo
-import platform.UIKit.*
 import platform.UIKit.UIActivityViewController
+import platform.UIKit.UIApplication
+import platform.UIKit.UIImage
 
 actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val uiImage = imageBitmap?.toUIImage()
