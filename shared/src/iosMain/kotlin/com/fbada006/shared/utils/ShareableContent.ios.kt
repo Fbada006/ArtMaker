@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 ArtMaker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.fbada006.shared.utils
 
 import androidx.compose.foundation.layout.Box
@@ -20,12 +35,7 @@ import platform.UIKit.UIGraphicsGetImageFromCurrentImageContext
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun ShareableContent(
-    shouldExport: Boolean,
-    onAction: (ArtMakerAction) -> Unit,
-    content: @Composable () -> Unit,
-    modifier: Modifier
-) {
+actual fun ShareableContent(shouldExport: Boolean, onAction: (ArtMakerAction) -> Unit, content: @Composable () -> Unit, modifier: Modifier) {
     val uiViewController = LocalUIViewController.current
 
     LaunchedEffect(shouldExport) {
@@ -34,7 +44,7 @@ actual fun ShareableContent(
             val bounds = view.bounds
             val size = CGSizeMake(
                 width = bounds.useContents { size.width },
-                height = bounds.useContents { size.height }
+                height = bounds.useContents { size.height },
             )
 
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
@@ -54,7 +64,7 @@ actual fun ShareableContent(
                         width = width,
                         height = height,
                         colorType = ColorType.RGBA_8888,
-                        alphaType = ColorAlphaType.PREMUL
+                        alphaType = ColorAlphaType.PREMUL,
                     )
 
                     bitmap.setImageInfo(info)
@@ -75,4 +85,3 @@ actual fun ShareableContent(
         content()
     }
 }
-

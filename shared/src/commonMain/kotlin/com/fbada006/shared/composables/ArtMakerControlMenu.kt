@@ -56,13 +56,12 @@ import com.fbada006.shared.ArtMakerUIState
 import com.fbada006.shared.actions.ArtMakerAction
 import com.fbada006.shared.actions.DrawEvent
 import com.fbada006.shared.dimensions.Dimensions
+import com.fbada006.shared.icons.InkEraser
 import com.fbada006.shared.icons.InkEraserOff
 import com.fbada006.shared.icons.Redo
 import com.fbada006.shared.icons.Undo
-import com.fbada006.shared.icons.InkEraser
 import com.fbada006.shared.models.ArtMakerConfiguration
 import com.fbada006.shared.utils.ColorUtils
-import com.fbada006.shared.utils.ImagePicker
 import com.fbada006.shared.utils.createPicker
 import customcolorpalette.CustomColorPalette
 import io.fbada006.artmaker.Res
@@ -93,7 +92,7 @@ internal fun ArtMakerControlMenu(
     /**
      * Before we Pick the Image, we first need to register the picker and set the background Image
      */
-    imagePicker.registerPicker { image->
+    imagePicker.registerPicker { image ->
         setBackgroundImage(image)
     }
     var areImageOptionsExpanded by remember { mutableStateOf(false) }

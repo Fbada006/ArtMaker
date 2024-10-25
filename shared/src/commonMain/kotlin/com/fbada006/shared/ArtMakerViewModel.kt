@@ -74,7 +74,9 @@ internal class ArtMakerViewModel(
             is ArtMakerAction.SelectStrokeColour -> updateStrokeColor(colour = action.color, isCustomColour = action.isCustomColor)
             is ArtMakerAction.SetStrokeWidth -> updatePref { updateStrokeWidth(strokeWidth = action.strokeWidth) }
             is ArtMakerAction.UpdateSetStylusOnly -> updatePref { updateStylusOnlySetting(useStylusOnly = action.shouldUseStylusOnly) }
-            is ArtMakerAction.UpdateSetPressureDetection -> updatePref { updatePressureDetectionSetting(detectPressure = action.shouldDetectPressure) }
+            is ArtMakerAction.UpdateSetPressureDetection -> updatePref {
+                updatePressureDetectionSetting(detectPressure = action.shouldDetectPressure)
+            }
             is ArtMakerAction.UpdateEnableStylusDialogShow -> updatePref { updateEnableStylusDialog(canShow = action.canShowEnableStylusDialog) }
             is ArtMakerAction.UpdateDisableStylusDialogShow -> updatePref { updateDisableStylusDialog(canShow = action.canShowDisableStylusDialog) }
             is ArtMakerAction.UpdateStylusAvailability -> updatePref { updateDeviceStylusAvailability(isStylusAvailable = action.isStylusAvailable) }

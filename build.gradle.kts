@@ -19,8 +19,6 @@ subprojects {
             target("**/*.kt")
             targetExclude(
                 "**/build/**/*.kt",
-                // To be removed after the KMP Migration...
-                "src/commonMain/kotlin/com/fbada006/shared/data/ArtMakerSharedPreferences.kt",
             )
             ktlint(ktlintVersion).editorConfigOverride(
                 mapOf(
