@@ -84,7 +84,9 @@ internal fun ArtMakerDrawScreen(
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
 
     ShareableContent(
-        shouldExport = state.shouldTriggerArtExport, onAction = onAction, modifier = modifier,
+        shouldExport = state.shouldTriggerArtExport,
+        onAction = onAction,
+        modifier = modifier,
         content = {
             Canvas(
                 modifier = Modifier
@@ -110,11 +112,13 @@ internal fun ArtMakerDrawScreen(
                                 when (event.type) {
                                     PointerEventType.Press -> {
                                         // Only update the stylus availability if this is a stylus input and the stylus availability state is not updated
-                                        if (change.isStylusInput() && !state.isStylusAvailable) onAction(
-                                            ArtMakerAction.UpdateStylusAvailability(
-                                                change.isStylusInput(),
-                                            ),
-                                        )
+                                        if (change.isStylusInput() && !state.isStylusAvailable) {
+                                            onAction(
+                                                ArtMakerAction.UpdateStylusAvailability(
+                                                    change.isStylusInput(),
+                                                ),
+                                            )
+                                        }
 
                                         getDialogType(change, state.shouldUseStylusOnly, state.isStylusAvailable)?.let { type ->
                                             shouldShowStylusDialog = true
@@ -136,18 +140,18 @@ internal fun ArtMakerDrawScreen(
                                         }
                                     }
 
-                                PointerEventType.Move -> {
-                                    if (isDrawing) {
-                                        eraserPosition = offset
+                                    PointerEventType.Move -> {
+                                        if (isDrawing) {
+                                            eraserPosition = offset
 
-                                        if (isEraserActive) {
-                                            onDrawEvent(DrawEvent.Erase(offset))
-                                        } else {
-                                            // Update the current shape
-                                            onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                            if (isEraserActive) {
+                                                onDrawEvent(DrawEvent.Erase(offset))
+                                            } else {
+                                                // Update the current shape
+                                                onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                            }
                                         }
                                     }
-                                }
 
                                     PointerEventType.Release -> {
                                         isDrawing = false
@@ -207,12 +211,12 @@ internal fun ArtMakerDrawScreen(
             state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(
                 Res.string.stylus_input_detected_title,
             ) to
-                    stringResource(Res.string.stylus_input_detected_message)
+                stringResource(Res.string.stylus_input_detected_message)
 
             state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(
                 Res.string.non_stylus_input_detected_title,
             ) to
-                    stringResource(Res.string.non_stylus_input_detected_message)
+                stringResource(Res.string.non_stylus_input_detected_message)
 
             else -> return
         }
