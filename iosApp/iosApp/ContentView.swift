@@ -1,7 +1,6 @@
 import UIKit
 import SwiftUI
-import shared
-
+import io.artmaker
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {

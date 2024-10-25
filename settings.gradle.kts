@@ -22,4 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "ArtMaker"
 include(":androidApp")
 include(":customcolorpalette")
-include(":shared")
+include(":artmaker")
