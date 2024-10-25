@@ -124,7 +124,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             api(libs.androidx.datastore.preferences.core)
             api(libs.androidx.datastore)
-            implementation(project(":customcolorpalette"))
+            api(project(":customcolorpalette"))
         }
         commonTest.dependencies {
         }
