@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.dp
 
 val InkEraser: ImageVector
     get() {
-        if (ink_eraser != null) {
-            return ink_eraser!!
+        if (inkEraser != null) {
+            return inkEraser!!
         }
-        ink_eraser = ImageVector.Builder(
+        inkEraser = ImageVector.Builder(
             name = "Ink_eraser",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
@@ -73,7 +73,7 @@ val InkEraser: ImageVector
                 moveToRelative(-6f, -240f)
             }
         }.build()
-        return ink_eraser!!
+        return inkEraser!!
     }
 
-private var ink_eraser: ImageVector? = null
+private var inkEraser: ImageVector? = null
