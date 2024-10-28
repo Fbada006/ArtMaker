@@ -63,7 +63,7 @@ import io.fbada006.artmaker.icons.Undo
 import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.utils.createPicker
-import io.fbada006.customcolorpalette.CustomColorPalette
+import io.fbada006.artmaker.customcolorpalette.CustomColorPalette
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.change_image
 import io.fbada006.artmaker.clear_image
