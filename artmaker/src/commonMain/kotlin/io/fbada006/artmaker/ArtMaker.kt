@@ -144,6 +144,9 @@ fun ArtMaker(
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat(),
+                updateImageBitmap = viewModel::updateImageBitmap,
+                shouldExport = shouldTriggerArtExport,
+                finishedImage = finishedImage
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
