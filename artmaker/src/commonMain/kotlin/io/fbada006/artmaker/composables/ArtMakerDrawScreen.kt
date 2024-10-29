@@ -72,7 +72,6 @@ internal fun ArtMakerDrawScreen(
     state: DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
-    shouldExport:Boolean,
 ) {
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
@@ -80,8 +79,9 @@ internal fun ArtMakerDrawScreen(
     var stylusDialogType by rememberSaveable { mutableStateOf("") }
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
     var art by remember { mutableStateOf<ImageBitmap?>(null) }
-    LaunchedEffect(shouldExport) {
-        if (shouldExport) {
+
+    LaunchedEffect(state.shouldTriggerArtExport) {
+        if (state.shouldTriggerArtExport) {
             onAction(ArtMakerAction.ExportArt(art))
         }
     }

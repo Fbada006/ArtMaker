@@ -144,7 +144,6 @@ fun ArtMaker(
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat(),
-                shouldExport = shouldTriggerArtExport,
             )
             AnimatedVisibility(visible = showStrokeSettings) {
                 StrokeSettings(
