@@ -21,8 +21,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.artmaker.androidApp.ui.theme.ArtMakerTheme
-import com.fbada006.shared.ArtMaker
-import com.fbada006.shared.ArtMakerInitializer
+import io.fbada006.artmaker.ArtMaker
+import io.fbada006.artmaker.ArtMakerInitializer
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
