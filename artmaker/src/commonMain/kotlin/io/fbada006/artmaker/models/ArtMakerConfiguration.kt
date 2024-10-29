@@ -39,5 +39,5 @@ data class ArtMakerConfiguration(
     val canvasBackgroundColor: Int = Color.White.toArgb(),
     val controllerBackgroundColor: Color = Color.LightGray,
     val strokeSliderBackgroundColor: Color = Color.Unspecified,
-    val canShareArt: Boolean = false,
+    val canShareArt: Boolean = true,
 )

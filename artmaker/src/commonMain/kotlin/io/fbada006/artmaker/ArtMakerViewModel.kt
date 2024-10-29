@@ -89,10 +89,6 @@ internal class ArtMakerViewModel(
         _uiState.value.strokeWidth,
     )
 
-    fun updateImageBitmap(bitmap: ImageBitmap) {
-        _finishedImage.update { bitmap }
-    }
-
     private fun init() {
         viewModelScope.launch {
             drawingManager.undoRedoState.collectLatest { state ->

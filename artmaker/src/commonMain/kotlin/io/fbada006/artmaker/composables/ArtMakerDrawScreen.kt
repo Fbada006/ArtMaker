@@ -72,28 +72,17 @@ internal fun ArtMakerDrawScreen(
     state: DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
-    updateImageBitmap:(ImageBitmap)->Unit,
     shouldExport:Boolean,
-    finishedImage:ImageBitmap?
 ) {
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
     var stylusDialogType by rememberSaveable { mutableStateOf("") }
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
-
+    var art by remember { mutableStateOf<ImageBitmap?>(null) }
     LaunchedEffect(shouldExport) {
         if (shouldExport) {
-            onAction(ArtMakerAction.ExportArt(toImageBitmap(
-                bitmapWidth = bitmapWidth,
-                bitmapHeight = bitmapHeight,
-                state = state,
-                isEraserActive = isEraserActive,
-                eraserRadius = eraserRadius,
-                eraserPosition = eraserPosition,
-                pathList = state.pathList,
-            )))
-
+            onAction(ArtMakerAction.ExportArt(art))
         }
     }
     Box(
@@ -175,21 +164,19 @@ internal fun ArtMakerDrawScreen(
             }
             .drawWithContent {
                 drawContent()
-                updateImageBitmap(
-                    toImageBitmap(
-                        bitmapWidth = bitmapWidth,
-                        bitmapHeight = bitmapHeight,
-                        state = state,
-                        isEraserActive = isEraserActive,
-                        eraserRadius = eraserRadius,
-                        eraserPosition = eraserPosition,
-                        pathList = state.pathList,
-                    ),
+                art =  toImageBitmap(
+                    bitmapWidth = bitmapWidth,
+                    bitmapHeight = bitmapHeight,
+                    state = state,
+                    isEraserActive = isEraserActive,
+                    eraserRadius = eraserRadius,
+                    eraserPosition = eraserPosition,
+                    pathList = state.pathList,
                 )
 
             },
     ) {
-        finishedImage?.let {
+        art?.let {
             Image(
                 bitmap = it,
                 contentDescription = stringResource(Res.string.image_bitmap),
