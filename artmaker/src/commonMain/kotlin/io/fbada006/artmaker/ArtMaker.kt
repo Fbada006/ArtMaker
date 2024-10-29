@@ -56,13 +56,13 @@ import io.fbada006.artmaker.models.ArtMakerConfiguration
  *
  * @param modifier is the [Modifier]
  * @param onFinishDrawing is the callback exposed once the user clicks done (the [FloatingActionButton] with the checkmark) to trigger finish drawing
- * @param artMakerConfiguration is the configuration to customise the appearance of the control menu and other values
+ * @param configuration is the configuration to customise the appearance of the control menu and other values
  */
 @Composable
 fun ArtMaker(
     modifier: Modifier = Modifier,
     onFinishDrawing: (ImageBitmap) -> Unit = {},
-    artMakerConfiguration: ArtMakerConfiguration = ArtMakerConfiguration(),
+    configuration: ArtMakerConfiguration = ArtMakerConfiguration(),
 ) {
     val viewModel: ArtMakerViewModel = viewModel {
         ArtMakerViewModel(
@@ -98,7 +98,7 @@ fun ArtMaker(
             ) {
                 Column {
                     // Trigger sharing the image. It has to save the image first
-                    if (artMakerConfiguration.canShareArt) {
+                    if (configuration.canShareArt) {
                         FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.ShareImage)) }) {
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
@@ -125,7 +125,7 @@ fun ArtMaker(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f),
-                artMakerConfiguration = artMakerConfiguration,
+                configuration = configuration,
                 onDrawEvent = {
                     showStrokeSettings = false
                     viewModel.onDrawEvent(it)
@@ -150,7 +150,7 @@ fun ArtMaker(
                 StrokeSettings(
                     strokeWidth = state.strokeWidth,
                     onAction = viewModel::onAction,
-                    configuration = artMakerConfiguration,
+                    configuration = configuration,
                     modifier = Modifier
                         .padding(
                             top = Dimensions.StrokeSettingsTopPadding,
@@ -171,7 +171,7 @@ fun ArtMaker(
                     onShowStrokeWidthPopup = { showStrokeSettings = !showStrokeSettings },
                     setBackgroundImage = viewModel::setImage,
                     imageBitmap = viewModel.backgroundImage.value,
-                    artMakerConfiguration = artMakerConfiguration,
+                    configuration = configuration,
                     onActivateEraser = { isEraserActive = !isEraserActive },
                     isEraserActive = isEraserActive,
                 )

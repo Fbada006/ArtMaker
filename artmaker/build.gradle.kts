@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -32,7 +31,7 @@ apply(from = "${rootDir}/scripts/publish.gradle.kts")
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-//    signAllPublications()
+    signAllPublications()
 
     val artifactId = "artmaker"
 
@@ -129,11 +128,6 @@ kotlin {
         commonTest.dependencies {
         }
         androidMain.dependencies {
-            implementation("androidx.compose.ui:ui:1.7.4") {
-                because("We need to use graphics layer to export composable as image.")
-            }
-            implementation(libs.accompanist.permissions)
-            implementation(libs.androidx.appcompat)
             implementation(libs.androidx.activity.compose)
         }
     }

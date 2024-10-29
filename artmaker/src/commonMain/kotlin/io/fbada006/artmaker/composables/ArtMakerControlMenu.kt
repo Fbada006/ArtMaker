@@ -84,7 +84,7 @@ internal fun ArtMakerControlMenu(
     onShowStrokeWidthPopup: () -> Unit,
     setBackgroundImage: (ImageBitmap?) -> Unit,
     imageBitmap: ImageBitmap?,
-    artMakerConfiguration: ArtMakerConfiguration,
+    configuration: ArtMakerConfiguration,
     onActivateEraser: () -> Unit,
     isEraserActive: Boolean,
 ) {
@@ -102,7 +102,7 @@ internal fun ArtMakerControlMenu(
     Surface(
         shadowElevation = Dimensions.ArtMakerControlMenuShadowElevation,
         modifier = modifier,
-        color = artMakerConfiguration.controllerBackgroundColor,
+        color = configuration.controllerBackgroundColor,
     ) {
         Column {
             Row(
@@ -209,7 +209,7 @@ internal fun ArtMakerControlMenu(
                         showColorPicker = false
                         showColorPalette = true
                     },
-                    artMakerConfiguration = artMakerConfiguration,
+                    artMakerConfiguration = configuration,
                 )
             }
 

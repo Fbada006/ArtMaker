@@ -66,7 +66,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,
-    artMakerConfiguration: ArtMakerConfiguration,
+    configuration: ArtMakerConfiguration,
     onDrawEvent: (DrawEvent) -> Unit,
     onAction: (ArtMakerAction) -> Unit,
     state: DrawScreenState,
@@ -88,7 +88,7 @@ internal fun ArtMakerDrawScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(color = Color(color = artMakerConfiguration.canvasBackgroundColor))
+            .background(color = Color(color = configuration.canvasBackgroundColor))
             .onSizeChanged { updatedSize ->
                 val bitmapSize =
                     updatedSize.takeIf { it.height != 0 && it.width != 0 } ?: return@onSizeChanged
