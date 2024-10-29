@@ -141,6 +141,7 @@ fun ArtMaker(
                     canShowEnableStylusDialog = state.canShowEnableStylusDialog,
                     canShowDisableStylusDialog = state.canShowDisableStylusDialog,
                     isStylusAvailable = state.isStylusAvailable,
+                    backgroundColor = state.backgroundColour,
                 ),
                 isEraserActive = isEraserActive,
                 eraserRadius = state.strokeWidth.toFloat(),

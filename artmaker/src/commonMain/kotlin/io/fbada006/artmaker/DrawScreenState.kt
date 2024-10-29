@@ -25,6 +25,7 @@ import io.fbada006.artmaker.models.PointsData
 internal data class DrawScreenState(
     val pathList: SnapshotStateList<PointsData>,
     val backgroundImage: ImageBitmap?,
+    val backgroundColor: Int,
     val shouldTriggerArtExport: Boolean,
     val isFullScreenMode: Boolean,
     val isStylusAvailable: Boolean,

@@ -49,12 +49,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.data.CustomColorsManager
 import io.fbada006.artmaker.dimensions.Dimensions
 import io.fbada006.artmaker.models.ArtMakerConfiguration
-import io.fbada006.artmaker.utils.ColorUtils
-import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.recent_colors
+import io.fbada006.artmaker.utils.ColorUtils
 import org.jetbrains.compose.resources.stringResource
 
 private const val NUM_COLUMNS = 5

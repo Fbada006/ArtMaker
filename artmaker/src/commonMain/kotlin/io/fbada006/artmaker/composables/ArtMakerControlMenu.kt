@@ -53,8 +53,12 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import io.fbada006.artmaker.ArtMakerUIState
+import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.actions.ArtMakerAction
 import io.fbada006.artmaker.actions.DrawEvent
+import io.fbada006.artmaker.change_image
+import io.fbada006.artmaker.clear_image
+import io.fbada006.artmaker.customcolorpalette.CustomColorPalette
 import io.fbada006.artmaker.dimensions.Dimensions
 import io.fbada006.artmaker.icons.InkEraser
 import io.fbada006.artmaker.icons.InkEraserOff
@@ -63,10 +67,6 @@ import io.fbada006.artmaker.icons.Undo
 import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.utils.createPicker
-import io.fbada006.artmaker.customcolorpalette.CustomColorPalette
-import io.fbada006.artmaker.Res
-import io.fbada006.artmaker.change_image
-import io.fbada006.artmaker.clear_image
 import org.jetbrains.compose.resources.stringResource
 
 /**
