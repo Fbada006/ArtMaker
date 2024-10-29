@@ -26,4 +26,4 @@ fun createDataStore(producePath: () -> String): DataStore<Preferences> = Prefere
 
 const val ARTMAKER_DATASTORE_FILE_NAME = "artmaker.preferences_pb"
 
-expect fun getDataStore(): DataStore<Preferences>
+expect val getDataStore: DataStore<Preferences>

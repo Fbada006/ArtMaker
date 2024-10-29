@@ -23,7 +23,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
 @OptIn(ExperimentalForeignApi::class)
-actual fun getDataStore(): DataStore<Preferences> = createDataStore {
+actual val getDataStore: DataStore<Preferences> = createDataStore {
     val directory = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
         inDomain = NSUserDomainMask,

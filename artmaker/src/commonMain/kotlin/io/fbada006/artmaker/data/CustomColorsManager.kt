@@ -31,7 +31,7 @@ private data class CustomColors(val colors: List<Int>)
 
 private const val MAX_CUSTOM_COLORS = 5 // Similar to num columns in the color picker. We just want one row
 
-internal class CustomColorsManager(private val preferences: DataStore<Preferences>? = null) {
+internal class CustomColorsManager(private val preferences: DataStore<Preferences> = getDataStore) {
     private val json = Json { ignoreUnknownKeys = true }
 
     // Saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
@@ -45,7 +45,7 @@ internal class CustomColorsManager(private val preferences: DataStore<Preference
 
             val customColors = CustomColors(colors)
             val jsonStr = json.encodeToString(serializer = CustomColors.serializer(), value = customColors)
-            preferences?.edit { datastore ->
+            preferences.edit { datastore ->
                 val keys = stringPreferencesKey(PREF_CUSTOM_COLORS)
                 datastore[keys] = jsonStr
             }
@@ -54,11 +54,11 @@ internal class CustomColorsManager(private val preferences: DataStore<Preference
 
     // Returns all the custom colours saved. Should always be equal to MAX_CUSTOM_COLORS
     fun getColors(): Flow<List<Int>> = flow {
-        val customColorsFromDatastore = preferences?.data?.map { datastore ->
+        val customColorsFromDatastore = preferences.data.map { datastore ->
             val counterKey = stringPreferencesKey(PREF_CUSTOM_COLORS)
             datastore[counterKey] ?: ""
         }
-        customColorsFromDatastore?.collect { colors ->
+        customColorsFromDatastore.collect { colors ->
             if (colors.isNotEmpty()) {
                 val serializableList = json.decodeFromString<CustomColors>(colors)
                 val colorList = serializableList.colors.distinct()
