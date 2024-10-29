@@ -25,4 +25,3 @@ actual val getDataStore: DataStore<Preferences> by lazy {
         context.filesDir.resolve(ARTMAKER_DATASTORE_FILE_NAME).absolutePath
     }
 }
-
