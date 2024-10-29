@@ -21,7 +21,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import io.fbada006.artmaker.data.PreferenceKeys.PREF_CUSTOM_COLORS
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
@@ -37,7 +37,7 @@ internal class CustomColorsManager(private val preferences: DataStore<Preference
 
     // Saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
     suspend fun saveColor(color: Int) {
-        val currentColors = getColors().firstOrNull() ?: emptyList()
+        val currentColors = getColors().first()
         var colors = currentColors.toMutableList()
         colors.add(color)
         if (colors.size > MAX_CUSTOM_COLORS) {
