@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 ArtMaker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.fbada006.artmaker.composables
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -27,7 +42,7 @@ internal fun toImageBitmap(
     eraserPosition: Offset?,
     pathList: SnapshotStateList<PointsData>,
 ): ImageBitmap {
-    val imgBitmap = ImageBitmap(bitmapWidth, bitmapHeight,)
+    val imgBitmap = ImageBitmap(bitmapWidth, bitmapHeight)
 
     Canvas(imgBitmap).apply {
         CanvasDrawScope().draw(
@@ -36,7 +51,7 @@ internal fun toImageBitmap(
             canvas = this,
             size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
         ) {
-            if (state.backgroundImage !=null){
+            if (state.backgroundImage != null) {
                 val shader = ImageShader(state.backgroundImage, TileMode.Clamp)
                 val brush = ShaderBrush(shader)
                 drawRect(
@@ -45,7 +60,7 @@ internal fun toImageBitmap(
                 )
             } else {
                 drawRect(
-                    color =  Color(state.backgroundColor),
+                    color = Color(state.backgroundColor),
                     size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
                 )
             }

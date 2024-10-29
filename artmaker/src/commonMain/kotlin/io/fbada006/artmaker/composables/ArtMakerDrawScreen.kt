@@ -164,7 +164,7 @@ internal fun ArtMakerDrawScreen(
             }
             .drawWithContent {
                 drawContent()
-                art =  toImageBitmap(
+                art = toImageBitmap(
                     bitmapWidth = bitmapWidth,
                     bitmapHeight = bitmapHeight,
                     state = state,
@@ -173,7 +173,6 @@ internal fun ArtMakerDrawScreen(
                     eraserPosition = eraserPosition,
                     pathList = state.pathList,
                 )
-
             },
     ) {
         art?.let {

@@ -31,10 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.fbada006.artmaker.actions.ArtMakerAction
-import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.actions.ArtMakerAction
 import io.fbada006.artmaker.enable_pressure_detection
+import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.use_stylus_only
 import org.jetbrains.compose.resources.stringResource
 
