@@ -27,7 +27,7 @@ internal fun toImageBitmap(
     eraserPosition: Offset?,
     pathList: SnapshotStateList<PointsData>,
 ): ImageBitmap {
-    val imgBitmap = ImageBitmap(bitmapWidth, bitmapHeight)
+    val imgBitmap = ImageBitmap(bitmapWidth, bitmapHeight,)
 
     Canvas(imgBitmap).apply {
         CanvasDrawScope().draw(
@@ -36,11 +36,16 @@ internal fun toImageBitmap(
             canvas = this,
             size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
         ) {
-            state.backgroundImage?.let { bitmap ->
-                val shader = ImageShader(bitmap, TileMode.Clamp)
+            if (state.backgroundImage !=null){
+                val shader = ImageShader(state.backgroundImage, TileMode.Clamp)
                 val brush = ShaderBrush(shader)
                 drawRect(
                     brush = brush,
+                    size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
+                )
+            } else {
+                drawRect(
+                    color =  Color(state.backgroundColor),
                     size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat()),
                 )
             }
