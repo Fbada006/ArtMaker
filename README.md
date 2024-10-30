@@ -14,16 +14,62 @@
 
 ArtMaker is a flexible and customisable library that allows users to draw anything they want on screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing the `Bitmap` for use in the calling application.
 
-## Getting started
-
 ## Download
 [![Maven central](https://img.shields.io/maven-central/v/io.github.fbada006/artmaker.svg)](https://search.maven.org/artifact/io.github.fbada006/artmaker)
 
-### Gradle
-Add the dependency below to your **module**'s `build.gradle` file:
-```gradle
+### Setup
+
+Add the following in `settings.gradle.kts` if it has not been included:
+
+```kotlin
+repositories {
+        mavenCentral()
+    }
+```
+
+In Kotlin Multiplatform (KMP) projects, add the following dependency in your `commonMain` sourceSet:
+
+```kotlin
+sourceSets {
+    commonMain.dependencies {
+        implementation(dependencyNotation = "io.github.fbada006:artmaker:$latest_version")
+    }
+}
+```
+
+In Android projects, add the following dependency in your app-level (or module-level for modularised Android projects) `build.gradle.kts` file:
+
+```kotlin
 dependencies {
-    implementation "io.github.fbada006:artmaker:$latest_version"
+    implementation(dependencyNotation = "io.github.fbada006:artmaker:$latest_version")
+}
+```
+
+If you are using Gradle's Version Catalogs, then define the dependency as follows:
+
+```toml
+[versions]
+artmaker = "<latest-version>"
+
+[libraries]
+artmaker = { module = "io.github.fbada006:artmaker", version.ref = "artmaker" }
+```
+
+Sync your project and then add the dependency as follows:
+
+(Kotlin Multiplatform)
+```kotlin
+sourceSets {
+    commonMain.dependencies {
+        implementation(dependencyNotation = libs.artmaker)
+    }
+}
+```
+
+(Android)
+```kotlin
+dependencies {
+    implementation(dependencyNotation = libs.artmaker)
 }
 ```
 
