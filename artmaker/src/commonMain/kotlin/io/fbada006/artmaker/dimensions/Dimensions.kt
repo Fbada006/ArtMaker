@@ -25,51 +25,38 @@ object Dimensions {
     val ArtMakerControlMenuDropDownPadding: Dp = 12.dp
     val ArtMakerControlMenuHeight: Dp = 60.dp
     val ArtMakerControlMenuSpacing = 2.dp
+    val ArtMakerMenuItemSize: Dp = 32.dp
 
-    val ColorPickerMenuItemBorderWidth: Dp = 2.dp
-    val ColorPickerMenuItemShapeSize: Dp = 32.dp
-    val ColorPickerMenuItemPadding: Dp = 2.dp
-    val CustomColorPaletteHeight: Dp = 330.dp
-    val CustomColorPalettePadding: Dp = 12.dp
-    val MenuItemSize: Dp = 32.dp
-
-    // Color Picker
-    val ColorPickerBottomPadding: Dp = 10.dp
-    val ColorPickerHorizontalArrangement: Dp = 8.dp
-    val FirstColorsRowPadding: Dp = 4.dp
-    val FirstColorSetHorizontalArrangement: Dp = 4.dp
-    val FirstColorSetVerticalArrangement: Dp = 4.dp
-    val RecentColorsTextPadding: Dp = 4.dp
-    val SecondColorSetPadding: Dp = 4.dp
-    val SecondColorSetHorizontalArrangement: Dp = 4.dp
-    val SecondColorSetVerticalArrangement: Dp = 4.dp
-    val CustomColorPickerSize: Dp = 48.dp
-    val CustomColorPickerShapeSize: Dp = 8.dp
-    val ColorItemSize: Dp = 48.dp
-    val ColorItemShapeSize: Dp = 8.dp
+    // Color picker
+    val ArtMakerColorPickerMenuItemBorderWidth: Dp = 2.dp
+    val ArtMakerColorPickerMenuItemShapeSize: Dp = 32.dp
+    val ArtMakerColorPickerMenuItemPadding: Dp = 2.dp
+    val ArtMakerCustomColorPaletteHeight: Dp = 330.dp
+    val ArtMakerCustomColorPalettePadding: Dp = 12.dp
+    val ArtMakerColorPickerBottomPadding: Dp = 10.dp
+    val ArtMakerColorPickerSpacing: Dp = 8.dp
+    val ArtMakerColorPickerItemsSpacing: Dp = 4.dp
+    val ArtMakerColorItemSize: Dp = 48.dp
+    val ArtMakerColorItemShapeSize: Dp = 8.dp
 
     // ArtMaker
-    val FullScreenEnabledPadding: Dp = 0.dp
-    val FullScreenDisabledPadding: Dp = 60.dp
-    val ExportArtButtonSpacerHeight: Dp = 4.dp
-    val FullScreenToggleButtonSpacerHeight: Dp = 4.dp
-    val StrokeSettingsTopPadding: Dp = 8.dp
-    val StrokeSettingsEndPadding: Dp = 12.dp
-    val StrokeSettingsStartPadding: Dp = 12.dp
-
-    // StrokePreview
-    val StrokePreviewShapeSize: Dp = 12.dp
-    val StrokePreviewPadding: Dp = 7.dp
+    val ArtMakerFullScreenEnabledPadding: Dp = 0.dp
+    val ArtMakerFullScreenDisabledPadding: Dp = 60.dp
+    val ArtMakerFabSpacerHeight = 4.dp
 
     // StrokeSettings
-    val StrokePreviewSpacerHeight: Dp = 7.dp
-    val LineStyleSelectorSpacerHeight: Dp = 7.dp
+    val ArtMakerStrokePreviewShapeSize: Dp = 12.dp
+    val ArtMakerStrokePreviewPadding: Dp = 7.dp
+    val ArtMakerStrokePreviewSpacerHeight: Dp = 7.dp
+    val ArtMakerLineStyleSelectorSpacerHeight: Dp = 7.dp
+    val ArtMakerStrokeVerticalPadding: Dp = 8.dp
+    val ArtMakerStrokeHorizontalPadding: Dp = 12.dp
 
-    // Line style UI
-    val LineStyleSelectorHeight: Dp = 54.dp
-    val LineStyleOptionWidth: Dp = 54.dp
-    val LineStyleOptionHeight: Dp = 48.dp
-    val LineStyleSelectorSpacing: Dp = 8.dp
-    val LineStyleOptionPadding: Dp = 4.dp
-    val LineStyleOptionCanvas: Dp = 40.dp
+    // Line preview
+    val ArtMakerLineStyleSelectorHeight: Dp = 54.dp
+    val ArtMakerLineStyleOptionWidth: Dp = 54.dp
+    val ArtMakerLineStyleOptionHeight: Dp = 48.dp
+    val ArtMakerLineStyleSelectorSpacing: Dp = 8.dp
+    val ArtMakerLineStyleOptionPadding: Dp = 4.dp
+    val ArtMakerLineStyleOptionCanvas: Dp = 40.dp
 }

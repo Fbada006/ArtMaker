@@ -81,12 +81,12 @@ internal fun ColorPicker(
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(bottom = Dimensions.ColorPickerBottomPadding),
+                .padding(bottom = Dimensions.ArtMakerColorPickerBottomPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ColorPickerHorizontalArrangement),
+                    horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerSpacing),
                 ) {
                     Column {
                         val customColors by customColorsManager.getColors().collectAsState(listOf())
@@ -96,9 +96,9 @@ internal fun ColorPicker(
 
                         FlowRow(
                             modifier = Modifier
-                                .padding(vertical = Dimensions.FirstColorsRowPadding),
-                            horizontalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorSetHorizontalArrangement),
-                            verticalArrangement = Arrangement.spacedBy(space = Dimensions.FirstColorSetVerticalArrangement),
+                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing),
+                            horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
+                            verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             maxItemsInEachRow = NUM_COLUMNS,
                         ) {
                             repeat(allColors.size) { colorIndex ->
@@ -112,14 +112,14 @@ internal fun ColorPicker(
                             Text(
                                 text = stringResource(Res.string.recent_colors),
                                 style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(vertical = Dimensions.RecentColorsTextPadding),
+                                modifier = Modifier.padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing),
                             )
 
                             FlowRow(
                                 modifier = Modifier
-                                    .padding(vertical = Dimensions.SecondColorSetPadding),
-                                horizontalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorSetHorizontalArrangement),
-                                verticalArrangement = Arrangement.spacedBy(space = Dimensions.SecondColorSetVerticalArrangement),
+                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing),
+                                horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
+                                verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 maxItemsInEachRow = NUM_COLUMNS,
                             ) {
                                 repeat(customColors.size) { colorIndex ->
@@ -133,8 +133,8 @@ internal fun ColorPicker(
                     // Custom color picker
                     Box(
                         modifier = Modifier
-                            .size(size = Dimensions.CustomColorPickerSize)
-                            .clip(RoundedCornerShape(size = Dimensions.CustomColorPickerShapeSize))
+                            .size(size = Dimensions.ArtMakerColorItemSize)
+                            .clip(RoundedCornerShape(size = Dimensions.ArtMakerColorItemShapeSize))
                             .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
                             .align(Alignment.CenterVertically),
@@ -153,8 +153,8 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
     ) {
         Box(
             modifier = Modifier
-                .size(size = Dimensions.ColorItemSize)
-                .clip(RoundedCornerShape(size = Dimensions.ColorItemShapeSize))
+                .size(size = Dimensions.ArtMakerColorItemSize)
+                .clip(RoundedCornerShape(size = Dimensions.ArtMakerColorItemShapeSize))
                 .background(Color(color))
                 .clickable {
                     selectedColor = color
