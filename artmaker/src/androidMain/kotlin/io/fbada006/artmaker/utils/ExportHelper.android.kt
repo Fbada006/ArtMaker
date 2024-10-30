@@ -35,6 +35,13 @@ import kotlin.coroutines.resume
  * These are the functions that are collectively used to export the image after drawing in an Android-specific manner.
  */
 
+/**
+ * [scanFilePath] is used to scan the file path and retrieve a [Uri] to be assigned to the exported drawing.
+ *
+ * @param context Used as an instance of [Context] and is required for establishing a connection to the media scanner service.
+ * @param filePath Represents the path to be scanned.
+ */
+
 private suspend fun scanFilePath(context: Context, filePath: String): Uri? = suspendCancellableCoroutine { continuation ->
     MediaScannerConnection.scanFile(
         context,
@@ -53,6 +60,13 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? = sus
     }
 }
 
+/**
+ * [getUriFromBitmap] is used to retrieve a [Uri] from the image.
+ *
+ * @param context Used as an argument by [scanFilePath].
+ * @param bitmap Used as a receiver by [asAndroidBitmap] to create a [Bitmap].
+ */
+
 suspend fun getUriFromBitmap(context: Context, bitmap: ImageBitmap?): Uri {
     val androidBitmap = bitmap?.asAndroidBitmap()
     val files = File(
@@ -65,12 +79,22 @@ suspend fun getUriFromBitmap(context: Context, bitmap: ImageBitmap?): Uri {
     return scanFilePath(context, files.path) ?: throw Exception("File could not be saved")
 }
 
+/**
+ * [writeBitmap] is used to construct a new FileOutputStream of the [Bitmap] and returns it as a result after compressing it.
+ */
+
 private fun File.writeBitmap(bitmap: Bitmap?, format: Bitmap.CompressFormat, quality: Int) {
     outputStream().use { out ->
         bitmap?.compress(format, quality, out)
         out.flush()
     }
 }
+
+/**
+ * [shareImage] is the Android-specific implementation of the functionality to share the image in the form of an [ImageBitmap].
+ *
+ * @param imageBitmap Represents the image to be shared.
+ */
 
 actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val context = ContextProvider.getContext()
