@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import io.fbada006.artmaker.composables.LUMINANCE_THRESHOLD
 import kotlin.math.pow
 
-object ColorUtils {
+internal object ColorUtils {
 
     /**
      * Calculates the perceived brightness (luminance) of a color using the same formula
@@ -51,9 +51,9 @@ object ColorUtils {
      * @param threshold The luminance threshold (default is 0.5)
      * @return true if the color is considered light, false if dark
      */
-    fun isLightColor(color: Int, threshold: Double = LUMINANCE_THRESHOLD): Boolean = calculateLuminance(color) > threshold
+    internal fun isLightColor(color: Int, threshold: Double = LUMINANCE_THRESHOLD): Boolean = calculateLuminance(color) > threshold
 
-    val COLOR_PICKER_DEFAULT_COLORS = listOf(
+    internal val COLOR_PICKER_DEFAULT_COLORS = listOf(
         Color.Red,
         Color.Blue,
         Color.Black,

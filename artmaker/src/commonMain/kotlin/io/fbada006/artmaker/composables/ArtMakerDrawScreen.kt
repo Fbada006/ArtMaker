@@ -58,6 +58,7 @@ import io.fbada006.artmaker.non_stylus_input_detected_message
 import io.fbada006.artmaker.non_stylus_input_detected_title
 import io.fbada006.artmaker.stylus_input_detected_message
 import io.fbada006.artmaker.stylus_input_detected_title
+import io.fbada006.artmaker.utils.clamp
 import io.fbada006.artmaker.utils.getScreenSize
 import io.fbada006.artmaker.utils.isStylusInput
 import io.fbada006.artmaker.utils.validateEvent
@@ -251,9 +252,3 @@ private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean, is
 }
 
 internal enum class StylusDialogType { ENABLE_STYLUS_ONLY, DISABLE_STYLUS_ONLY }
-
-fun clamp(value: Float, min: Float, max: Float): Float = when {
-    value < min -> min
-    value > max -> max
-    else -> value
-}
