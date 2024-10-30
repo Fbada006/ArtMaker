@@ -30,6 +30,12 @@ import platform.UIKit.UIImage
  * These are the functions that are collectively used to export the image after drawing in an iOS-specific manner.
  */
 
+/**
+ * [shareImage] is the iOS-specific implementation of the functionality to share an image as an [ImageBitmap].
+ *
+ * @param imageBitmap Represents the image to be shared as an [ImageBitmap].
+ */
+
 actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val uiImage = imageBitmap?.toUIImage()
     val activityViewController = UIActivityViewController(
@@ -39,6 +45,10 @@ actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val rootViewController = UIApplication.sharedApplication.keyWindow?.rootViewController
     rootViewController?.presentViewController(activityViewController, true, null)
 }
+
+/**
+ * [toUIImage] is used to convert the [ImageBitmap] to a [UIImage].
+ */
 
 @OptIn(ExperimentalForeignApi::class)
 fun ImageBitmap.toUIImage(): UIImage? {

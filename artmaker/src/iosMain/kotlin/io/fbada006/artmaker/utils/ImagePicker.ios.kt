@@ -66,6 +66,12 @@ actual class ImagePicker(private val rootController: UIViewController) {
         }
     }
 
+    /**
+     * This is the implementation of the functionality to select an image from the device in an iOS-specific manner.
+     *
+     * @param onImagePicked Used to convert the image to an [ImageBitmap] after it has been selected.
+     */
+
     @Composable
     actual fun registerPicker(onImagePicked: (ImageBitmap) -> Unit) {
         this.onImagePicked = onImagePicked
