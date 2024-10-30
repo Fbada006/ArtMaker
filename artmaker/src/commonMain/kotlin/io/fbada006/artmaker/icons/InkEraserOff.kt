@@ -24,6 +24,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
+/**
+ * This is a custom implementation of the icon used to represent the Ink Eraser when not in use.
+ */
+
 val InkEraserOff: ImageVector
     get() {
         if (inkEraserOff != null) {

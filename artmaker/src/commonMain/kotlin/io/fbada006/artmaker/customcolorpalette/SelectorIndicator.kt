@@ -22,6 +22,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
+/**
+ *
+ */
+
 internal fun DrawScope.drawVerticalSelector(amount: Float) {
     val halfIndicatorThickness = 4.dp.toPx()
     val strokeThickness = 1.dp.toPx()

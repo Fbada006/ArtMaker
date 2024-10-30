@@ -40,6 +40,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/**
+ * This is the project's [ViewModel] that is used to implement the project's functionalities (user actions) in a lifecycle-aware manner.
+ */
+
 internal class ArtMakerViewModel(
     private val customColorsManager: CustomColorsManager,
     private val preferencesManager: PreferencesManager,

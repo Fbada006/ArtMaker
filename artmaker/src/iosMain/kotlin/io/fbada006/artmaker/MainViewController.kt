@@ -17,6 +17,10 @@ package io.fbada006.artmaker
 
 import androidx.compose.ui.window.ComposeUIViewController
 
+/**
+ * This is the iOS-specific instantiation of [ArtMaker].
+ */
+
 fun mainViewController() = ComposeUIViewController {
     ArtMaker()
 }

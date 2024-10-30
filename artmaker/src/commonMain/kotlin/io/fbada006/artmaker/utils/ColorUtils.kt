@@ -17,6 +17,10 @@ package io.fbada006.artmaker.utils
 
 import androidx.compose.ui.graphics.Color
 
+/**
+ * This is a list of colours that are used in the project (Color Picker) as a part of its functionality.
+ */
+
 object ColorUtils {
     val COLOR_PICKER_DEFAULT_COLORS = listOf(
         Color.Red,

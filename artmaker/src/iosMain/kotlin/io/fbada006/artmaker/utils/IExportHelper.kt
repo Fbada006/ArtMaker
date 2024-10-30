@@ -26,6 +26,10 @@ import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
 
+/**
+ * These are the functions that are collectively used to export the image after drawing in an iOS-specific manner.
+ */
+
 actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val uiImage = imageBitmap?.toUIImage()
     val activityViewController = UIActivityViewController(

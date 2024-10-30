@@ -18,6 +18,10 @@ package io.fbada006.artmaker.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 
+/**
+ * This is the abstract definition of the functionality to select an image from the device.
+ */
+
 expect class ImagePicker {
 
     @Composable

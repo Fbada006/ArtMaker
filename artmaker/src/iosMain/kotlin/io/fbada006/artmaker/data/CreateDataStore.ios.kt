@@ -22,6 +22,10 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
+/**
+ * This is the iOS-specific implementation of the functionality to retrieve an instance of [DataStore].
+ */
+
 @OptIn(ExperimentalForeignApi::class)
 actual val getDataStore: DataStore<Preferences> = createDataStore {
     val directory = NSFileManager.defaultManager.URLForDirectory(

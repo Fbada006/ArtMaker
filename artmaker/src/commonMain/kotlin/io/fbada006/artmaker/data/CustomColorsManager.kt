@@ -32,6 +32,12 @@ private data class CustomColors(val colors: List<Int>)
 
 private const val MAX_CUSTOM_COLORS = 5 // Similar to num columns in the color picker. We just want one row
 
+/**
+ * This it the class used to store and manage the custom colours using [DataStore] to persist the user's preferences.
+ *
+ * @param preferences is the [DataStore] instance that is used to store and manage the custom colours.
+ */
+
 internal class CustomColorsManager(private val preferences: DataStore<Preferences> = getDataStore) {
     private val json = Json { ignoreUnknownKeys = true }
 

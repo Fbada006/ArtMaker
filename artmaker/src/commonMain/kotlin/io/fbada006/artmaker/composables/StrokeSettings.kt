@@ -38,6 +38,10 @@ import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.use_stylus_only
 import org.jetbrains.compose.resources.stringResource
 
+/**
+ * This is a collection of settings used to control the behaviour of the drawing, such as Stylus Usage or Pressure Detection.
+ */
+
 @Composable
 fun StrokeSettings(
     strokeWidth: Int,

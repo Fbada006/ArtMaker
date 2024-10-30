@@ -31,6 +31,10 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
 
+/**
+ * These are the functions that are collectively used to export the image after drawing in an Android-specific manner.
+ */
+
 private suspend fun scanFilePath(context: Context, filePath: String): Uri? = suspendCancellableCoroutine { continuation ->
     MediaScannerConnection.scanFile(
         context,

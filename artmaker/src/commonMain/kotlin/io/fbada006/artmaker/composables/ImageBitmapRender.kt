@@ -33,6 +33,10 @@ import io.fbada006.artmaker.DrawScreenState
 import io.fbada006.artmaker.models.PointsData
 import io.fbada006.artmaker.models.alpha
 
+/**
+ * This is the function used to create (render) an [ImageBitmap].
+ */
+
 internal fun toImageBitmap(
     bitmapWidth: Int,
     bitmapHeight: Int,

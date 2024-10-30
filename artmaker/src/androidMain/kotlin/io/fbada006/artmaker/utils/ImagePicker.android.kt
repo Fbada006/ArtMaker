@@ -24,6 +24,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 
+/**
+ * This is the implementation of the functionality to select an image from the device in an Android-specific manner.
+ */
+
 actual class ImagePicker(private val activity: ComponentActivity) {
     private lateinit var getContent: ActivityResultLauncher<String>
 

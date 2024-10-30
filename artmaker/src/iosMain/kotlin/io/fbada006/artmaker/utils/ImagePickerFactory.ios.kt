@@ -19,6 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.LocalUIViewController
 
+/**
+ * This is the iOS-specific instantiation of [ImagePicker].
+ */
+
 @Composable
 actual fun createPicker(): ImagePicker {
     val rootController = LocalUIViewController.current

@@ -62,6 +62,10 @@ typealias ColorArgb = Int
 
 private const val LUMINANCE_THRESHOLD = 0.5
 
+/**
+ * [ColorPicker] is used to dynamically choose a colour from the Color Palette and Color Items.
+ */
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun ColorPicker(
