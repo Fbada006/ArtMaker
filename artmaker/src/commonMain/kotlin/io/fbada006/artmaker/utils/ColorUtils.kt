@@ -51,9 +51,7 @@ object ColorUtils {
      * @param threshold The luminance threshold (default is 0.5)
      * @return true if the color is considered light, false if dark
      */
-    fun isLightColor(color: Int, threshold: Double = LUMINANCE_THRESHOLD): Boolean {
-        return calculateLuminance(color) > threshold
-    }
+    fun isLightColor(color: Int, threshold: Double = LUMINANCE_THRESHOLD): Boolean = calculateLuminance(color) > threshold
 
     val COLOR_PICKER_DEFAULT_COLORS = listOf(
         Color.Red,

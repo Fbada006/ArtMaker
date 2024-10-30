@@ -252,10 +252,8 @@ private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean, is
 
 internal enum class StylusDialogType { ENABLE_STYLUS_ONLY, DISABLE_STYLUS_ONLY }
 
-fun clamp(value: Float, min: Float, max: Float): Float {
-    return when {
-        value < min -> min
-        value > max -> max
-        else -> value
-    }
+fun clamp(value: Float, min: Float, max: Float): Float = when {
+    value < min -> min
+    value > max -> max
+    else -> value
 }

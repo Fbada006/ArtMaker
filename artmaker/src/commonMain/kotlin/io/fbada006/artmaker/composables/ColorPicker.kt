@@ -166,11 +166,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
             Icon(
                 imageVector = Icons.Default.Check,
                 contentDescription = null,
-                tint = if (ColorUtils.isLightColor(color)) {
-                    Color.Black
-                } else {
-                    Color.White
-                },
+                tint = if (ColorUtils.isLightColor(color)) Color.Black else Color.White,
                 modifier = Modifier
                     .align(Alignment.Center),
             )
