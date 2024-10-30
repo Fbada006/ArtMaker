@@ -74,6 +74,21 @@ ArtMaker(
 ```
 
 > **_NOTE:_**  The default Jetpack Compose project created by Android Studio has `enableEdgeToEdge()` added in the `onCreate()`. To effectively use the library, please ensure that you remove this line.
+ 
+## Screenshots
+
+| Platform | Home Screen                                     | Stroke Screen                                       | Color Picker Screen                                             | Dynamic Color Palette Screen                                                      | Drawing Screen (Complete)                                        |
+|----------|-------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------|
+| Android  | ![Home Screen](art/screenshots/home_screen.png) | ![Stroke Screen](art/screenshots/stroke_screen.png) | ![Color Picker Screen](art/screenshots/color_picker_screen.png) | ![Dynamic Color Palette Screen](art/screenshots/dynamic_color_palette_screen.png) | ![Drawing Screen (Complete)](art/screenshots/drawing_screen.png) |
+| iOS      | Path goes here...                               | Path goes here...                                   | Path goes here...                                               | Path goes here...                                                                 | Path goes here...                                                |
+
+## Demo
+
+| Android                                     | iOS               |
+|---------------------------------------------|-------------------|
+| ![Android Demo](art/demo/android_demo.webm) | Path goes here... |
+
+## Known Limitations
 
 ## Contribute
 
