@@ -24,6 +24,7 @@ import com.github.ajalt.colormath.model.RGB
 /**
  * A representation of Color in Hue, Saturation and Value form.
  */
+
 internal data class HsvColor(
     // from = 0.0, to = 360.0
     val hue: Float,

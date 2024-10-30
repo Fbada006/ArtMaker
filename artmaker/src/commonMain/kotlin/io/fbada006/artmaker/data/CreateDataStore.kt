@@ -21,7 +21,9 @@ import androidx.datastore.preferences.core.Preferences
 import okio.Path.Companion.toPath
 
 /**
- * This is the abstracted functionality to instantiate [DataStore] with [Preferences].
+ * This is the abstract functionality to instantiate [DataStore] with [Preferences].
+ *
+ * @param producePath Used to return a [String] that will be represented as a File Path.
  */
 
 fun createDataStore(producePath: () -> String): DataStore<Preferences> = PreferenceDataStoreFactory.createWithPath(

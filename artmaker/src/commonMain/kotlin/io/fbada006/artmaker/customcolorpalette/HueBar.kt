@@ -35,6 +35,7 @@ import androidx.compose.ui.input.pointer.pointerInput
  * @param currentColor the initial color to set on the hue bar.
  * @param onHueChanged the callback that is invoked when hue value changes. Hue is between 0 - 360.
  */
+
 @Composable
 internal fun HueBar(modifier: Modifier = Modifier, currentColor: HsvColor, onHueChanged: (Float) -> Unit) {
     val rainbowBrush = remember {

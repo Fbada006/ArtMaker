@@ -63,6 +63,7 @@ import org.jetbrains.compose.resources.stringResource
 /**
  * [ArtMakerDrawScreen] is the composable that handles the drawing.
  */
+
 @Composable
 internal fun ArtMakerDrawScreen(
     modifier: Modifier = Modifier,

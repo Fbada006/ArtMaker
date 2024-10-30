@@ -32,6 +32,7 @@ import kotlin.properties.Delegates
 /**
  * The drawing manager will handle all the logic related to drawing including clearing, undo, and redo
  */
+
 internal class DrawingManager {
     private val undoStack = ArrayDeque<UndoRedoEventType>()
     private val redoStack = ArrayDeque<UndoRedoEventType>()

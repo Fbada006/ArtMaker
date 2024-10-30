@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.toArgb
  * @param strokeSliderBackgroundColor the stoke Slider Surface background color
  * @param canShareArt A Boolean flag indicating whether the feature to share art is enabled or not
  */
+
 data class ArtMakerConfiguration(
     val strokeSliderThumbColor: Color = Color.Unspecified,
     val strokeSliderActiveTrackColor: Color = Color.Unspecified,

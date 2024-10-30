@@ -42,6 +42,10 @@ import kotlinx.coroutines.launch
 
 /**
  * This is the project's [ViewModel] that is used to implement the project's functionalities (user actions) in a lifecycle-aware manner.
+ *
+ * @param customColorsManager Represents an instance of [CustomColorsManager].
+ * @param preferencesManager Represents an instance of [PreferencesManager].
+ * @param drawingManager Represents an instance of [DrawingManager].
  */
 
 internal class ArtMakerViewModel(

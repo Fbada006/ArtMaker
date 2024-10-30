@@ -22,6 +22,7 @@ import io.fbada006.artmaker.models.PointsData
  * @property BeforeErase The User is performing an UndoRedoAction and has not pressed the erase button during this session
  * @property AfterErase The User is performing an UndoRedoAction and has pressed the erase button during this session
  */
+
 internal sealed class UndoRedoEventType {
     data class BeforeErase(val pathData: PointsData) : UndoRedoEventType()
     data class AfterErase(val oldState: List<PointsData>, val newState: List<PointsData>) : UndoRedoEventType()

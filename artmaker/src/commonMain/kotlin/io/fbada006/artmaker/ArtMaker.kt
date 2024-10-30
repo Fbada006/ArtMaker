@@ -58,6 +58,7 @@ import io.fbada006.artmaker.models.ArtMakerConfiguration
  * @param onFinishDrawing is the callback exposed once the user clicks done (the [FloatingActionButton] with the checkmark) to trigger finish drawing
  * @param configuration is the configuration to customise the appearance of the control menu and other values
  */
+
 @Composable
 fun ArtMaker(
     modifier: Modifier = Modifier,

@@ -29,7 +29,10 @@ import kotlinx.coroutines.flow.map
 
 /**
  * PreferencesManager is used to handle the  functionalities and abstract them from [io.fbada006.artmaker.ArtMakerViewModel].
+ *
+ * @param preferences Represents an instance of [DataStore] whose type is [Preferences].
  */
+
 internal class PreferencesManager(private val preferences: DataStore<Preferences> = getDataStore) {
 
     val state = combine(

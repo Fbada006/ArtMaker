@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
  * This class will hold each shape drawn on screen be it a single dot or multiple shapes drawn
  * on screen. The values defined here for the characteristic of the shape drawn on screen are configurable
  */
+
 internal data class PointsData(
     var points: SnapshotStateList<Offset>,
     val strokeWidth: Float = 15f,
@@ -30,7 +31,13 @@ internal data class PointsData(
     val alphas: MutableList<Float>,
 )
 
-// The alpha will always be 1 during no pressure detection
+/**
+ * [alpha] is used to return the Alpha value of the shape drawn depending on whether Pressure Detection has been activated or not.
+ * The alpha will always be 1 during no pressure detection.
+ *
+ * @param detectPressure Represents the Pressure Detection state (On or Off).
+ */
+
 internal fun PointsData.alpha(detectPressure: Boolean): Float = if (detectPressure) {
     this.alphas.average().coerceAtLeast(0.0).coerceAtMost(1.0).toFloat()
 } else {

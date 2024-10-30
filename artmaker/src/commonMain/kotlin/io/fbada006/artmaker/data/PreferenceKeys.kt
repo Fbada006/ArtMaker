@@ -16,7 +16,7 @@
 package io.fbada006.artmaker.data
 
 /**
- * These are the project's [Preference] keys and are used to uniquely identify each preference.
+ * These are the project's Preference keys and are used to uniquely identify each preference.
  */
 
 object PreferenceKeys {

@@ -74,6 +74,7 @@ import org.jetbrains.compose.resources.stringResource
  * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
  * without any functionality.
  */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArtMakerControlMenu(

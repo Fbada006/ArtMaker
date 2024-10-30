@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.toSize
  * @param currentColor the initial color to set on the alpha bar.
  * @param onSaturationValueChanged the callback that is invoked when saturation or value component of the changes.
  */
+
 @Composable
 internal fun SaturationValueArea(
     modifier: Modifier = Modifier,
