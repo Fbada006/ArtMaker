@@ -53,6 +53,10 @@ actual class ImagePicker(private val activity: ComponentActivity) {
         }
     }
 
+    /**
+     * This is the implementation of the functionality to select an image in Android using [ActivityResultLauncher].
+     */
+
     actual fun pickImage() {
         getContent.launch("image/*")
     }
