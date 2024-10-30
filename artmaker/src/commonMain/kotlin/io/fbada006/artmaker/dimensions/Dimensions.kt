@@ -18,19 +18,17 @@ package io.fbada006.artmaker.dimensions
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/**
- * This is the representation of the Dimensions to be used across all of the platforms.
- */
-
 object Dimensions {
-
     // ArtMakerControlMenu
     val ArtMakerControlMenuShadowElevation: Dp = 60.dp
     val ArtMakerControlMenuPadding: Dp = 10.dp
+    val ArtMakerControlMenuDropDownPadding: Dp = 12.dp
+    val ArtMakerControlMenuHeight: Dp = 60.dp
+    val ArtMakerControlMenuSpacing = 2.dp
+
     val ColorPickerMenuItemBorderWidth: Dp = 2.dp
     val ColorPickerMenuItemShapeSize: Dp = 32.dp
     val ColorPickerMenuItemPadding: Dp = 2.dp
-    val ArtMakerControlMenuDropDownPadding: Dp = 12.dp
     val CustomColorPaletteHeight: Dp = 330.dp
     val CustomColorPalettePadding: Dp = 12.dp
     val MenuItemSize: Dp = 32.dp
@@ -58,7 +56,6 @@ object Dimensions {
     val StrokeSettingsTopPadding: Dp = 8.dp
     val StrokeSettingsEndPadding: Dp = 12.dp
     val StrokeSettingsStartPadding: Dp = 12.dp
-    val ArtMakerControlMenuHeight: Dp = 60.dp
 
     // StrokePreview
     val StrokePreviewShapeSize: Dp = 12.dp

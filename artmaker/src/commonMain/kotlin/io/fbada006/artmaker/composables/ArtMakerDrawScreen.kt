@@ -45,10 +45,12 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import io.fbada006.artmaker.DrawScreenState
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.actions.ArtMakerAction
 import io.fbada006.artmaker.actions.DrawEvent
+import io.fbada006.artmaker.dimensions.Dimensions
 import io.fbada006.artmaker.got_it
 import io.fbada006.artmaker.image_bitmap
 import io.fbada006.artmaker.models.ArtMakerConfiguration
@@ -56,6 +58,7 @@ import io.fbada006.artmaker.non_stylus_input_detected_message
 import io.fbada006.artmaker.non_stylus_input_detected_title
 import io.fbada006.artmaker.stylus_input_detected_message
 import io.fbada006.artmaker.stylus_input_detected_title
+import io.fbada006.artmaker.utils.getScreenSize
 import io.fbada006.artmaker.utils.isStylusInput
 import io.fbada006.artmaker.utils.validateEvent
 import org.jetbrains.compose.resources.stringResource
@@ -73,6 +76,8 @@ internal fun ArtMakerDrawScreen(
     isEraserActive: Boolean,
     eraserRadius: Float,
 ) {
+    val density = LocalDensity.current
+    val containerSize = getScreenSize()
     var bitmapHeight by rememberSaveable { mutableIntStateOf(0) }
     var bitmapWidth by rememberSaveable { mutableIntStateOf(0) }
     var shouldShowStylusDialog by rememberSaveable { mutableStateOf(false) }
@@ -80,11 +85,23 @@ internal fun ArtMakerDrawScreen(
     var eraserPosition by remember { mutableStateOf<Offset?>(null) }
     var art by remember { mutableStateOf<ImageBitmap?>(null) }
 
+    // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
+    // Add an extra 2dp for line visibility. In full screen mode, we do not need to offset anything
+    val yOffset = if (state.isFullScreenMode) {
+        0f
+    } else {
+        with(density) {
+            (Dimensions.ArtMakerControlMenuHeight + Dimensions.ArtMakerControlMenuSpacing).toPx()
+        }
+    }
+    val maxDrawingHeight = containerSize.height - yOffset
+
     LaunchedEffect(state.shouldTriggerArtExport) {
         if (state.shouldTriggerArtExport) {
             onAction(ArtMakerAction.ExportArt(art))
         }
     }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -95,7 +112,7 @@ internal fun ArtMakerDrawScreen(
                 bitmapHeight = bitmapSize.height
                 bitmapWidth = bitmapSize.width
             }
-            .pointerInput(state.shouldUseStylusOnly || isEraserActive) {
+            .pointerInput(state.shouldUseStylusOnly || isEraserActive || state.isFullScreenMode) {
                 awaitPointerEventScope {
                     var isDrawing = false
 
@@ -139,13 +156,15 @@ internal fun ArtMakerDrawScreen(
 
                             PointerEventType.Move -> {
                                 if (isDrawing) {
-                                    eraserPosition = offset
+                                    val clampedOffset =
+                                        Offset(x = offset.x, y = clamp(offset.y, 0f, maxDrawingHeight))
+                                    eraserPosition = clampedOffset
 
                                     if (isEraserActive) {
-                                        onDrawEvent(DrawEvent.Erase(offset))
+                                        onDrawEvent(DrawEvent.Erase(clampedOffset))
                                     } else {
                                         // Update the current shape
-                                        onDrawEvent(DrawEvent.UpdateCurrentShape(offset, pressure))
+                                        onDrawEvent(DrawEvent.UpdateCurrentShape(clampedOffset, pressure))
                                     }
                                 }
                             }
@@ -232,3 +251,11 @@ private fun getDialogType(change: PointerInputChange, useStylusOnly: Boolean, is
 }
 
 internal enum class StylusDialogType { ENABLE_STYLUS_ONLY, DISABLE_STYLUS_ONLY }
+
+fun clamp(value: Float, min: Float, max: Float): Float {
+    return when {
+        value < min -> min
+        value > max -> max
+        else -> value
+    }
+}
