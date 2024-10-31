@@ -21,21 +21,17 @@ jobs:
           java-version: 17
           cache: 'gradle'
 
-      - name: Install xcode-install
-        run: |
-          gem install xcode-install
-
-      - name: Select latest Xcode
-        run: |
-          LATEST_XCODE="$(ls -t /Applications/ | grep "Xcode" | head -n 1)"
-          echo "Using Xcode: $LATEST_XCODE"
-          sudo xcode-select -s "/Applications/$LATEST_XCODE"
+      # Use maxim-lobanov/setup-xcode action to switch Xcode versions
+      - name: Select Xcode 15.3
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.3'
 
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: List available simulators
-        run: xcrun simctl list devices
+      - name: Show build settings
+        run: xcodebuild -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -scheme iosApp -showBuildSettings
 
       - name: Build iOS app
         run: |
@@ -44,6 +40,7 @@ jobs:
             -scheme iosApp \
             -configuration Debug \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.2' \
             CODE_SIGNING_ALLOWED=NO \
-            ONLY_ACTIVE_ARCH=YES
+            ONLY_ACTIVE_ARCH=YES \
+            -verbose
