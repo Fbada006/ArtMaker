@@ -21,21 +21,24 @@ jobs:
           java-version: 17
           cache: 'gradle'
 
+      - name: Install xcode-install
+        run: |
+          gem install xcode-install
+
+      - name: List available Xcode versions
+        run: xcversion list
+
       - name: Select latest Xcode
         run: |
-          XCODE_PATH="$(ls -t /Applications/ | grep "Xcode" | head -n 1)"
-          echo "Using Xcode: $XCODE_PATH"
-          sudo xcode-select -s "/Applications/$XCODE_PATH"
+          LATEST_XCODE="$(ls -t /Applications/ | grep "Xcode" | head -n 1)"
+          echo "Using Xcode: $LATEST_XCODE"
+          sudo xcode-select -s "/Applications/$LATEST_XCODE"
 
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Install iOS simulator runtime
-        run: |
-          xcversion simulators --install='iOS 17.4'
-
-      - name: Show available destinations
-        run: xcodebuild -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -scheme iosApp -list || true
+      - name: List available simulators
+        run: xcrun simctl list devices
 
       - name: Build iOS app
         run: |
@@ -44,6 +47,6 @@ jobs:
             -scheme iosApp \
             -configuration Debug \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
             CODE_SIGNING_ALLOWED=NO \
             ONLY_ACTIVE_ARCH=YES
