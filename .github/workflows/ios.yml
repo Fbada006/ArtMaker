@@ -19,16 +19,23 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-          cache: 'gradle' # Cache Gradle dependencies
+          cache: 'gradle'
 
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+      - name: Select latest Xcode
+        run: |
+          XCODE_PATH="$(ls -t /Applications/ | grep "Xcode" | head -n 1)"
+          echo "Using Xcode: $XCODE_PATH"
+          sudo xcode-select -s "/Applications/$XCODE_PATH"
 
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Install iOS simulator runtime
+        run: |
+          xcversion simulators --install='iOS 17.4'
+
       - name: Show available destinations
-        run: xcodebuild -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -scheme iosApp -list
+        run: xcodebuild -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -scheme iosApp -list || true
 
       - name: Build iOS app
         run: |
@@ -37,5 +44,6 @@ jobs:
             -scheme iosApp \
             -configuration Debug \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
-            CODE_SIGNING_ALLOWED=NO
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
+            CODE_SIGNING_ALLOWED=NO \
+            ONLY_ACTIVE_ARCH=YES
