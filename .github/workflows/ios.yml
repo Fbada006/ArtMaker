@@ -30,9 +30,6 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Show build settings
-        run: xcodebuild -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -scheme iosApp -showBuildSettings
-
       - name: Build iOS app
         run: |
           xcodebuild clean build \
