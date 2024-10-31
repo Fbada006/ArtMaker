@@ -25,9 +25,6 @@ jobs:
         run: |
           gem install xcode-install
 
-      - name: List available Xcode versions
-        run: xcversion list
-
       - name: Select latest Xcode
         run: |
           LATEST_XCODE="$(ls -t /Applications/ | grep "Xcode" | head -n 1)"
