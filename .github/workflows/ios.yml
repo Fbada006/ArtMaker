@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "update-ci-pipeline" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "kmp-migration" ]
 
 jobs:
   build:
