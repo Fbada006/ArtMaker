@@ -2,7 +2,7 @@ name: Build AndroidApp
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "update-ci-pipeline" ]
   pull_request:
     branches: [ "main" ]
 
