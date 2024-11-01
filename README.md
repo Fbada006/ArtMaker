@@ -136,11 +136,11 @@ ArtMaker(
 
 ## Known Limitations
 
-The project has some known limitations that you might want to consider such as:
+The project has some known limitations that you might want to keep in mind (or even solve :) as your contribution) such as:
 
 - It is currently impossible to draw a shape under the Control Menu, which means that the drawing is going to overlap it.
 - The Stroke Styles are limited in number and thus more options could be included.
-- The background image in the Canvas needs to align with the project's theme and should contrast with the drawing.
+- The background image in the Canvas needs to align with the project's theme but also contrast with the drawing for visibility which can be tricky to implement.
 
 ## Contribute
 
