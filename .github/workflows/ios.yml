@@ -20,9 +20,19 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      # Optional: Clear derived data
-      - name: Clear Derived Data
-        run: rm -rf ~/Library/Developer/Xcode/DerivedData/*
+      # Print system information for debugging
+      - name: Print System Information
+        run: |
+          xcodebuild -version
+          xcodebuild -showsdks
+          xcrun simctl list devices
+
+      # Clear derived data and workspace state
+      - name: Clear Build State
+        run: |
+          rm -rf ~/Library/Developer/Xcode/DerivedData/*
+          rm -rf iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/
+          rm -rf iosApp/iosApp.xcodeproj/xcuserdata/
 
       - name: Build iOS app
         run: |
@@ -30,6 +40,5 @@ jobs:
             -workspace iosApp/iosApp.xcodeproj/project.xcworkspace \
             -scheme iosApp \
             -configuration Debug \
-            -sdk iphonesimulator17.0 \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+            -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 15' \
             clean build
