@@ -25,4 +25,11 @@ jobs:
         run: rm -rf ~/Library/Developer/Xcode/DerivedData/*
 
       - name: Build iOS app
-        run: xcodebuild -allowProvisioningUpdates -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator
+        run: |
+          xcodebuild -allowProvisioningUpdates \
+            -workspace iosApp/iosApp.xcodeproj/project.xcworkspace \
+            -scheme iosApp \
+            -configuration Debug \
+            -sdk iphonesimulator17.0 \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+            clean build
