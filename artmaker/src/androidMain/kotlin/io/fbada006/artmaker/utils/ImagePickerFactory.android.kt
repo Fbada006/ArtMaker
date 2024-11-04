@@ -20,10 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
-/**
- * This is the Android-specific instantiation of [ImagePicker].
- */
-
 @Composable
 actual fun createPicker(): ImagePicker {
     val activity = LocalContext.current as ComponentActivity

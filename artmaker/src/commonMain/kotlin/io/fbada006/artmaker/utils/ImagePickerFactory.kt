@@ -17,9 +17,5 @@ package io.fbada006.artmaker.utils
 
 import androidx.compose.runtime.Composable
 
-/**
- * This is the abstract definition of the functionality to instantiate [ImagePicker].
- */
-
 @Composable
 expect fun createPicker(): ImagePicker

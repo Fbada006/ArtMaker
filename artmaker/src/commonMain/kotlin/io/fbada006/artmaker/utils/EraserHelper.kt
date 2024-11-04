@@ -33,7 +33,6 @@ private const val MAX_ERASE_RADIUS = 40F
  * @param eraseRadius  Eraser radius.
  * @param erasedPoints Array of eraser points. All lines intersecting circle with {@code eraserRadius} around these points will be erased.
  */
-
 internal fun erasePointData(pointsData: List<PointsData>, eraseRadius: Float, vararg erasedPoints: PointF): List<PointsData> {
     val hitEraseRadius = eraseRadius.coerceIn(MIN_ERASE_RADIUS, MAX_ERASE_RADIUS)
     val hitRadiusSqr = hitEraseRadius.toDouble().pow(2.0).toFloat()
