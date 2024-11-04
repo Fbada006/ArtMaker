@@ -5,24 +5,17 @@
 <h1 align="center" style="margin-top: 0;">
   <img src="art/artmaker%20banner.png" alt="ArtMaker Logo">
 </h1>
-<p align="center" style="margin-top: 0;">Flexible and lightweight Drawing Library</p>
+<p align="center" style="margin-top: 0;">A Flexible and Lightweight Drawing Library</p>
 
 ArtMaker is a flexible and customisable Android and iOS (through Kotlin Multiplatform - KMP) library that allows users to draw anything they want on
-screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing
+screen and has been built fully with Jetpack Compose. Integrated with advanced features like [Palm Rejection](https://enticio.com/blogs/studio-and-office/a-beginner-s-guide-to-palm-rejection), line style customization, exportation, blazing performance, etc, it allows drawing on screen through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing
 the `Bitmap` for use in the calling application.
-
-## Screenshots
-
-| Platform | Home                                                     | Stroke Settings                                                         | Color Picker                                                      | Color Palette                                                       | Drawing Screen                                                                   |
-|----------|----------------------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| Android  | ![Android Home Screen](art/screenshots/android_home.png) | ![Android Stroke Settings](art/screenshots/android_stroke_settings.png) | ![Android Color Picker](art/screenshots/android_color_picker.png) | ![Android Color Palette](art/screenshots/android_color_palette.png) | ![Android Drawing Screen (Complete)](art/screenshots/android_drawing_screen.png) |
-| iOS      | ![iOS Home Screen](art/screenshots/ios_home.png)         | ![iOS Stroke Settings](art/screenshots/ios_stroke_settings.png)         | ![iOS Color Picker](art/screenshots/ios_color_picker.png)         | ![iOS Color Palette](art/screenshots/ios_color_palette.png)         | ![iOS Drawing Screen (Complete)](art/screenshots/ios_drawing_screen.png)         |
 
 ## Demo
 
-| Android                                     | iOS               |
-|---------------------------------------------|-------------------|
-| ![Android Demo](art/demo/android_demo.webm) | Path goes here... |
+| Android                               | iOS                           |
+|---------------------------------------|-------------------------------|
+| ![Android Demo](art/android_demo.mp4) | ![iOS Demo](art/ios_demo.mp4) |
 
 ## Download
 
