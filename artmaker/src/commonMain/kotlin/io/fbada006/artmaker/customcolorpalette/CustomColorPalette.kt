@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
  * @param onAccept called when a new color has been created and ready to be used
  * @param modifier is the Modifier
  */
-
 @Composable
 internal fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit, modifier: Modifier = Modifier) {
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
