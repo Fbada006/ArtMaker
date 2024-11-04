@@ -212,12 +212,12 @@ internal fun ArtMakerDrawScreen(
             state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(
                 Res.string.stylus_input_detected_title,
             ) to
-                    stringResource(Res.string.stylus_input_detected_message)
+                stringResource(Res.string.stylus_input_detected_message)
 
             state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(
                 Res.string.non_stylus_input_detected_title,
             ) to
-                    stringResource(Res.string.non_stylus_input_detected_message)
+                stringResource(Res.string.non_stylus_input_detected_message)
 
             else -> return
         }
