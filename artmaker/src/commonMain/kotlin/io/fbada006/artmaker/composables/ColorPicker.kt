@@ -60,6 +60,7 @@ import org.jetbrains.compose.resources.stringResource
 private const val NUM_COLUMNS = 5
 typealias ColorArgb = Int
 
+// Used to calculate whether a light is dark or light
 const val LUMINANCE_THRESHOLD = 0.5
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
