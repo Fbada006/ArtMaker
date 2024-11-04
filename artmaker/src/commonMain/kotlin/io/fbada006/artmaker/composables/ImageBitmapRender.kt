@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -32,6 +33,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import io.fbada006.artmaker.DrawScreenState
 import io.fbada006.artmaker.models.PointsData
 import io.fbada006.artmaker.models.alpha
+import io.fbada006.artmaker.utils.createPathEffect
+import io.fbada006.artmaker.utils.toPath
 
 internal fun toImageBitmap(
     bitmapWidth: Int,
@@ -66,14 +69,26 @@ internal fun toImageBitmap(
             }
 
             pathList.forEach { data ->
-                drawPoints(
-                    points = data.points,
-                    // Draw a point if the shape has only one item otherwise a free flowing shape
-                    pointMode = if (data.points.size == 1) PointMode.Points else PointMode.Polygon,
-                    color = data.strokeColor,
-                    alpha = data.alpha(state.shouldDetectPressure),
-                    strokeWidth = data.strokeWidth,
-                )
+                if (data.points.size == 1) {
+                    drawPoints(
+                        points = data.points,
+                        pointMode = PointMode.Points,
+                        color = data.strokeColor,
+                        alpha = data.alpha(state.shouldDetectPressure),
+                        strokeWidth = data.strokeWidth,
+                        cap = if (data.lineStyle == LineStyle.ROUND_DOTTED) StrokeCap.Round else StrokeCap.Square,
+                    )
+                } else {
+                    drawPath(
+                        path = data.points.toPath(),
+                        color = data.strokeColor,
+                        style = Stroke(
+                            width = data.strokeWidth,
+                            pathEffect = createPathEffect(style = data.lineStyle, size = data.strokeWidth),
+                        ),
+                        alpha = data.alpha(state.shouldDetectPressure),
+                    )
+                }
             }
             if (isEraserActive) {
                 eraserPosition?.let { position ->

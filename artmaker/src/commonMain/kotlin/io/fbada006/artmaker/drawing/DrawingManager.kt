@@ -21,6 +21,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import io.fbada006.artmaker.actions.DrawEvent
 import io.fbada006.artmaker.actions.UndoRedoEventType
+import io.fbada006.artmaker.composables.LineStyle
 import io.fbada006.artmaker.models.PointF
 import io.fbada006.artmaker.models.PointsData
 import io.fbada006.artmaker.utils.erasePointData
@@ -44,9 +45,9 @@ internal class DrawingManager {
 
     private var strokeWidth by Delegates.notNull<Int>()
 
-    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int) {
+    fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int, lineStyle: LineStyle) {
         when (event) {
-            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure)
+            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure, lineStyle )
             DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
             is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset, event.pressure)
             DrawEvent.Clear -> clear()
@@ -56,13 +57,14 @@ internal class DrawingManager {
         }
     }
 
-    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure: Float) {
+    private fun addNewShape(offset: Offset, strokeColor: Int, strokeWidth: Int, pressure: Float, lineStyle: LineStyle) {
         this.strokeWidth = strokeWidth
         val data = PointsData(
             points = mutableStateListOf(offset),
             strokeColor = Color(strokeColor),
             strokeWidth = strokeWidth.toFloat(),
             alphas = mutableStateListOf(pressure),
+            lineStyle = lineStyle
         )
         undoStack.addLast(UndoRedoEventType.BeforeErase(data))
         _pathList.add(data)

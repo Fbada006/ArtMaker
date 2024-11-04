@@ -18,7 +18,9 @@ package io.fbada006.artmaker.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -33,13 +35,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.actions.ArtMakerAction
+import io.fbada006.artmaker.dimensions.Dimensions
 import io.fbada006.artmaker.enable_pressure_detection
 import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.use_stylus_only
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun StrokeSettings(
+internal fun StrokeSettings(
+    state: StrokeState,
     strokeWidth: Int,
     shouldUseStylusOnly: Boolean,
     shouldDetectPressure: Boolean,
@@ -51,8 +55,31 @@ fun StrokeSettings(
     var sliderPosition by remember { mutableIntStateOf(strokeWidth) }
     var stylusOnly by remember { mutableStateOf(shouldUseStylusOnly) }
     var detectPressure by remember { mutableStateOf(shouldDetectPressure) }
+    var lineStyle by remember { mutableStateOf(state.lineStyle) }
 
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly) {
+        StrokePreview(
+            state = state,
+            modifier = Modifier
+                .height( Dimensions.ArtMakerStrokePreviewHeight)
+                .fillMaxWidth(),
+        )
+        Spacer(modifier = Modifier.height( Dimensions.ArtMakerStrokePreviewSpacerHeight))
+        HorizontalDivider()
+
+        LineStyleSelector(
+            lineStyle,
+            onStyleSelected = {
+                lineStyle = it
+                onAction(ArtMakerAction.SetLineStyle(style = lineStyle))
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(Dimensions.ArtMakerLineStyleSelectorHeight),
+        )
+        Spacer(modifier = Modifier.height(Dimensions.ArtMakerStrokePreviewSpacerHeight))
+        HorizontalDivider()
+
         Slider(
             sliderPosition = sliderPosition.toFloat(),
             onValueChange = {
