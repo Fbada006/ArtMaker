@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 /**
  * Define all of the user's actions
  */
-
 sealed interface ArtMakerAction {
     data class TriggerArtExport(val type: ExportType) : ArtMakerAction
     data class ExportArt(val bitmap: ImageBitmap?) : ArtMakerAction
@@ -38,7 +37,6 @@ sealed interface ArtMakerAction {
 /**
  * [ExportType] defines all of the events that take place when exporting a drawing as an image.
  */
-
 sealed interface ExportType {
     data object ShareImage : ExportType
     data object FinishDrawingImage : ExportType

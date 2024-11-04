@@ -68,7 +68,7 @@ internal fun DrawScope.drawSelectorIndicator(offset: Offset, selectionSize: Size
 }
 
 /**
- * [inset] returns the [Size] within the object it is called on.
+ * Returns the [Size] within the object it is called on.
  *
  * @param amount Represents the difference between the actual dimension and the dimension that the original one should be reduced by.
  */

@@ -41,7 +41,7 @@ internal class CustomColorsManager(private val preferences: DataStore<Preference
     private val json = Json { ignoreUnknownKeys = true }
 
     /**
-     * [saveColor] saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
+     * Saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
      *
      * @param color the colour to be saved.
      */

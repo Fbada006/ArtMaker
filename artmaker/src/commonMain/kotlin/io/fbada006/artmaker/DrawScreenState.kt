@@ -22,7 +22,6 @@ import io.fbada006.artmaker.models.PointsData
 /**
  * Provides state from the [io.fbada006.artmaker.composables.ArtMakerDrawScreen] screen
  */
-
 internal data class DrawScreenState(
     val pathList: SnapshotStateList<PointsData>,
     val backgroundImage: ImageBitmap?,

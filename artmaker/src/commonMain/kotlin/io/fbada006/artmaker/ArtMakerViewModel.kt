@@ -47,7 +47,6 @@ import kotlinx.coroutines.launch
  * @param preferencesManager Represents an instance of [PreferencesManager].
  * @param drawingManager Represents an instance of [DrawingManager].
  */
-
 internal class ArtMakerViewModel(
     private val customColorsManager: CustomColorsManager,
     private val preferencesManager: PreferencesManager,
