@@ -94,7 +94,7 @@ fun ArtMaker(
             AnimatedVisibility(
                 visible = viewModel.pathList.isNotEmpty() && !showStrokeSettings,
                 modifier = Modifier.padding(
-                    bottom = if (isFullScreenEnabled) Dimensions.FullScreenEnabledPadding else Dimensions.FullScreenDisabledPadding,
+                    bottom = if (isFullScreenEnabled) Dimensions.ArtMakerFullScreenEnabledPadding else Dimensions.ArtMakerFullScreenDisabledPadding,
                 ),
             ) {
                 Column {
@@ -104,12 +104,12 @@ fun ArtMaker(
                             Icon(imageVector = Icons.Filled.Share, contentDescription = Icons.Filled.Share.name)
                         }
                     }
-                    Spacer(modifier = Modifier.height(Dimensions.ExportArtButtonSpacerHeight))
+                    Spacer(modifier = Modifier.height(Dimensions.ArtMakerFabSpacerHeight))
                     // Finish the drawing and hand it back to the calling application as a bitmap
                     FloatingActionButton(onClick = { viewModel.onAction(ArtMakerAction.TriggerArtExport(ExportType.FinishDrawingImage)) }) {
                         Icon(imageVector = Icons.Filled.Done, contentDescription = Icons.Filled.Done.name)
                     }
-                    Spacer(modifier = Modifier.height(Dimensions.FullScreenToggleButtonSpacerHeight))
+                    Spacer(modifier = Modifier.height(Dimensions.ArtMakerFabSpacerHeight))
                     FloatingActionButton(onClick = { isFullScreenEnabled = !isFullScreenEnabled }) {
                         Icon(
                             imageVector = if (isFullScreenEnabled) Icons.Filled.Fullscreen else Icons.Filled.FullscreenExit,
@@ -154,9 +154,9 @@ fun ArtMaker(
                     configuration = configuration,
                     modifier = Modifier
                         .padding(
-                            top = Dimensions.StrokeSettingsTopPadding,
-                            end = Dimensions.StrokeSettingsEndPadding,
-                            start = Dimensions.StrokeSettingsStartPadding,
+                            top = Dimensions.ArtMakerStrokeVerticalPadding,
+                            end = Dimensions.ArtMakerStrokeHorizontalPadding,
+                            start = Dimensions.ArtMakerStrokeHorizontalPadding,
                         ),
                     shouldUseStylusOnly = state.shouldUseStylusOnly,
                     shouldDetectPressure = state.shouldDetectPressure,

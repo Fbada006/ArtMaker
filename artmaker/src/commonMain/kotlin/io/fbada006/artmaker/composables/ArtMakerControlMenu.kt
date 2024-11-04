@@ -115,11 +115,11 @@ internal fun ArtMakerControlMenu(
                 MenuItem(
                     modifier = Modifier
                         .border(
-                            width = Dimensions.ColorPickerMenuItemBorderWidth,
+                            width = Dimensions.ArtMakerColorPickerMenuItemBorderWidth,
                             brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS),
-                            shape = RoundedCornerShape(size = Dimensions.ColorPickerMenuItemShapeSize),
+                            shape = RoundedCornerShape(size = Dimensions.ArtMakerColorPickerMenuItemShapeSize),
                         )
-                        .padding(all = Dimensions.ColorPickerMenuItemPadding),
+                        .padding(all = Dimensions.ArtMakerColorPickerMenuItemPadding),
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
@@ -220,8 +220,8 @@ internal fun ArtMakerControlMenu(
                 ) {
                     CustomColorPalette(
                         modifier = Modifier
-                            .height(Dimensions.CustomColorPaletteHeight)
-                            .padding(Dimensions.CustomColorPalettePadding)
+                            .height(Dimensions.ArtMakerCustomColorPaletteHeight)
+                            .padding(Dimensions.ArtMakerCustomColorPalettePadding)
                             .navigationBarsPadding(),
                         onAccept = {
                             onAction(ArtMakerAction.SelectStrokeColour(Color(it.toArgb()), isCustomColor = true))
@@ -256,7 +256,7 @@ private fun RowScope.MenuItem(
             imageVector = imageVector,
             contentDescription = null,
             tint = colorTint.copy(alpha = alpha),
-            modifier = modifier.size(Dimensions.MenuItemSize),
+            modifier = modifier.size(Dimensions.ArtMakerMenuItemSize),
         )
     }
 }
