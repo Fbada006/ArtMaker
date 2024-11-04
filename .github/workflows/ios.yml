@@ -1,9 +1,9 @@
 name: Build iosApp
 on:
   push:
-    branches: [ "updates-ci-config" ]
+    branches: [ "caleb/task/updates-ci-config" ]
   pull_request:
-    branches: [ "updates-ci-config" ]
+    branches: [ "caleb/task/updates-ci-config" ]
 
 jobs:
   build:
