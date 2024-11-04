@@ -40,6 +40,15 @@ import org.jetbrains.compose.resources.stringResource
 
 /**
  * This is a collection of settings used to control the behaviour of the drawing, such as Stylus Usage or Pressure Detection.
+ *
+ * @param strokeWidth
+ * @param shouldUseStylusOnly whether non stylus input should be ignored
+ * @param shouldDetectPressure whether pressure detection is enabled or not
+ * @param isStylusAvailable whether device has a stylus or not
+ * @param onAction triggered from a user action
+ * @param configuration is the global config
+ * @param modifier applied to the top most component
+ *
  */
 @Composable
 fun StrokeSettings(
