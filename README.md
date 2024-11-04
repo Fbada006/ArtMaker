@@ -1,25 +1,22 @@
 [![Build ArtMaker](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml/badge.svg)](https://github.com/Fbada006/ArtMaker/actions/workflows/build.yml)
 [![Android Weekly](https://androidweekly.net/issues/issue-637/badge)](https://androidweekly.net/issues/issue-637)
 
-<!-- LOGO -->
-<br />
-<h1>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/6753e2bd-d844-4159-884e-af0dd837a05d" alt="ArtMaker Logo">
+<h1 align="center" style="font-size: 48px; margin-bottom: 0;">ArtMaker</h1>
+<h1 align="center" style="margin-top: 0;">
+  <img src="art/artmaker%20banner.png" alt="ArtMaker Logo">
 </h1>
-<p align="center">
-    Flexible and lightweight Drawing Library
-    <br />
-</p>
+<p align="center" style="margin-top: 0;">Flexible and lightweight Drawing Library</p>
 
-ArtMaker is a flexible and customisable library that allows users to draw anything they want on screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing the `Bitmap` for use in the calling application.
+ArtMaker is a flexible and customisable Android and iOS (through Kotlin Multiplatform - KMP) library that allows users to draw anything they want on
+screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing
+the `Bitmap` for use in the calling application.
 
 ## Screenshots
 
-| Platform | Home Screen                                     | Stroke Screen                                       | Color Picker Screen                                             | Dynamic Color Palette Screen                                                      | Drawing Screen (Complete)                                        |
-|----------|-------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------|
-| Android  | ![Home Screen](art/screenshots/home_screen.png) | ![Stroke Screen](art/screenshots/stroke_screen.png) | ![Color Picker Screen](art/screenshots/color_picker_screen.png) | ![Dynamic Color Palette Screen](art/screenshots/dynamic_color_palette_screen.png) | ![Drawing Screen (Complete)](art/screenshots/drawing_screen.png) |
-| iOS      | Path goes here...                               | Path goes here...                                   | Path goes here...                                               | Path goes here...                                                                 | Path goes here...                                                |
+| Platform | Home                                                     | Stroke Settings                                                         | Color Picker                                                      | Color Palette                                                       | Drawing Screen                                                                   |
+|----------|----------------------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| Android  | ![Android Home Screen](art/screenshots/android_home.png) | ![Android Stroke Settings](art/screenshots/android_stroke_settings.png) | ![Android Color Picker](art/screenshots/android_color_picker.png) | ![Android Color Palette](art/screenshots/android_color_palette.png) | ![Android Drawing Screen (Complete)](art/screenshots/android_drawing_screen.png) |
+| iOS      | ![iOS Home Screen](art/screenshots/ios_home.png)         | ![iOS Stroke Settings](art/screenshots/ios_stroke_settings.png)         | ![iOS Color Picker](art/screenshots/ios_color_picker.png)         | ![iOS Color Palette](art/screenshots/ios_color_palette.png)         | ![iOS Drawing Screen (Complete)](art/screenshots/ios_drawing_screen.png)         |
 
 ## Demo
 
@@ -28,6 +25,7 @@ ArtMaker is a flexible and customisable library that allows users to draw anythi
 | ![Android Demo](art/demo/android_demo.webm) | Path goes here... |
 
 ## Download
+
 [![Maven central](https://img.shields.io/maven-central/v/io.github.fbada006/artmaker.svg)](https://search.maven.org/artifact/io.github.fbada006/artmaker)
 
 ### Setup
@@ -36,8 +34,8 @@ Add the following in `settings.gradle.kts` if it has not been included:
 
 ```kotlin
 repositories {
-        mavenCentral()
-    }
+    mavenCentral()
+}
 ```
 
 In Kotlin Multiplatform (KMP) projects, add the following dependency in your `commonMain` sourceSet:
@@ -71,6 +69,7 @@ artmaker = { module = "io.github.fbada006:artmaker", version.ref = "artmaker" }
 Sync your project and then add the dependency as follows:
 
 (Kotlin Multiplatform)
+
 ```kotlin
 sourceSets {
     commonMain.dependencies {
@@ -80,6 +79,7 @@ sourceSets {
 ```
 
 (Android)
+
 ```kotlin
 dependencies {
     implementation(dependencyNotation = libs.artmaker)
@@ -102,21 +102,22 @@ ArtMaker(
 )
 ```
 
-In the Android project, you also need to call `ArtMakerInitializer.initialise(this)` inside your activity, otherwise a runtime exception will be thrown:
+In the Android project, you also need to call `ArtMakerInitializer.initialise(this)` inside your activity, otherwise a runtime exception will be
+thrown:
 
 ```kotlin
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    ArtMakerInitializer.initialise(this) // Do not forget this line
-    setContent {
-      ArtMakerTheme {
-        ArtMaker(
-          modifier = Modifier.fillMaxSize(),
-        )
-      }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ArtMakerInitializer.initialise(this) // Do not forget this line
+        setContent {
+            ArtMakerTheme {
+                ArtMaker(
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
     }
-  }
 }
 ```
 
@@ -142,7 +143,8 @@ ArtMaker(
 )
 ```
 
-If you wish to receive the completed image as a bitmap, you can utilise the `onFinishDrawing: (Bitmap) -> Unit` callback exposed by `ArtMaker` as follows:
+If you wish to receive the completed image as a bitmap, you can utilise the `onFinishDrawing: (Bitmap) -> Unit` callback exposed by `ArtMaker` as
+follows:
 
 ```kotlin
 ArtMaker(
@@ -153,7 +155,8 @@ ArtMaker(
 )
 ```
 
-> **_NOTE:_**  The default Jetpack Compose project created by Android Studio for Android has `enableEdgeToEdge()` added in the `onCreate()`. To effectively use the library, please ensure that you remove this line.
+> **_NOTE:_**  The default Jetpack Compose project created by Android Studio for Android has `enableEdgeToEdge()` added in the `onCreate()`. To
+> effectively use the library, please ensure that you remove this line.
 
 ### iOS
 
@@ -201,7 +204,8 @@ Do you see any improvements or want to implement a missing feature? Contribution
 - Is your contribution relatively small? You can, make your changes, run the code checks, open a PR
   and make sure the CI is green. That's it!
 - Are the changes big and do they make a lot of impact? Please open an
-  issue [here](https://github.com/Fbada006/ArtMaker/issues?q=is%3Aissue) or reach out to [Ferdinand](https://github.com/Fbada006), [Emmanuel](https://github.com/emmanuelmuturia) or [Caleb](https://github.com/CalebKL) and
+  issue [here](https://github.com/Fbada006/ArtMaker/issues?q=is%3Aissue) or reach out
+  to [Ferdinand](https://github.com/Fbada006), [Emmanuel](https://github.com/emmanuelmuturia) or [Caleb](https://github.com/CalebKL) and
   let's discuss.
 - Ensure your change is properly formatted by running the following command from the terminal:
 
