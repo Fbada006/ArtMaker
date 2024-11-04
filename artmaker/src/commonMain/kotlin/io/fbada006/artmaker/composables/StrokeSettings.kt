@@ -41,7 +41,6 @@ import org.jetbrains.compose.resources.stringResource
 /**
  * This is a collection of settings used to control the behaviour of the drawing, such as Stylus Usage or Pressure Detection.
  */
-
 @Composable
 fun StrokeSettings(
     strokeWidth: Int,

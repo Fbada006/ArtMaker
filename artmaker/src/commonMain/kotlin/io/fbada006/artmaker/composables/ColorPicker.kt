@@ -63,9 +63,6 @@ typealias ColorArgb = Int
 // Used to calculate whether a light is dark or light
 const val LUMINANCE_THRESHOLD = 0.5
 
-/**
- * [ColorPicker] is used to dynamically choose a colour from the Color Palette and Color Items.
- */
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
