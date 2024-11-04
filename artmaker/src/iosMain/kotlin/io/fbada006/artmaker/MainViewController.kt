@@ -20,6 +20,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 /**
  * This is the main entry point for the SDK to use it in iOS. You can customise the [ArtMaker] composable as described in the read me file
  */
+@Suppress("unused")
 fun mainViewController() = ComposeUIViewController {
     ArtMaker()
 }
