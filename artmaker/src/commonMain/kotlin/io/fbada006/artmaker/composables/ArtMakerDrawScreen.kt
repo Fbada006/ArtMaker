@@ -88,14 +88,15 @@ internal fun ArtMakerDrawScreen(
 
     // Used to clip the y value from the Offset during drawing so that the canvas cannot draw into the control menu
     // Add an extra 2dp for line visibility. In full screen mode, we do not need to offset anything
-    val yOffset = if (state.isFullScreenMode) {
+    val menuOffset = if (state.isFullScreenMode) {
         0f
     } else {
         with(density) {
             (Dimensions.ArtMakerControlMenuHeight + Dimensions.ArtMakerControlMenuSpacing).toPx()
         }
     }
-    val maxDrawingHeight = containerSize.height - yOffset
+
+    val maxDrawingHeight = containerSize.height - menuOffset
 
     LaunchedEffect(state.shouldTriggerArtExport) {
         if (state.shouldTriggerArtExport) {
@@ -211,12 +212,12 @@ internal fun ArtMakerDrawScreen(
             state.canShowEnableStylusDialog && type == StylusDialogType.ENABLE_STYLUS_ONLY -> stringResource(
                 Res.string.stylus_input_detected_title,
             ) to
-                stringResource(Res.string.stylus_input_detected_message)
+                    stringResource(Res.string.stylus_input_detected_message)
 
             state.canShowDisableStylusDialog && type == StylusDialogType.DISABLE_STYLUS_ONLY -> stringResource(
                 Res.string.non_stylus_input_detected_title,
             ) to
-                stringResource(Res.string.non_stylus_input_detected_message)
+                    stringResource(Res.string.non_stylus_input_detected_message)
 
             else -> return
         }

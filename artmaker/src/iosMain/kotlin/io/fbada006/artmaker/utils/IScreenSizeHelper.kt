@@ -16,13 +16,33 @@
 package io.fbada006.artmaker.utils
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.platform.LocalWindowInfo
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.useContents
+import platform.UIKit.UIApplication
+import platform.UIKit.UIScreen
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalForeignApi::class)
 @Composable
 actual fun getScreenSize(): Size {
-    val size = LocalWindowInfo.current.containerSize
-    return Size(width = size.width.toFloat(), height = size.height.toFloat())
+    val screen = UIScreen.mainScreen
+    val screenRect = screen.bounds
+    val safeAreaInsets = UIApplication.sharedApplication.keyWindow?.safeAreaInsets
+    val screenScale = screen.scale
+
+    val verticalInsets = safeAreaInsets?.useContents {
+        top + bottom
+    } ?: 0.0
+
+    val screenWidth = screenRect.useContents {
+        size.width
+    }
+
+    val screenHeight = screenRect.useContents {
+        size.height - verticalInsets
+    }
+
+    return screenRect.useContents {
+        Size(width = (screenWidth * screenScale).toFloat(), height = (screenHeight * screenScale).toFloat())
+    }
 }
