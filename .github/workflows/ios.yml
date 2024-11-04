@@ -1,7 +1,7 @@
 name: Build iosApp
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "updates-ci-config" ]
   pull_request:
     branches: [ "updates-ci-config" ]
 
