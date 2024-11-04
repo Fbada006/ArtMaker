@@ -15,6 +15,7 @@
  */
 package io.fbada006.artmaker.utils
 
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -24,21 +25,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 
-/**
- * This is the class that holds the implementation of the functionality to select an image from the device in an Android-specific manner.
- *
- * @param activity Represents an instance of [ComponentActivity] that is used to allow for Image Selection in Android using `openInputStream()`.
- */
-
-actual class ImagePicker(private val activity: ComponentActivity) {
+internal actual class ImagePicker(private val activity: ComponentActivity) {
     private lateinit var getContent: ActivityResultLauncher<String>
 
-    /**
-     * This is the implementation of the functionality to select an image from the device in an Android-specific manner.
-     *
-     * @param onImagePicked Used to convert the image to an [ImageBitmap] after it has been selected.
-     */
-
+    @SuppressLint("ComposableNaming")
     @Composable
     actual fun registerPicker(onImagePicked: (ImageBitmap) -> Unit) {
         getContent = rememberLauncherForActivityResult(
@@ -52,10 +42,6 @@ actual class ImagePicker(private val activity: ComponentActivity) {
             }
         }
     }
-
-    /**
-     * This is the implementation of the functionality to select an image in Android using [ActivityResultLauncher].
-     */
 
     actual fun pickImage() {
         getContent.launch("image/*")

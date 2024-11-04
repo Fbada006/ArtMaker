@@ -20,7 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.LocalUIViewController
 
 @Composable
-actual fun createPicker(): ImagePicker {
+internal actual fun createPicker(): ImagePicker {
     val rootController = LocalUIViewController.current
     return remember {
         ImagePicker(rootController)

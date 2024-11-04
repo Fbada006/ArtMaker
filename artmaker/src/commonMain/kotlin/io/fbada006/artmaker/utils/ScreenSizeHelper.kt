@@ -18,5 +18,8 @@ package io.fbada006.artmaker.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 
+/**
+ * Uses platform specific code to get the available screen size to decide how much space is available for drawing
+ */
 @Composable
-expect fun getScreenSize(): Size
+internal expect fun getScreenSize(): Size

@@ -31,11 +31,7 @@ import platform.UIKit.UIViewController
 import platform.darwin.NSObject
 import platform.posix.memcpy
 
-/**
- * This is the implementation of the functionality to select an image from the device in an iOS-specific manner.
- */
-
-actual class ImagePicker(private val rootController: UIViewController) {
+internal actual class ImagePicker(private val rootController: UIViewController) {
     private val imagePickerController = UIImagePickerController().apply {
         sourceType = UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypePhotoLibrary
     }
@@ -65,12 +61,6 @@ actual class ImagePicker(private val rootController: UIViewController) {
             picker.dismissViewControllerAnimated(true, null)
         }
     }
-
-    /**
-     * This is the implementation of the functionality to select an image from the device in an iOS-specific manner.
-     *
-     * @param onImagePicked Used to convert the image to an [ImageBitmap] after it has been selected.
-     */
 
     @Composable
     actual fun registerPicker(onImagePicked: (ImageBitmap) -> Unit) {

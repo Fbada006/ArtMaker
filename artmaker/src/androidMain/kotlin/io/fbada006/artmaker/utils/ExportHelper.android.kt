@@ -64,7 +64,7 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? = sus
  * @param context Used as an argument by [scanFilePath].
  * @param bitmap Used as a receiver by [asAndroidBitmap] to create a [Bitmap].
  */
-suspend fun getUriFromBitmap(context: Context, bitmap: ImageBitmap?): Uri {
+private suspend fun getUriFromBitmap(context: Context, bitmap: ImageBitmap?): Uri {
     val androidBitmap = bitmap?.asAndroidBitmap()
     val files = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
@@ -86,7 +86,7 @@ private fun File.writeBitmap(bitmap: Bitmap?, format: Bitmap.CompressFormat, qua
     }
 }
 
-actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
+internal actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val context = ContextProvider.getContext()
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "image/png"

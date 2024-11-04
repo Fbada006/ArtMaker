@@ -24,7 +24,7 @@ import platform.UIKit.UIScreen
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun getScreenSize(): Size {
+internal actual fun getScreenSize(): Size {
     val screen = UIScreen.mainScreen
     val screenRect = screen.bounds
     val safeAreaInsets = UIApplication.sharedApplication.keyWindow?.safeAreaInsets
@@ -39,7 +39,7 @@ actual fun getScreenSize(): Size {
     }
 
     val screenHeight = screenRect.useContents {
-        size.height - verticalInsets
+        size.height - verticalInsets // We need to subtract the insets in order to work inside the safe area
     }
 
     return screenRect.useContents {

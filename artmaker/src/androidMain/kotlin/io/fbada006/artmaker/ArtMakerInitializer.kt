@@ -19,7 +19,7 @@ import android.content.Context
 import io.fbada006.artmaker.utils.ContextProvider
 
 /**
- * Has to be called with a valid context from Android
+ * Has to be called with a valid context from Android in order to initialise the android side
  */
 object ArtMakerInitializer {
 
