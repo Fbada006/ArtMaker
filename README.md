@@ -49,7 +49,7 @@ If you are using Gradle's Version Catalogs, then define the dependency as follow
 
 ```toml
 [versions]
-artmaker = "<latest-version>"
+artmaker = "$latest-version"
 
 [libraries]
 artmaker = { module = "io.github.fbada006:artmaker", version.ref = "artmaker" }
@@ -78,7 +78,10 @@ Find latest version and release notes [here](https://github.com/Fbada006/ArtMake
 ## Usage
 
 **ArtMaker** implements canvas, which allows you to draw points with custom properties.
-You can use the `ArtMaker` with default configuration as the following example:
+
+### Android
+
+You can use `ArtMaker` with default configuration as the following example:
 
 ```kotlin
 ArtMaker(
@@ -86,13 +89,31 @@ ArtMaker(
 )
 ```
 
-You also have full control of the ArtMaker and choose how you want the control menu composable (the bar below the drawing area) to be
+In the Android project, you also need to call `ArtMakerInitializer.initialise(this)` inside your activity, otherwise a runtime exception will be thrown:
+
+```kotlin
+class MainActivity : ComponentActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    ArtMakerInitializer.initialise(this) // Do not forget this line
+    setContent {
+      ArtMakerTheme {
+        ArtMaker(
+          modifier = Modifier.fillMaxSize(),
+        )
+      }
+    }
+  }
+}
+```
+
+You also have full control of `ArtMaker` and choose how you want the control menu composable (the bar below the drawing area) to be
 displayed by customizing the `ArtMakerConfiguration` object as shown below:
 
 ```kotlin
 ArtMaker(
     modifier = Modifier.fillMaxSize(),
-    artMakerConfiguration = ArtMakerConfiguration(
+    configuration = ArtMakerConfiguration(
         strokeSliderThumbColor = MaterialTheme.colorScheme.primary,
         strokeSliderActiveTrackColor = MaterialTheme.colorScheme.onPrimary,
         strokeSliderInactiveTickColor = MaterialTheme.colorScheme.inversePrimary,
@@ -119,8 +140,47 @@ ArtMaker(
 )
 ```
 
-> **_NOTE:_**  The default Jetpack Compose project created by Android Studio has `enableEdgeToEdge()` added in the `onCreate()`. To effectively use the library, please ensure that you remove this line.
- 
+> **_NOTE:_**  The default Jetpack Compose project created by Android Studio for Android has `enableEdgeToEdge()` added in the `onCreate()`. To effectively use the library, please ensure that you remove this line.
+
+### iOS
+
+In iOS, you can use the SDK as below:
+
+```swift
+import UIKit
+import SwiftUI
+import artmaker
+
+struct ComposeView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.mainViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+struct ContentView: View {
+    var body: some View {
+        ComposeView()
+    }
+}
+```
+
+You can then call `ContentView` as follows in your main entry point for iOS as follows:
+
+```swift
+import SwiftUI
+
+@main
+struct iosAppApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+```
+
 ## Screenshots
 
 | Platform | Home Screen                                     | Stroke Screen                                       | Color Picker Screen                                             | Dynamic Color Palette Screen                                                      | Drawing Screen (Complete)                                        |
