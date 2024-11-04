@@ -14,6 +14,19 @@
 
 ArtMaker is a flexible and customisable library that allows users to draw anything they want on screen and has been built fully with Jetpack Compose. It allows drawing through the `Canvas`, sharing the drawn `Bitmap`, or programmatically exposing the `Bitmap` for use in the calling application.
 
+## Screenshots
+
+| Platform | Home Screen                                     | Stroke Screen                                       | Color Picker Screen                                             | Dynamic Color Palette Screen                                                      | Drawing Screen (Complete)                                        |
+|----------|-------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------|
+| Android  | ![Home Screen](art/screenshots/home_screen.png) | ![Stroke Screen](art/screenshots/stroke_screen.png) | ![Color Picker Screen](art/screenshots/color_picker_screen.png) | ![Dynamic Color Palette Screen](art/screenshots/dynamic_color_palette_screen.png) | ![Drawing Screen (Complete)](art/screenshots/drawing_screen.png) |
+| iOS      | Path goes here...                               | Path goes here...                                   | Path goes here...                                               | Path goes here...                                                                 | Path goes here...                                                |
+
+## Demo
+
+| Android                                     | iOS               |
+|---------------------------------------------|-------------------|
+| ![Android Demo](art/demo/android_demo.webm) | Path goes here... |
+
 ## Download
 [![Maven central](https://img.shields.io/maven-central/v/io.github.fbada006/artmaker.svg)](https://search.maven.org/artifact/io.github.fbada006/artmaker)
 
@@ -180,27 +193,6 @@ struct iosAppApp: App {
     }
 }
 ```
-
-## Screenshots
-
-| Platform | Home Screen                                     | Stroke Screen                                       | Color Picker Screen                                             | Dynamic Color Palette Screen                                                      | Drawing Screen (Complete)                                        |
-|----------|-------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------|
-| Android  | ![Home Screen](art/screenshots/home_screen.png) | ![Stroke Screen](art/screenshots/stroke_screen.png) | ![Color Picker Screen](art/screenshots/color_picker_screen.png) | ![Dynamic Color Palette Screen](art/screenshots/dynamic_color_palette_screen.png) | ![Drawing Screen (Complete)](art/screenshots/drawing_screen.png) |
-| iOS      | Path goes here...                               | Path goes here...                                   | Path goes here...                                               | Path goes here...                                                                 | Path goes here...                                                |
-
-## Demo
-
-| Android                                     | iOS               |
-|---------------------------------------------|-------------------|
-| ![Android Demo](art/demo/android_demo.webm) | Path goes here... |
-
-## Known Limitations
-
-The project has some known limitations that you might want to keep in mind (or even solve :) as your contribution) such as:
-
-- It is currently impossible to draw a shape under the Control Menu, which means that the drawing is going to overlap it.
-- The Stroke Styles are limited in number and thus more options could be included.
-- The background image in the Canvas needs to align with the project's theme but also contrast with the drawing for visibility which can be tricky to implement.
 
 ## Contribute
 
