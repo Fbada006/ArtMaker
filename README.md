@@ -13,9 +13,9 @@ the `Bitmap` for use in the calling application.
 
 ## Demo
 
-| Android                                                   | iOS                                                   |
-|-----------------------------------------------------------|-------------------------------------------------------|
-| <img src="art/android_demo.gif" width="350" height="700"> | <img src="art/ios_demo.gif" width="350" height="700"> |
+| Android                                                         |                             | iOS                                                   |
+|-----------------------------------------------------------------|-----------------------------|-------------------------------------------------------|
+| <img src="art/android_demo.gif" style="width:350px;height:px;"> | <div style="padding:30px;"> | <img src="art/ios_demo.gif" width="350" height="700"> |
 
 ## Download
 
@@ -61,7 +61,7 @@ artmaker = { module = "io.github.fbada006:artmaker", version.ref = "artmaker" }
 
 Sync your project and then add the dependency as follows:
 
-(Kotlin Multiplatform)
+#### Kotlin Multiplatform
 
 ```kotlin
 sourceSets {
@@ -71,7 +71,7 @@ sourceSets {
 }
 ```
 
-(Android)
+#### Android
 
 ```kotlin
 dependencies {
