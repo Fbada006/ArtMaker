@@ -13,9 +13,16 @@ the `Bitmap` for use in the calling application.
 
 ## Demo
 
-| Android                               | iOS                           |
-|---------------------------------------|-------------------------------|
-| ![Android Demo](art/android_demo.mp4) | ![iOS Demo](art/ios_demo.mp4) |
+<table>
+  <tr>
+    <td>Android</td>
+    <td>iOS</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/5b9dcb58-9bd0-4122-9d3d-cc5d993d5fff" alt="Android Demo"></td>
+    <td><img src="https://github.com/user-attachments/assets/a2973634-03b5-49be-939d-b0ed970767ee" alt="iOS Demo"></td>
+  </tr>
+</table>
 
 ## Download
 
