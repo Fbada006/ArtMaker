@@ -13,16 +13,9 @@ the `Bitmap` for use in the calling application.
 
 ## Demo
 
-<table>
-  <tr>
-    <td>Android</td>
-    <td>iOS</td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/user-attachments/assets/5b9dcb58-9bd0-4122-9d3d-cc5d993d5fff" alt="Android Demo"></td>
-    <td><img src="https://github.com/user-attachments/assets/a2973634-03b5-49be-939d-b0ed970767ee" alt="iOS Demo"></td>
-  </tr>
-</table>
+| Android                                                   | iOS                                                   |
+|-----------------------------------------------------------|-------------------------------------------------------|
+| <img src="art/android_demo.gif" width="350" height="700"> | <img src="art/ios_demo.gif" width="350" height="700"> |
 
 ## Download
 
