@@ -31,7 +31,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
 
-
 /**
  * Scan the file path and retrieve a [Uri] to be assigned to the exported drawing.
  *
