@@ -73,7 +73,7 @@ import org.jetbrains.compose.resources.stringResource
  * @param state ui state for drawing
  * @param isEraserActive whether in erasing mode or not
  * @param eraserRadius determines the radius of the eraser circle
- * @param modifier is the modifier
+ * @param modifier is the modifier applied to the draw screen
  */
 @Composable
 internal fun ArtMakerDrawScreen(

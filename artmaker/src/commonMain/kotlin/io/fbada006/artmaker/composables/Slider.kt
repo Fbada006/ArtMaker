@@ -38,7 +38,7 @@ private const val MAX_WIDTH = 50f
  * @param sliderPosition current slider position
  * @param onValueChange called when the position of the slider changes
  * @param configuration is the global config
- * @param modifier is the modifier
+ * @param modifier is the modifier applied to the slider
  */
 @Composable
 internal fun Slider(sliderPosition: Float, onValueChange: (Float) -> Unit, configuration: ArtMakerConfiguration, modifier: Modifier = Modifier) {

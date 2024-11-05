@@ -81,7 +81,7 @@ import org.jetbrains.compose.resources.stringResource
  * @param configuration global config
  * @param onActivateEraser called when eraser button is clicked
  * @param isEraserActive whether in erasing mode or not
- * @param modifier is the modifier
+ * @param modifier is the modifier applied to the entire menu
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
