@@ -34,7 +34,7 @@ import kotlin.math.sin
  * on screen will look like.
  *
  * @param state provides the settings for the preview namely color, style, and stroke width
- * @param modifier is the modifier for the preview ui
+ * @param modifier is the modifier for the preview UI
  */
 @Composable
 internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
