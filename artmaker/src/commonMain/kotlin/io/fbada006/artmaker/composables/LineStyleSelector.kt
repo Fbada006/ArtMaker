@@ -43,26 +43,13 @@ internal fun LineStyleSelector(selectedStyle: LineStyle, onStyleSelected: (LineS
         Row(
             horizontalArrangement = Arrangement.spacedBy(Dimensions.ArtMakerLineStyleSelectorSpacing),
         ) {
-            LineStyleOption(
-                style = LineStyle.FILLED,
-                isSelected = selectedStyle == LineStyle.FILLED,
-                onClick = { onStyleSelected(LineStyle.FILLED) },
-            )
-            LineStyleOption(
-                style = LineStyle.DASHED,
-                isSelected = selectedStyle == LineStyle.DASHED,
-                onClick = { onStyleSelected(LineStyle.DASHED) },
-            )
-            LineStyleOption(
-                style = LineStyle.ROUND_DOTTED,
-                isSelected = selectedStyle == LineStyle.ROUND_DOTTED,
-                onClick = { onStyleSelected(LineStyle.ROUND_DOTTED) },
-            )
-            LineStyleOption(
-                style = LineStyle.SQUARE_DOTTED,
-                isSelected = selectedStyle == LineStyle.SQUARE_DOTTED,
-                onClick = { onStyleSelected(LineStyle.SQUARE_DOTTED) },
-            )
+            LineStyle.entries.forEach { style ->
+                LineStyleOption(
+                    style = style,
+                    isSelected = selectedStyle == style,
+                    onClick = { onStyleSelected(style) },
+                )
+            }
         }
     }
 }
