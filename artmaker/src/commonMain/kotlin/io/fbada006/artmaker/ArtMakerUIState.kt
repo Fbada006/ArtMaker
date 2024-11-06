@@ -17,6 +17,7 @@ package io.fbada006.artmaker
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import io.fbada006.artmaker.composables.LineStyle
 
 /**
  * Determines the UI state
@@ -34,4 +35,5 @@ data class ArtMakerUIState(
     val isStylusAvailable: Boolean = false,
     val canShowEnableStylusDialog: Boolean = true,
     val canShowDisableStylusDialog: Boolean = true,
+    val lineStyle: LineStyle = LineStyle.FILLED
 )

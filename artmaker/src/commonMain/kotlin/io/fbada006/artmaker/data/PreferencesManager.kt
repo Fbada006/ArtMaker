@@ -22,7 +22,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import io.fbada006.artmaker.ArtMakerUIState
+import io.fbada006.artmaker.composables.LineStyle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -42,6 +44,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         getEnableStylusDialog(),
         getDisableStylusDialog(),
         getStylusAvailability(),
+        getLineStyle()
     ) { values ->
         ArtMakerUIState(
             strokeColour = values[0] as Int,
@@ -51,6 +54,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
             canShowEnableStylusDialog = values[4] as Boolean,
             canShowDisableStylusDialog = values[5] as Boolean,
             isStylusAvailable = values[6] as Boolean,
+            lineStyle = values[7] as LineStyle
         )
     }
 
@@ -65,6 +69,12 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         preferences.edit { datastore ->
             val key = intPreferencesKey(PreferenceKeys.PREF_SELECTED_STROKE_WIDTH)
             datastore[key] = strokeWidth
+        }
+    }
+    suspend fun updateLineStyle(style: LineStyle){
+        preferences.edit { datastore ->
+            val key = stringPreferencesKey(PreferenceKeys.PREF_LINE_STYLE)
+            datastore[key] = style.toString()
         }
     }
 
@@ -106,6 +116,11 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
     private fun getStylusAvailability(): Flow<Boolean> = preferences.data.map { preferences ->
         val key = booleanPreferencesKey(PreferenceKeys.PREF_IS_STYLUS_AVAILABLE)
         preferences[key] ?: false
+    }
+
+    private fun getLineStyle(): Flow<LineStyle> = preferences.data.map {  preferences->
+        val key = stringPreferencesKey(PreferenceKeys.PREF_LINE_STYLE)
+        preferences[key]?.let { LineStyle.valueOf(it) } ?: LineStyle.FILLED
     }
 
     private fun getStrokeColor(): Flow<Int> = preferences.data.map { preferences ->

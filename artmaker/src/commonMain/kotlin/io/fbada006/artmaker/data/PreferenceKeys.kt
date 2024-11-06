@@ -18,6 +18,7 @@ package io.fbada006.artmaker.data
 object PreferenceKeys {
     const val PREF_SELECTED_STROKE_COLOUR = "com.artmaker.sharedpreferences.selectedStrokeColour"
     const val PREF_SELECTED_STROKE_WIDTH = "com.artmaker.sharedpreferences.selectedStrokeWidth"
+    const val PREF_LINE_STYLE = "com.artmaker.sharedpreferences.prefLineStyle"
     const val PREF_USE_STYLUS_ONLY = "com.artmaker.sharedpreferences.useStylusOnly"
     const val PREF_IS_STYLUS_AVAILABLE = "com.artmaker.sharedpreferences.isStylusAvailable"
     const val PREF_DETECT_PRESSURE = "com.artmaker.sharedpreferences.detectDrawingPressure"

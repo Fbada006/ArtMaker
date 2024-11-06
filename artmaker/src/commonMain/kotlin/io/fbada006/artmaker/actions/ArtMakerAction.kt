@@ -17,6 +17,7 @@ package io.fbada006.artmaker.actions
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import io.fbada006.artmaker.composables.LineStyle
 
 /**
  * Define all of the user's actions
@@ -32,6 +33,7 @@ sealed interface ArtMakerAction {
     data class UpdateSetPressureDetection(val shouldDetectPressure: Boolean) : ArtMakerAction
     class UpdateEnableStylusDialogShow(val canShowEnableStylusDialog: Boolean) : ArtMakerAction
     class UpdateDisableStylusDialogShow(val canShowDisableStylusDialog: Boolean) : ArtMakerAction
+    data class SetLineStyle(val style: LineStyle) : ArtMakerAction
 }
 
 /**

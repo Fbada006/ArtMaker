@@ -18,6 +18,7 @@ package io.fbada006.artmaker.models
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import io.fbada006.artmaker.composables.LineStyle
 
 /**
  * This class will hold each shape drawn on screen be it a single dot or multiple shapes drawn
@@ -28,7 +29,9 @@ internal data class PointsData(
     val strokeWidth: Float = 15f,
     val strokeColor: Color,
     val alphas: MutableList<Float>,
-)
+    val lineStyle: LineStyle,
+
+    )
 
 /**
  * Return the Alpha value of the shape drawn depending on whether Pressure Detection has been activated or not.
