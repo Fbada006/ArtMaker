@@ -6,11 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-# Cancel any current or previous job from the same PR
-concurrency:
-  group: ios-${{ github.head_ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
 
