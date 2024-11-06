@@ -23,6 +23,14 @@ import io.fbada006.artmaker.dimensions.Dimensions
 import io.fbada006.artmaker.utils.createPathEffect
 import org.jetbrains.compose.resources.stringResource
 
+/**
+ * This is the row that provides a list of different line styles (such as dashed, dotted, filled etc) to be used during drawing. This UI is part
+ * of the stroke preview
+ *
+ * @param selectedStyle is the current line style selected by the user
+ * @param onStyleSelected is called once the selection changes
+ * @param modifier is the modifier for the selector UI
+ */
 @Composable
 internal fun LineStyleSelector(selectedStyle: LineStyle, onStyleSelected: (LineStyle) -> Unit, modifier: Modifier = Modifier) {
     Row(
@@ -59,6 +67,13 @@ internal fun LineStyleSelector(selectedStyle: LineStyle, onStyleSelected: (LineS
     }
 }
 
+/**
+ * The item to be used to display the different line styles available for selection as defined in the [LineStyle] enum
+ *
+ * @param style is the line style
+ * @param isSelected whether this style is the current one selected or not
+ * @param onClick is triggered when the option is clicked
+ */
 @Composable
 internal fun LineStyleOption(style: LineStyle, isSelected: Boolean, onClick: () -> Unit) {
     val strokeWidth = 6f

@@ -14,6 +14,13 @@ import io.fbada006.artmaker.dimensions.Dimensions
 import io.fbada006.artmaker.utils.createPathEffect
 import kotlin.math.sin
 
+/**
+ * This is the UI that is shown in the stroke settings UI. It acts as a way of ensuring that the user has a real-time preview of how the line drawn
+ * on screen will look like.
+ *
+ * @param state provides the settings for the preview namely color, style, and stroke width
+ * @param modifier is the modifier for the preview ui
+ */
 @Composable
 internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
     Box(
@@ -32,7 +39,7 @@ internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
             val canvasHeight = size.height
 
             drawPath(
-                path = createWavePath(canvasWidth, canvasHeight),
+                path = createWavePath(canvasWidth, canvasHeight), // The preview will draw a wavy line. Just a style preference
                 color = Color(state.strokeColor),
                 style = Stroke(
                     width = state.strokeWidth.toFloat(),
