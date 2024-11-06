@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
@@ -187,7 +187,7 @@
 				};
 			};
 			buildConfigurationList = 3CE367662CBCFE9D00CAEED7 /* Build configuration list for PBXProject "iosApp" */;
-			compatibilityVersion = "Xcode 15.3";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
