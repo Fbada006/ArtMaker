@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3C45734E2CC77ED70048BD69 /* Exceptions for "iosApp" folder in "iosApp" target */ = {
+		3C45734E2CC77ED70048BD69 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -40,24 +40,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3CE3676D2CBCFE9D00CAEED7 /* iosApp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				3C45734E2CC77ED70048BD69 /* Exceptions for "iosApp" folder in "iosApp" target */,
-			);
-			path = iosApp;
-			sourceTree = "<group>";
-		};
-		3CE3677F2CBCFEA000CAEED7 /* iosAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = iosAppTests;
-			sourceTree = "<group>";
-		};
-		3CE367892CBCFEA000CAEED7 /* iosAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = iosAppUITests;
-			sourceTree = "<group>";
-		};
+		3CE3676D2CBCFE9D00CAEED7 /* iosApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3C45734E2CC77ED70048BD69 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = iosApp; sourceTree = "<group>"; };
+		3CE3677F2CBCFEA000CAEED7 /* iosAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = iosAppTests; sourceTree = "<group>"; };
+		3CE367892CBCFEA000CAEED7 /* iosAppUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = iosAppUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +186,7 @@
 				};
 			};
 			buildConfigurationList = 3CE367662CBCFE9D00CAEED7 /* Build configuration list for PBXProject "iosApp" */;
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -209,7 +195,6 @@
 			);
 			mainGroup = 3CE367622CBCFE9D00CAEED7;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 3CE3676C2CBCFE9D00CAEED7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
