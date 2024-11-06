@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
+    alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.spotless)
-    alias(libs.plugins.vanniktech)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.vanniktech)
 }
 
 apply(from = "${rootDir}/scripts/publish.gradle.kts")
@@ -35,7 +38,14 @@ mavenPublishing {
     coordinates(
         "io.github.fbada006",
         artifactId,
-        rootProject.extra.get("libVersion").toString()
+        rootProject.extra.get("libVersion").toString(),
+    )
+
+    configure(
+        KotlinMultiplatform(
+            sourcesJar = true,
+            androidVariantsToPublish = listOf("release"),
+        ),
     )
 
     pom {
@@ -75,58 +85,68 @@ mavenPublishing {
     }
 }
 
+//https://youtrack.jetbrains.com/issue/KT-66448/Multiplatform-wizards.-Get-rid-of-deprecated-kotlinOptions
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        it.binaries.framework {
+            baseName = "artmaker"
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            //put your multiplatform dependencies here
+            with(compose) {
+                implementation(ui)
+                implementation(runtime)
+                implementation(foundation)
+                implementation(materialIconsExtended)
+                implementation(material3)
+            }
+            implementation(compose.components.resources)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.kotlinx.serialization.json)
+            api(libs.androidx.datastore.preferences.core)
+            api(libs.androidx.datastore)
+            implementation(libs.colormath)
+        }
+        commonTest.dependencies {
+        }
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
+        }
+    }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "io.fbada006.artmaker"
+    generateResClass = auto
+}
+
 android {
     namespace = "io.fbada006.artmaker"
     compileSdk = 34
-
     defaultConfig {
         minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-  buildFeatures {
-    compose = true
-  }
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-  }
-  kotlinOptions {
-    jvmTarget = libs.versions.jvmTarget.get()
-  }
-}
-
-dependencies {
-    implementation(project(":customcolorpalette"))
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.runtime.compose)
-    implementation (libs.material.icons)
-    implementation(libs.photo.picker)
-    implementation(libs.androidx.core.ktx)
-    //noinspection UseTomlInstead
-    implementation("androidx.compose.ui:ui:1.7.0-beta06") {
-        because("We need to use graphics layer to export composable as image.")
-    }
-    implementation(libs.kotlinx.serialization.json)
-    implementation (libs.accompanist.permissions)
-    debugImplementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

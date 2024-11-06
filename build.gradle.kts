@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.org.jlleitschuh.gradle.ktlint)
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.serialization) apply false
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.multiplatform) apply false
 }
 subprojects {
     apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
@@ -15,11 +17,15 @@ subprojects {
         val ktlintVersion = "1.3.1"
         kotlin {
             target("**/*.kt")
-            targetExclude("**/build/**/*.kt")
+            targetExclude(
+                "**/build/**/*.kt",
+            )
             ktlint(ktlintVersion).editorConfigOverride(
                 mapOf(
                     "indent_size" to "4",
                     "continuation_indent_size" to "4",
+                    // To be removed after the KMP Migration...
+                    "ktlint_standard_no-empty-file" to "disabled",
                 ),
             )
             licenseHeaderFile(rootProject.file("$rootDir/spotless/copyright.kt"))

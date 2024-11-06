@@ -20,6 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ArtMaker"
-include(":demo")
+include(":androidApp")
 include(":artmaker")
-include(":customcolorpalette")
