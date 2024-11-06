@@ -24,18 +24,20 @@ jobs:
           java-version: 17
 
       - name: Build iOS app
-        id: build
-        continue-on-error: true
         run: |
-          xcodebuild -allowProvisioningUpdates -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator | tee xcodebuild.log
-          RESULT_BUNDLE_PATH=$(find /var/folders -name '*.xcresult' | head -n 1)
-          echo "RESULT_BUNDLE_PATH=${RESULT_BUNDLE_PATH}" >> $GITHUB_ENV
+          xcodebuild -allowProvisioningUpdates \
+            -workspace iosApp/iosApp.xcodeproj/project.xcworkspace \
+            -configuration Debug \
+            -scheme iosApp \
+            -sdk iphonesimulator \
+            || true  # Continue even if build fails
 
-      # Upload the `.xcresult` file as an artifact
-      - name: Upload Result Bundle
-        if: failure() && steps.build.outcome == 'failure'
+      - name: Upload XCode Result Bundle
+        if: always()  # This ensures the step runs even if previous steps fail
         uses: actions/upload-artifact@v3
         with:
-          name: xcresult-bundle
-          path: ${{ env.RESULT_BUNDLE_PATH }}
-          retention-days: 7 # Retain for 7 days (adjust as needed)
+          name: xcode-result-bundle
+          path: |
+            /var/folders/g6/rgtlsw6n123b0gt5483s5_cm0000gn/T/ResultBundle_*.xcresult
+            iosApp/iosApp.xcodeproj/project.xcworkspace
+          retention-days: 5
