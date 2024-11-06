@@ -24,4 +24,18 @@ jobs:
           java-version: 17
 
       - name: Build iOS app
-        run: xcodebuild -allowProvisioningUpdates -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator
+        id: build
+        continue-on-error: true
+        run: |
+          xcodebuild -allowProvisioningUpdates -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator | tee xcodebuild.log
+        env:
+          RESULT_BUNDLE_PATH: "/var/folders/g6/rgtlsw6n123b0gt5483s5_cm0000gn/T/*.xcresult"
+
+      # Upload the `.xcresult` file as an artifact
+      - name: Upload Result Bundle
+        if: failure() && steps.build.outcome == 'failure'
+        uses: actions/upload-artifact@v3
+        with:
+          name: xcresult-bundle
+          path: ${{ env.RESULT_BUNDLE_PATH }}
+          retention-days: 7 # Retain for 7 days (adjust as needed)
