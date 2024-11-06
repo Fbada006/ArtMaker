@@ -73,10 +73,10 @@ internal fun StrokeSettings(
         StrokePreview(
             state = state,
             modifier = Modifier
-                .height( Dimensions.ArtMakerStrokePreviewHeight)
+                .height(Dimensions.ArtMakerStrokePreviewHeight)
                 .fillMaxWidth(),
         )
-        Spacer(modifier = Modifier.height( Dimensions.ArtMakerStrokePreviewSpacerHeight))
+        Spacer(modifier = Modifier.height(Dimensions.ArtMakerStrokePreviewSpacerHeight))
         HorizontalDivider()
 
         LineStyleSelector(

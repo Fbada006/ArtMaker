@@ -31,7 +31,7 @@ internal data class PointsData(
     val alphas: MutableList<Float>,
     val lineStyle: LineStyle,
 
-    )
+)
 
 /**
  * Return the Alpha value of the shape drawn depending on whether Pressure Detection has been activated or not.

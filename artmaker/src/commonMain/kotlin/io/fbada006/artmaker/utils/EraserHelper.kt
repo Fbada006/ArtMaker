@@ -66,7 +66,7 @@ internal fun erasePointData(pointsData: List<PointsData>, eraseRadius: Float, va
                             strokeWidth = pd.strokeWidth,
                             strokeColor = pd.strokeColor,
                             alphas = pd.alphas,
-                            lineStyle = pd.lineStyle
+                            lineStyle = pd.lineStyle,
                         ),
                     )
                 }
@@ -82,7 +82,7 @@ internal fun erasePointData(pointsData: List<PointsData>, eraseRadius: Float, va
                         strokeWidth = pd.strokeWidth,
                         strokeColor = pd.strokeColor,
                         alphas = pd.alphas,
-                        lineStyle = pd.lineStyle
+                        lineStyle = pd.lineStyle,
                     ),
                 )
             }

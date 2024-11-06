@@ -47,7 +47,7 @@ internal class DrawingManager {
 
     fun onDrawEvent(event: DrawEvent, strokeColor: Int, strokeWidth: Int, lineStyle: LineStyle) {
         when (event) {
-            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure, lineStyle )
+            is DrawEvent.AddNewShape -> addNewShape(event.offset, strokeColor, strokeWidth, event.pressure, lineStyle)
             DrawEvent.UndoLastShapePoint -> undoLastShapePoint()
             is DrawEvent.UpdateCurrentShape -> updateCurrentShape(event.offset, event.pressure)
             DrawEvent.Clear -> clear()
@@ -64,7 +64,7 @@ internal class DrawingManager {
             strokeColor = Color(strokeColor),
             strokeWidth = strokeWidth.toFloat(),
             alphas = mutableStateListOf(pressure),
-            lineStyle = lineStyle
+            lineStyle = lineStyle,
         )
         undoStack.addLast(UndoRedoEventType.BeforeErase(data))
         _pathList.add(data)

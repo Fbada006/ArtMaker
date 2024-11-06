@@ -27,7 +27,6 @@ import androidx.lifecycle.viewModelScope
 import io.fbada006.artmaker.actions.ArtMakerAction
 import io.fbada006.artmaker.actions.DrawEvent
 import io.fbada006.artmaker.actions.ExportType
-import io.fbada006.artmaker.composables.LineStyle
 import io.fbada006.artmaker.data.CustomColorsManager
 import io.fbada006.artmaker.data.PreferencesManager
 import io.fbada006.artmaker.drawing.DrawingManager
@@ -95,8 +94,8 @@ internal class ArtMakerViewModel(
     fun onDrawEvent(event: DrawEvent) = drawingManager.onDrawEvent(
         event = event,
         strokeColor = _uiState.value.strokeColour,
-        strokeWidth =  _uiState.value.strokeWidth,
-        lineStyle = _uiState.value.lineStyle
+        strokeWidth = _uiState.value.strokeWidth,
+        lineStyle = _uiState.value.lineStyle,
     )
 
     private fun init() {
@@ -125,7 +124,7 @@ internal class ArtMakerViewModel(
                             canShowEnableStylusDialog = newState.canShowEnableStylusDialog,
                             canShowDisableStylusDialog = newState.canShowDisableStylusDialog,
                             isStylusAvailable = newState.isStylusAvailable,
-                            lineStyle = newState.lineStyle
+                            lineStyle = newState.lineStyle,
                         )
                     }
                 }

@@ -35,5 +35,5 @@ internal data class ArtMakerUIState(
     val isStylusAvailable: Boolean = false,
     val canShowEnableStylusDialog: Boolean = true,
     val canShowDisableStylusDialog: Boolean = true,
-    val lineStyle: LineStyle = LineStyle.FILLED
+    val lineStyle: LineStyle = LineStyle.FILLED,
 )

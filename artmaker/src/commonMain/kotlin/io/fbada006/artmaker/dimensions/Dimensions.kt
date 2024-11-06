@@ -50,7 +50,7 @@ object Dimensions {
     val ArtMakerStrokePreviewSpacerHeight: Dp = 7.dp
     val ArtMakerStrokeVerticalPadding: Dp = 8.dp
     val ArtMakerStrokeHorizontalPadding: Dp = 12.dp
-    val ArtMakerStrokePreviewHeight:Dp = 60.dp
+    val ArtMakerStrokePreviewHeight: Dp = 60.dp
 
     // Line preview
     val ArtMakerLineStyleSelectorHeight: Dp = 54.dp

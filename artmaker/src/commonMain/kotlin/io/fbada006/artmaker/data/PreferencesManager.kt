@@ -44,7 +44,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         getEnableStylusDialog(),
         getDisableStylusDialog(),
         getStylusAvailability(),
-        getLineStyle()
+        getLineStyle(),
     ) { values ->
         ArtMakerUIState(
             strokeColour = values[0] as Int,
@@ -54,7 +54,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
             canShowEnableStylusDialog = values[4] as Boolean,
             canShowDisableStylusDialog = values[5] as Boolean,
             isStylusAvailable = values[6] as Boolean,
-            lineStyle = values[7] as LineStyle
+            lineStyle = values[7] as LineStyle,
         )
     }
 
@@ -71,7 +71,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
             datastore[key] = strokeWidth
         }
     }
-    suspend fun updateLineStyle(style: LineStyle){
+    suspend fun updateLineStyle(style: LineStyle) {
         preferences.edit { datastore ->
             val key = stringPreferencesKey(PreferenceKeys.PREF_LINE_STYLE)
             datastore[key] = style.toString()
@@ -118,7 +118,7 @@ internal class PreferencesManager(private val preferences: DataStore<Preferences
         preferences[key] ?: false
     }
 
-    private fun getLineStyle(): Flow<LineStyle> = preferences.data.map {  preferences->
+    private fun getLineStyle(): Flow<LineStyle> = preferences.data.map { preferences ->
         val key = stringPreferencesKey(PreferenceKeys.PREF_LINE_STYLE)
         preferences[key]?.let { LineStyle.valueOf(it) } ?: LineStyle.FILLED
     }
