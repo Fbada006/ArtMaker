@@ -22,7 +22,7 @@ import io.fbada006.artmaker.composables.LineStyle
 /**
  * Define all of the user's actions
  */
-sealed interface ArtMakerAction {
+internal sealed interface ArtMakerAction {
     data class TriggerArtExport(val type: ExportType) : ArtMakerAction
     data class ExportArt(val bitmap: ImageBitmap?) : ArtMakerAction
     data object UpdateBackground : ArtMakerAction
@@ -37,9 +37,9 @@ sealed interface ArtMakerAction {
 }
 
 /**
- * [ExportType] defines all of the events that take place when exporting a drawing as an image.
+ * Defines all of the events that take place when exporting  an image.
  */
-sealed interface ExportType {
+internal sealed interface ExportType {
     data object ShareImage : ExportType
     data object FinishDrawingImage : ExportType
 }

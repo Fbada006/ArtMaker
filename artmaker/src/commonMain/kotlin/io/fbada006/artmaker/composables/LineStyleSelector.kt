@@ -99,7 +99,7 @@ internal fun LineStyleOption(style: LineStyle, isSelected: Boolean, onClick: () 
     }
 }
 
-enum class LineStyle {
+internal enum class LineStyle {
     FILLED,
     DASHED,
     ROUND_DOTTED,

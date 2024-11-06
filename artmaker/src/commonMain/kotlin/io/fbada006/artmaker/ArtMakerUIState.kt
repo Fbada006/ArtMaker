@@ -22,7 +22,7 @@ import io.fbada006.artmaker.composables.LineStyle
 /**
  * Determines the UI state
  */
-data class ArtMakerUIState(
+internal data class ArtMakerUIState(
     val backgroundColour: Int = Color.White.toArgb(),
     val strokeWidth: Int = 5,
     val strokeColour: Int = Color.Red.toArgb(),
