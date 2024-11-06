@@ -20,7 +20,6 @@ import io.fbada006.artmaker.composables.LUMINANCE_THRESHOLD
 import kotlin.math.pow
 
 internal object ColorUtils {
-
     /**
      * Calculates the perceived brightness (luminance) of a color using the same formula
      * as W3C for WCAG 2.0. Returns a value between 0 (darkest) and 1 (brightest).

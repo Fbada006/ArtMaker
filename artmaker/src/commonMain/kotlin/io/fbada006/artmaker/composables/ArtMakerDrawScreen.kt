@@ -65,17 +65,25 @@ import io.fbada006.artmaker.utils.validateEvent
 import org.jetbrains.compose.resources.stringResource
 
 /**
- * [ArtMakerDrawScreen] is the composable that handles the drawing.
+ * Handles the drawing.
+ *
+ * @param configuration global config
+ * @param onDrawEvent called when a drawing event happens
+ * @param onAction called during a user action
+ * @param state ui state for drawing
+ * @param isEraserActive whether in erasing mode or not
+ * @param eraserRadius determines the radius of the eraser circle
+ * @param modifier is the modifier applied to the draw screen
  */
 @Composable
 internal fun ArtMakerDrawScreen(
-    modifier: Modifier = Modifier,
     configuration: ArtMakerConfiguration,
     onDrawEvent: (DrawEvent) -> Unit,
     onAction: (ArtMakerAction) -> Unit,
     state: DrawScreenState,
     isEraserActive: Boolean,
     eraserRadius: Float,
+    modifier: Modifier = Modifier,
 ) {
     val density = LocalDensity.current
     val containerSize = getScreenSize()

@@ -33,7 +33,12 @@ private const val MIN_WIDTH = 1f
 private const val MAX_WIDTH = 50f
 
 /**
- * This is a [Slider] that allows the user to select their desired Stroke Width within the specified range.
+ * Allows the user to select their desired Stroke Width within the specified range.
+ *
+ * @param sliderPosition current slider position
+ * @param onValueChange called when the position of the slider changes
+ * @param configuration is the global config
+ * @param modifier is the modifier applied to the slider
  */
 @Composable
 internal fun Slider(sliderPosition: Float, onValueChange: (Float) -> Unit, configuration: ArtMakerConfiguration, modifier: Modifier = Modifier) {

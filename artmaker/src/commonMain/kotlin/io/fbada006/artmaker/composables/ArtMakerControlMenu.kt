@@ -70,9 +70,18 @@ import io.fbada006.artmaker.utils.createPicker
 import org.jetbrains.compose.resources.stringResource
 
 /**
- * We can add the controller as a constructor to [ArtMakerControlMenu]  composable and remove the function types.
- * As an alternative we could add the logic to the ArtMaker and leave the [ArtMakerControlMenu]
- * without any functionality.
+ * This is the bottom bar that allows for customisation/actions of color, stroke, eraser, undo/redo, clear, and background
+ *
+ * @param state
+ * @param onAction called during a user action
+ * @param onDrawEvent called when a drawing event happens
+ * @param onShowStrokeWidthPopup called when stroke settings button is clicked
+ * @param setBackgroundImage called to change the background image of the canvas
+ * @param imageBitmap is the background image, if any
+ * @param configuration global config
+ * @param onActivateEraser called when eraser button is clicked
+ * @param isEraserActive whether in erasing mode or not
+ * @param modifier is the modifier applied to the entire menu
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,13 +89,13 @@ internal fun ArtMakerControlMenu(
     state: ArtMakerUIState,
     onAction: (ArtMakerAction) -> Unit,
     onDrawEvent: (DrawEvent) -> Unit,
-    modifier: Modifier = Modifier,
     onShowStrokeWidthPopup: () -> Unit,
     setBackgroundImage: (ImageBitmap?) -> Unit,
     imageBitmap: ImageBitmap?,
     configuration: ArtMakerConfiguration,
     onActivateEraser: () -> Unit,
     isEraserActive: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val imagePicker = createPicker()
     /**

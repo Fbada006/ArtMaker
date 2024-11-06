@@ -26,7 +26,7 @@ import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
 
-actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
+internal actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val uiImage = imageBitmap?.toUIImage()
     val activityViewController = UIActivityViewController(
         activityItems = listOf(uiImage),
@@ -37,7 +37,7 @@ actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
 }
 
 @OptIn(ExperimentalForeignApi::class)
-fun ImageBitmap.toUIImage(): UIImage? {
+private fun ImageBitmap.toUIImage(): UIImage? {
     val width = this.width
     val height = this.height
     val buffer = IntArray(width * height)

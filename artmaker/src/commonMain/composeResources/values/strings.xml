@@ -32,4 +32,6 @@
     <string name="image_bitmap">Image Bitmap</string>
     <string name="recent_colors">Recent Colors</string>
     <string name="line_style">Line Style</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 </resources>

@@ -22,6 +22,11 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
+/**
+ * Vertically draw the Selector Indicator.
+ *
+ * @param amount Represents the value from which the Half Indicator Thickness will be subtracted from to get the Selector Indicator's [Offset].
+ */
 internal fun DrawScope.drawVerticalSelector(amount: Float) {
     val halfIndicatorThickness = 4.dp.toPx()
     val strokeThickness = 1.dp.toPx()
@@ -39,6 +44,13 @@ internal fun DrawScope.drawVerticalSelector(amount: Float) {
     )
 }
 
+/**
+ * Draw the Color Selector Indicator.
+ *
+ * @param offset Represents the [Offset] used when drawing the Selector Indicator.
+ * @param selectionSize Represents the size of the Selector Indicator.
+ * @param strokeThicknessPx Represents the thickness of the [Stroke] used to style the Selector Indicator.
+ */
 internal fun DrawScope.drawSelectorIndicator(offset: Offset, selectionSize: Size, strokeThicknessPx: Float) {
     val selectionStyle = Stroke(strokeThicknessPx)
     drawRect(
@@ -55,4 +67,9 @@ internal fun DrawScope.drawSelectorIndicator(offset: Offset, selectionSize: Size
     )
 }
 
+/**
+ * Returns the [Size] within the object it is called on.
+ *
+ * @param amount Represents the difference between the actual dimension and the dimension that the original one should be reduced by.
+ */
 internal fun Size.inset(amount: Float): Size = Size(width - amount, height - amount)

@@ -21,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-actual fun createPicker(): ImagePicker {
+internal actual fun createPicker(): ImagePicker {
     val activity = LocalContext.current as ComponentActivity
     return remember(activity) {
         ImagePicker(activity)

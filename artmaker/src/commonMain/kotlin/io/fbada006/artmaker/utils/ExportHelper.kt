@@ -17,4 +17,9 @@ package io.fbada006.artmaker.utils
 
 import androidx.compose.ui.graphics.ImageBitmap
 
-expect suspend fun shareImage(imageBitmap: ImageBitmap?)
+/**
+ * Called to trigger sharing an image depending on the platform
+ *
+ * @param imageBitmap is the image to share
+ */
+internal expect suspend fun shareImage(imageBitmap: ImageBitmap?)
