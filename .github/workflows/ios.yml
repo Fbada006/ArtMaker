@@ -28,8 +28,8 @@ jobs:
         continue-on-error: true
         run: |
           xcodebuild -allowProvisioningUpdates -workspace iosApp/iosApp.xcodeproj/project.xcworkspace -configuration Debug -scheme iosApp -sdk iphonesimulator | tee xcodebuild.log
-        env:
-          RESULT_BUNDLE_PATH: "/var/folders/g6/rgtlsw6n123b0gt5483s5_cm0000gn/T/*.xcresult"
+          RESULT_BUNDLE_PATH=$(find /var/folders -name '*.xcresult' | head -n 1)
+          echo "RESULT_BUNDLE_PATH=${RESULT_BUNDLE_PATH}" >> $GITHUB_ENV
 
       # Upload the `.xcresult` file as an artifact
       - name: Upload Result Bundle
