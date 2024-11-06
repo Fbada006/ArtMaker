@@ -19,7 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
 /**
- * ArtMakerConfiguration holding custom configuration for the ArtMaker Composable
+ * The global configuration of the SDK
+ *
  * @param strokeSliderThumbColor  thumb color when enabled
  * @param strokeSliderActiveTrackColor color of the track in the part that is "active", meaning that the thumb is ahead of it
  * @param strokeSliderInactiveTickColor colors to be used to draw tick marks on the inactive track, if steps are specified on the Slider.

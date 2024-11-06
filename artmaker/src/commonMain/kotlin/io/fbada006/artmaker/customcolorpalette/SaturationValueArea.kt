@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
 /**
- * Saturation Value area Component that changes the saturation of the current color.
+ * Component that changes the saturation of the current color.
  *
  * @param modifier modifiers to set on the Alpha Bar
  * @param currentColor the initial color to set on the alpha bar.

@@ -31,6 +31,14 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
 
+/**
+ * Scan the file path and retrieve a [Uri] to be assigned to the exported drawing.
+ *
+ * @param context Used as an instance of [Context] and is required for establishing a connection to the media scanner service.
+ * @param filePath Represents the path to be scanned.
+ *
+ * @return the [Uri] of the file
+ */
 private suspend fun scanFilePath(context: Context, filePath: String): Uri? = suspendCancellableCoroutine { continuation ->
     MediaScannerConnection.scanFile(
         context,
@@ -49,7 +57,13 @@ private suspend fun scanFilePath(context: Context, filePath: String): Uri? = sus
     }
 }
 
-suspend fun getUriFromBitmap(context: Context, bitmap: ImageBitmap?): Uri {
+/**
+ * Retrieve a [Uri] from the image.
+ *
+ * @param context Used as an argument by [scanFilePath].
+ * @param bitmap Used as a receiver by [asAndroidBitmap] to create a [Bitmap].
+ */
+private suspend fun getUriFromBitmap(context: Context, bitmap: ImageBitmap?): Uri {
     val androidBitmap = bitmap?.asAndroidBitmap()
     val files = File(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
@@ -61,6 +75,9 @@ suspend fun getUriFromBitmap(context: Context, bitmap: ImageBitmap?): Uri {
     return scanFilePath(context, files.path) ?: throw Exception("File could not be saved")
 }
 
+/**
+ * Constructs a new FileOutputStream of the [Bitmap] and returns it as a result after compressing it.
+ */
 private fun File.writeBitmap(bitmap: Bitmap?, format: Bitmap.CompressFormat, quality: Int) {
     outputStream().use { out ->
         bitmap?.compress(format, quality, out)
@@ -68,7 +85,7 @@ private fun File.writeBitmap(bitmap: Bitmap?, format: Bitmap.CompressFormat, qua
     }
 }
 
-actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
+internal actual suspend fun shareImage(imageBitmap: ImageBitmap?) {
     val context = ContextProvider.getContext()
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "image/png"

@@ -33,6 +33,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.cancel
+import io.fbada006.artmaker.ok
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * The main entry point for the palette to create a custom colour aside from the default ones
@@ -76,11 +80,11 @@ internal fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit,
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Button(onClick = onCancel) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(Res.string.cancel))
                 }
                 Spacer(Modifier.width(12.dp))
                 Button(onClick = { onAccept(colorPickerValueState.value.toColor()) }) {
-                    Text(text = "Ok")
+                    Text(text = stringResource(Res.string.ok))
                 }
             }
         }

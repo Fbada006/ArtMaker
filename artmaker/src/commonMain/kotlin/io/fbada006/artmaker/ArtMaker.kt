@@ -51,10 +51,9 @@ import io.fbada006.artmaker.drawing.DrawingManager
 import io.fbada006.artmaker.models.ArtMakerConfiguration
 
 /**
- * [ArtMaker] has the draw screen as well as control menu (the bar offering customisation options). By default, it is a white screen that allows the user
- * to draw any shape and customise the attributes of the drawing.
+ * The main entry point of the SDK from Android. iOS needs an extra file as explained in the MainViewController.kt file.
  *
- * @param modifier is the [Modifier]
+ * @param modifier is the modifier applied to this composable
  * @param onFinishDrawing is the callback exposed once the user clicks done (the [FloatingActionButton] with the checkmark) to trigger finish drawing
  * @param configuration is the configuration to customise the appearance of the control menu and other values
  */

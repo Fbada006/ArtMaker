@@ -20,10 +20,10 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import okio.Path.Companion.toPath
 
-fun createDataStore(producePath: () -> String): DataStore<Preferences> = PreferenceDataStoreFactory.createWithPath(
+internal fun createDataStore(producePath: () -> String): DataStore<Preferences> = PreferenceDataStoreFactory.createWithPath(
     produceFile = { producePath().toPath() },
 )
 
 const val ARTMAKER_DATASTORE_FILE_NAME = "artmaker.preferences_pb"
 
-expect val getDataStore: DataStore<Preferences>
+internal expect val getDataStore: DataStore<Preferences>

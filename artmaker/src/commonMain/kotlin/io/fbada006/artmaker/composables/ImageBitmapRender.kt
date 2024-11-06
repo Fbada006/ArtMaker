@@ -33,6 +33,19 @@ import io.fbada006.artmaker.DrawScreenState
 import io.fbada006.artmaker.models.PointsData
 import io.fbada006.artmaker.models.alpha
 
+/**
+ * Transform a composable to a bitmap
+ *
+ * @param bitmapWidth width of the drawn bitmap
+ * @param bitmapHeight height of the drawn bitmap
+ * @param state provides the ui state during drawing
+ * @param isEraserActive whether in eraser mode or not
+ * @param eraserRadius determines the radius of the eraser circle
+ * @param eraserPosition where the eraser is on screen
+ * @param pathList provides the information for drawing the art on screen
+ *
+ * @return the composable as a bitmap
+ */
 internal fun toImageBitmap(
     bitmapWidth: Int,
     bitmapHeight: Int,

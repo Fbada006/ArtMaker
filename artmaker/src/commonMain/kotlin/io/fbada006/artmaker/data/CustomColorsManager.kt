@@ -32,10 +32,19 @@ private data class CustomColors(val colors: List<Int>)
 
 private const val MAX_CUSTOM_COLORS = 5 // Similar to num columns in the color picker. We just want one row
 
+/**
+ * Manages custom colours using [DataStore] to persist the user's preferences.
+ *
+ * @param preferences is the [DataStore] instance that is used to store and manage the custom colours.
+ */
 internal class CustomColorsManager(private val preferences: DataStore<Preferences> = getDataStore) {
     private val json = Json { ignoreUnknownKeys = true }
 
-    // Saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
+    /**
+     * Saves the color and ensures the list of items is a maximum of MAX_CUSTOM_COLORS
+     *
+     * @param color the colour to be saved.
+     */
     suspend fun saveColor(color: Int) {
         val currentColors = getColors().first()
         var colors = currentColors.toMutableList()
@@ -52,7 +61,9 @@ internal class CustomColorsManager(private val preferences: DataStore<Preference
         }
     }
 
-    // Returns all the custom colours saved. Should always be equal to MAX_CUSTOM_COLORS
+    /**
+     * Returns all the custom colours saved. Should always be equal to or less than MAX_CUSTOM_COLORS
+     */
     fun getColors(): Flow<List<Int>> = flow {
         val customColorsFromDatastore = preferences.data.map { datastore ->
             val counterKey = stringPreferencesKey(PREF_CUSTOM_COLORS)

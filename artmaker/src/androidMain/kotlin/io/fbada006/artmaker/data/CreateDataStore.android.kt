@@ -19,7 +19,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import io.fbada006.artmaker.utils.ContextProvider
 
-actual val getDataStore: DataStore<Preferences> by lazy {
+internal actual val getDataStore: DataStore<Preferences> by lazy {
     createDataStore {
         val context = ContextProvider.getContext()
         context.filesDir.resolve(ARTMAKER_DATASTORE_FILE_NAME).absolutePath

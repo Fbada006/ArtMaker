@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 
 @Composable
-actual fun getScreenSize(): Size {
+internal actual fun getScreenSize(): Size {
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
 

@@ -34,6 +34,9 @@ sealed interface ArtMakerAction {
     class UpdateDisableStylusDialogShow(val canShowDisableStylusDialog: Boolean) : ArtMakerAction
 }
 
+/**
+ * [ExportType] defines all of the events that take place when exporting a drawing as an image.
+ */
 sealed interface ExportType {
     data object ShareImage : ExportType
     data object FinishDrawingImage : ExportType

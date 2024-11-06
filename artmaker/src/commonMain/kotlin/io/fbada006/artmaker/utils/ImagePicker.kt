@@ -18,7 +18,10 @@ package io.fbada006.artmaker.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 
-expect class ImagePicker {
+/**
+ * Handles the image selection depending on the platform
+ */
+internal expect class ImagePicker {
 
     @Composable
     fun registerPicker(onImagePicked: (ImageBitmap) -> Unit)

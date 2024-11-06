@@ -17,5 +17,8 @@ package io.fbada006.artmaker.utils
 
 import androidx.compose.runtime.Composable
 
+/**
+ * Creates a platform specific image picker
+ */
 @Composable
-expect fun createPicker(): ImagePicker
+internal expect fun createPicker(): ImagePicker

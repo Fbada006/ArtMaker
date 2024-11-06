@@ -31,7 +31,7 @@ import platform.UIKit.UIViewController
 import platform.darwin.NSObject
 import platform.posix.memcpy
 
-actual class ImagePicker(private val rootController: UIViewController) {
+internal actual class ImagePicker(private val rootController: UIViewController) {
     private val imagePickerController = UIImagePickerController().apply {
         sourceType = UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypePhotoLibrary
     }
