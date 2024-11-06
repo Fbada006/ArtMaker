@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - name: Force XCode 15.4
         run: sudo xcode-select -switch /Applications/Xcode_15.4.app
