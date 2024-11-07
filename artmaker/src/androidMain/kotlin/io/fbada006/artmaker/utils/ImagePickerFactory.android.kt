@@ -23,17 +23,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-internal actual fun createPicker(): ImagePicker {
+internal actual fun createPicker(): ImagePicker? {
     val activity = LocalContext.current.findActivity()
     return remember(activity) {
-        ImagePicker(activity)
+        if (activity != null) ImagePicker(activity) else null
     }
 }
 
 // Helper to recursively find the activity from the context
-private tailrec fun Context.findActivity(): Activity =
+private tailrec fun Context.findActivity(): Activity? =
     when (this) {
         is Activity -> this
         is ContextWrapper -> baseContext.findActivity()
-        else -> throw IllegalArgumentException("Cannot find activity from this context")
+        else -> null
     }

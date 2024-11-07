@@ -21,4 +21,4 @@ import androidx.compose.runtime.Composable
  * Creates a platform specific image picker
  */
 @Composable
-internal expect fun createPicker(): ImagePicker
+internal expect fun createPicker(): ImagePicker?
