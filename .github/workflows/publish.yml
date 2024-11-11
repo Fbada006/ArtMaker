@@ -27,7 +27,7 @@ jobs:
 
       - name: Publish to MavenCentral
         run: |
-          ./gradlew publishAllPublicationsToMavenCentral --no-configuration-cache
+          ./gradlew publishAllPublicationsToCentralPortal --no-configuration-cache --stacktrace
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_PASSWORD }}
