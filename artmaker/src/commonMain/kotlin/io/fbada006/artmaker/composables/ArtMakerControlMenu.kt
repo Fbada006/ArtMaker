@@ -101,7 +101,7 @@ internal fun ArtMakerControlMenu(
     /**
      * Before we Pick the Image, we first need to register the picker and set the background Image
      */
-    imagePicker.registerPicker { image ->
+    imagePicker?.registerPicker { image ->
         setBackgroundImage(image)
     }
     var areImageOptionsExpanded by remember { mutableStateOf(false) }
@@ -170,7 +170,7 @@ internal fun ArtMakerControlMenu(
                         if (imageBitmap != null) {
                             areImageOptionsExpanded = true
                         } else {
-                            imagePicker.pickImage()
+                            imagePicker?.pickImage()
                         }
                     },
                 )
@@ -191,7 +191,7 @@ internal fun ArtMakerControlMenu(
                             Text(text = stringResource(Res.string.change_image))
                         },
                         onClick = {
-                            imagePicker.pickImage()
+                            imagePicker?.pickImage()
                             areImageOptionsExpanded = false
                         },
                     )

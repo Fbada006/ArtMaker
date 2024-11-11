@@ -15,15 +15,24 @@
  */
 package io.fbada006.artmaker.utils
 
-import androidx.activity.ComponentActivity
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-internal actual fun createPicker(): ImagePicker {
-    val activity = LocalContext.current as ComponentActivity
+internal actual fun createPicker(): ImagePicker? {
+    val activity = LocalContext.current.findActivity()
     return remember(activity) {
-        ImagePicker(activity)
+        if (activity != null) ImagePicker(activity) else null
     }
+}
+
+// Helper to recursively find the activity from the context
+private tailrec fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
 }

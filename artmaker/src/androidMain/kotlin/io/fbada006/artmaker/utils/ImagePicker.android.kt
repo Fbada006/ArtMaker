@@ -16,8 +16,8 @@
 package io.fbada006.artmaker.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.BitmapFactory
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,7 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 
-internal actual class ImagePicker(private val activity: ComponentActivity) {
+internal actual class ImagePicker(private val activity: Activity) {
     private lateinit var getContent: ActivityResultLauncher<String>
 
     @SuppressLint("ComposableNaming")
