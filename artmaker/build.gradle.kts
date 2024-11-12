@@ -127,6 +127,7 @@ kotlin {
             implementation(libs.colormath)
         }
         commonTest.dependencies {
+            implementation(libs.kotlin.test)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
