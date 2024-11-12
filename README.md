@@ -210,7 +210,7 @@ The CI will fail if the code is not properly formatted. Please correct any failu
 
 Take into account that changes and requests can be rejected if they don't align with the **purpose
 of the library**. To ensure you do not waste any time, you can always open an
-issue [here](https://github.com/Fbada006/ArtMaker/issues?q=is%3Aissue) or talk to us before you
+issue [here](https://github.com/Fbada006/ArtMaker/issues/new) or talk to us before you
 start making any changes.
 
 ## License
