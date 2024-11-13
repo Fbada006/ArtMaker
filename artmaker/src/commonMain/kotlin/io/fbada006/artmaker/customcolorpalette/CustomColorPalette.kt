@@ -32,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.cancel
@@ -56,7 +57,7 @@ internal fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit,
         val paddingBetweenBars = 8.dp
         Column(modifier = Modifier.weight(0.8f)) {
             SaturationValueArea(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).testTag(tag = "Saturation Value Area"),
                 currentColor = colorPickerValueState.value,
                 onSaturationValueChanged = { saturation, value ->
                     colorPickerValueState.value =
@@ -92,7 +93,8 @@ internal fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit,
         HueBar(
             modifier = Modifier
                 .width(barThickness)
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .testTag(tag = "Hue Bar"),
             currentColor = colorPickerValueState.value,
             onHueChanged = { newHue ->
                 colorPickerValueState.value = colorPickerValueState.value.copy(hue = newHue)

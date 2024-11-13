@@ -49,6 +49,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.data.CustomColorsManager
 import io.fbada006.artmaker.dimensions.Dimensions
@@ -77,6 +79,7 @@ internal fun ColorPicker(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         containerColor = Color.LightGray,
+        modifier = Modifier.testTag(tag = "Color Picker Modal Bottom Sheet")
     ) {
         LazyColumn(
             modifier = Modifier

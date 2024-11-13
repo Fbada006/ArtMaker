@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.set_width
@@ -53,6 +54,7 @@ internal fun Slider(sliderPosition: Float, onValueChange: (Float) -> Unit, confi
             color = configuration.strokeSliderTextColor,
         )
         Slider(
+            modifier = Modifier.testTag(tag = "Slider"),
             value = sliderPosition,
             onValueChange = onValueChange,
             colors = SliderDefaults.colors(
