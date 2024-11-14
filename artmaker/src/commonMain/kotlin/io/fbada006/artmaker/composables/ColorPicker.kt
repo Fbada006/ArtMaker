@@ -100,7 +100,7 @@ internal fun ColorPicker(
 
                         FlowRow(
                             modifier = Modifier
-                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing),
+                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = "Color Picker Default Colours"),
                             horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             maxItemsInEachRow = NUM_COLUMNS,
@@ -121,7 +121,7 @@ internal fun ColorPicker(
 
                             FlowRow(
                                 modifier = Modifier
-                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing),
+                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = "Color Picker Custom Colours"),
                                 horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 maxItemsInEachRow = NUM_COLUMNS,
@@ -141,7 +141,8 @@ internal fun ColorPicker(
                             .clip(RoundedCornerShape(size = Dimensions.ArtMakerColorItemShapeSize))
                             .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
-                            .align(Alignment.CenterVertically),
+                            .align(Alignment.CenterVertically)
+                            .testTag(tag = "Custom Color Picker"),
                     )
                 }
             }
@@ -163,7 +164,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
                 .clickable {
                     selectedColor = color
                     onClick(color)
-                },
+                }.testTag(tag = "Color Item"),
         )
 
         if (color == selectedColor) {

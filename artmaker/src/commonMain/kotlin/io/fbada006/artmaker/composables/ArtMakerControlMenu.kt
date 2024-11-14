@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import io.fbada006.artmaker.ArtMakerUIState
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.actions.ArtMakerAction
@@ -110,7 +111,7 @@ internal fun ArtMakerControlMenu(
 
     Surface(
         shadowElevation = Dimensions.ArtMakerControlMenuShadowElevation,
-        modifier = modifier,
+        modifier = modifier.testTag(tag = "Control Menu Surface"),
         color = configuration.controllerBackgroundColor,
     ) {
         Column {
@@ -188,6 +189,7 @@ internal fun ArtMakerControlMenu(
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
+                    modifier = Modifier.testTag(tag = "Control Menu Dropdown"),
                     expanded = areImageOptionsExpanded,
                     onDismissRequest = {
                         areImageOptionsExpanded = false

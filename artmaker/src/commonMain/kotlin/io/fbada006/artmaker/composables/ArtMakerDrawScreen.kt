@@ -46,6 +46,7 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import io.fbada006.artmaker.DrawScreenState
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.actions.ArtMakerAction
@@ -202,7 +203,7 @@ internal fun ArtMakerDrawScreen(
                     eraserPosition = eraserPosition,
                     pathList = state.pathList,
                 )
-            },
+            }.testTag(tag = "Draw Screen Box"),
     ) {
         art?.let {
             Image(
@@ -231,6 +232,7 @@ internal fun ArtMakerDrawScreen(
         }
 
         AlertDialog(
+            modifier = Modifier.testTag(tag = "Should Show Stylus Dialog"),
             icon = { Icon(imageVector = Icons.Filled.Edit, contentDescription = Icons.Filled.Edit.name) },
             title = { Text(text = dialogInfo.first) },
             text = { Text(text = dialogInfo.second) },
