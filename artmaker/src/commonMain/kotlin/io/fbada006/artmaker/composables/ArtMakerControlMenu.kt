@@ -59,13 +59,22 @@ import io.fbada006.artmaker.actions.ArtMakerAction
 import io.fbada006.artmaker.actions.DrawEvent
 import io.fbada006.artmaker.change_image
 import io.fbada006.artmaker.clear_image
+import io.fbada006.artmaker.color_picker_icon
+import io.fbada006.artmaker.control_menu_dropdown
+import io.fbada006.artmaker.control_menu_surface
 import io.fbada006.artmaker.customcolorpalette.CustomColorPalette
 import io.fbada006.artmaker.dimensions.Dimensions
+import io.fbada006.artmaker.edit_icon
 import io.fbada006.artmaker.icons.InkEraser
 import io.fbada006.artmaker.icons.InkEraserOff
 import io.fbada006.artmaker.icons.Redo
 import io.fbada006.artmaker.icons.Undo
+import io.fbada006.artmaker.image_selector_icon
+import io.fbada006.artmaker.ink_eraser_icon
 import io.fbada006.artmaker.models.ArtMakerConfiguration
+import io.fbada006.artmaker.redo_icon
+import io.fbada006.artmaker.refresh_icon
+import io.fbada006.artmaker.undo_icon
 import io.fbada006.artmaker.utils.ColorUtils
 import io.fbada006.artmaker.utils.createPicker
 import org.jetbrains.compose.resources.stringResource
@@ -111,7 +120,7 @@ internal fun ArtMakerControlMenu(
 
     Surface(
         shadowElevation = Dimensions.ArtMakerControlMenuShadowElevation,
-        modifier = modifier.testTag(tag = Res.string.control_menu_surface),
+        modifier = modifier.testTag(tag = stringResource(resource = Res.string.control_menu_surface)),
         color = configuration.controllerBackgroundColor,
     ) {
         Column {
@@ -132,20 +141,20 @@ internal fun ArtMakerControlMenu(
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
-                    contentDescription = Res.string.color_picker_icon
+                    contentDescription = stringResource(resource = Res.string.color_picker_icon)
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Edit,
                     onItemClicked = {
                         onShowStrokeWidthPopup()
                     },
-                    contentDescription = Res.string.edit_icon
+                    contentDescription = stringResource(resource = Res.string.edit_icon)
                 )
                 MenuItem(
                     imageVector = if (isEraserActive) InkEraser else InkEraserOff,
                     onItemClicked = onActivateEraser,
                     enabled = state.canErase,
-                    contentDescription = Res.string.ink_eraser_icon
+                    contentDescription = stringResource(resource = Res.string.ink_eraser_icon)
                 )
                 MenuItem(
                     imageVector = Undo,
@@ -153,7 +162,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Undo)
                     },
                     enabled = state.canUndo,
-                    contentDescription = Res.string.undo_icon
+                    contentDescription = stringResource(resource = Res.string.undo_icon)
                 )
                 MenuItem(
                     imageVector = Redo,
@@ -161,7 +170,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Redo)
                     },
                     enabled = state.canRedo,
-                    contentDescription = Res.string.redo_icon
+                    contentDescription = stringResource(resource = Res.string.redo_icon)
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Refresh,
@@ -169,7 +178,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Clear)
                     },
                     enabled = state.canClear,
-                    contentDescription = Res.string.refresh_icon
+                    contentDescription = stringResource(resource = Res.string.refresh_icon)
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Image,
@@ -180,7 +189,7 @@ internal fun ArtMakerControlMenu(
                             imagePicker?.pickImage()
                         }
                     },
-                    contentDescription = Res.string.image_selector_icon
+                    contentDescription = stringResource(resource = Res.string.image_selector_icon)
                 )
             }
             Box(
@@ -189,7 +198,7 @@ internal fun ArtMakerControlMenu(
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
-                    modifier = Modifier.testTag(tag = Res.string.control_menu_dropdown),
+                    modifier = Modifier.testTag(tag = stringResource(resource = Res.string.control_menu_dropdown)),
                     expanded = areImageOptionsExpanded,
                     onDismissRequest = {
                         areImageOptionsExpanded = false

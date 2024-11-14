@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.testTag
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.set_width
+import io.fbada006.artmaker.slider
 import org.jetbrains.compose.resources.stringResource
 
 private const val MIN_WIDTH = 1f
@@ -54,7 +55,7 @@ internal fun Slider(sliderPosition: Float, onValueChange: (Float) -> Unit, confi
             color = configuration.strokeSliderTextColor,
         )
         Slider(
-            modifier = Modifier.testTag(tag = Res.string.slider),
+            modifier = Modifier.testTag(tag = stringResource(resource = Res.string.slider)),
             value = sliderPosition,
             onValueChange = onValueChange,
             colors = SliderDefaults.colors(

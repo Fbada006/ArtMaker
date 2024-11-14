@@ -50,8 +50,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.semantics
 import io.fbada006.artmaker.Res
+import io.fbada006.artmaker.color_item
+import io.fbada006.artmaker.color_picker_custom_colours
+import io.fbada006.artmaker.color_picker_default_colours
+import io.fbada006.artmaker.color_picker_modal_bottom_sheet
+import io.fbada006.artmaker.custom_color_picker
 import io.fbada006.artmaker.data.CustomColorsManager
 import io.fbada006.artmaker.dimensions.Dimensions
 import io.fbada006.artmaker.models.ArtMakerConfiguration
@@ -79,7 +83,7 @@ internal fun ColorPicker(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         containerColor = Color.LightGray,
-        modifier = Modifier.testTag(tag = Res.string.color_picker_modal_bottom_sheet)
+        modifier = Modifier.testTag(tag = stringResource(resource = Res.string.color_picker_modal_bottom_sheet))
     ) {
         LazyColumn(
             modifier = Modifier
@@ -100,7 +104,7 @@ internal fun ColorPicker(
 
                         FlowRow(
                             modifier = Modifier
-                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = Res.string.color_picker_default_colours),
+                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = stringResource(resource = Res.string.color_picker_default_colours)),
                             horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             maxItemsInEachRow = NUM_COLUMNS,
@@ -121,7 +125,7 @@ internal fun ColorPicker(
 
                             FlowRow(
                                 modifier = Modifier
-                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = Res.string.color_picker_custom_colours),
+                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = stringResource(resource = Res.string.color_picker_custom_colours)),
                                 horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 maxItemsInEachRow = NUM_COLUMNS,
@@ -142,7 +146,7 @@ internal fun ColorPicker(
                             .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
                             .align(Alignment.CenterVertically)
-                            .testTag(tag = Res.string.custom_color_picker),
+                            .testTag(tag = stringResource(resource = Res.string.custom_color_picker)),
                     )
                 }
             }
@@ -164,7 +168,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
                 .clickable {
                     selectedColor = color
                     onClick(color)
-                }.testTag(tag = Res.string.color_item),
+                }.testTag(tag = stringResource(resource = Res.string.color_item)),
         )
 
         if (color == selectedColor) {
