@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.color_item
+import io.fbada006.artmaker.color_item_icon
 import io.fbada006.artmaker.color_picker_custom_colours
 import io.fbada006.artmaker.color_picker_default_colours
 import io.fbada006.artmaker.color_picker_modal_bottom_sheet
@@ -174,7 +175,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
         if (color == selectedColor) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = null,
+                contentDescription = stringResource(resource = Res.string.color_item_icon),
                 tint = if (ColorUtils.isLightColor(color)) Color.Black else Color.White,
                 modifier = Modifier
                     .align(Alignment.Center),

@@ -55,4 +55,5 @@
     <string name="stroke_preview_canvas">Stroke Preview Canvas</string>
     <string name="saturation_value_area">Saturation Value Area</string>
     <string name="hue_bar">Hue Bar</string>
+    <string name="color_item_icon">Color Item Icon</string>
 </resources>

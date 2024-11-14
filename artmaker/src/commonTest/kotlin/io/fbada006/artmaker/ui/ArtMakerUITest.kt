@@ -6,8 +6,12 @@ import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -27,7 +31,7 @@ import io.fbada006.artmaker.composables.StrokePreview
 import io.fbada006.artmaker.composables.StrokeState
 import io.fbada006.artmaker.customcolorpalette.CustomColorPalette
 import io.fbada006.artmaker.models.ArtMakerConfiguration
-import org.jetbrains.skia.Color
+import io.fbada006.artmaker.utils.ColorUtils
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -78,13 +82,13 @@ class ArtMakerUITest {
         var drawScreenState = DrawScreenState(
             pathList = mutableStateListOf(),
             backgroundImage = null,
-            backgroundColor = Color.RED,
+            backgroundColor = Color.Red.toArgb(),
             shouldTriggerArtExport = true,
             isFullScreenMode = true,
             isStylusAvailable = true,
             shouldUseStylusOnly = true,
             shouldDetectPressure = true,
-            canShowEnableStylusDialog = true,
+            canShowEnableStylusDialog = false,
             canShowDisableStylusDialog = true,
         )
 
@@ -102,7 +106,8 @@ class ArtMakerUITest {
         onNodeWithTag(testTag = "Draw Screen Box").assertExists()
         drawScreenState = drawScreenState.copy(canShowEnableStylusDialog = true)
         onNodeWithTag(testTag = "Should Show Stylus Dialog").assertExists()
-        // AlertDialog Title and Text go here...
+        onNodeWithText(text = "We have detected that you are using a stylus to draw. For a better experience, please enable stylus only input using the pencil icon at the bottom of the screen.").assertIsDisplayed()
+        onNodeWithText(text = "We have detected that you are not using your stylus to draw but you have enabled the stylus only input setting. Please disable this using the pencil icon at the bottom of the screen if you wish to use other input types to draw.").assertIsDisplayed()
         onNodeWithText(text = "Got it").assertExists()
         onNodeWithText(text = "Got it").performClick()
         onNodeWithTag(testTag = "Should Show Stylus Dialog").assertDoesNotExist()
@@ -112,24 +117,35 @@ class ArtMakerUITest {
     @Test
     fun testColorPicker() = runComposeUiTest {
 
+        val expectedDefaultColoursSize = ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size
+
+        val customColours = listOf(
+            Color(color = 0xFF6A1B9A), // Deep Purple...
+            Color(color = 0xFF1E88E5), // Blue...
+            Color(color = 0xFF43A047), // Green...
+            Color(color = 0xFFF4511E), // Orange Red...
+            Color(color = 0xFFFFC107), // Amber...
+            Color(color = 0xFF8E24AA)  // Purple...
+        )
+
         setContent {
             ColorPicker(
                 onDismissRequest = {},
-                defaultColor = Color.RED,
+                defaultColor = Color.Red.toArgb(),
                 onClick = {},
                 onColorPaletteClick = {},
-                artMakerConfiguration = ArtMakerConfiguration(),
+                artMakerConfiguration = ArtMakerConfiguration(pickerCustomColors = customColours),
             )
         }
 
         onNodeWithTag(testTag = "Color Picker Modal Bottom Sheet").assertExists()
         onNodeWithTag(testTag = "Color Picker Default Colours").assertExists()
         onNodeWithTag(testTag = "Color Picker Custom Colours").assertExists()
-        // Test the Custom Colours and the Flow Row based on the condition here...
-        onNodeWithTag(testTag = "Custom Color Picker").assertExists()
         onNodeWithTag(testTag = "Color Item").assertExists()
         onNodeWithTag(testTag = "Color Item").performClick()
-        // Maybe try and test the checkmark icon...
+        onAllNodesWithTag(testTag = "Color Item").assertCountEquals(expectedSize = (expectedDefaultColoursSize + customColours.size))
+        onNodeWithTag(testTag = "Custom Color Picker").assertExists()
+        onNodeWithContentDescription(label = "Color Item Icon").assertExists()
 
     }
 
@@ -137,7 +153,7 @@ class ArtMakerUITest {
     fun testStrokePreview() = runComposeUiTest {
 
         setContent {
-            StrokePreview(state = StrokeState(strokeColor = Color.RED, strokeWidth = 6, lineStyle = LineStyle.DASHED))
+            StrokePreview(state = StrokeState(strokeColor = Color.Red.toArgb(), strokeWidth = 6, lineStyle = LineStyle.DASHED))
         }
 
         onNodeWithTag(testTag = "Stroke Preview Box").assertExists()
