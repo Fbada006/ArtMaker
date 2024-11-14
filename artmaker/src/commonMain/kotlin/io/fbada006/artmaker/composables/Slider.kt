@@ -54,7 +54,7 @@ internal fun Slider(sliderPosition: Float, onValueChange: (Float) -> Unit, confi
             color = configuration.strokeSliderTextColor,
         )
         Slider(
-            modifier = Modifier.testTag(tag = "Slider"),
+            modifier = Modifier.testTag(tag = Res.string.slider),
             value = sliderPosition,
             onValueChange = onValueChange,
             colors = SliderDefaults.colors(

@@ -203,7 +203,7 @@ internal fun ArtMakerDrawScreen(
                     eraserPosition = eraserPosition,
                     pathList = state.pathList,
                 )
-            }.testTag(tag = "Draw Screen Box"),
+            }.testTag(tag = Res.string.draw_screen_box),
     ) {
         art?.let {
             Image(
@@ -232,7 +232,7 @@ internal fun ArtMakerDrawScreen(
         }
 
         AlertDialog(
-            modifier = Modifier.testTag(tag = "Should Show Stylus Dialog"),
+            modifier = Modifier.testTag(tag = Res.string.should_show_stylus_dialog),
             icon = { Icon(imageVector = Icons.Filled.Edit, contentDescription = Icons.Filled.Edit.name) },
             title = { Text(text = dialogInfo.first) },
             text = { Text(text = dialogInfo.second) },

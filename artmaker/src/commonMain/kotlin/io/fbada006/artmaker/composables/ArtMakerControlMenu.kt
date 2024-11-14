@@ -111,7 +111,7 @@ internal fun ArtMakerControlMenu(
 
     Surface(
         shadowElevation = Dimensions.ArtMakerControlMenuShadowElevation,
-        modifier = modifier.testTag(tag = "Control Menu Surface"),
+        modifier = modifier.testTag(tag = Res.string.control_menu_surface),
         color = configuration.controllerBackgroundColor,
     ) {
         Column {
@@ -132,20 +132,20 @@ internal fun ArtMakerControlMenu(
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
-                    contentDescription = "Color Picker Icon"
+                    contentDescription = Res.string.color_picker_icon
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Edit,
                     onItemClicked = {
                         onShowStrokeWidthPopup()
                     },
-                    contentDescription = "Edit Icon"
+                    contentDescription = Res.string.edit_icon
                 )
                 MenuItem(
                     imageVector = if (isEraserActive) InkEraser else InkEraserOff,
                     onItemClicked = onActivateEraser,
                     enabled = state.canErase,
-                    contentDescription = "Ink Eraser Icon"
+                    contentDescription = Res.string.ink_eraser_icon
                 )
                 MenuItem(
                     imageVector = Undo,
@@ -153,7 +153,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Undo)
                     },
                     enabled = state.canUndo,
-                    contentDescription = "Undo Icon"
+                    contentDescription = Res.string.undo_icon
                 )
                 MenuItem(
                     imageVector = Redo,
@@ -161,7 +161,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Redo)
                     },
                     enabled = state.canRedo,
-                    contentDescription = "Redo Icon"
+                    contentDescription = Res.string.redo_icon
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Refresh,
@@ -169,7 +169,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Clear)
                     },
                     enabled = state.canClear,
-                    contentDescription = "Refresh Icon"
+                    contentDescription = Res.string.refresh_icon
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Image,
@@ -180,7 +180,7 @@ internal fun ArtMakerControlMenu(
                             imagePicker?.pickImage()
                         }
                     },
-                    contentDescription = "Image Selector Icon"
+                    contentDescription = Res.string.image_selector_icon
                 )
             }
             Box(
@@ -189,7 +189,7 @@ internal fun ArtMakerControlMenu(
                     .align(Alignment.End),
             ) {
                 DropdownMenu(
-                    modifier = Modifier.testTag(tag = "Control Menu Dropdown"),
+                    modifier = Modifier.testTag(tag = Res.string.control_menu_dropdown),
                     expanded = areImageOptionsExpanded,
                     onDismissRequest = {
                         areImageOptionsExpanded = false

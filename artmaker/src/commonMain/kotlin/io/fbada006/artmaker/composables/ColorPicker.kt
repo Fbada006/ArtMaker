@@ -79,7 +79,7 @@ internal fun ColorPicker(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         containerColor = Color.LightGray,
-        modifier = Modifier.testTag(tag = "Color Picker Modal Bottom Sheet")
+        modifier = Modifier.testTag(tag = Res.string.color_picker_modal_bottom_sheet)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -100,7 +100,7 @@ internal fun ColorPicker(
 
                         FlowRow(
                             modifier = Modifier
-                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = "Color Picker Default Colours"),
+                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = Res.string.color_picker_default_colours),
                             horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             maxItemsInEachRow = NUM_COLUMNS,
@@ -121,7 +121,7 @@ internal fun ColorPicker(
 
                             FlowRow(
                                 modifier = Modifier
-                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = "Color Picker Custom Colours"),
+                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = Res.string.color_picker_custom_colours),
                                 horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 maxItemsInEachRow = NUM_COLUMNS,
@@ -142,7 +142,7 @@ internal fun ColorPicker(
                             .background(brush = Brush.sweepGradient(colors = ColorUtils.COLOR_PICKER_DEFAULT_COLORS))
                             .clickable { onColorPaletteClick() }
                             .align(Alignment.CenterVertically)
-                            .testTag(tag = "Custom Color Picker"),
+                            .testTag(tag = Res.string.custom_color_picker),
                     )
                 }
             }
@@ -164,7 +164,7 @@ private fun ColorItem(color: Int, defaultColor: Int, onClick: (ColorArgb) -> Uni
                 .clickable {
                     selectedColor = color
                     onClick(color)
-                }.testTag(tag = "Color Item"),
+                }.testTag(tag = Res.string.color_item),
         )
 
         if (color == selectedColor) {

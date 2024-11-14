@@ -57,7 +57,7 @@ internal fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit,
         val paddingBetweenBars = 8.dp
         Column(modifier = Modifier.weight(0.8f)) {
             SaturationValueArea(
-                modifier = Modifier.weight(1f).testTag(tag = "Saturation Value Area"),
+                modifier = Modifier.weight(1f).testTag(tag = Res.string.saturation_value_area),
                 currentColor = colorPickerValueState.value,
                 onSaturationValueChanged = { saturation, value ->
                     colorPickerValueState.value =
@@ -94,7 +94,7 @@ internal fun CustomColorPalette(onCancel: () -> Unit, onAccept: (Color) -> Unit,
             modifier = Modifier
                 .width(barThickness)
                 .fillMaxHeight()
-                .testTag(tag = "Hue Bar"),
+                .testTag(tag = Res.string.hue_bar),
             currentColor = colorPickerValueState.value,
             onHueChanged = { newHue ->
                 colorPickerValueState.value = colorPickerValueState.value.copy(hue = newHue)
