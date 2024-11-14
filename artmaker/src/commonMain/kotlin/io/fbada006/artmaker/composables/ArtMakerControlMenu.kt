@@ -141,20 +141,20 @@ internal fun ArtMakerControlMenu(
                     imageVector = Icons.Filled.Circle,
                     onItemClicked = { showColorPicker = true },
                     colorTint = Color(state.strokeColour),
-                    contentDescription = stringResource(resource = Res.string.color_picker_icon)
+                    contentDescription = stringResource(resource = Res.string.color_picker_icon),
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Edit,
                     onItemClicked = {
                         onShowStrokeWidthPopup()
                     },
-                    contentDescription = stringResource(resource = Res.string.edit_icon)
+                    contentDescription = stringResource(resource = Res.string.edit_icon),
                 )
                 MenuItem(
                     imageVector = if (isEraserActive) InkEraser else InkEraserOff,
                     onItemClicked = onActivateEraser,
                     enabled = state.canErase,
-                    contentDescription = stringResource(resource = Res.string.ink_eraser_icon)
+                    contentDescription = stringResource(resource = Res.string.ink_eraser_icon),
                 )
                 MenuItem(
                     imageVector = Undo,
@@ -162,7 +162,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Undo)
                     },
                     enabled = state.canUndo,
-                    contentDescription = stringResource(resource = Res.string.undo_icon)
+                    contentDescription = stringResource(resource = Res.string.undo_icon),
                 )
                 MenuItem(
                     imageVector = Redo,
@@ -170,7 +170,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Redo)
                     },
                     enabled = state.canRedo,
-                    contentDescription = stringResource(resource = Res.string.redo_icon)
+                    contentDescription = stringResource(resource = Res.string.redo_icon),
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Refresh,
@@ -178,7 +178,7 @@ internal fun ArtMakerControlMenu(
                         onDrawEvent(DrawEvent.Clear)
                     },
                     enabled = state.canClear,
-                    contentDescription = stringResource(resource = Res.string.refresh_icon)
+                    contentDescription = stringResource(resource = Res.string.refresh_icon),
                 )
                 MenuItem(
                     imageVector = Icons.Filled.Image,
@@ -189,7 +189,7 @@ internal fun ArtMakerControlMenu(
                             imagePicker?.pickImage()
                         }
                     },
-                    contentDescription = stringResource(resource = Res.string.image_selector_icon)
+                    contentDescription = stringResource(resource = Res.string.image_selector_icon),
                 )
             }
             Box(
@@ -271,7 +271,7 @@ private fun RowScope.MenuItem(
     onItemClicked: () -> Unit,
     colorTint: Color = MaterialTheme.colorScheme.primary,
     enabled: Boolean = true,
-    contentDescription: String?
+    contentDescription: String?,
 ) {
     val alpha = if (enabled) 1f else 0.5f
     IconButton(

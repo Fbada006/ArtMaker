@@ -1,3 +1,18 @@
+/*
+ * Copyright 2024 ArtMaker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.fbada006.artmaker.ui
 
 import androidx.compose.material.icons.Icons
@@ -39,7 +54,6 @@ class ArtMakerUITest {
 
     @Test
     fun testArtMakerControlMenu() = runComposeUiTest {
-
         setContent {
             ArtMakerControlMenu(
                 state = ArtMakerUIState(),
@@ -73,12 +87,10 @@ class ArtMakerUITest {
         onNodeWithTag(testTag = "Control Menu Dropdown").performClick()
         onNodeWithText(text = "Change Image").assertIsDisplayed()
         onNodeWithText(text = "Clear Image").assertIsDisplayed()
-
     }
 
     @Test
     fun testArtMakerDrawScreen() = runComposeUiTest {
-
         var drawScreenState = DrawScreenState(
             pathList = mutableStateListOf(),
             backgroundImage = null,
@@ -106,17 +118,22 @@ class ArtMakerUITest {
         onNodeWithTag(testTag = "Draw Screen Box").assertExists()
         drawScreenState = drawScreenState.copy(canShowEnableStylusDialog = true)
         onNodeWithTag(testTag = "Should Show Stylus Dialog").assertExists()
-        onNodeWithText(text = "We have detected that you are using a stylus to draw. For a better experience, please enable stylus only input using the pencil icon at the bottom of the screen.").assertIsDisplayed()
-        onNodeWithText(text = "We have detected that you are not using your stylus to draw but you have enabled the stylus only input setting. Please disable this using the pencil icon at the bottom of the screen if you wish to use other input types to draw.").assertIsDisplayed()
+        onNodeWithText(
+            text = "We have detected that you are using a stylus to draw. For a better experience, please enable stylus only input using " +
+                "the pencil icon at the bottom of the screen.",
+        ).assertIsDisplayed()
+        onNodeWithText(
+            text = "We have detected that you are not using your stylus to draw but you have enabled the stylus only input setting. " +
+                "Please disable this using the pencil icon at the bottom of the screen if you wish to use other input types to draw.",
+        )
+            .assertIsDisplayed()
         onNodeWithText(text = "Got it").assertExists()
         onNodeWithText(text = "Got it").performClick()
         onNodeWithTag(testTag = "Should Show Stylus Dialog").assertDoesNotExist()
-
     }
 
     @Test
     fun testColorPicker() = runComposeUiTest {
-
         val expectedDefaultColoursSize = ColorUtils.COLOR_PICKER_DEFAULT_COLORS.size
 
         val customColours = listOf(
@@ -125,7 +142,7 @@ class ArtMakerUITest {
             Color(color = 0xFF43A047), // Green...
             Color(color = 0xFFF4511E), // Orange Red...
             Color(color = 0xFFFFC107), // Amber...
-            Color(color = 0xFF8E24AA)  // Purple...
+            Color(color = 0xFF8E24AA), // Purple...
         )
 
         setContent {
@@ -146,24 +163,20 @@ class ArtMakerUITest {
         onAllNodesWithTag(testTag = "Color Item").assertCountEquals(expectedSize = (expectedDefaultColoursSize + customColours.size))
         onNodeWithTag(testTag = "Custom Color Picker").assertExists()
         onNodeWithContentDescription(label = "Color Item Icon").assertExists()
-
     }
 
     @Test
     fun testStrokePreview() = runComposeUiTest {
-
         setContent {
             StrokePreview(state = StrokeState(strokeColor = Color.Red.toArgb(), strokeWidth = 6, lineStyle = LineStyle.DASHED))
         }
 
         onNodeWithTag(testTag = "Stroke Preview Box").assertExists()
         onNodeWithTag(testTag = "Stroke Preview Canvas").assertExists()
-
     }
 
     @Test
     fun testSlider() = runComposeUiTest {
-
         setContent {
             Slider(sliderPosition = 0.6f, onValueChange = {}, configuration = ArtMakerConfiguration())
         }
@@ -173,12 +186,10 @@ class ArtMakerUITest {
         onNodeWithTag(testTag = "Slider").performTouchInput {
             swipeRight()
         }
-
     }
 
     @Test
     fun testCustomColorPalette() = runComposeUiTest {
-
         setContent {
             CustomColorPalette(onAccept = {}, onCancel = {})
         }
@@ -189,12 +200,10 @@ class ArtMakerUITest {
         onNodeWithText(text = "Cancel").performClick()
         onNodeWithText(text = "Ok").assertIsDisplayed()
         onNodeWithText(text = "Ok").performClick()
-
     }
 
     @Test
     fun testArtMaker() = runComposeUiTest {
-
         setContent {
             ArtMaker()
         }
@@ -208,8 +217,5 @@ class ArtMakerUITest {
         onNodeWithContentDescription(label = Icons.Filled.Fullscreen.name).assertIsDisplayed()
         onNodeWithContentDescription(label = Icons.Filled.Fullscreen.name).performClick()
         onNodeWithContentDescription(label = Icons.Filled.FullscreenExit.name).assertIsDisplayed()
-
-
     }
-
 }

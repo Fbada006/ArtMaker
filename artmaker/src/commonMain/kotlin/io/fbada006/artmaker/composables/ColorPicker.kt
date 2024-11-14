@@ -84,7 +84,7 @@ internal fun ColorPicker(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         containerColor = Color.LightGray,
-        modifier = Modifier.testTag(tag = stringResource(resource = Res.string.color_picker_modal_bottom_sheet))
+        modifier = Modifier.testTag(tag = stringResource(resource = Res.string.color_picker_modal_bottom_sheet)),
     ) {
         LazyColumn(
             modifier = Modifier
@@ -105,7 +105,9 @@ internal fun ColorPicker(
 
                         FlowRow(
                             modifier = Modifier
-                                .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = stringResource(resource = Res.string.color_picker_default_colours)),
+                                .padding(
+                                    vertical = Dimensions.ArtMakerColorPickerItemsSpacing,
+                                ).testTag(tag = stringResource(resource = Res.string.color_picker_default_colours)),
                             horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                             maxItemsInEachRow = NUM_COLUMNS,
@@ -126,7 +128,9 @@ internal fun ColorPicker(
 
                             FlowRow(
                                 modifier = Modifier
-                                    .padding(vertical = Dimensions.ArtMakerColorPickerItemsSpacing).testTag(tag = stringResource(resource = Res.string.color_picker_custom_colours)),
+                                    .padding(
+                                        vertical = Dimensions.ArtMakerColorPickerItemsSpacing,
+                                    ).testTag(tag = stringResource(resource = Res.string.color_picker_custom_colours)),
                                 horizontalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 verticalArrangement = Arrangement.spacedBy(space = Dimensions.ArtMakerColorPickerItemsSpacing),
                                 maxItemsInEachRow = NUM_COLUMNS,
