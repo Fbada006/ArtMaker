@@ -15,6 +15,7 @@
  */
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -126,6 +127,9 @@ kotlin {
             implementation(libs.colormath)
         }
         commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)

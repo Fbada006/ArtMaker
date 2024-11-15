@@ -25,8 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.testTag
+import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.dimensions.Dimensions
+import io.fbada006.artmaker.stroke_preview_box
+import io.fbada006.artmaker.stroke_preview_canvas
 import io.fbada006.artmaker.utils.createPathEffect
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.sin
 
 /**
@@ -43,12 +48,14 @@ internal fun StrokePreview(state: StrokeState, modifier: Modifier = Modifier) {
             .background(
                 color = Color(248, 246, 240),
                 shape = RoundedCornerShape(Dimensions.ArtMakerStrokePreviewShapeSize),
-            ),
+            )
+            .testTag(tag = stringResource(resource = Res.string.stroke_preview_box)),
     ) {
         Canvas(
             modifier = Modifier
                 .padding(Dimensions.ArtMakerStrokePreviewPadding)
-                .matchParentSize(),
+                .matchParentSize()
+                .testTag(tag = stringResource(resource = Res.string.stroke_preview_canvas)),
         ) {
             val canvasWidth = size.width
             val canvasHeight = size.height

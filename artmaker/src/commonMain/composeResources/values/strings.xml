@@ -34,4 +34,26 @@
     <string name="line_style">Line Style</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
+    <string name="control_menu_surface">Control Menu Surface</string>
+    <string name="color_picker_icon">Color Picker Icon</string>
+    <string name="edit_icon">Edit Icon</string>
+    <string name="ink_eraser_icon">Ink Eraser Icon</string>
+    <string name="undo_icon">Undo Icon</string>
+    <string name="redo_icon">Redo Icon</string>
+    <string name="refresh_icon">Refresh Icon</string>
+    <string name="image_selector_icon">Image Selector Icon</string>
+    <string name="control_menu_dropdown">Control Menu Dropdown</string>
+    <string name="draw_screen_box">Draw Screen Box</string>
+    <string name="should_show_stylus_dialog">Should Show Stylus Dialog</string>
+    <string name="color_picker_modal_bottom_sheet">Color Picker Modal Bottom Sheet</string>
+    <string name="color_picker_default_colours">Color Picker Default Colours</string>
+    <string name="color_picker_custom_colours">Color Picker Custom Colours</string>
+    <string name="custom_color_picker">Custom Color Picker</string>
+    <string name="color_item">Color Item</string>
+    <string name="slider">Slider</string>
+    <string name="stroke_preview_box">Stroke Preview Box</string>
+    <string name="stroke_preview_canvas">Stroke Preview Canvas</string>
+    <string name="saturation_value_area">Saturation Value Area</string>
+    <string name="hue_bar">Hue Bar</string>
+    <string name="color_item_icon">Color Item Icon</string>
 </resources>

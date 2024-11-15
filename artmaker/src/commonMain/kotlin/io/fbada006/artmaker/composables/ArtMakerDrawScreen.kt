@@ -46,16 +46,19 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import io.fbada006.artmaker.DrawScreenState
 import io.fbada006.artmaker.Res
 import io.fbada006.artmaker.actions.ArtMakerAction
 import io.fbada006.artmaker.actions.DrawEvent
 import io.fbada006.artmaker.dimensions.Dimensions
+import io.fbada006.artmaker.draw_screen_box
 import io.fbada006.artmaker.got_it
 import io.fbada006.artmaker.image_bitmap
 import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.non_stylus_input_detected_message
 import io.fbada006.artmaker.non_stylus_input_detected_title
+import io.fbada006.artmaker.should_show_stylus_dialog
 import io.fbada006.artmaker.stylus_input_detected_message
 import io.fbada006.artmaker.stylus_input_detected_title
 import io.fbada006.artmaker.utils.clamp
@@ -202,7 +205,7 @@ internal fun ArtMakerDrawScreen(
                     eraserPosition = eraserPosition,
                     pathList = state.pathList,
                 )
-            },
+            }.testTag(tag = stringResource(resource = Res.string.draw_screen_box)),
     ) {
         art?.let {
             Image(
@@ -231,6 +234,7 @@ internal fun ArtMakerDrawScreen(
         }
 
         AlertDialog(
+            modifier = Modifier.testTag(tag = stringResource(resource = Res.string.should_show_stylus_dialog)),
             icon = { Icon(imageVector = Icons.Filled.Edit, contentDescription = Icons.Filled.Edit.name) },
             title = { Text(text = dialogInfo.first) },
             text = { Text(text = dialogInfo.second) },
