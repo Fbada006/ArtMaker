@@ -49,6 +49,10 @@ import io.fbada006.artmaker.models.ArtMakerConfiguration
 import io.fbada006.artmaker.utils.ColorUtils
 import kotlin.test.Test
 
+/**
+ * The suite of UI Tests for all of the project's UI elements.
+ */
+
 @OptIn(ExperimentalTestApi::class)
 class ArtMakerUITest {
 
@@ -211,7 +215,6 @@ class ArtMakerUITest {
         onNodeWithContentDescription(label = Icons.Filled.Share.name).assertIsDisplayed()
         onNodeWithContentDescription(label = Icons.Filled.Done.name).assertIsDisplayed()
         onNodeWithContentDescription(label = Icons.Filled.Share.name).assertIsDisplayed()
-
         onNodeWithContentDescription(label = Icons.Filled.FullscreenExit.name).assertIsDisplayed()
         onNodeWithContentDescription(label = Icons.Filled.FullscreenExit.name).performClick()
         onNodeWithContentDescription(label = Icons.Filled.Fullscreen.name).assertIsDisplayed()
